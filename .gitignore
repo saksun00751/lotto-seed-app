@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+.npm
+
+# Next.js build output
+.next/
+out/
+
+# Environment — NEVER commit real credentials
+.env.local
+.env.*.local
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.DS_Store
+.vscode/
+*.swp

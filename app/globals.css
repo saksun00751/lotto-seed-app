@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #1d1d1f !important;
+  transition: background-color 9999s ease;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d0d0d5; border-radius: 2px; }
+
+/* OTP inputs */
+.otp-input {
+  width: 52px; height: 60px;
+  font-size: 26px; font-weight: 700;
+  text-align: center;
+  background: #f5f5f7;
+  border: 1.5px solid rgba(0,0,0,0.10);
+  border-radius: 14px;
+  outline: none;
+  transition: all 0.18s;
+  color: #1d1d1f;
+  caret-color: #0071e3;
+}
+.otp-input:focus {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.18);
+  background: #fff;
+}
+.otp-input.filled {
+  border-color: #0071e3;
+  background: #fff;
+}
+.otp-input.error {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.15);
+}
+.scrollbar-hide { scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
