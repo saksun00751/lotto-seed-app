@@ -6,6 +6,7 @@ import { useFormStatus } from "react-dom";
 import { registerAction } from "@/lib/actions";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import Toast from "@/components/ui/Toast";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLang } from "@/lib/i18n/context";
 
@@ -207,6 +208,8 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
   const [lastname, setLastname]         = useState("");
   const [bankCode, setBankCode]         = useState<number | null>(null);
   const [accNo, setAccNo]               = useState("");
+  const [toastMsg, setToastMsg]         = useState("");
+  const [toastQueue, setToastQueue]     = useState<string[]>([]);
 
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -216,6 +219,20 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
       setTimeout(() => cardRef.current?.classList.remove("animate-shake"), 450);
     }
   }, [state]);
+
+  useEffect(() => {
+    const errors = state.fieldErrors ? Object.values(state.fieldErrors).filter((v): v is string => Boolean(v)) : [];
+    const all = [...(state.error ? [state.error] : []), ...errors];
+    if (!all.length) return;
+    const unique = [...new Set(all)];
+    setToastQueue((prev) => [...prev, ...unique]);
+  }, [state.error, state.fieldErrors]);
+
+  useEffect(() => {
+    if (toastMsg || toastQueue.length === 0) return;
+    setToastMsg(toastQueue[0]);
+    setToastQueue((prev) => prev.slice(1));
+  }, [toastMsg, toastQueue]);
 
   const phoneComplete   = phoneDisplay.replace(/\D/g, "").length === 10;
   const confirmMatch    = confirmPassword.length > 0 && confirmPassword === password;
@@ -240,6 +257,14 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
   // ── Form ────────────────────────────────────────────────────────────────────
   return (
     <div ref={cardRef}>
+      {toastMsg && (
+        <Toast
+          message={toastMsg}
+          type="error"
+          durationMs={5000}
+          onClose={() => setToastMsg("")}
+        />
+      )}
       <form action={action} className="flex flex-col gap-4" noValidate>
         <input type="hidden" name="lang" value={lang} />
 

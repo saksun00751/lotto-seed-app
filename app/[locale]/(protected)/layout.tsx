@@ -1,7 +1,6 @@
 import { requireAuth } from "@/lib/session/auth";
 import UserProvider from "@/components/providers/UserProvider";
 import Navbar from "@/components/layout/Navbar";
-import { Toaster } from "sonner";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 
 export default async function ProtectedLayout({
@@ -22,7 +21,6 @@ export default async function ProtectedLayout({
         userPhone={user.phone}
       />
       {children}
-      <Toaster position="top-center" richColors />
     </UserProvider>
   );
 }

@@ -30,7 +30,7 @@
     "and": "and",
     "privacyLink": "Privacy Policy",
     "errPhone": "Please enter your phone number",
-    "errPhoneInvalid": "Invalid phone number (06–09, 10 digits)",
+    "errPhoneInvalid": "Invalid phone number (must be 10 digits and start with 0)",
     "errPassword": "Please enter your password",
     "errCredentials": "Invalid phone number or password",
     "errNoAccount": "Account not found. Please register first.",
@@ -82,7 +82,7 @@
     "phone": "Phone Number",
     "phoneHint": "Supports AIS, DTAC, TRUE, NT numbers",
     "password": "Password",
-    "passwordPlaceholder": "At least 8 characters with a number",
+    "passwordPlaceholder": "6-10 characters with a number",
     "confirmPassword": "Confirm Password",
     "confirmPlaceholder": "Re-enter your password",
     "confirmMismatch": "Passwords do not match",
@@ -119,7 +119,8 @@
     "errLastname": "Please enter last name",
     "errBank": "Please select a bank",
     "errAccNo": "Please enter account number",
-    "errAccNoLen": "Account number must be 10–12 digits"
+    "errAccNoLen": "Account number must be 10–12 digits",
+    "errAccNoDuplicate": "This account number is already used for the selected bank"
   },
   "bet": {
     "title": "Place Bet",

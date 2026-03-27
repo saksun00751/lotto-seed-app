@@ -15,6 +15,7 @@ import la from "@/lib/i18n/locales/la.json";
 
 const locales = { th, en, kh, la } as const;
 type LangCode = keyof typeof locales;
+type RegisterFieldErrors = NonNullable<RegisterState["fieldErrors"]>;
 
 function getLang(formData: FormData): LangCode {
   const lang = formData.get("lang") as string;
@@ -22,10 +23,35 @@ function getLang(formData: FormData): LangCode {
 }
 
 function normalizePhone(raw: string): string {
-  return raw.replace(/[\s\-]/g, "");
+  return raw.replace(/\D/g, "");
 }
 function isValidThaiPhone(phone: string): boolean {
-  return /^0[6-9]\d{8}$/.test(phone);
+  return /^0\d{9}$/.test(phone);
+}
+
+function parseRegisterFieldErrorsFromApi(payload: unknown): RegisterFieldErrors {
+  const out: RegisterFieldErrors = {};
+  if (!payload || typeof payload !== "object") return out;
+
+  const rawErrors = (payload as { errors?: Record<string, unknown> }).errors;
+  if (!rawErrors || typeof rawErrors !== "object") return out;
+
+  const pick = (k: string): string | undefined => {
+    const v = rawErrors[k];
+    if (Array.isArray(v)) return typeof v[0] === "string" ? v[0] : undefined;
+    if (typeof v === "string") return v;
+    return undefined;
+  };
+
+  out.user_name = pick("user_name");
+  out.password = pick("password");
+  out.confirmPassword = pick("password_confirm") ?? pick("confirmPassword");
+  out.firstname = pick("firstname");
+  out.lastname = pick("lastname");
+  out.bank = pick("bank");
+  out.acc_no = pick("acc_no");
+
+  return out;
 }
 
 // ─── OTP Login — Step 1: Request OTP ─────────────────────────────────────────
@@ -149,13 +175,34 @@ export async function registerAction(
   // ── Register ───────────────────────────────────────────────────────────────
   try {
     await apiPost("/auth/register", {
-      user_name: phone, password, password_confirm: confirmPassword,
+      user_name: phone,
+      tel: phone,
+      wallet_id: phone,
+      password,
+      password_confirm: confirmPassword,
       firstname, lastname, acc_no: accNo, bank: String(bank), refer: referRaw,
     }, undefined, lang);
   } catch (e) {
     if (e instanceof ApiError) {
-      if (e.status === 409 || e.message?.toLowerCase().includes("exist"))
+      const payloadFieldErrors = parseRegisterFieldErrorsFromApi(e.payload);
+      if (Object.values(payloadFieldErrors).some(Boolean)) {
+        return {
+          error: e.message ?? "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่",
+          fieldErrors: payloadFieldErrors,
+        };
+      }
+      const msg = (e.message ?? "").toLowerCase();
+      if (e.status === 409 || msg.includes("exist"))
         return { fieldErrors: { user_name: t.errPhoneExists } };
+      if (
+        msg.includes("acc_no") ||
+        msg.includes("account") ||
+        msg.includes("บัญชี") ||
+        msg.includes("duplicate") ||
+        msg.includes("ซ้ำ")
+      ) {
+        return { fieldErrors: { acc_no: (t as Record<string, string>).errAccNoDuplicate ?? "เลขบัญชีนี้ถูกใช้งานแล้วในธนาคารที่เลือก" } };
+      }
       return { error: e.message ?? "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่" };
     }
     return { error: "ไม่สามารถเชื่อมต่อระบบได้ กรุณาลองใหม่" };

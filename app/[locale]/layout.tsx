@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import ProgressBar from "@/components/ui/ProgressBar";
 import { LangProvider } from "@/lib/i18n/context";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
+import { Toaster } from "sonner";
+import ApiErrorToastListener from "@/components/providers/ApiErrorToastListener";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -50,6 +52,8 @@ export default async function LocaleLayout({
   return (
     <LangProvider initialLang={locale}>
       <ProgressBar />
+      <ApiErrorToastListener />
+      <Toaster position="top-center" richColors />
       {children}
     </LangProvider>
   );

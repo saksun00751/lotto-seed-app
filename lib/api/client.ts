@@ -1,7 +1,8 @@
 const API_BASE = process.env.API_BASE_URL ?? "http://api.1168lot.com/api/v1";
+const API_ERROR_EVENT = "app:api-error";
 
 export class ApiError extends Error {
-  constructor(public status: number, message: string) {
+  constructor(public status: number, message: string, public payload?: unknown) {
     super(message);
     this.name = "ApiError";
   }
@@ -17,6 +18,11 @@ function buildHeaders(token?: string, lang?: string): Record<string, string> {
     headers["locale"]     = lang;
   }
   return headers;
+}
+
+function emitApiError(message: string, status?: number) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(API_ERROR_EVENT, { detail: { message, status } }));
 }
 
 async function parseResponse<T>(res: Response, token?: string, lang?: string): Promise<T> {
@@ -35,18 +41,23 @@ async function parseResponse<T>(res: Response, token?: string, lang?: string): P
 
   if (!res.ok) {
     let message = `HTTP ${res.status}`;
+    let payload: unknown;
     try {
       const err = await res.json();
+      payload = err;
       message = err.message ?? err.error ?? message;
     } catch {}
-    throw new ApiError(res.status, message);
+    emitApiError(message, res.status);
+    throw new ApiError(res.status, message, payload);
   }
 
   const json = await res.json() as Record<string, unknown>;
 
   // Handle standard { success: false, message: "..." } response
   if (json.success === false) {
-    throw new ApiError(res.status, String(json.message ?? "Request failed"));
+    const message = String(json.message ?? "Request failed");
+    emitApiError(message, res.status);
+    throw new ApiError(res.status, message, json);
   }
 
   return json as T;
