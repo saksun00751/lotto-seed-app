@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useRef } from "react";
 import { BillRow, genId, genSlipNo, permutations } from "./types";
-import type { NumberLimitRow } from "@/lib/types/bet";
+import type { NumberLimitRow, BettingContext } from "@/lib/types/bet";
 import { useLang } from "@/lib/i18n/context";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 
@@ -33,16 +33,18 @@ function makeRow(number: string): ClassicRow {
 // ─── Props ───────────────────────────────────────────────────────────────────
 
 interface Props {
-  lotteryName:  string;
-  lotteryFlag?: string;
-  bills:        BillRow[];
-  numberLimits: NumberLimitRow[];
-  onAddBills:   (rows: BillRow[]) => void;
+  lotteryName:     string;
+  lotteryFlag?:    string;
+  lotteryLogo?:    string;
+  bills:           BillRow[];
+  numberLimits:    NumberLimitRow[];
+  bettingContext?: BettingContext;
+  onAddBills:      (rows: BillRow[]) => void;
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAddBills }: Props) {
+export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, numberLimits, bettingContext, onAddBills }: Props) {
   const { lang } = useLang();
   const t = useTranslation("bet");
   const localeByLang: Record<string, string> = { th: "th-TH", en: "en-US", kh: "km-KH", la: "lo-LA" };
@@ -52,10 +54,28 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
   const [note,     setNote]     = useState("");
   const [toast,    setToast]    = useState("");
   const inputRef  = useRef<HTMLInputElement>(null);
-  // ref map: rowId → input element ของ "บน"
-  const topRefs   = useRef<Map<string, HTMLInputElement>>(new Map());
+  // ref map: `${rowId}-top` / `${rowId}-bot` / `${rowId}-tod`
+  const inputRefs = useRef<Map<string, HTMLInputElement>>(new Map());
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 2800); };
+
+  const ctx3top = bettingContext?.["3top"];
+  const ctx3tod = bettingContext?.["3tod"];
+  const ctx2top = bettingContext?.["2top"];
+  const ctx2bot = bettingContext?.["2bot"];
+
+  type Ctx = typeof ctx3top;
+  const validateCell = (val: string, ctx: Ctx): string | null => {
+    const v = parseFloat(val);
+    if (!(v > 0) || !ctx) return null;
+    if (v < ctx.minBet)
+      return (t.amountTooLow ?? "ยอดขั้นต่ำ {min}").replace("{min}", String(ctx.minBet));
+    if (v > ctx.maxBet)
+      return (t.amountTooHigh ?? "ยอดสูงสุด {max}").replace("{max}", ctx.maxBet.toLocaleString());
+    if (ctx.maxPerNumber && v > ctx.maxPerNumber)
+      return (t.amountPerNumberExceeded ?? "ยอดต่อเลขสูงสุด {max}").replace("{max}", ctx.maxPerNumber.toLocaleString());
+    return null;
+  };
 
   // เพิ่ม row และ return id ของ row ที่เพิ่ม (หรือที่มีอยู่แล้ว)
   const addNumber = (num: string): string | null => {
@@ -73,8 +93,9 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
     const digits = val.replace(/\D/g, "").slice(0, 3);
     setInputNum(digits);
     if (digits.length === 3) {
-      addNumber(digits);
+      const id = addNumber(digits);
       setInputNum("");
+      if (id) setTimeout(() => inputRefs.current.get(`${id}-top`)?.focus(), 0);
     }
   };
 
@@ -85,7 +106,7 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
       setInputNum("");
       if (id) {
         // focus บน input ของ row ที่เพิ่ง add
-        setTimeout(() => topRefs.current.get(id)?.focus(), 0);
+        setTimeout(() => inputRefs.current.get(`${id}-top`)?.focus(), 0);
       }
     }
   };
@@ -120,6 +141,28 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
       if (col === "tod" && r.digits !== 3) return r;
       return { ...r, [col]: val };
     }));
+  };
+
+  // Tab navigation: right across the row → first col of next row
+  const handleCellKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    rowId: string,
+    field: "top" | "bot" | "tod"
+  ) => {
+    if (e.key !== "Tab" || e.shiftKey) return;
+    const rowIndex = rows.findIndex((r) => r.id === rowId);
+    const row = rows[rowIndex];
+    let nextEl: HTMLInputElement | null = null;
+    if (field === "top") {
+      const nextKey = row.digits === 2 ? `${rowId}-bot` : `${rowId}-tod`;
+      nextEl = inputRefs.current.get(nextKey) ?? null;
+    } else {
+      const nextRow = rows[rowIndex + 1];
+      nextEl = nextRow
+        ? (inputRefs.current.get(`${nextRow.id}-top`) ?? null)
+        : (inputRef.current ?? null);
+    }
+    if (nextEl) { e.preventDefault(); nextEl.focus(); }
   };
 
   const updateRow = (id: string, field: "top" | "bot" | "tod", val: string) =>
@@ -187,6 +230,7 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
                 <div className="text-[12px]">{t.numberLabel}</div>
                 <button
                   onClick={handleReverse}
+                  tabIndex={-1}
                   className="text-[10px] text-blue-200 underline mt-0.5 hover:text-white transition-colors"
                 >
                   ({t.reverseNumbers})
@@ -194,28 +238,26 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
               </th>
               <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[21%]">
                 <div className="text-[12px]">{t.top}</div>
-                <button
-                  onClick={() => handleCopyCol("top")}
-                  className="text-[10px] text-blue-200 underline mt-0.5 hover:text-white transition-colors"
-                >
+                {(ctx3top?.payout || ctx2top?.payout) && (
+                  <div className="text-[10px] text-ap-green font-bold mt-0.5">
+                    {ctx3top?.payout ? `×${ctx3top.payout}` : ""}{ctx3top?.payout && ctx2top?.payout ? "/" : ""}{ctx2top?.payout ? `×${ctx2top.payout}` : ""}
+                  </div>
+                )}
+                <button onClick={() => handleCopyCol("top")} tabIndex={-1} className="text-[10px] text-blue-200 underline mt-0.5 hover:text-white transition-colors">
                   ({t.copy})
                 </button>
               </th>
               <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[21%]">
                 <div className="text-[12px]">{t.bottom}</div>
-                <button
-                  onClick={() => handleCopyCol("bot")}
-                  className="text-[10px] text-blue-200 underline mt-0.5 hover:text-white transition-colors"
-                >
+                {ctx2bot?.payout ? <div className="text-[10px] text-ap-green font-bold mt-0.5">×{ctx2bot.payout}</div> : null}
+                <button onClick={() => handleCopyCol("bot")} tabIndex={-1} className="text-[10px] text-blue-200 underline mt-0.5 hover:text-white transition-colors">
                   ({t.copy})
                 </button>
               </th>
               <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[21%]">
                 <div className="text-[12px]">{t.tod}</div>
-                <button
-                  onClick={() => handleCopyCol("tod")}
-                  className="text-[10px] text-blue-200 underline mt-0.5 hover:text-white transition-colors"
-                >
+                {ctx3tod?.payout ? <div className="text-[10px] text-ap-green font-bold mt-0.5">×{ctx3tod.payout}</div> : null}
+                <button onClick={() => handleCopyCol("tod")} tabIndex={-1} className="text-[10px] text-blue-200 underline mt-0.5 hover:text-white transition-colors">
                   ({t.copy})
                 </button>
               </th>
@@ -234,8 +276,11 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
                   <td className="border border-ap-border p-0">
                     <input
                       type="text" inputMode="numeric" value={row.top}
-                      ref={(el) => { if (el) topRefs.current.set(row.id, el); else topRefs.current.delete(row.id); }}
+                      ref={(el) => { if (el) inputRefs.current.set(`${row.id}-top`, el); else inputRefs.current.delete(`${row.id}-top`); }}
                       onChange={(e) => updateRow(row.id, "top", e.target.value)}
+                      onKeyDown={(e) => handleCellKeyDown(e, row.id, "top")}
+                      onBlur={(e) => { const err = validateCell(e.target.value, is2 ? ctx2top : ctx3top); if (err) showToast(err); }}
+                      placeholder={is2 ? (ctx2top ? `${ctx2top.minBet}-${ctx2top.maxBet}` : "") : (ctx3top ? `${ctx3top.minBet}-${ctx3top.maxBet}` : "")}
                       className={inputCls}
                     />
                   </td>
@@ -243,7 +288,11 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
                   <td className={`border border-ap-border p-0 ${!is2 ? "bg-gray-200" : ""}`}>
                     {is2
                       ? <input type="text" inputMode="numeric" value={row.bot}
+                          ref={(el) => { if (el) inputRefs.current.set(`${row.id}-bot`, el); else inputRefs.current.delete(`${row.id}-bot`); }}
                           onChange={(e) => updateRow(row.id, "bot", e.target.value)}
+                          onKeyDown={(e) => handleCellKeyDown(e, row.id, "bot")}
+                          onBlur={(e) => { const err = validateCell(e.target.value, ctx2bot); if (err) showToast(err); }}
+                          placeholder={ctx2bot ? `${ctx2bot.minBet}-${ctx2bot.maxBet}` : ""}
                           className={inputCls} />
                       : <div className="py-1.5 text-center text-ap-tertiary text-[11px]">—</div>
                     }
@@ -252,13 +301,18 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
                   <td className={`border border-ap-border p-0 ${is2 ? "bg-gray-200" : ""}`}>
                     {!is2
                       ? <input type="text" inputMode="numeric" value={row.tod}
+                          ref={(el) => { if (el) inputRefs.current.set(`${row.id}-tod`, el); else inputRefs.current.delete(`${row.id}-tod`); }}
                           onChange={(e) => updateRow(row.id, "tod", e.target.value)}
+                          onKeyDown={(e) => handleCellKeyDown(e, row.id, "tod")}
+                          onBlur={(e) => { const err = validateCell(e.target.value, ctx3tod); if (err) showToast(err); }}
+                          placeholder={ctx3tod ? `${ctx3tod.minBet}-${ctx3tod.maxBet}` : ""}
                           className={inputCls} />
                       : <div className="py-1.5 text-center text-ap-tertiary text-[11px]">—</div>
                     }
                   </td>
                   <td className="border border-ap-border px-1 py-1 text-center">
                     <button
+                      tabIndex={-1}
                       onClick={() => deleteRow(row.id)}
                       className="w-6 h-6 rounded-lg bg-ap-red/10 hover:bg-ap-red text-ap-red hover:text-white transition-colors flex items-center justify-center mx-auto text-[12px]"
                     >
@@ -300,7 +354,10 @@ export default function BetClassicForm({ lotteryFlag, bills, numberLimits, onAdd
           placeholder={t.notePlaceholder}
           className="flex-1 border border-ap-border rounded-xl px-3 py-1.5 text-[12px] outline-none focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/10 bg-white transition-all"
         />
-        {lotteryFlag && <span className="text-[22px] leading-none">{lotteryFlag}</span>}
+        {lotteryLogo
+          ? <img src={lotteryLogo} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
+          : lotteryFlag ? <span className="text-[22px] leading-none">{lotteryFlag}</span> : null
+        }
       </div>
 
       {/* Actions */}

@@ -237,6 +237,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
   const phoneComplete   = phoneDisplay.replace(/\D/g, "").length === 10;
   const confirmMatch    = confirmPassword.length > 0 && confirmPassword === password;
   const confirmMismatch = confirmPassword.length > 0 && confirmPassword !== password;
+  const reqText = <span className="text-ap-red ml-1 text-[11px] font-semibold">(จำเป็น)</span>;
 
   // ── Success ──────────────────────────────────────────────────────────────────
   if (state.success && state.phone) {
@@ -270,7 +271,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
 
         {/* Phone */}
         <Input
-          label={t.phone} name="user_name" type="tel" inputMode="tel"
+          label={<>{t.phone}{reqText}</>} name="user_name" type="tel" inputMode="tel"
           placeholder="0XX-XXX-XXXX" autoComplete="tel"
           value={phoneDisplay}
           onChange={(e) => setPhoneDisplay(formatPhone(e.target.value.replace(/\D/g, "").slice(0, 10)))}
@@ -289,14 +290,14 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
         {/* Name row */}
         <div className="grid grid-cols-2 gap-3">
           <Input
-            label={t.firstname} name="firstname" type="text"
+            label={<>{t.firstname}{reqText}</>} name="firstname" type="text"
             placeholder={t.firstnamePlaceholder} autoComplete="given-name"
             value={firstname} onChange={(e) => setFirstname(e.target.value)}
             error={state.fieldErrors?.firstname}
             leftEl={<UserIcon />}
           />
           <Input
-            label={t.lastname} name="lastname" type="text"
+            label={<>{t.lastname}{reqText}</>} name="lastname" type="text"
             placeholder={t.lastnamePlaceholder} autoComplete="family-name"
             value={lastname} onChange={(e) => setLastname(e.target.value)}
             error={state.fieldErrors?.lastname}
@@ -307,7 +308,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
         {/* Password */}
         <div className="flex flex-col gap-2">
           <Input
-            label={t.password} name="password" type={showPw ? "text" : "password"}
+            label={<>{t.password}{reqText}</>} name="password" type={showPw ? "text" : "password"}
             placeholder={t.passwordPlaceholder} autoComplete="new-password"
             value={password} onChange={(e) => setPassword(e.target.value)}
             error={state.fieldErrors?.password}
@@ -324,7 +325,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
 
         {/* Confirm password */}
         <Input
-          label={t.confirmPassword} name="confirmPassword" type={showConfirm ? "text" : "password"}
+          label={<>{t.confirmPassword}{reqText}</>} name="confirmPassword" type={showConfirm ? "text" : "password"}
           placeholder={t.confirmPlaceholder} autoComplete="new-password"
           value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
           error={state.fieldErrors?.confirmPassword || (confirmMismatch ? t.confirmMismatch : undefined)}
@@ -348,7 +349,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
 
         {/* Bank */}
         <div className="flex flex-col gap-1">
-          <label className="text-[13px] font-medium text-ap-primary">{t.bank}</label>
+          <label className="text-[13px] font-medium text-ap-primary">{t.bank}<span className="text-ap-red ml-1 text-[11px] font-semibold">(จำเป็น)</span></label>
           <input type="hidden" name="bank" value={bankCode ?? ""} />
           <BankSelect
             banks={banks} value={bankCode} onChange={setBankCode}
@@ -362,7 +363,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
 
         {/* Account number */}
         <Input
-          label={t.accNo} name="acc_no" type="text" inputMode="numeric"
+          label={<>{t.accNo}{reqText}</>} name="acc_no" type="text" inputMode="numeric"
           placeholder={t.accNoPlaceholder}
           value={accNo} onChange={(e) => setAccNo(e.target.value.replace(/\D/g, "").slice(0, 12))}
           error={state.fieldErrors?.acc_no}

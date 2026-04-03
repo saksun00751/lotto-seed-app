@@ -27,6 +27,7 @@ interface ApiGroup {
   group_id:    number;
   group_code:  string;
   group_name:  string;
+  group_logo?: string;
   description?: string;
   markets:     ApiMarket[];
 }
@@ -103,6 +104,7 @@ export function mapMarketsToCategories(groups: ApiGroup[]): Category[] {
       id:       group.group_code,
       code:     group.group_code,
       groupId:  group.group_id,
+      groupLogo: group.group_logo || undefined,
       label:    group.group_name,
       emoji:    meta.emoji,
       gradient: meta.gradient,

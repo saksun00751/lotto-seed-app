@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Toast from "@/components/ui/Toast";
 import BetClassicForm from "./BetClassicForm";
 import { useLang } from "@/lib/i18n/context";
@@ -9,7 +9,7 @@ import {
   MAX_DIGITS, TABS, DOUBLED, TRIPLED,
   genId, genSlipNo, permutations, nineteenDoor, addUnique,
 } from "./types";
-import type { NumberLimitRow } from "@/lib/types/bet";
+import type { NumberLimitRow, BettingContext } from "@/lib/types/bet";
 
 const DB_BET_TYPE: Record<BetTypeId, string> = {
   "3top": "top3", "3tod": "tod3", "2top": "top2", "2bot": "bot2",
@@ -23,30 +23,41 @@ function isBlocked(number: string, betType: BetTypeId, limits: NumberLimitRow[])
   );
 }
 
+// bet type ที่ตรงกับ input ล่าง/โต๊ด ของแต่ละ bet type
+const BOT_BET_TYPE: Partial<Record<BetTypeId, BetTypeId>> = {
+  "3top": "3tod", "6perm": "3tod",
+  "2top": "2bot", "19door": "2bot", "winnum": "2bot",
+  "run": "winlay",
+};
+
 interface Props {
-  betType:       BetTypeId;
-  onBetTypeChange?: (id: BetTypeId) => void;
-  availableBetTypeIds?: BetTypeId[];
-  lotteryName:   string;
-  lotteryFlag?:  string;
-  closeAt?:      string;
-  bills:         BillRow[];
-  totalAmount:   number;
-  numberLimits:  NumberLimitRow[];
-  onAddBills:    (rows: BillRow[]) => void;
-  onClearAll:    () => void;
-  onTabChange?:  (tab: TabId) => void;
+  betType:            BetTypeId;
+  baseBetType?:       BetTypeId;
+  onBetTypeChange?:   (id: BetTypeId) => void;
+  lotteryName:        string;
+  lotteryFlag?:       string;
+  lotteryLogo?:       string;
+  closeAt?:           string;
+  bills:              BillRow[];
+  totalAmount:        number;
+  numberLimits:       NumberLimitRow[];
+  bettingContext?:    BettingContext;
+  onAddBills:         (rows: BillRow[]) => void;
+  onClearAll:         () => void;
+  onTabChange?:       (tab: TabId) => void;
 }
 
 export default function BetQuickForm({
   betType,
+  baseBetType,
   onBetTypeChange,
-  availableBetTypeIds = [],
   lotteryName,
   lotteryFlag,
+  lotteryLogo,
   bills,
   totalAmount,
   numberLimits,
+  bettingContext,
   onAddBills,
   onClearAll,
   onTabChange,
@@ -59,6 +70,27 @@ export default function BetQuickForm({
 
   const maxDigits = MAX_DIGITS[betType];
   const bottomAmountLabel = maxDigits === 3 ? t.tod : t.bottom;
+
+  const topCtx = bettingContext?.[betType];
+  const botCtx = bettingContext?.[BOT_BET_TYPE[betType] ?? betType];
+
+  const TOP_TYPES: BetTypeId[] = ["3top", "6perm", "2top", "19door", "winnum", "run"];
+  const BOT_TYPES: BetTypeId[] = ["6perm", "3tod", "19door", "winnum", "2bot", "winlay"];
+  const showTop = TOP_TYPES.includes(betType);
+  const showBot = BOT_TYPES.includes(betType);
+
+  type Ctx = typeof topCtx;
+  const validateAmount = (amt: number, ctx: Ctx): string | null => {
+    if (!ctx || !(amt > 0)) return null;
+    if (amt < ctx.minBet)
+      return (t.amountTooLow ?? "ยอดขั้นต่ำ {min}").replace("{min}", String(ctx.minBet));
+    if (amt > ctx.maxBet)
+      return (t.amountTooHigh ?? "ยอดสูงสุด {max}").replace("{max}", ctx.maxBet.toLocaleString());
+    if (ctx.maxPerNumber && amt > ctx.maxPerNumber)
+      return (t.amountPerNumberExceeded ?? "ยอดต่อเลขสูงสุด {max}").replace("{max}", ctx.maxPerNumber.toLocaleString());
+    return null;
+  };
+
   const tabLabels: Record<TabId, string> = {
     quick: t.tabQuick,
     classic: t.tabClassic,
@@ -82,13 +114,12 @@ export default function BetQuickForm({
 
     const valid = complete.filter((t) => t.length === maxDigits);
     if (valid.length > 0) {
-      const blocked = valid.filter((n) => isBlocked(n, betType, numberLimits));
-      const allowed = valid.filter((n) => !isBlocked(n, betType, numberLimits));
-      if (allowed.length > 0) setPreview((prev) => addUnique(prev, allowed));
-      if (blocked.length > 0) {
-        setDupWarning(`🔒 ${t.numberLabel} ${blocked.join(", ")} ${t.blockedNumberMessage}`);
-        setTimeout(() => setDupWarning(""), 3000);
-      }
+      const blockedNums = valid.filter((n) => isBlocked(n, betType, numberLimits));
+      const allowedNums = valid.filter((n) => !isBlocked(n, betType, numberLimits));
+      if (blockedNums.length > 0)
+        setToastMsg({ text: `🔒 ${t.numberLabel} ${blockedNums.join(", ")} ${t.blockedNumberMessage}`, type: "error" });
+      if (allowedNums.length > 0)
+        setPreview((prev) => addUnique(prev, allowedNums));
     }
     setSlipText(inProgress);
   };
@@ -105,23 +136,21 @@ export default function BetQuickForm({
     if (digits.length === maxDigits) {
       const expanded = expandNumber(digits);
 
-      const blocked = expanded.filter((n) => isBlocked(n, betType, numberLimits));
-      const allowed = expanded.filter((n) => !isBlocked(n, betType, numberLimits));
+      const blockedNums = expanded.filter((n) => isBlocked(n, betType, numberLimits));
+      const allowedNums = expanded.filter((n) => !isBlocked(n, betType, numberLimits));
+      const dups = allowedNums.filter((n) => preview.includes(n));
 
-      if (blocked.length > 0) {
-        setDupWarning(`🔒 ${t.numberLabel} ${blocked.join(", ")} ${t.blockedNumberMessage}`);
-        setTimeout(() => setDupWarning(""), 3000);
+      if (blockedNums.length > 0) {
+        setToastMsg({ text: `🔒 ${t.numberLabel} ${blockedNums.join(", ")} ${t.blockedNumberMessage}`, type: "error" });
+      } else if (dups.length > 0) {
+        setDupWarning(`${t.numberLabel} ${dups.join(", ")} ${t.duplicatePreviewMessage}`);
+        setTimeout(() => setDupWarning(""), 2500);
       } else {
-        const dups = allowed.filter((n) => preview.includes(n));
-        if (dups.length > 0) {
-          setDupWarning(`${t.numberLabel} ${dups.join(", ")} ${t.duplicatePreviewMessage}`);
-          setTimeout(() => setDupWarning(""), 2500);
-        } else {
-          setDupWarning("");
-        }
+        setDupWarning("");
       }
 
-      if (allowed.length > 0) setPreview((prev) => addUnique(prev, allowed));
+      if (allowedNums.length > 0)
+        setPreview((prev) => addUnique(prev, allowedNums));
       setInputBuf("");
     }
   };
@@ -137,6 +166,16 @@ export default function BetQuickForm({
 
   const handleDouble = () => setPreview((prev) => addUnique(prev, DOUBLED));
   const handleTriple = () => setPreview((prev) => addUnique(prev, TRIPLED));
+  const resetKey = baseBetType ?? betType;
+
+  useEffect(() => {
+    setPreview([]);
+    setInputBuf("");
+    setSlipText("");
+    setDupWarning("");
+    setTopAmt("");
+    setBotAmt("");
+  }, [resetKey]);
 
   const clearPreview = useCallback(() => {
     setPreview([]);
@@ -146,25 +185,48 @@ export default function BetQuickForm({
     setNote("");
   }, []);
 
-  const [toastMsg, setToastMsg] = useState("");
-  const specialModes: { id: BetTypeId; label: string }[] = [
-    { id: "6perm", label: t.betType6perm },
-    { id: "19door", label: t.betType19door },
-    { id: "winnum", label: t.betTypeWinnum },
-  ];
-  const visibleSpecialModes = specialModes.filter((mode) => {
-    if (!availableBetTypeIds.length) return true;
-    if (mode.id === "6perm") return availableBetTypeIds.includes("3top");
-    // 19door, winnum ใช้ฐาน 2top
-    return availableBetTypeIds.includes("2top");
-  });
+  const [toastMsg, setToastMsg] = useState<{ text: string; type: "warning" | "error" } | null>(null);
 
-  const canAddBill = preview.length > 0 && (parseFloat(topAmt) > 0 || parseFloat(botAmt) > 0);
+  const handleAmountBlur = (field: "top" | "bot", rawValue: string, ctx: Ctx, label: string) => {
+    const parsed = parseFloat(rawValue);
+    const err = validateAmount(parsed, ctx);
+    if (err) setToastMsg({ text: err, type: "warning" });
+  };
+
+  const canAddBill = preview.length > 0 && (
+    (showTop && parseFloat(topAmt) > 0) ||
+    (showBot && parseFloat(botAmt) > 0)
+  );
 
   const addBill = useCallback(() => {
     if (!canAddBill) return;
-    const top = parseFloat(topAmt) || 0;
-    const bot = parseFloat(botAmt) || 0;
+    const top = showTop ? (parseFloat(topAmt) || 0) : 0;
+    const bot = showBot ? (parseFloat(botAmt) || 0) : 0;
+
+    // validate min/max/per-number
+    if (top > 0) {
+      const err = validateAmount(top, topCtx);
+      if (err) { setToastMsg({ text: err, type: "warning" }); return; }
+      if (topCtx?.maxPerNumber) {
+        const overLimit = preview.find((num) => {
+          const existing = bills.filter((b) => b.number === num && b.betType === betType).reduce((s, b) => s + b.top, 0);
+          return existing + top > topCtx.maxPerNumber;
+        });
+        if (overLimit) { setToastMsg({ text: `${t.numberLabel} ${overLimit}: ${t.amountPerNumberExceeded.replace("{max}", String(topCtx.maxPerNumber))}`, type: "warning" }); return; }
+      }
+    }
+    if (bot > 0) {
+      const err = validateAmount(bot, botCtx);
+      if (err) { setToastMsg({ text: err, type: "warning" }); return; }
+      const botBetType = BOT_BET_TYPE[betType] ?? betType;
+      if (botCtx?.maxPerNumber) {
+        const overLimit = preview.find((num) => {
+          const existing = bills.filter((b) => b.number === num && b.betType === botBetType).reduce((s, b) => s + b.bot + b.top, 0);
+          return existing + bot > botCtx.maxPerNumber;
+        });
+        if (overLimit) { setToastMsg({ text: `${t.numberLabel} ${overLimit}: ${t.amountPerNumberExceeded.replace("{max}", String(botCtx.maxPerNumber))}`, type: "warning" }); return; }
+      }
+    }
 
     // เช็ค duplicate: number + betType + บน/ล่าง ห้ามซ้ำกับที่มีในโพยแล้ว
     const dupes = preview.filter((num) =>
@@ -174,7 +236,7 @@ export default function BetQuickForm({
       )
     );
     if (dupes.length > 0) {
-      setToastMsg(`${t.numberLabel} ${dupes.join(", ")} ${t.duplicateSlipMessage}`);
+      setToastMsg({ text: `${t.numberLabel} ${dupes.join(", ")} ${t.duplicateSlipMessage}`, type: "warning" });
       return;
     }
 
@@ -183,11 +245,11 @@ export default function BetQuickForm({
     const rows: BillRow[] = preview.map((num) => ({ id: genId(), slipNo, number: num, betType, top, bot, note, time }));
     onAddBills(rows);
     clearPreview();
-  }, [canAddBill, topAmt, botAmt, preview, betType, bills, note, clearPreview, onAddBills, dateLocale]);
+  }, [canAddBill, topAmt, botAmt, preview, betType, bills, note, clearPreview, onAddBills, dateLocale, topCtx, botCtx, validateAmount, showTop, showBot]);
 
   return (
     <>
-    {toastMsg && <Toast message={toastMsg} type="warning" onClose={() => setToastMsg("")} />}
+    {toastMsg && <Toast message={toastMsg.text} type={toastMsg.type} onClose={() => setToastMsg(null)} />}
     <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
 
       {/* Tabs */}
@@ -223,8 +285,10 @@ export default function BetQuickForm({
         <BetClassicForm
           lotteryName={lotteryName}
           lotteryFlag={lotteryFlag}
+          lotteryLogo={lotteryLogo}
           bills={bills}
           numberLimits={numberLimits}
+          bettingContext={bettingContext}
           onAddBills={onAddBills}
         />
       )}
@@ -235,32 +299,6 @@ export default function BetQuickForm({
           <p className="text-[16px] font-bold text-ap-primary">{tabLabels[activeTab]}</p>
           <p className="text-[12px] text-ap-secondary mt-0.5">{lotteryName} • {today}</p>
         </div>
-
-        {visibleSpecialModes.length > 0 && (
-          <div className="mb-3">
-            <p className="text-[11px] text-ap-secondary font-bold mb-1.5 uppercase tracking-wide">{t.specialModeTitle}</p>
-            <div className="grid grid-cols-3 gap-2">
-              {visibleSpecialModes.map((mode) => {
-                const active = betType === mode.id;
-                return (
-                  <button
-                    key={mode.id}
-                    type="button"
-                    onClick={() => onBetTypeChange?.(mode.id)}
-                    className={[
-                      "py-2 rounded-xl text-[12px] font-bold border transition-all",
-                      active
-                        ? "bg-violet-50 border-violet-300 text-violet-700"
-                        : "bg-white border-ap-border text-ap-secondary hover:border-ap-blue/30",
-                    ].join(" ")}
-                  >
-                    {mode.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
 
         {/* Input area */}
         {activeTab === "slip" ? (
@@ -335,7 +373,7 @@ export default function BetQuickForm({
             ) : (
               preview.map((n, idx) => (
                 <span key={idx}
-                  className="inline-flex items-center gap-1 bg-ap-green text-white text-[14px] font-bold px-2.5 py-1 rounded-lg tabular-nums tracking-wider">
+                  className="inline-flex items-center gap-1 text-white text-[14px] font-bold px-2.5 py-1 rounded-lg tabular-nums tracking-wider bg-ap-green">
                   {n}
                   <button onClick={() => setPreview((prev) => prev.filter((_, i) => i !== idx))}
                     className="w-4 h-4 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 text-[10px] font-black transition-colors leading-none">
@@ -357,29 +395,53 @@ export default function BetQuickForm({
 
         {/* บน / ล่าง / หมายเหตุ / เพิ่มบิล */}
         <div className="bg-ap-bg/50 rounded-2xl border border-ap-border p-4 mb-3">
-          {/* บน + ล่าง */}
+          {/* บน + ล่าง/โต๊ด */}
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div>
-              <label className="text-[11px] text-ap-secondary font-bold mb-1 block uppercase tracking-wide">{t.top}</label>
+              <label className={`text-[11px] font-bold mb-1 flex items-center gap-1 uppercase tracking-wide ${showTop ? "text-ap-secondary" : "text-ap-tertiary"}`}>
+                {t.top}
+                {showTop && topCtx?.payout ? <span className="text-ap-green font-bold normal-case">×{topCtx.payout}</span> : null}
+              </label>
               <input
                 type="number"
                 value={topAmt}
+                disabled={!showTop}
                 onChange={(e) => setTopAmt(e.target.value)}
+                onBlur={() => handleAmountBlur("top", topAmt, topCtx, t.top)}
                 placeholder="—"
-                min="1"
-                className="w-full border-2 border-ap-border rounded-xl px-3 py-2.5 text-[15px] text-center font-bold text-ap-blue outline-none focus:border-ap-blue bg-white transition-all"
+                min={topCtx?.minBet ?? 1}
+                max={topCtx?.maxBet}
+                className="w-full border-2 border-ap-border rounded-xl px-3 py-2.5 text-[15px] text-center font-bold text-ap-blue outline-none focus:border-ap-blue bg-white transition-all disabled:bg-ap-bg disabled:text-ap-tertiary disabled:cursor-not-allowed"
               />
+              {showTop && topCtx && (
+                <p className="mt-0.5 text-[10px] text-ap-tertiary text-center">
+                  {topCtx.minBet}–{topCtx.maxBet.toLocaleString()}
+                  {topCtx.maxPerNumber ? ` • /เลข ≤${topCtx.maxPerNumber.toLocaleString()}` : ""}
+                </p>
+              )}
             </div>
             <div>
-              <label className="text-[11px] text-ap-secondary font-bold mb-1 block uppercase tracking-wide">{bottomAmountLabel}</label>
+              <label className={`text-[11px] font-bold mb-1 flex items-center gap-1 uppercase tracking-wide ${showBot ? "text-ap-secondary" : "text-ap-tertiary"}`}>
+                {bottomAmountLabel}
+                {showBot && botCtx?.payout ? <span className="text-ap-green font-bold normal-case">×{botCtx.payout}</span> : null}
+              </label>
               <input
                 type="number"
                 value={botAmt}
+                disabled={!showBot}
                 onChange={(e) => setBotAmt(e.target.value)}
+                onBlur={() => handleAmountBlur("bot", botAmt, botCtx, bottomAmountLabel)}
                 placeholder="—"
-                min="1"
-                className="w-full border-2 border-ap-border rounded-xl px-3 py-2.5 text-[15px] text-center font-bold text-ap-green outline-none focus:border-ap-green bg-white transition-all"
+                min={botCtx?.minBet ?? 1}
+                max={botCtx?.maxBet}
+                className="w-full border-2 border-ap-border rounded-xl px-3 py-2.5 text-[15px] text-center font-bold text-ap-green outline-none focus:border-ap-green bg-white transition-all disabled:bg-ap-bg disabled:text-ap-tertiary disabled:cursor-not-allowed"
               />
+              {showBot && botCtx && (
+                <p className="mt-0.5 text-[10px] text-ap-tertiary text-center">
+                  {botCtx.minBet}–{botCtx.maxBet.toLocaleString()}
+                  {botCtx.maxPerNumber ? ` • /เลข ≤${botCtx.maxPerNumber.toLocaleString()}` : ""}
+                </p>
+              )}
             </div>
           </div>
 
@@ -396,7 +458,7 @@ export default function BetQuickForm({
           </div>
 
           {/* Hint */}
-          {preview.length > 0 && !parseFloat(topAmt) && !parseFloat(botAmt) && (
+          {preview.length > 0 && !(showTop && parseFloat(topAmt) > 0) && !(showBot && parseFloat(botAmt) > 0) && (
             <p className="mb-2 text-[11px] text-ap-red font-medium">⚠ {t.fillAmountHint.replace("{bottom}", bottomAmountLabel)}</p>
           )}
 

@@ -81,7 +81,7 @@ export async function confirmBet(drawId: number | null | undefined, bills: BillR
   if (!items.length) return { ok: false, error: "ไม่มีรายการที่บันทึกได้" };
 
   try {
-    const res = await apiPost<{ message?: string }>(
+    const res = await apiPost<Record<string, unknown>>(
       "/lotto/bet",
       {
         draw_id: drawId,
@@ -90,9 +90,12 @@ export async function confirmBet(drawId: number | null | undefined, bills: BillR
       token,
       lang,
     );
-    return { ok: true, message: res?.message };
+    const message = typeof res?.message === "string" ? res.message : undefined;
+    return { ok: true, message };
   } catch (err) {
-    if (err instanceof ApiError) return { ok: false, error: err.message, message: err.message };
+    if (err instanceof ApiError) {
+      return { ok: false, error: err.message, message: err.message };
+    }
     return { ok: false, error: "เกิดข้อผิดพลาด กรุณาลองใหม่" };
   }
 }

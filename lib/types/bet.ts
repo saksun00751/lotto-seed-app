@@ -1,5 +1,14 @@
 import type { BetTypeId } from "@/components/bet/types";
 
+export interface BettingContextItem {
+  payout:       number;
+  minBet:       number;
+  maxBet:       number;
+  maxPerNumber: number;
+  discountPercent?: number;
+}
+export type BettingContext = Partial<Record<BetTypeId, BettingContextItem>>;
+
 export interface BetRateRow {
   id: BetTypeId;
   label: string;

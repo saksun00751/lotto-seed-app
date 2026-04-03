@@ -2,7 +2,14 @@
 
 import { redirect } from "next/navigation";
 
-import { setApiTokenCookie, clearApiTokenCookie, setMemberCodeCookie, clearMemberCodeCookie } from "@/lib/session/cookies";
+import {
+  setApiTokenCookie,
+  clearApiTokenCookie,
+  setMemberCodeCookie,
+  clearMemberCodeCookie,
+  getApiToken,
+  getLangCookie,
+} from "@/lib/session/cookies";
 import { getCurrentUser }                                          from "@/lib/session/auth";
 import { apiPost, ApiError }                                       from "@/lib/api/client";
 
@@ -252,7 +259,8 @@ export async function updateProfileAction(
 // ─── Change Password ───────────────────────────────────────────────────────────
 export interface ChangePasswordState {
   error?: string;
-  fieldErrors?: { oldPassword?: string; newPassword?: string; confirmPassword?: string };
+  message?: string;
+  fieldErrors?: { newPassword?: string; confirmPassword?: string };
   success?: boolean;
 }
 
@@ -263,20 +271,32 @@ export async function changePasswordAction(
   const user = await getCurrentUser();
   if (!user) return { error: "กรุณาเข้าสู่ระบบก่อน" };
 
-  const oldPassword     = (formData.get("oldPassword")     as string) ?? "";
   const newPassword     = (formData.get("newPassword")     as string) ?? "";
   const confirmPassword = (formData.get("confirmPassword") as string) ?? "";
 
   const fieldErrors: ChangePasswordState["fieldErrors"] = {};
-  if (!oldPassword) fieldErrors.oldPassword = "กรุณากรอกรหัสผ่านเดิม";
   if (!newPassword) fieldErrors.newPassword = "กรุณากรอกรหัสผ่านใหม่";
-  else if (newPassword.length < 8) fieldErrors.newPassword = "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
-  else if (!/[A-Za-z]/.test(newPassword) || !/[0-9]/.test(newPassword))
-    fieldErrors.newPassword = "ต้องมีทั้งตัวอักษรและตัวเลข";
+  else if (newPassword.length < 6) fieldErrors.newPassword = "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
   if (!confirmPassword)                  fieldErrors.confirmPassword = "กรุณายืนยันรหัสผ่านใหม่";
   else if (confirmPassword !== newPassword) fieldErrors.confirmPassword = "รหัสผ่านไม่ตรงกัน";
   if (Object.keys(fieldErrors).length) return { fieldErrors };
-  return { error: "ระบบเปลี่ยนรหัสผ่านกำลังย้ายไป API" };
+
+  try {
+    const [apiToken, lang] = await Promise.all([getApiToken(), getLangCookie()]);
+    const res = await apiPost<{ success?: boolean; message?: string }>(
+      "/member/change-password",
+      {
+        password: newPassword,
+        password_confirmation: confirmPassword,
+      },
+      apiToken ?? undefined,
+      lang
+    );
+    return { success: true, message: res?.message ?? "เปลี่ยนรหัสผ่านสำเร็จ" };
+  } catch (e) {
+    if (e instanceof ApiError) return { error: e.message ?? "เปลี่ยนรหัสผ่านไม่สำเร็จ" };
+    return { error: "ไม่สามารถเชื่อมต่อระบบได้ กรุณาลองใหม่" };
+  }
 }
 
 // ─── Logout ───────────────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, ReactNode } from "react";
 
 interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
-  label?: string;
+  label?: ReactNode;
   error?: string;
   hint?: string;
   leftEl?: ReactNode;

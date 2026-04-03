@@ -5,6 +5,8 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { changePasswordAction } from "@/lib/actions";
 import { useLang } from "@/lib/i18n/context";
+import { useTranslation } from "@/lib/i18n/useTranslation";
+import Toast from "@/components/ui/Toast";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const LockIcon = () => (
@@ -73,7 +75,7 @@ function PasswordField({
 }
 
 // ─── Submit button ────────────────────────────────────────────────────────────
-function SubmitButton() {
+function SubmitButton({ label, savingLabel }: { label: string; savingLabel: string }) {
   const { pending } = useFormStatus();
   return (
     <button
@@ -87,36 +89,47 @@ function SubmitButton() {
             <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
             <path className="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
           </svg>
-          กำลังบันทึก…
+          {savingLabel}
         </>
-      ) : "เปลี่ยนรหัสผ่าน"}
+      ) : label}
     </button>
   );
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-export default function ChangePasswordModal({ hasPassword }: { hasPassword: boolean }) {
+export default function ChangePasswordModal({ hasPassword: _hasPassword }: { hasPassword: boolean }) {
   const { lang } = useLang();
+  const t = useTranslation("changePassword");
   const [state, action] = useActionState(changePasswordAction, {});
-  const [oldPw,     setOldPw]     = useState("");
   const [newPw,     setNewPw]     = useState("");
   const [confirmPw, setConfirmPw] = useState("");
-  const [showOld,   setShowOld]   = useState(false);
   const [showNew,   setShowNew]   = useState(false);
   const [showConf,  setShowConf]  = useState(false);
+  const [toast, setToast] = useState<{ text: string; type: "error" | "success" } | null>(null);
 
-  // client-side confirm mismatch
   const confirmMismatch = confirmPw.length > 0 && confirmPw !== newPw;
   const confirmMatch    = confirmPw.length > 0 && confirmPw === newPw;
 
   useEffect(() => {
     if (state.success) {
-      setOldPw(""); setNewPw(""); setConfirmPw("");
+      setNewPw(""); setConfirmPw("");
     }
   }, [state.success]);
 
+  useEffect(() => {
+    if (state.error) setToast({ text: state.error, type: "error" });
+    else if (state.success) setToast({ text: t.successTitle, type: "success" });
+  }, [state.error, state.success, t.successTitle]);
+
   return (
     <div className="max-w-5xl mx-auto px-5 pt-6">
+      {toast && (
+        <Toast
+          message={toast.text}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <div className="bg-white rounded-3xl border border-ap-border shadow-card overflow-hidden">
 
         {/* Header */}
@@ -126,8 +139,8 @@ export default function ChangePasswordModal({ hasPassword }: { hasPassword: bool
             <div className="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-[22px] mb-3 border border-white/20">
               🔐
             </div>
-            <h2 className="text-[20px] font-bold leading-tight">เปลี่ยนรหัสผ่าน</h2>
-            <p className="text-[13px] text-white/70 mt-1">กรอกรหัสผ่านเดิมและตั้งรหัสใหม่</p>
+            <h2 className="text-[20px] font-bold leading-tight">{t.title}</h2>
+            <p className="text-[13px] text-white/70 mt-1">{t.subtitle}</p>
           </div>
         </div>
 
@@ -139,13 +152,13 @@ export default function ChangePasswordModal({ hasPassword }: { hasPassword: bool
                 <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className="text-[17px] font-bold text-ap-primary">เปลี่ยนรหัสผ่านสำเร็จ!</p>
-            <p className="text-[13px] text-ap-secondary mt-1">รหัสผ่านของคุณได้รับการอัปเดตแล้ว</p>
+            <p className="text-[17px] font-bold text-ap-primary">{t.successTitle}</p>
+            <p className="text-[13px] text-ap-secondary mt-1">{t.successDesc}</p>
             <a
               href={`/${lang}/profile`}
               className="mt-6 flex items-center justify-center w-full bg-ap-blue text-white rounded-full py-3 text-[14px] font-semibold hover:bg-ap-blue-h transition-colors"
             >
-              กลับหน้าโปรไฟล์
+              {t.backProfile}
             </a>
           </div>
         ) : (
@@ -161,31 +174,14 @@ export default function ChangePasswordModal({ hasPassword }: { hasPassword: bool
               </div>
             )}
 
-            {/* Divider */}
-            <div className="flex items-center gap-3">
-              <div className="flex-1 h-px bg-ap-border" />
-              <span className="text-[11px] text-ap-tertiary font-medium uppercase tracking-wide">รหัสผ่านเดิม</span>
-              <div className="flex-1 h-px bg-ap-border" />
-            </div>
-
-            <PasswordField
-              label="รหัสผ่านเดิม"
-              name="oldPassword"
-              value={oldPw}
-              onChange={setOldPw}
-              error={state.fieldErrors?.oldPassword}
-              show={showOld}
-              onToggle={() => setShowOld((v) => !v)}
-            />
-
             <div className="flex items-center gap-3 pt-1">
               <div className="flex-1 h-px bg-ap-border" />
-              <span className="text-[11px] text-ap-tertiary font-medium uppercase tracking-wide">รหัสผ่านใหม่</span>
+              <span className="text-[11px] text-ap-tertiary font-medium uppercase tracking-wide">{t.sectionNew}</span>
               <div className="flex-1 h-px bg-ap-border" />
             </div>
 
             <PasswordField
-              label="รหัสผ่านใหม่"
+              label={t.labelNew}
               name="newPassword"
               value={newPw}
               onChange={setNewPw}
@@ -195,7 +191,7 @@ export default function ChangePasswordModal({ hasPassword }: { hasPassword: bool
             />
 
             <div>
-              <label className="block text-[12px] font-semibold text-ap-secondary mb-1.5">ยืนยันรหัสผ่านใหม่</label>
+              <label className="block text-[12px] font-semibold text-ap-secondary mb-1.5">{t.labelConfirm}</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-ap-tertiary">
                   <LockIcon />
@@ -236,17 +232,17 @@ export default function ChangePasswordModal({ hasPassword }: { hasPassword: bool
               </div>
               {(state.fieldErrors?.confirmPassword || confirmMismatch) && (
                 <p className="text-[12px] text-ap-red mt-1">
-                  {state.fieldErrors?.confirmPassword ?? "รหัสผ่านไม่ตรงกัน"}
+                  {state.fieldErrors?.confirmPassword ?? t.mismatch}
                 </p>
               )}
             </div>
 
             <div className="pt-1">
-              <SubmitButton />
+              <SubmitButton label={t.submit} savingLabel={t.saving} />
             </div>
 
             <p className="text-center text-[12px] text-ap-tertiary pb-1">
-              <a href={`/${lang}/profile`} className="hover:text-ap-secondary transition-colors">← กลับหน้าโปรไฟล์</a>
+              <a href={`/${lang}/profile`} className="hover:text-ap-secondary transition-colors">← {t.backProfile}</a>
             </p>
           </form>
         )}

@@ -108,13 +108,6 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
           {/* Right side */}
           <div className="flex items-center gap-1.5 sm:gap-2">
 
-            {/* Diamond — desktop */}
-            <Link href={`/${lang}/spin`}
-              className=" sm:flex items-center gap-1.5 bg-blue-50 border border-blue-200 rounded-full px-3 py-1.5 hover:border-ap-blue/50 transition-colors">
-              <span className="text-[13px]">💎</span>
-              <span className="text-[13px] font-semibold text-ap-blue tabular-nums">{diamond}</span>
-            </Link>
-
             {/* Balance */}
             <Link href={`/${lang}/deposit`}
               className="flex items-center gap-1.5 bg-ap-bg border border-ap-border rounded-full px-2.5 sm:px-3 py-1.5 hover:border-ap-blue/30 transition-colors">
@@ -138,7 +131,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
               </button>
 
               {profileOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] w-[240px] bg-white rounded-2xl shadow-card-xl border border-ap-border overflow-hidden animate-pop-in z-50">
+                <div className="absolute right-0 top-[calc(100%+8px)] w-[240px] bg-white rounded-2xl shadow-card-xl border border-ap-border overflow-x-hidden overflow-y-auto max-h-[calc(100dvh-88px)] sm:max-h-[80vh] overscroll-contain animate-pop-in z-50">
                   {/* Language switcher */}
                   <div className="px-4 py-2 flex items-center justify-between border-b border-ap-border bg-ap-bg/60">
                     <span className="text-[12px] text-ap-secondary">{t.language}</span>
@@ -258,19 +251,32 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
       {/* Mobile bottom tabs */}
       <div
         className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-ap-border z-50"
-        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         <div className="grid w-full" style={{ gridTemplateColumns: `repeat(${navLinks.length}, 1fr)` }}>
           {navLinks.map((l) => {
             const active = pathname === l.href || pathname.startsWith(l.href + "/");
+            const isPlay = l.href === `/${lang}/bet`;
             return (
               <Link key={l.href} href={l.href}
                 className={[
-                  "flex flex-col items-center justify-center gap-0.5 py-1.5 min-w-0 transition-colors active:scale-95",
-                  active ? "text-ap-blue" : "text-ap-tertiary",
+                  "flex flex-col items-center justify-center gap-0.5 min-w-0 transition-all active:scale-95",
+                  isPlay
+                    ? [
+                        "relative -mt-4 mb-1 mx-1 rounded-2xl py-2 shadow-lg border",
+                        active
+                          ? "bg-ap-blue text-white border-ap-blue"
+                          : "bg-ap-blue text-white border-ap-blue/70 hover:bg-ap-blue-h",
+                      ].join(" ")
+                    : [
+                        "py-1.5",
+                        active ? "text-ap-blue" : "text-ap-tertiary",
+                      ].join(" "),
                 ].join(" ")}>
-                <span className="text-[22px] leading-none">{l.icon}</span>
-                <span className={["text-[10px] truncate w-full text-center px-0.5 leading-tight", active ? "font-bold" : "font-medium"].join(" ")}>
+                <span className={["leading-none", isPlay ? "text-[24px]" : "text-[22px]"].join(" ")}>{l.icon}</span>
+                <span className={[
+                  "text-[10px] truncate w-full text-center px-0.5 leading-tight",
+                  isPlay ? "font-bold" : active ? "font-bold" : "font-medium",
+                ].join(" ")}>
                   {l.label}
                 </span>
               </Link>

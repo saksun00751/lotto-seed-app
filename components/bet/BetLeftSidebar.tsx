@@ -1,9 +1,7 @@
 "use client";
 import { useState } from "react";
 import { LeftTab } from "./types";
-import { fetchSlipDetail } from "@/app/actions/history";
-import BetSlipDetailModal from "@/components/history/BetSlipDetailModal";
-import type { BetSlipDetail, BetSlipSummary, NumberLimitRow, PastResultRow } from "@/lib/types/bet";
+import type { NumberLimitRow } from "@/lib/types/bet";
 import { useLang } from "@/lib/i18n/context";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 
@@ -32,28 +30,15 @@ function LimitBadge({ limit, closedLabel }: { limit: NumberLimitRow | undefined;
   );
 }
 
-const STATUS_STYLE: Record<string, string> = {
-  active:    "bg-ap-blue/10 text-ap-blue",
-  confirmed: "bg-ap-blue/10 text-ap-blue",
-  won:       "bg-ap-green/10 text-ap-green",
-  lost:      "bg-ap-red/10 text-ap-red",
-  pending:   "bg-yellow-50 text-yellow-700",
-  cancelled: "bg-ap-bg text-ap-tertiary",
-  refunded:  "bg-ap-bg text-ap-secondary",
-};
-
 interface Props {
-  lotteryName:   string;
-  numberLimits:  NumberLimitRow[];
-  myBetHistory?: BetSlipSummary[];
-  pastResults?:  PastResultRow[];
+  lotteryName:      string;
+  numberLimits:     NumberLimitRow[];
+  selectedPackage?: { id?: number; name: string; image?: string; discountPercent?: number };
 }
 
-export default function BetLeftSidebar({ lotteryName, numberLimits, myBetHistory = [], pastResults = [] }: Props) {
+export default function BetLeftSidebar({ lotteryName, numberLimits, selectedPackage }: Props) {
   const { lang } = useLang();
   const t = useTranslation("bet");
-  const localeByLang: Record<string, string> = { th: "th-TH", en: "en-US", kh: "km-KH", la: "lo-LA" };
-  const numberLocale = localeByLang[lang] ?? "th-TH";
   const TAB_COLS: Record<LeftTab, [string, string, string]> = {
     "3top": [t.numberLabel, t.betType3top, t.betType3tod],
     "2top": [t.numberLabel, t.betType2top, t.betType2bot],
@@ -64,29 +49,7 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, myBetHistory
     { id: "2top" as LeftTab, label: t.leftTab2 },
     { id: "run" as LeftTab, label: t.leftTabRun },
   ];
-  const STATUS_LABEL: Record<string, string> = {
-    active: t.statusActive,
-    confirmed: t.statusConfirmed,
-    won: t.statusWon,
-    lost: t.statusLost,
-    pending: t.statusPending,
-    cancelled: t.statusCancelled,
-    refunded: t.statusRefunded,
-  };
   const [leftTab, setLeftTab] = useState<LeftTab>("2top");
-  const [detail,  setDetail]  = useState<BetSlipDetail | null>(null);
-  const [loading, setLoading] = useState<string | null>(null);
-
-  async function openDetail(slipId: string) {
-    if (loading) return;
-    setLoading(slipId);
-    try {
-      const data = await fetchSlipDetail(slipId);
-      if (data) setDetail(data);
-    } finally {
-      setLoading(null);
-    }
-  }
 
   // unique numbers visible in current tab (closed or limited)
   const [col1, col2] = TAB_BET_TYPES[leftTab];
@@ -103,11 +66,11 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, myBetHistory
 
       {/* เลขอั้น */}
       <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
-        <div className="px-4 py-2.5 flex items-center gap-2 bg-ap-bg/60 border-b border-ap-border">
+        <div className="px-4 py-2.5 flex items-center gap-2 bg-gradient-to-r from-blue-700 to-cyan-700 border-b border-ap-border">
           <span className="text-[15px]">🔒</span>
-          <span className="font-bold text-ap-primary text-[14px]">{t.blockedNumbers}</span>
+          <span className="font-bold text-white text-[14px]">{t.blockedNumbers}</span>
           {numberLimits.length > 0 && (
-            <span className="ml-auto text-[11px] font-semibold text-ap-red bg-ap-red/8 px-2 py-0.5 rounded-full">
+            <span className="ml-auto text-[11px] font-semibold text-white bg-white/20 px-2 py-0.5 rounded-full">
               {numberLimits.length} {t.items}
             </span>
           )}
@@ -158,88 +121,26 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, myBetHistory
         </div>
       </div>
 
-      {/* ประวัติการแทงของฉัน */}
-      <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
-        <div className="px-4 py-2.5 flex items-center gap-2 bg-ap-bg/60 border-b border-ap-border">
-          <span className="text-[14px]">📋</span>
-          <span className="font-bold text-ap-primary text-[14px]">{t.myHistory}</span>
-          {myBetHistory.length > 0 && (
-            <span className="ml-auto text-[11px] font-semibold text-ap-blue bg-ap-blue/8 px-2 py-0.5 rounded-full">
-              {myBetHistory.length} {t.items}
-            </span>
+      {/* Package ที่เลือก */}
+      {selectedPackage && (
+        <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
+          <div className="px-4 py-2.5 flex items-center gap-2 bg-gradient-to-r from-amber-700 to-orange-700 border-b border-ap-border">
+            <span className="text-[14px]">🎁</span>
+            <span className="font-bold text-white text-[14px]">{t.selectedPackage}</span>
+          </div>
+          {selectedPackage.image ? (
+            <img
+              src={selectedPackage.image}
+              alt={selectedPackage.name}
+              className="w-full object-cover"
+            />
+          ) : (
+            <div className="px-4 py-3 text-[13px] font-semibold text-ap-primary">
+              {selectedPackage.name}
+            </div>
           )}
         </div>
-        {myBetHistory.length === 0 ? (
-          <p className="py-5 text-center text-[12px] text-ap-tertiary">{t.noHistory}</p>
-        ) : (
-          <div className="max-h-[160px] overflow-y-auto divide-y divide-ap-border">
-            {myBetHistory.map((slip) => {
-              const date = slip.createdAt.toLocaleDateString(numberLocale, { day: "2-digit", month: "2-digit", year: "2-digit" });
-              const isLoading = loading === slip.id;
-              return (
-                <button key={slip.id} onClick={() => openDetail(slip.id)} disabled={!!loading}
-                  className="w-full text-left px-3 py-2.5 hover:bg-ap-bg/60 transition-colors flex items-center gap-2 disabled:opacity-60">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${STATUS_STYLE[slip.status] ?? "bg-ap-bg text-ap-secondary"}`}>
-                        {STATUS_LABEL[slip.status] ?? slip.status}
-                      </span>
-                      <span className="text-[10px] text-ap-tertiary">{date}</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="font-mono text-[11px] text-ap-secondary truncate">#{slip.slipNo}</span>
-                      <span className="text-[12px] font-bold text-ap-primary tabular-nums shrink-0">฿{slip.totalAmount.toLocaleString(numberLocale)}</span>
-                    </div>
-                  </div>
-                  <div className="shrink-0">
-                    {isLoading ? (
-                      <svg className="w-3.5 h-3.5 text-ap-blue animate-spin" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25"/>
-                        <path d="M22 12a10 10 0 01-10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
-                      </svg>
-                    ) : (
-                      <svg className="w-3.5 h-3.5 text-ap-tertiary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 18l6-6-6-6" strokeLinecap="round"/>
-                      </svg>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {detail && <BetSlipDetailModal slip={detail} onClose={() => setDetail(null)} />}
-
-      {/* ผลย้อนหลัง */}
-      <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
-        <div className="px-4 py-2.5 flex items-center gap-2 bg-ap-bg/60 border-b border-ap-border">
-          <span className="text-[14px]">⭐</span>
-          <span className="font-bold text-ap-primary text-[14px]">{t.pastResults}</span>
-        </div>
-        <table className="w-full text-[12px]">
-          <thead>
-            <tr className="bg-ap-bg border-b border-ap-border">
-              {[t.lottery, t.drawDate, t.betType3top, t.betType2bot].map((c) => (
-                <th key={c} className="py-2 px-2 text-center text-[10px] font-semibold text-ap-secondary uppercase">{c}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {pastResults.length === 0 ? (
-              <tr><td colSpan={4} className="py-5 text-center text-[12px] text-ap-tertiary">{t.noPastResults}</td></tr>
-            ) : pastResults.map((r, i) => (
-              <tr key={r.date + i} className={`border-t border-ap-border ${i % 2 === 0 ? "bg-white" : "bg-ap-bg/40"}`}>
-                <td className="py-2 px-2 text-[10px] text-ap-secondary truncate max-w-[55px]">{lotteryName}</td>
-                <td className="py-2 px-2 text-center text-[10px] text-ap-secondary whitespace-nowrap">{r.date}</td>
-                <td className="py-2 px-2 text-center font-bold text-ap-primary tabular-nums">{r.top3}</td>
-                <td className="py-2 px-2 text-center font-bold text-ap-primary tabular-nums">{r.bot2}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      )}
 
     </div>
   );

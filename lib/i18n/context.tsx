@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export type LangCode = "th" | "en" | "kh" | "la";
 
@@ -20,6 +20,7 @@ export function LangProvider({ children, initialLang }: { children: React.ReactN
   );
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const saved = localStorage.getItem("lang") as LangCode;
@@ -43,7 +44,11 @@ export function LangProvider({ children, initialLang }: { children: React.ReactN
     } else {
       segments.unshift(l);
     }
-    router.push("/" + segments.join("/"));
+    const query = searchParams.toString();
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
+    const nextPath = "/" + segments.join("/");
+    const nextUrl = `${nextPath}${query ? `?${query}` : ""}${hash}`;
+    router.push(nextUrl);
   }
 
   return <LangContext.Provider value={{ lang, setLang }}>{children}</LangContext.Provider>;

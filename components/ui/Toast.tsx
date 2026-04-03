@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface Props {
   message: string;
@@ -29,7 +30,7 @@ export default function Toast({ message, type = "error", durationMs = 3500, onCl
 
   const icons = { error: "✕", success: "✓", warning: "⚠" };
 
-  return (
+  return createPortal(
     <div className="fixed top-5 left-1/2 z-[999] -translate-x-1/2 pointer-events-none">
       <div className={[
         "flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-card-xl min-w-[280px] max-w-[90vw] transition-all duration-300",
@@ -41,6 +42,7 @@ export default function Toast({ message, type = "error", durationMs = 3500, onCl
         </span>
         <p className="text-[14px] font-semibold leading-snug">{message}</p>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

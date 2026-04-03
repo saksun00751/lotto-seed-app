@@ -6,17 +6,93 @@ import CountdownTimer from "@/components/ui/CountdownTimer";
 import Toast from "@/components/ui/Toast";
 import { useLang } from "@/lib/i18n/context";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import type { BettingContext } from "@/lib/types/bet";
 
 interface Props {
-  bills:        BillRow[];
-  drawId?:      number | null;
-  lotteryName:  string;
-  closeAt?:     string;
-  totalAmount:  number;
-  onDelete:     (id: string) => void;
-  onClearAll:   () => void;
-  onConfirm:    () => Promise<{ ok: boolean; error?: string; message?: string }>;
+  bills:         BillRow[];
+  drawId?:       number | null;
+  packageId?:    number;
+  bettingContext?: BettingContext;
+  lotteryName:   string;
+  lotteryFlag?:  string;
+  lotteryLogo?:  string;
+  closeAt?:      string;
+  totalAmount:   number;
+  onDelete:      (id: string) => void;
+  onClearAll:    () => void;
+  onConfirm:     () => Promise<{ ok: boolean; error?: string; message?: string }>;
 }
+
+type PayloadBetType = "top_3" | "tod_3" | "top_2" | "bottom_2" | "run_top" | "run_bottom";
+
+interface PayloadItem {
+  bet_type: PayloadBetType;
+  number: string;
+  amount: number;
+  note: string;
+}
+
+const TOP_SIDE_MAP: Partial<Record<BetTypeId, PayloadBetType>> = {
+  "3top": "top_3",
+  "3tod": "tod_3",
+  "2top": "top_2",
+  "2bot": "bottom_2",
+  "run": "run_top",
+  "winlay": "run_bottom",
+  "6perm": "top_3",
+  "19door": "top_2",
+  "winnum": "top_2",
+};
+
+const BOT_SIDE_MAP: Partial<Record<BetTypeId, PayloadBetType>> = {
+  "3top": "tod_3",
+  "3tod": "tod_3",
+  "2top": "bottom_2",
+  "2bot": "bottom_2",
+  "run": "run_top",
+  "winlay": "run_bottom",
+  "6perm": "tod_3",
+  "19door": "bottom_2",
+  "winnum": "bottom_2",
+};
+
+function mapBillsToItems(bills: BillRow[]): PayloadItem[] {
+  return bills.flatMap((b) => {
+    const rows: PayloadItem[] = [];
+    const note = b.note?.trim() ?? "";
+
+    const topType = TOP_SIDE_MAP[b.betType];
+    if (topType && b.top > 0) {
+      rows.push({
+        bet_type: topType,
+        number: b.number,
+        amount: Number(b.top),
+        note,
+      });
+    }
+
+    const botType = BOT_SIDE_MAP[b.betType];
+    if (botType && b.bot > 0) {
+      rows.push({
+        bet_type: botType,
+        number: b.number,
+        amount: Number(b.bot),
+        note,
+      });
+    }
+
+    return rows;
+  });
+}
+
+const PAYLOAD_TO_CTX_BET_TYPE: Record<PayloadBetType, BetTypeId> = {
+  top_3: "3top",
+  tod_3: "3tod",
+  top_2: "2top",
+  bottom_2: "2bot",
+  run_top: "run",
+  run_bottom: "winlay",
+};
 
 function getAmountLabel(betType: BetTypeId, side: "top" | "bot", t: Record<string, string>): string {
   if (side === "top") {
@@ -35,7 +111,11 @@ function getAmountLabel(betType: BetTypeId, side: "top" | "bot", t: Record<strin
 export default function BetSlipSidebar({
   bills,
   drawId,
+  packageId,
+  bettingContext,
   lotteryName,
+  lotteryFlag,
+  lotteryLogo,
   closeAt,
   totalAmount,
   onDelete,
@@ -52,6 +132,15 @@ export default function BetSlipSidebar({
   };
   const [showModal,  setShowModal]  = useState(false);
   const [closedToast, setClosedToast] = useState(false);
+  const payloadItems = mapBillsToItems(bills);
+  const subtotalAmount = payloadItems.reduce((sum, item) => sum + item.amount, 0);
+  const discountAmount = payloadItems.reduce((sum, item) => {
+    const ctxBetType = PAYLOAD_TO_CTX_BET_TYPE[item.bet_type];
+    const discountPercent = Number(bettingContext?.[ctxBetType]?.discountPercent ?? 0);
+    return sum + (item.amount * (discountPercent > 0 ? discountPercent : 0)) / 100;
+  }, 0);
+  const discountPct = subtotalAmount > 0 ? (discountAmount / subtotalAmount) * 100 : 0;
+  const netAmount = Math.max(0, subtotalAmount - discountAmount);
 
   function handleOpenModal() {
     if (closeAt && new Date(closeAt).getTime() <= Date.now()) {
@@ -80,26 +169,29 @@ export default function BetSlipSidebar({
       <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border sticky top-4">
 
         {/* Header */}
-        <div className="px-4 py-3 border-b border-ap-border">
+        <div className="px-4 py-3 border-b border-ap-border bg-gradient-to-r from-violet-700 to-fuchsia-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-[18px]">📋</span>
-              <span className="text-[15px] font-bold text-ap-primary">{t.slipTitle}</span>
+              <span className="text-[15px] font-bold text-white">{t.slipTitle}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[12px] font-bold text-white bg-ap-blue px-2.5 py-0.5 rounded-full">
+              <span className="text-[12px] font-bold text-violet-700 bg-white px-2.5 py-0.5 rounded-full">
                 {bills.length} {t.items}
               </span>
               {bills.length > 0 && (
-                <button onClick={onClearAll} className="text-[12px] font-semibold text-ap-red hover:underline">
+                <button onClick={onClearAll} className="text-[12px] font-semibold text-white/90 hover:underline">
                   {t.clearAll}
                 </button>
               )}
             </div>
           </div>
           <div className="flex items-center gap-1.5 mt-1.5">
-            <span className="text-[13px]">🇹🇭</span>
-            <span className="text-[12px] text-ap-secondary font-medium">{lotteryName}</span>
+            {lotteryLogo
+              ? <img src={lotteryLogo} alt={lotteryName} className="w-5 h-5 rounded-full object-cover shrink-0" />
+              : lotteryFlag ? <span className="text-[13px] shrink-0">{lotteryFlag}</span> : null
+            }
+            <span className="text-[12px] text-white/85 font-medium">{lotteryName}</span>
           </div>
         </div>
 
@@ -168,9 +260,23 @@ export default function BetSlipSidebar({
                 <span className="text-[12px] font-semibold text-ap-primary">{bills.length} {t.items}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[16px] text-ap-secondary">{t.totalBet}</span>
+                <span className="text-[16px] text-ap-secondary">ยอดก่อนหักส่วนลด</span>
                 <span className="text-[22px] font-bold text-ap-primary tabular-nums">
-                  ฿{totalAmount.toLocaleString(numberLocale)}
+                  ฿{subtotalAmount.toLocaleString(numberLocale)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[14px] text-ap-secondary">
+                  ส่วนลด ({discountPct.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}%)
+                </span>
+                <span className="text-[14px] font-bold text-ap-green tabular-nums">
+                  -฿{discountAmount.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}
+                </span>
+              </div>
+              <div className="flex items-center justify-between pt-1 border-t border-ap-border">
+                <span className="text-[16px] text-ap-secondary">ยอดหลังหักส่วนลด</span>
+                <span className="text-[22px] font-bold text-ap-primary tabular-nums">
+                  ฿{netAmount.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}
                 </span>
               </div>
               <div className="flex items-center justify-between pt-1 border-t border-ap-border">
@@ -191,6 +297,7 @@ export default function BetSlipSidebar({
         )}
 
       </div>
+
     </div>
 
     {closedToast && (

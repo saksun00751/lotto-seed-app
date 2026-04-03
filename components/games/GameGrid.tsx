@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 interface Game {
   id:       string;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function GameGrid({ games, emoji, notFound }: Props) {
+  const t = useTranslation("games");
   const [loading, setLoading] = useState<string | null>(null);
 
   async function handlePlay(game: Game) {
@@ -31,10 +33,10 @@ export default function GameGrid({ games, emoji, notFound }: Props) {
       if (data.url) {
         window.open(data.url, "_blank", "noopener,noreferrer");
       } else {
-        alert(data.error ?? "ไม่สามารถเข้าเกมได้");
+        alert(data.error ?? t.errCannotPlay);
       }
     } catch {
-      alert("เกิดข้อผิดพลาด กรุณาลองใหม่");
+      alert(t.errGeneric);
     } finally {
       setLoading(null);
     }

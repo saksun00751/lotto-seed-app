@@ -11,7 +11,7 @@ import BetTypeSelector from "./BetTypeSelector";
 import BetQuickForm    from "./BetQuickForm";
 import BetSlipSidebar  from "./BetSlipSidebar";
 import { confirmBet }  from "@/app/actions/bet";
-import type { BetRateRow, PastResultRow, BetSlipSummary } from "@/lib/types/bet";
+import type { BetRateRow, BettingContext } from "@/lib/types/bet";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 
 export default function LotteryLayoutPage({
@@ -19,29 +19,33 @@ export default function LotteryLayoutPage({
   drawId,
   lotteryName   = "",
   lotteryFlag   = "",
+  lotteryLogo,
   categoryName  = "",
   closeAt,
   numberLimits  = [],
   betRates      = [],
-  myBetHistory  = [],
-  pastResults   = [],
+  selectedPackage,
+  bettingContext,
 }: {
-  lotteryTypeId?: string;
-  drawId?:       number;
-  lotteryName?:  string;
-  lotteryFlag?:  string;
-  categoryName?: string;
-  closeAt?:      string;
-  numberLimits?: NumberLimitRow[];
-  betRates?:     BetRateRow[];
-  myBetHistory?: BetSlipSummary[];
-  pastResults?:  PastResultRow[];
+  lotteryTypeId?:   string;
+  drawId?:          number;
+  lotteryName?:     string;
+  lotteryFlag?:     string;
+  lotteryLogo?:     string;
+  categoryName?:    string;
+  closeAt?:         string;
+  numberLimits?:    NumberLimitRow[];
+  betRates?:        BetRateRow[];
+  selectedPackage?: { id?: number; name: string; image?: string; discountPercent?: number };
+  bettingContext?:  BettingContext;
 }) {
   const { lang } = useLang();
   const t = getTranslation(lang, "bet");
-  const [bills,     setBills]     = useState<BillRow[]>([]);
-  const [betType,   setBetType]   = useState<BetTypeId>("3top");
-  const [isClassic, setIsClassic] = useState(false);
+  const [bills,       setBills]       = useState<BillRow[]>([]);
+  const [betType,     setBetType]     = useState<BetTypeId>("3top");
+  const [specialMode, setSpecialMode] = useState<BetTypeId | null>(null);
+  const [isClassic,   setIsClassic]   = useState(false);
+
   const availableBetTypeIds = betRates.map((r) => r.id);
   // เพิ่ม run/winlay อัตโนมัติถ้า API ไม่ส่งมา แต่มี 2top อยู่
   const enrichedIds: BetTypeId[] = [...availableBetTypeIds];
@@ -56,18 +60,27 @@ export default function LotteryLayoutPage({
 
   useEffect(() => {
     if (!availableBetTypeIds.length) return;
-    if (specialTypes.includes(betType)) return; // special types ไม่ต้อง reset
     if (!enrichedIds.includes(betType)) {
       setBetType(enrichedIds[0] ?? availableBetTypeIds[0]);
     }
   }, [availableBetTypeIds, betType]);
+
+  // effectiveBetType = โหมดพิเศษถ้าเลือกอยู่ มิฉะนั้นใช้ betType ปกติ
+  const effectiveBetType: BetTypeId = specialMode ?? betType;
 
   const totalAmount = bills.reduce((s, b) => s + b.top + b.bot, 0);
 
   const handleAddBills = (rows: BillRow[]) => setBills((prev) => [...prev, ...rows]);
   const handleDelete   = (id: string)      => setBills((prev) => prev.filter((b) => b.id !== id));
   const handleClearAll = ()                => setBills([]);
-  const changeBetType  = (t: BetTypeId)   => setBetType(t);
+
+  const changeBetType = (id: BetTypeId) => {
+    setBetType(id);
+    setSpecialMode(null); // reset โหมดพิเศษเมื่อเปลี่ยนประเภทปกติ
+  };
+  const changeSpecialMode = (id: BetTypeId) => {
+    setSpecialMode((prev) => (prev === id ? null : id)); // toggle
+  };
 
   const handleConfirm = async () => {
     const result = await confirmBet(drawId, bills);
@@ -89,7 +102,13 @@ export default function LotteryLayoutPage({
             <Link href={`/${lang}/bet`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0 hidden sm:inline">{categoryName}</Link>
           </>}
           <span className="text-ap-tertiary shrink-0">›</span>
-          <span className="font-bold text-ap-primary truncate">{lotteryFlag && <span className="mr-1">{lotteryFlag}</span>}{lotteryName}</span>
+          <span className="font-bold text-ap-primary truncate flex items-center gap-1.5 min-w-0">
+            {lotteryLogo
+              ? <img src={lotteryLogo} alt={lotteryName} className="w-6 h-6 rounded-full object-cover shrink-0" />
+              : lotteryFlag ? <span className="shrink-0">{lotteryFlag}</span> : null
+            }
+            <span className="truncate">{lotteryName}</span>
+          </span>
         </div>
         {closeAt && (
           <div className="flex items-center gap-1.5 text-ap-red font-bold text-[15px] shrink-0 ml-3">
@@ -106,21 +125,67 @@ export default function LotteryLayoutPage({
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr_280px] gap-4">
 
           {/* Left sidebar */}
-          <BetLeftSidebar lotteryName={lotteryName} numberLimits={numberLimits} myBetHistory={myBetHistory} pastResults={pastResults} />
+          <BetLeftSidebar lotteryName={lotteryName} numberLimits={numberLimits} selectedPackage={selectedPackage} />
 
           {/* Main column */}
           <div className="space-y-3">
-            <BetTypeSelector betType={betType} onChange={changeBetType} visibleIds={selectorTypeIds} disabled={isClassic} />
+            <BetTypeSelector betType={betType} onChange={changeBetType} visibleIds={selectorTypeIds} disabled={isClassic} bettingContext={bettingContext} />
+
+            {/* โหมดพิเศษ */}
+            {(() => {
+              const specialModes: { id: BetTypeId; label: string }[] = [
+                { id: "6perm",  label: t.betType6perm },
+                { id: "19door", label: t.betType19door },
+                { id: "winnum", label: t.betTypeWinnum },
+              ];
+              const visible = specialModes.filter((m) => {
+                if (m.id === "6perm")  return betType === "3top" || betType === "3tod";
+                if (m.id === "19door") return betType === "2top" || betType === "2bot";
+                if (m.id === "winnum") return betType === "2top" || betType === "2bot";
+                return false;
+              });
+              if (!visible.length || isClassic) return null;
+              return (
+                <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+                  <div className="px-4 py-2.5 bg-gradient-to-r from-fuchsia-700 to-pink-700 border-b border-ap-border">
+                    <p className="text-[11px] text-white font-bold uppercase tracking-wide">{t.specialModeTitle}</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 p-3">
+                    {visible.map((mode) => {
+                      const active = specialMode === mode.id;
+                      return (
+                        <button
+                          key={mode.id}
+                          type="button"
+                          onClick={() => changeSpecialMode(mode.id)}
+                          className={[
+                            "py-2 rounded-xl text-[12px] font-bold border transition-all",
+                            active
+                              ? "bg-violet-50 border-violet-300 text-violet-700"
+                              : "bg-white border-ap-border text-ap-secondary hover:border-ap-blue/30",
+                          ].join(" ")}
+                        >
+                          {mode.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
+
             <BetQuickForm
-              betType={betType}
+              betType={effectiveBetType}
+              baseBetType={betType}
               onBetTypeChange={changeBetType}
-              availableBetTypeIds={availableBetTypeIds}
               lotteryName={lotteryName}
               lotteryFlag={lotteryFlag}
+              lotteryLogo={lotteryLogo}
               closeAt={closeAt}
               bills={bills}
               totalAmount={totalAmount}
               numberLimits={numberLimits}
+              bettingContext={bettingContext}
               onAddBills={handleAddBills}
               onClearAll={handleClearAll}
               onTabChange={(tab) => setIsClassic(tab === "classic")}
@@ -131,7 +196,11 @@ export default function LotteryLayoutPage({
           <BetSlipSidebar
             bills={bills}
             drawId={drawId}
+            packageId={selectedPackage?.id}
+            bettingContext={bettingContext}
             lotteryName={lotteryName}
+            lotteryFlag={lotteryFlag}
+            lotteryLogo={lotteryLogo}
             closeAt={closeAt}
             totalAmount={totalAmount}
             onDelete={handleDelete}

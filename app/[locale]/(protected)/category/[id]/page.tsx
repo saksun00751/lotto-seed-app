@@ -1,5 +1,5 @@
 import CountdownTimer from "@/components/ui/CountdownTimer";
-import BetLinkButton from "@/components/bet/BetLinkButton";
+import PackageModalButton from "@/components/bet/PackageModalButton";
 import BackButton from "@/components/ui/BackButton";
 import { notFound } from "next/navigation";
 import { requireAuth } from "@/lib/session/auth";
@@ -34,9 +34,11 @@ interface CategoryTranslation {
   comingSoon: string;
   items: string;
   liveItems: string;
+  selectPackage: string;
+  noPackage: string;
 }
 
-function SubItemCard({ item, t }: { item: SubItem; t: CategoryTranslation }) {
+function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryTranslation; groupId: number; locale: string }) {
   return (
     <div className="bg-white rounded-2xl border border-ap-border shadow-card hover:shadow-card-hover transition-all hover:-translate-y-0.5 overflow-hidden h-full">
       <div className={`h-[3px] bg-gradient-to-r ${item.barClass}`} />
@@ -94,11 +96,15 @@ function SubItemCard({ item, t }: { item: SubItem; t: CategoryTranslation }) {
         {/* Action */}
         <div className="mt-auto">
           {item.isOpen ? (
-            <BetLinkButton
-              href={item.href}
+            <PackageModalButton
+              groupId={groupId}
+              drawId={item.drawId ?? 0}
+              locale={locale}
               closeAt={item.closeAt}
               labelPlay={t.playNow}
               labelClosed={t.closed}
+              labelSelect={t.selectPackage}
+              labelNoPackage={t.noPackage}
               toastClosedRefresh={t.closedRefreshing}
             />
           ) : (
@@ -185,7 +191,7 @@ export default async function CategoryPage({ params }: Props) {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {cat.items.map((item) => (
-              <SubItemCard key={item.id} item={item} t={t} />
+              <SubItemCard key={item.id} item={item} t={t} groupId={cat.groupId ?? 0} locale={locale} />
             ))}
           </div>
         )}

@@ -21,6 +21,7 @@ export interface Category {
   id: string;
   code?: string;
   groupId?: number;
+  groupLogo?: string;
   label: string;
   emoji: string;
   gradient: string; // Tailwind bg-gradient-to-br classes
@@ -28,4 +29,3 @@ export interface Category {
   items: SubItem[];
   description?: string;
 }
-

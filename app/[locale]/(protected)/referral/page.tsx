@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-
-export const metadata: Metadata = { title: "แนะนำเพื่อน — Lotto" };
-
-/*
 import { headers } from "next/headers";
 import ReferralPage from "@/components/referral/ReferralPage";
 import { requireAuth } from "@/lib/session/auth";
+import { getApiToken, getLangCookie } from "@/lib/session/cookies";
+import { apiGet } from "@/lib/api/client";
+
+export const metadata: Metadata = { title: "แนะนำเพื่อน — Lotto" };
+
+interface Props {
+  params: Promise<{ locale: string }>;
+}
 
 interface ReferralItem {
   id: string;
@@ -20,42 +24,59 @@ interface ReferralItem {
 
 interface ReferralApiResponse {
   success: boolean;
+  summary?: {
+    referred_members?: number;
+    referral_code?: string;
+    referral_income?: number;
+    promotion_bonus_income?: number;
+    promotion_bonus_count?: number;
+  };
+  rule?: {
+    promotion_id?: string;
+    length_type?: string;
+    bonus_percent?: number;
+    bonus_price?: number;
+    display_value?: string;
+  };
+  referrals?: ReferralItem[];
   data?: {
-    referralCode: string;
-    referredCount: number;
-    totalEarned: number;
-    referrals: ReferralItem[];
+    summary?: ReferralApiResponse["summary"];
+    rule?: ReferralApiResponse["rule"];
+    referrals?: ReferralItem[];
   };
 }
 
-export default async function ReferralRoute() {
+export default async function ReferralRoute({ params }: Props) {
   const user = await requireAuth();
+  const { locale } = await params;
   const headersList = await headers();
   const host  = headersList.get("host") ?? "localhost:3000";
   const proto = host.startsWith("localhost") ? "http" : "https";
+  const [token, lang] = await Promise.all([getApiToken(), getLangCookie()]);
 
   let referralCode = user.referralCode ?? ("LT" + user.id.slice(0, 6).toUpperCase());
   let referredCount = 0;
   let totalEarned = 0;
+  let promotionBonusIncome = 0;
+  let promotionBonusCount = 0;
+  let rule: NonNullable<ReferralApiResponse["rule"]> | null = null;
   let referrals: ReferralItem[] = [];
 
   try {
-    const res = await fetch(`${proto}://${host}/api/referral`, {
-      method: "GET",
-      cache: "no-store",
-    });
-    if (res.ok) {
-      const data = (await res.json()) as ReferralApiResponse;
-      if (data.success && data.data) {
-        referralCode = data.data.referralCode || referralCode;
-        referredCount = data.data.referredCount ?? 0;
-        totalEarned = data.data.totalEarned ?? 0;
-        referrals = data.data.referrals ?? [];
-      }
-    }
+    const data = await apiGet<ReferralApiResponse>("/member/contributor", token ?? undefined, lang);
+    const summary = data.summary ?? data.data?.summary;
+    const ruleData = data.rule ?? data.data?.rule;
+    const referralRows = data.referrals ?? data.data?.referrals ?? [];
+    referralCode = summary?.referral_code || referralCode;
+    referredCount = Number(summary?.referred_members ?? 0);
+    totalEarned = Number(summary?.referral_income ?? 0);
+    promotionBonusIncome = Number(summary?.promotion_bonus_income ?? 0);
+    promotionBonusCount = Number(summary?.promotion_bonus_count ?? 0);
+    rule = ruleData ?? null;
+    referrals = referralRows;
   } catch {}
 
-  const referralLink = `${proto}://${host}/register?ref=${referralCode}`;
+  const referralLink = `${proto}://${host}/${locale}/register?ref=${encodeURIComponent(referralCode)}`;
 
   return (
     <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
@@ -65,20 +86,11 @@ export default async function ReferralRoute() {
         displayName={user.displayName ?? "สมาชิก"}
         referredCount={referredCount}
         totalEarned={totalEarned}
+        promotionBonusIncome={promotionBonusIncome}
+        promotionBonusCount={promotionBonusCount}
+        rule={rule}
         referrals={referrals}
       />
-    </div>
-  );
-}
-*/
-
-export default function ReferralRoute() {
-  return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8 flex items-center justify-center px-6">
-      <div className="text-center">
-        <p className="text-[56px] sm:text-[84px] font-extrabold text-ap-primary leading-none">Comming Soon</p>
-        <p className="text-[34px] sm:text-[52px] font-bold text-ap-tertiary mt-4 leading-tight">Wait for API</p>
-      </div>
     </div>
   );
 }

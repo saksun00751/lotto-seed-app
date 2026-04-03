@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import LastUpdated from "@/components/ui/LastUpdated";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { useLang } from "@/lib/i18n/context";
 
 interface BalanceData {
   balance:  number;
@@ -19,6 +21,7 @@ interface Props {
 
 export default function BalanceCard({ phone, displayName }: Props) {
   const t = useTranslation("dashboard");
+  const { lang } = useLang();
   const [data, setData]       = useState<BalanceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [spinning, setSpinning] = useState(false);
@@ -112,6 +115,18 @@ export default function BalanceCard({ phone, displayName }: Props) {
           <span className="text-white/70 text-[14px]">{t.referral} <span className="text-white font-bold">{loading ? "..." : (data?.downline ?? 0)}</span></span>
           <span className="text-white/70 text-[14px]">{t.thisMonth} <span className="text-white font-bold">{loading ? "..." : fmt(data?.winlost ?? 0)}</span></span>
         </div>
+      </div>
+
+      {/* ปุ่มเติมเงิน / ถอนเงิน */}
+      <div className="grid grid-cols-2 gap-3 px-4 py-4" style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}>
+        <Link href={`/${lang}/deposit`}
+          className="flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold text-[13px] py-2.5 rounded-2xl shadow-md hover:brightness-105 active:scale-[0.98] transition-all">
+          💰 {t.deposit}
+        </Link>
+        <Link href={`/${lang}/withdraw`}
+          className="flex items-center justify-center gap-2 bg-gradient-to-r from-rose-400 to-pink-500 text-white font-bold text-[13px] py-2.5 rounded-2xl shadow-md hover:brightness-105 active:scale-[0.98] transition-all">
+          💸 {t.withdraw}
+        </Link>
       </div>
     </div>
   );
