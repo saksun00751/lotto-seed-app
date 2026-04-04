@@ -92,6 +92,7 @@ export function mapMarketsToCategories(groups: ApiGroup[]): Category[] {
                         ? { top3: draw.result_top_3, bot2: draw.result_bottom_2 }
                         : undefined,
           drawStatus,
+          statusLabel: draw.status_label,
           drawDate:   formatDrawDate(draw.draw_date),
           drawId:     draw.draw_id,
           barClass:   meta.barClass,

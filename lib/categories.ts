@@ -10,6 +10,7 @@ export interface SubItem {
   countdown?: string;   // fallback สำหรับ hardcode data
   result?: { top3: string; bot2: string };
   drawStatus?: "resulted" | "open" | "closed" | "pending";
+  statusLabel?: string;
   drawDate?: string;
   drawId?: number;
   barClass: string;

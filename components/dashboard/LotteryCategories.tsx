@@ -8,14 +8,15 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLang } from "@/lib/i18n/context";
 import PackageModalButton from "@/components/bet/PackageModalButton";
 
-function StatusBadge({ status, t }: { status: SubItem["drawStatus"]; t: ReturnType<typeof useTranslation<"dashboard">> }) {
+function StatusBadge({ status, label }: { status: SubItem["drawStatus"]; label?: string }) {
+  const text = label?.trim() || "—";
   if (status === "open")
-    return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-emerald-500 text-white">{t.statusOpen}</span>;
+    return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-emerald-500 text-white">{text}</span>;
   if (status === "closed")
-    return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-gray-300 text-gray-600">{t.statusClosing}</span>;
+    return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-gray-300 text-gray-600">{text}</span>;
   if (status === "resulted")
-    return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-red-100 text-red-600">{t.statusPaid}</span>;
-  return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-orange-400 text-white">{t.statusPending}</span>;
+    return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-red-100 text-red-600">{text}</span>;
+  return <span className="inline-block rounded-full px-3 py-0.5 text-[11px] font-bold bg-orange-400 text-white">{text}</span>;
 }
 
 export default function LotteryCategories() {
@@ -95,7 +96,12 @@ export default function LotteryCategories() {
                   {item.logo
                     ? <img src={item.logo} alt={item.name} className="w-6 h-6 rounded-full object-cover flex-shrink-0" />
                     : <span className="text-[18px] flex-shrink-0">{item.flag}</span>}
-                  <span className="text-[12px] font-semibold text-ap-primary truncate">{item.name}</span>
+                  <div className="min-w-0">
+                    <span className="block text-[12px] font-semibold text-ap-primary truncate">{item.name}</span>
+                    <span className="block sm:hidden text-[10px] text-ap-secondary truncate">
+                      {t.colDraw} {item.drawDate ?? "—"}
+                    </span>
+                  </div>
                 </div>
                 <div className="hidden sm:block text-center text-[11px] text-ap-secondary tabular-nums">
                   {item.drawDate ?? "—"}
@@ -119,7 +125,7 @@ export default function LotteryCategories() {
                       closeAt={item.closeAt}
                     />
                   ) : (
-                    <StatusBadge status={item.drawStatus} t={t} />
+                    <StatusBadge status={item.drawStatus} label={item.statusLabel} />
                   )}
                 </div>
               </div>
