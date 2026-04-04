@@ -9,7 +9,8 @@ interface Props {
   bills:       BillRow[];
   lotteryName: string;
   totalAmount: number;
-  onConfirm:   () => Promise<{ ok: boolean; error?: string; message?: string }>;
+  onConfirm:   () => Promise<{ ok: boolean; error?: string; message?: string; response?: unknown }>;
+  onSuccess?:  () => void;
   onCancel:    () => void;
 }
 
@@ -32,6 +33,7 @@ export default function BetConfirmModal({
   lotteryName,
   totalAmount,
   onConfirm,
+  onSuccess,
   onCancel,
 }: Props) {
   const { lang } = useLang();
@@ -53,7 +55,10 @@ export default function BetConfirmModal({
     const result = await onConfirm();
     if (result.ok) {
       setSuccessMsg(result.message ?? t.saveSuccessDefault);
-      setTimeout(onCancel, 5300);
+      setTimeout(() => {
+        onSuccess?.();
+        onCancel();
+      }, 5300);
     } else {
       setError(result.message ?? result.error ?? t.errorUnknown);
       setShaking(true);

@@ -20,7 +20,8 @@ interface Props {
   totalAmount:   number;
   onDelete:      (id: string) => void;
   onClearAll:    () => void;
-  onConfirm:     () => Promise<{ ok: boolean; error?: string; message?: string }>;
+  onConfirm:     () => Promise<{ ok: boolean; error?: string; message?: string; response?: unknown }>;
+  onConfirmSuccess?: () => void;
 }
 
 type PayloadBetType = "top_3" | "tod_3" | "top_2" | "bottom_2" | "run_top" | "run_bottom";
@@ -121,6 +122,7 @@ export default function BetSlipSidebar({
   onDelete,
   onClearAll,
   onConfirm,
+  onConfirmSuccess,
 }: Props) {
   const { lang } = useLang();
   const t = useTranslation("bet");
@@ -153,7 +155,6 @@ export default function BetSlipSidebar({
   const handleConfirm = async () => {
     return onConfirm();
   };
-
   return (
     <>
     {showModal && (
@@ -162,6 +163,7 @@ export default function BetSlipSidebar({
         lotteryName={lotteryName}
         totalAmount={totalAmount}
         onConfirm={handleConfirm}
+        onSuccess={onConfirmSuccess}
         onCancel={() => setShowModal(false)}
       />
     )}
@@ -169,29 +171,29 @@ export default function BetSlipSidebar({
       <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border sticky top-4">
 
         {/* Header */}
-        <div className="px-4 py-3 border-b border-ap-border bg-gradient-to-r from-ap-blue to-sky-400">
+        <div className="px-4 py-3 border-b border-ap-border bg-white">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-[18px]">📋</span>
-              <span className="text-[15px] font-bold text-white">{t.slipTitle}</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[17px] leading-none">📋</span>
+              <span className="text-[15px] leading-none font-bold text-ap-primary">{t.slipTitle}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[12px] font-bold text-ap-blue bg-white px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-white bg-ap-blue px-2.5 py-0.5 rounded-full leading-none">
                 {bills.length} {t.items}
               </span>
               {bills.length > 0 && (
-                <button onClick={onClearAll} className="text-[12px] font-semibold text-white/90 hover:underline">
+                <button onClick={onClearAll} className="text-[13px] font-semibold text-ap-red hover:underline">
                   {t.clearAll}
                 </button>
               )}
             </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-1.5">
+          <div className="flex items-center gap-1.5 mt-2">
             {lotteryLogo
-              ? <img src={lotteryLogo} alt={lotteryName} className="w-5 h-5 rounded-full object-cover shrink-0" />
+              ? <img src={lotteryLogo} alt={lotteryName} className="w-4 h-4 rounded-full object-cover shrink-0" />
               : lotteryFlag ? <span className="text-[13px] shrink-0">{lotteryFlag}</span> : null
             }
-            <span className="text-[12px] text-white/85 font-medium">{lotteryName}</span>
+            <span className="text-[13px] text-ap-secondary font-medium">{lotteryName}</span>
           </div>
         </div>
 

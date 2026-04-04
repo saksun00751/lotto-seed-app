@@ -83,9 +83,10 @@ export default function LotteryLayoutPage({
   };
 
   const handleConfirm = async () => {
-    const result = await confirmBet(drawId, bills);
-    if (result.ok) setBills([]);
-    return result;
+    return confirmBet(drawId, selectedPackage?.id, bills);
+  };
+  const handleConfirmSuccess = () => {
+    setBills([]);
   };
 
   return (
@@ -206,6 +207,7 @@ export default function LotteryLayoutPage({
             onDelete={handleDelete}
             onClearAll={handleClearAll}
             onConfirm={handleConfirm}
+            onConfirmSuccess={handleConfirmSuccess}
           />
 
         </div>

@@ -5,7 +5,9 @@ import { requireAuth } from "@/lib/session/auth";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import type { BillRow, BetTypeId } from "@/components/bet/types";
 
-export type BetResult = { ok: true; message?: string } | { ok: false; error: string; message?: string };
+export type BetResult =
+  | { ok: true; message?: string; response?: unknown }
+  | { ok: false; error: string; message?: string; response?: unknown };
 
 interface BetItemPayload {
   bet_type: "top_3" | "tod_3" | "top_2" | "bottom_2" | "run_top" | "run_bottom";
@@ -68,7 +70,11 @@ function mapBillsToItems(bills: BillRow[]): BetItemPayload[] {
   });
 }
 
-export async function confirmBet(drawId: number | null | undefined, bills: BillRow[]): Promise<BetResult> {
+export async function confirmBet(
+  drawId: number | null | undefined,
+  packageId: number | null | undefined,
+  bills: BillRow[],
+): Promise<BetResult> {
   if (!bills.length) return { ok: false, error: "ไม่มีรายการแทง" };
   if (!drawId) return { ok: false, error: "ไม่พบงวดหวยสำหรับการบันทึกโพย" };
 
@@ -85,17 +91,27 @@ export async function confirmBet(drawId: number | null | undefined, bills: BillR
       "/lotto/bet",
       {
         draw_id: drawId,
+        package_id: packageId ?? null,
         items,
       },
       token,
       lang,
     );
     const message = typeof res?.message === "string" ? res.message : undefined;
-    return { ok: true, message };
+    return { ok: true, message, response: res };
   } catch (err) {
     if (err instanceof ApiError) {
-      return { ok: false, error: err.message, message: err.message };
+      return {
+        ok: false,
+        error: err.message,
+        message: err.message,
+        response: err.payload ?? { success: false, message: err.message },
+      };
     }
-    return { ok: false, error: "เกิดข้อผิดพลาด กรุณาลองใหม่" };
+    return {
+      ok: false,
+      error: "เกิดข้อผิดพลาด กรุณาลองใหม่",
+      response: { success: false, message: "เกิดข้อผิดพลาด กรุณาลองใหม่" },
+    };
   }
 }
