@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
-import { apiPost } from "@/lib/api/client";
+import { apiPost, ApiError } from "@/lib/api/client";
 
 export async function POST(
   req: Request,
@@ -14,6 +14,11 @@ export async function POST(
   const { groupId } = await params;
   const lang = await getLangCookie();
   const body = await req.json();
-  const data = await apiPost(`/lotto/groups/${groupId}/select-package`, body, apiToken, lang);
-  return NextResponse.json(data);
+  try {
+    const data = await apiPost(`/lotto/groups/${groupId}/select-package`, body, apiToken, lang);
+    return NextResponse.json(data);
+  } catch (e) {
+    const msg = e instanceof ApiError ? e.message : "เลือก Package ไม่สำเร็จ";
+    return NextResponse.json({ success: false, message: msg }, { status: 500 });
+  }
 }

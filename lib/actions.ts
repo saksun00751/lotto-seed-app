@@ -40,23 +40,41 @@ function parseRegisterFieldErrorsFromApi(payload: unknown): RegisterFieldErrors 
   const out: RegisterFieldErrors = {};
   if (!payload || typeof payload !== "object") return out;
 
-  const rawErrors = (payload as { errors?: Record<string, unknown> }).errors;
-  if (!rawErrors || typeof rawErrors !== "object") return out;
-
-  const pick = (k: string): string | undefined => {
-    const v = rawErrors[k];
-    if (Array.isArray(v)) return typeof v[0] === "string" ? v[0] : undefined;
-    if (typeof v === "string") return v;
-    return undefined;
+  const p = payload as {
+    errors?:           Record<string, unknown>;
+    details?:          Record<string, { messages?: string[] }>;
+    duplicate_fields?: string[];
   };
 
-  out.user_name = pick("user_name");
-  out.password = pick("password");
-  out.confirmPassword = pick("password_confirm") ?? pick("confirmPassword");
-  out.firstname = pick("firstname");
-  out.lastname = pick("lastname");
-  out.bank = pick("bank");
-  out.acc_no = pick("acc_no");
+  // ── 1. Parse from `errors` field ────────────────────────────────────────────
+  const rawErrors = p.errors;
+  if (rawErrors && typeof rawErrors === "object") {
+    const pick = (k: string): string | undefined => {
+      const v = rawErrors[k];
+      if (Array.isArray(v)) return typeof v[0] === "string" ? v[0] : undefined;
+      if (typeof v === "string") return v;
+      return undefined;
+    };
+    out.user_name      = pick("user_name");
+    out.password       = pick("password");
+    out.confirmPassword = pick("password_confirm") ?? pick("confirmPassword");
+    out.firstname      = pick("firstname") ?? pick("name");
+    out.lastname       = pick("lastname");
+    out.bank           = pick("bank");
+    out.acc_no         = pick("acc_no");
+  }
+
+  // ── 2. Fallback: parse from `details` field ──────────────────────────────────
+  if (p.details && typeof p.details === "object") {
+    const pickDetail = (k: string): string | undefined =>
+      p.details![k]?.messages?.[0];
+    if (!out.user_name)  out.user_name  = pickDetail("user_name");
+    if (!out.password)   out.password   = pickDetail("password");
+    if (!out.firstname)  out.firstname  = pickDetail("firstname") ?? pickDetail("name");
+    if (!out.lastname)   out.lastname   = pickDetail("lastname");
+    if (!out.bank)       out.bank       = pickDetail("bank");
+    if (!out.acc_no)     out.acc_no     = pickDetail("acc_no");
+  }
 
   return out;
 }
@@ -180,37 +198,51 @@ export async function registerAction(
   if (Object.keys(fieldErrors).length) return { fieldErrors };
 
   // ── Register ───────────────────────────────────────────────────────────────
+  function safeMsg(msg: string | undefined, fallback: string): string {
+    if (!msg) return fallback;
+    // Guard against raw JSON leaking into the UI
+    const trimmed = msg.trim();
+    if (trimmed.startsWith("{") || trimmed.startsWith("[")) return fallback;
+    return msg;
+  }
+
+  const registerPayload = {
+    user_name: phone,
+    password,
+    password_confirm: confirmPassword,
+    name: `${firstname} ${lastname}`.trim(),
+    acc_no: accNo,
+    bank,
+    refer: 1,
+    ...(referRaw ? { referral_code: referRaw } : {}),
+  };
   try {
-    await apiPost("/auth/register", {
-      user_name: phone,
-      tel: phone,
-      wallet_id: phone,
-      password,
-      password_confirm: confirmPassword,
-      firstname, lastname, acc_no: accNo, bank: String(bank), refer: referRaw,
-    }, undefined, lang);
+    await apiPost("/auth/register", registerPayload, undefined, lang);
   } catch (e) {
     if (e instanceof ApiError) {
       const payloadFieldErrors = parseRegisterFieldErrorsFromApi(e.payload);
+
+      // Check duplicate_fields from API for known conflict cases
+      const duplicateFields: string[] =
+        (e.payload as Record<string, unknown>)?.duplicate_fields as string[] ?? [];
+      if (duplicateFields.includes("user_name") && !payloadFieldErrors.user_name)
+        payloadFieldErrors.user_name = t.errPhoneExists;
+      if (duplicateFields.includes("acc_no") && !payloadFieldErrors.acc_no)
+        payloadFieldErrors.acc_no =
+          (t as Record<string, string>).errAccNoDuplicate ?? "เลขบัญชีนี้ถูกใช้งานแล้วในธนาคารที่เลือก";
+
       if (Object.values(payloadFieldErrors).some(Boolean)) {
         return {
-          error: e.message ?? "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่",
+          error: safeMsg(e.message, "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่"),
           fieldErrors: payloadFieldErrors,
         };
       }
+
       const msg = (e.message ?? "").toLowerCase();
       if (e.status === 409 || msg.includes("exist"))
         return { fieldErrors: { user_name: t.errPhoneExists } };
-      if (
-        msg.includes("acc_no") ||
-        msg.includes("account") ||
-        msg.includes("บัญชี") ||
-        msg.includes("duplicate") ||
-        msg.includes("ซ้ำ")
-      ) {
-        return { fieldErrors: { acc_no: (t as Record<string, string>).errAccNoDuplicate ?? "เลขบัญชีนี้ถูกใช้งานแล้วในธนาคารที่เลือก" } };
-      }
-      return { error: e.message ?? "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่" };
+
+      return { error: safeMsg(e.message, "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่") };
     }
     return { error: "ไม่สามารถเชื่อมต่อระบบได้ กรุณาลองใหม่" };
   }

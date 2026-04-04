@@ -45,7 +45,24 @@ async function parseResponse<T>(res: Response, token?: string, lang?: string): P
     try {
       const err = await res.json();
       payload = err;
-      message = err.message ?? err.error ?? message;
+      let raw: unknown = err.message ?? err.error ?? message;
+      // If the message itself is a JSON string, try to unwrap it
+      if (typeof raw === "string") {
+        try {
+          const nested = JSON.parse(raw);
+          if (nested && typeof nested === "object") {
+            raw = (nested as Record<string, unknown>).message
+              ?? (nested as Record<string, unknown>).error
+              ?? message;
+            // Also merge nested errors into payload so field parsing works
+            if (!payload || typeof payload !== "object") payload = nested;
+            else if (!(payload as Record<string, unknown>).errors && (nested as Record<string, unknown>).errors) {
+              (payload as Record<string, unknown>).errors = (nested as Record<string, unknown>).errors;
+            }
+          }
+        } catch {}
+      }
+      message = typeof raw === "string" ? raw : String(raw ?? message);
     } catch {}
     emitApiError(message, res.status);
     throw new ApiError(res.status, message, payload);

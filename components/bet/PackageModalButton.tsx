@@ -105,7 +105,11 @@ export default function PackageModalButton({
       });
       const json = await res.json();
       if (!json?.success) {
-        setToastMsg({ text: json?.message ?? toastFetchError, type: "error" });
+        const rawMsg = typeof json?.message === "string" ? json.message.trim() : "";
+        const displayMsg = rawMsg && !rawMsg.startsWith("{") && !rawMsg.startsWith("[")
+          ? rawMsg
+          : toastFetchError;
+        setToastMsg({ text: displayMsg, type: "error" });
         return;
       }
     } catch {

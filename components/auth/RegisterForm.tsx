@@ -310,7 +310,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
           <Input
             label={<>{t.password}{reqText}</>} name="password" type={showPw ? "text" : "password"}
             placeholder={t.passwordPlaceholder} autoComplete="new-password"
-            value={password} onChange={(e) => setPassword(e.target.value)}
+            value={password} onChange={(e) => setPassword(e.target.value.slice(0, 10))}
             error={state.fieldErrors?.password}
             leftEl={<LockIcon />}
             rightEl={
@@ -327,7 +327,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
         <Input
           label={<>{t.confirmPassword}{reqText}</>} name="confirmPassword" type={showConfirm ? "text" : "password"}
           placeholder={t.confirmPlaceholder} autoComplete="new-password"
-          value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+          value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value.slice(0, 10))}
           error={state.fieldErrors?.confirmPassword || (confirmMismatch ? t.confirmMismatch : undefined)}
           leftEl={<ShieldIcon />}
           rightEl={
