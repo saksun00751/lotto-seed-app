@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useActionState } from "react";
+import { useState, useActionState, useRef, useEffect } from "react";
 import { useLang } from "@/lib/i18n/context";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { withdrawAction } from "@/lib/actions";
 import type { WithdrawState } from "@/types/auth";
+import Toast from "@/components/ui/Toast";
 
 function t1(str: string, n: string | number) {
   return str.replace("{n}", String(n));
@@ -97,8 +98,15 @@ export default function WithdrawPage({
 }: Props) {
   const { lang } = useLang();
   const tw = useTranslation("withdraw");
-  const [amount, setAmount] = useState("");
-  const [state, action, pending] = useActionState<WithdrawState, FormData>(withdrawAction, {});
+  const [amount, setAmount]           = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [toast, setToast]             = useState<{ msg: string; type: "error" | "success" | "warning" } | null>(null);
+  const [state, action, pending]      = useActionState<WithdrawState, FormData>(withdrawAction, {});
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state.error) setToast({ msg: state.error, type: "error" });
+  }, [state.error]);
 
   const amountNum  = parseFloat(amount) || 0;
   const maxAllowed = Math.min(withdrawMax, balance, withdrawRemainToday);
@@ -166,6 +174,10 @@ export default function WithdrawPage({
   return (
     <div className="max-w-5xl mx-auto px-5 pt-6">
 
+      {toast && (
+        <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />
+      )}
+
       {/* System notice */}
       {notice && (
         <div className="mb-4 bg-yellow-50 border border-yellow-200 rounded-2xl px-4 py-3 text-[13px] text-yellow-800 font-medium">
@@ -209,8 +221,58 @@ export default function WithdrawPage({
         )}
       </div>
 
+      {/* Confirm modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4" onClick={() => setShowConfirm(false)}>
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+          <div className="relative bg-white rounded-3xl shadow-xl w-full max-w-sm p-6 animate-fade-up" onClick={(e) => e.stopPropagation()}>
+            <div className="w-14 h-14 rounded-full bg-ap-red/10 flex items-center justify-center mx-auto mb-4">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3 className="text-[18px] font-bold text-ap-primary text-center mb-1">{tw.confirmTitle}</h3>
+            <p className="text-[12px] text-ap-tertiary text-center mb-5">{tw.confirmDesc}</p>
+
+            <div className="bg-ap-bg rounded-2xl p-4 space-y-3 mb-5">
+              {[
+                { label: tw.rowAmount, value: `฿${fmt(amountNum)}`, highlight: true },
+                { label: tw.rowBank,   value: bankName ?? "-" },
+                { label: tw.rowAccNo,  value: bankAccount ? maskAccount(bankAccount) : "-" },
+                { label: tw.rowName,   value: displayName },
+              ].map((row) => (
+                <div key={row.label} className="flex items-center justify-between">
+                  <span className="text-[12px] text-ap-secondary">{row.label}</span>
+                  <span className={`text-[13px] font-bold ${row.highlight ? "text-ap-red" : "text-ap-primary"}`}>
+                    {row.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setShowConfirm(false)}
+                className="flex-1 py-3 rounded-full border border-ap-border text-[14px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors"
+              >
+                {tw.confirmCancel}
+              </button>
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() => { setShowConfirm(false); formRef.current?.requestSubmit(); }}
+                className="flex-1 py-3 rounded-full bg-ap-red text-white text-[14px] font-bold hover:opacity-90 transition-all disabled:opacity-50 active:scale-[0.99]"
+              >
+                {pending ? tw.btnProcessing : tw.confirmOk}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Form card */}
-      <form action={action}>
+      <form ref={formRef} action={action}>
       <input type="hidden" name="amount" value={amount} />
       <div className="bg-white rounded-3xl border border-ap-border shadow-card p-5 space-y-5">
         <h2 className="text-[17px] font-bold text-ap-primary">{tw.enterAmount}</h2>
@@ -225,6 +287,7 @@ export default function WithdrawPage({
             return (
               <button
                 key={q.label}
+                type="button"
                 onClick={() => setAmount(String(q.value))}
                 className={[
                   "py-2.5 rounded-xl text-[13px] font-bold border-2 transition-all active:scale-95",
@@ -274,15 +337,11 @@ export default function WithdrawPage({
           </div>
         )}
 
-        {/* Submit error */}
-        {state.error && (
-          <p className="text-[12px] text-ap-red font-medium text-center">{state.error}</p>
-        )}
-
         {/* Submit */}
         <button
-          type="submit"
+          type="button"
           disabled={!isValid || pending}
+          onClick={() => setShowConfirm(true)}
           className="w-full py-3.5 rounded-full bg-ap-red text-white text-[15px] font-semibold hover:opacity-90 transition-all disabled:opacity-40 active:scale-[0.99]"
         >
           {pending         ? tw.btnProcessing
