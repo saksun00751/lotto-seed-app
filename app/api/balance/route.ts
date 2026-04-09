@@ -9,7 +9,12 @@ export async function GET() {
   if (!token) return NextResponse.json({ success: false }, { status: 401 });
 
   try {
-    const data = await apiGet("/member/loadbalance", token, lang);
+    let data: unknown;
+    try {
+      data = await apiGet("/member/balance", token, lang);
+    } catch {
+      data = await apiGet("/member/loadbalance", token, lang);
+    }
     return NextResponse.json(data);
   } catch (e) {
     const msg = e instanceof Error ? e.message : "error";

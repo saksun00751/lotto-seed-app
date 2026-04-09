@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import LastUpdated from "@/components/ui/LastUpdated";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLang } from "@/lib/i18n/context";
+import { useUser, useUserRealtime } from "@/components/providers/UserProvider";
 
 interface BalanceData {
   balance:  number;
@@ -22,16 +23,18 @@ interface Props {
 export default function BalanceCard({ phone, displayName }: Props) {
   const t = useTranslation("dashboard");
   const { lang } = useLang();
+  const user = useUser();
+  const realtime = useUserRealtime();
   const [data, setData]       = useState<BalanceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [spinning, setSpinning] = useState(false);
 
-  const fetchBalance = useCallback(async () => {
+  async function fetchBalance() {
     try {
-      const res = await fetch("/api/balance");
+      const res = await fetch("/api/balance", { cache: "no-store", credentials: "same-origin" });
       const json = await res.json();
-      if (json?.success !== false && json?.profile) {
-        const p = json.profile;
+      const p = json?.profile ?? json?.data ?? null;
+      if (json?.success !== false && p) {
         setData({
           balance:  parseFloat(p.balance  ?? "0") || 0,
           diamond:  Number(p.diamond ?? 0),
@@ -42,18 +45,31 @@ export default function BalanceCard({ phone, displayName }: Props) {
       }
     } catch {}
     finally { setLoading(false); }
-  }, []);
+  }
 
-  useEffect(() => { fetchBalance(); }, [fetchBalance]);
+  useEffect(() => { void fetchBalance(); }, []);
+  useEffect(() => {
+    if (!user) return;
+    setData((prev) => ({
+      balance: user.balance,
+      diamond: user.diamond,
+      cashback: prev?.cashback ?? 0,
+      downline: prev?.downline ?? 0,
+      winlost: prev?.winlost ?? 0,
+    }));
+  }, [user]);
 
   async function handleRefresh() {
     if (spinning) return;
     setSpinning(true);
+    await realtime?.refreshBalance();
     await fetchBalance();
     setTimeout(() => setSpinning(false), 800);
   }
 
   const fmt = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const livePhone = user?.phone ?? phone;
+  const liveDisplayName = user?.displayName ?? displayName;
 
   return (
     <div className="bg-ap-blue rounded-3xl overflow-hidden relative">
@@ -69,10 +85,10 @@ export default function BalanceCard({ phone, displayName }: Props) {
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2.5 flex-1 min-w-0">
           <div className="bg-white/15 rounded-full px-3 py-1 self-start">
-            <span className="text-white font-bold text-[18px] tracking-wider tabular-nums">{phone}</span>
+            <span className="text-white font-bold text-[18px] tracking-wider tabular-nums">{livePhone}</span>
           </div>
-          {displayName && (
-            <h3 className="sm:ml-auto text-white font-bold text-[18px] truncate">{displayName}</h3>
+          {liveDisplayName && (
+            <h3 className="sm:ml-auto text-white font-bold text-[18px] truncate">{liveDisplayName}</h3>
           )}
         </div>
       </div>

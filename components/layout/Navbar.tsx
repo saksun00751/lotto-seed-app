@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { logoutAction } from "@/lib/actions";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLang, type LangCode } from "@/lib/i18n/context";
+import { useUser } from "@/components/providers/UserProvider";
 
 const LANGS: { code: LangCode; flag: string; label: string }[] = [
   { code: "th", flag: "🇹🇭", label: "ไทย" },
@@ -25,6 +26,7 @@ interface NavbarProps {
 
 export default function Navbar({ logoUrl, balance, diamond, userName, userPhone }: NavbarProps) {
   const pathname = usePathname();
+  const user = useUser();
   const [profileOpen, setProfileOpen] = useState(false);
   const [langModalOpen, setLangModalOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
@@ -69,7 +71,11 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
     { icon: "🎟️", label: t.coupon,         href: `/${lang}/coupon` },
   ];
 
-  const initials = userName ? userName.slice(0, 1).toUpperCase() : "U";
+  const liveBalance = user?.balance ?? balance;
+  const liveDiamond = user?.diamond ?? diamond;
+  const liveUserName = user?.displayName ?? userName;
+  const liveUserPhone = user?.phone ?? userPhone;
+  const initials = liveUserName ? liveUserName.slice(0, 1).toUpperCase() : "U";
 
   return (
     <>
@@ -112,8 +118,8 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
             <Link href={`/${lang}/deposit`}
               className="flex items-center gap-1.5 bg-ap-bg border border-ap-border rounded-full px-2.5 sm:px-3 py-1.5 hover:border-ap-blue/30 transition-colors">
               <span className="text-[13px]">💰</span>
-              <span className="text-[12px] sm:text-[13px] font-semibold text-ap-primary tabular-nums">
-                ฿{balance.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                <span className="text-[12px] sm:text-[13px] font-semibold text-ap-primary tabular-nums">
+                ฿{liveBalance.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </Link>
 
@@ -152,20 +158,20 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
                         {initials}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-[14px] font-semibold text-ap-primary truncate">{userName}</p>
-                        {userPhone && <p className="text-[12px] text-ap-tertiary">{userPhone}</p>}
+                        <p className="text-[14px] font-semibold text-ap-primary truncate">{liveUserName}</p>
+                        {liveUserPhone && <p className="text-[12px] text-ap-tertiary">{liveUserPhone}</p>}
                       </div>
                     </div>
                     <div className="mt-3 grid grid-cols-2 gap-2">
                       <div className="flex flex-col items-center bg-white rounded-xl px-3 py-2 border border-ap-border">
                         <span className="text-[11px] text-ap-tertiary">{t.balance}</span>
                         <span className="text-[13px] font-bold text-ap-blue tabular-nums">
-                          ฿{balance.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          ฿{liveBalance.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </span>
                       </div>
                       <div className="flex flex-col items-center bg-blue-50 rounded-xl px-3 py-2 border border-blue-100">
                         <span className="text-[11px] text-ap-tertiary">Diamond</span>
-                        <span className="text-[13px] font-bold text-ap-blue tabular-nums">💎 {diamond}</span>
+                        <span className="text-[13px] font-bold text-ap-blue tabular-nums">💎 {liveDiamond}</span>
                       </div>
                     </div>
                   </div>

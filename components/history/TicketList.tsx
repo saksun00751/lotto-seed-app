@@ -40,6 +40,10 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
     pending:   t.statusPending,
     cancelled: t.statusCancelled,
   };
+
+  const fmtMoney = (value: number) =>
+    value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   return (
     <div className="divide-y divide-ap-border">
       {tickets.map((ticket) => {
@@ -47,6 +51,11 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
           ? ticket.market_logo
           : `${API_BASE}${ticket.market_logo}`;
         const isLoading = loading === String(ticket.id);
+        const totalBill = Number(ticket.total_net_amount || ticket.total_amount);
+        const totalWin = Number(ticket.total_win_amount || 0);
+        const statusLabel = ticket.status === "won" && totalWin > 0
+          ? `${STATUS_LABEL[ticket.status] ?? ticket.status} (+${fmtMoney(totalWin)})`
+          : (STATUS_LABEL[ticket.status] ?? ticket.status);
 
         const [datePart, timePart] = ticket.created_at.split(" ");
 
@@ -71,7 +80,7 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
               <div className="flex items-center gap-2 mb-0.5">
                 <span className="text-[14px] font-bold text-ap-primary truncate">{ticket.market_name}</span>
                 <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-ap-bg text-ap-secondary"}`}>
-                  {STATUS_LABEL[ticket.status] ?? ticket.status}
+                  {statusLabel}
                 </span>
               </div>
                 <p className="text-[11px] text-ap-secondary">
@@ -85,15 +94,9 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
 
             {/* Amount */}
             <div className="text-right shrink-0">
-              {ticket.status === "won" && ticket.total_win_amount ? (
-                <p className="text-[16px] font-extrabold text-green-700 tabular-nums">
-                  + ฿{Number(ticket.total_win_amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-              ) : (
-                <p className="text-[15px] font-bold text-ap-primary tabular-nums">
-                  ฿{Number(ticket.total_net_amount || ticket.total_amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-              )}
+              <p className="text-[15px] font-bold text-ap-primary tabular-nums">
+                ฿{fmtMoney(totalBill)}
+              </p>
             </div>
             <div className="shrink-0 ml-1">
               {isLoading ? (
