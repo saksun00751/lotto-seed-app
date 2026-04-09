@@ -197,6 +197,8 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
           return;
         }
         expanded = permutations(next);
+      } else if (betType === "19door") {
+        expanded = nineteenDoor(next);
       } else {
         expanded = [next];
       }
