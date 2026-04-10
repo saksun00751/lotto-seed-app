@@ -2,10 +2,7 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'service.huayinter88.com',
-      },
+   
       {
         protocol: 'https',
         hostname: 'api.huayinter88.com',
