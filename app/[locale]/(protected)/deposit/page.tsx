@@ -13,9 +13,16 @@ interface LoadBalanceProfile {
   balance: string;
 }
 
+interface LoadBalancePromotion {
+  select: boolean;
+  name: string;
+  min: string;
+}
+
 interface LoadBalanceResponse {
   success: boolean;
   profile: LoadBalanceProfile;
+  promotion?: LoadBalancePromotion | null;
 }
 
 interface ApiBankItem {
@@ -34,9 +41,11 @@ export default async function DepositRoute() {
   const [token, lang] = await Promise.all([getApiToken(), getLangCookie()]);
 
   let profile: LoadBalanceProfile | null = null;
+  let selectedPromotion: LoadBalancePromotion | null = null;
   try {
     const res = await apiGet<LoadBalanceResponse>("/member/loadbalance", token ?? undefined, lang);
     profile = res.profile;
+    selectedPromotion = res.promotion ?? null;
   } catch {}
 
   let bankName: string | null = null;
@@ -54,6 +63,7 @@ export default async function DepositRoute() {
         bankName={bankName}
         bankAccount={profile?.acc_no ?? null}
         balance={parseFloat(profile?.balance ?? "0")}
+        selectedPromotion={selectedPromotion?.select ? selectedPromotion : null}
       />
     </div>
   );

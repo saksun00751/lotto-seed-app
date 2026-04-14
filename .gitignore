@@ -19,3 +19,5 @@ npm-debug.log*
 .DS_Store
 .vscode/
 *.swp
+
+next.config.js
