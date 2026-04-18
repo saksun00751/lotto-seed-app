@@ -43,11 +43,11 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
   }, [profileOpen]);
 
   const navLinks = [
-    { href: `/${lang}/dashboard`,    label: t.home,   icon: "🏠" },
-    { href: `/${lang}/games/slot`,   label: t.slot,   icon: "🎰" },
-    { href: `/${lang}/games/casino`, label: t.casino, icon: "🃏" },
-    { href: `/${lang}/games/sport`,  label: t.sport,  icon: "⚽" },
-    { href: `/${lang}/bet`,          label: t.lotto,  icon: "🎱" },
+    { href: `/${lang}/dashboard`, label: t.home,    icon: "🏠" },
+    { href: `/${lang}/withdraw`,  label: t.withdraw, icon: "💸" },
+    { href: `/${lang}/bet`,       label: t.play,    icon: "🎯" },
+    { href: `/${lang}/history`,   label: t.history, icon: "📋" },
+    { href: `/${lang}/contact`,   label: t.contact,  icon: "💬" },
   ];
 
   const desktopNavLinks = [
@@ -260,16 +260,27 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone 
         <div className="grid w-full" style={{ gridTemplateColumns: `repeat(${navLinks.length}, 1fr)` }}>
           {navLinks.map((l) => {
             const active = pathname === l.href || pathname.startsWith(l.href + "/");
+            const isPlay = l.href === `/${lang}/bet`;
             return (
               <Link key={l.href} href={l.href}
                 className={[
-                  "flex flex-col items-center justify-center gap-0.5 min-w-0 transition-all active:scale-95 py-1.5",
-                  active ? "text-ap-blue" : "text-ap-tertiary",
+                  "flex flex-col items-center justify-center gap-0.5 min-w-0 transition-all active:scale-95",
+                  isPlay
+                    ? [
+                        "relative -mt-4 mb-1 mx-1 rounded-2xl py-2 shadow-lg border",
+                        active
+                          ? "bg-ap-blue text-white border-ap-blue"
+                          : "bg-ap-blue text-white border-ap-blue/70 hover:bg-ap-blue-h",
+                      ].join(" ")
+                    : [
+                        "py-1.5",
+                        active ? "text-ap-blue" : "text-ap-tertiary",
+                      ].join(" "),
                 ].join(" ")}>
-                <span className="leading-none text-[26px]">{l.icon}</span>
+                <span className={["leading-none", isPlay ? "text-[24px]" : "text-[22px]"].join(" ")}>{l.icon}</span>
                 <span className={[
-                  "text-[12px] truncate w-full text-center px-0.5 leading-tight",
-                  active ? "font-bold" : "font-medium",
+                  "text-[10px] truncate w-full text-center px-0.5 leading-tight",
+                  isPlay ? "font-bold" : active ? "font-bold" : "font-medium",
                 ].join(" ")}>
                   {l.label}
                 </span>

@@ -2,7 +2,6 @@ import { requireAuth } from "@/lib/session/auth";
 import { getApiToken } from "@/lib/session/cookies";
 import UserProvider from "@/components/providers/UserProvider";
 import Navbar from "@/components/layout/Navbar";
-import ContactFab from "@/components/layout/ContactFab";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 
 export default async function ProtectedLayout({
@@ -26,7 +25,6 @@ export default async function ProtectedLayout({
         userPhone={user.phone}
       />
       {children}
-      <ContactFab />
     </UserProvider>
   );
 }
