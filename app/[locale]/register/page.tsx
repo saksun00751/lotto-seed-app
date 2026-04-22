@@ -5,12 +5,16 @@ import type { BankOption } from "@/components/auth/RegisterForm";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 import { getBanks } from "@/lib/api/banks";
 import { getRegisterClientVariant } from "@/lib/config/register";
-
-export const metadata: Metadata = { title: "สมัครสมาชิก — Lotto" };
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
 interface Props {
   params?: Promise<{ locale: string }>;
   searchParams?: Promise<{ ref?: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = (await params)?.locale ?? "th";
+  return { title: await getPageMetaTitle(locale, "register") };
 }
 
 export default async function RegisterPage({ params, searchParams }: Props) {

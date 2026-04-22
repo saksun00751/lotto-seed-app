@@ -302,8 +302,8 @@ function CheckResultModal({
           <div className="w-10 h-1 bg-ap-border rounded-full mx-auto mb-4 sm:hidden" />
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-[15px] font-bold text-ap-primary">{draw.market_name}</h2>
-              <p className="text-[12px] text-ap-tertiary mt-0.5">{t.modalSubtitle}</p>
+              <h2 className="text-[18px] font-bold text-ap-primary">{draw.market_name}</h2>
+              <p className="text-[14px] font-semibold text-ap-tertiary mt-0.5">{t.modalSubtitle}</p>
             </div>
             <button
               onClick={onClose}
@@ -323,8 +323,8 @@ function CheckResultModal({
               { label: t.col2bot,  value: draw.result_bottom_2, bg: "bg-emerald-500 text-white" },
             ].map((r) => (
               <div key={r.label} className={`${r.bg} rounded-2xl py-3 text-center`}>
-                <p className="text-[22px] font-bold tabular-nums tracking-wider">{r.value || "—"}</p>
-                <p className="text-[10px] font-medium opacity-80 mt-0.5">{r.label}</p>
+                <p className="text-[26px] font-bold tabular-nums tracking-wider">{r.value || "—"}</p>
+                <p className="text-[13px] font-bold opacity-90 mt-0.5">{r.label}</p>
               </div>
             ))}
           </div>
@@ -335,8 +335,8 @@ function CheckResultModal({
           {matching.length === 0 ? (
             <div className="py-12 text-center">
               <p className="text-[32px] mb-3">📋</p>
-              <p className="text-[14px] font-semibold text-ap-primary">{t.noSlip}</p>
-              <p className="text-[12px] text-ap-tertiary mt-1">{t.noSlipDesc}</p>
+              <p className="text-[16px] font-bold text-ap-primary">{t.noSlip}</p>
+              <p className="text-[14px] font-semibold text-ap-tertiary mt-1">{t.noSlipDesc}</p>
             </div>
           ) : (
             <div className="divide-y divide-ap-border">
@@ -355,15 +355,15 @@ function CheckResultModal({
                       className="w-full text-left px-5 py-3.5 hover:bg-ap-bg/60 transition-colors flex items-center gap-3"
                     >
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-0.5">
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-ap-bg text-ap-secondary"}`}>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-ap-bg text-ap-secondary"}`}>
                             {statusLabel(ticket.status, t)}
                           </span>
-                          <span className="text-[11px] text-ap-tertiary font-mono">#{ticket.id}</span>
+                          <span className="text-[13px] font-bold text-ap-tertiary font-mono">#{ticket.id}</span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-[12px] text-ap-secondary">{t.betAmount}</span>
-                          <span className="text-[13px] font-bold text-ap-primary tabular-nums">
+                          <span className="text-[14px] font-semibold text-ap-secondary">{t.betAmount}</span>
+                          <span className="text-[15px] font-bold text-ap-primary tabular-nums">
                             ฿{ticket.total_amount.toLocaleString("th-TH")}
                           </span>
                         </div>
@@ -383,7 +383,7 @@ function CheckResultModal({
                     {isOpen && detail && (
                       <div className="bg-ap-bg/60 border-t border-ap-border">
                         {/* Column headers */}
-                        <div className="grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2 text-[10px] font-semibold text-ap-tertiary uppercase tracking-wide">
+                        <div className="grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2 text-[12px] font-bold text-ap-tertiary uppercase tracking-wide">
                           <span>{t.colNumber}</span>
                           <span className="text-right">{t.colAmount}</span>
                           <span className="text-right">{t.colResult}</span>
@@ -403,23 +403,23 @@ function CheckResultModal({
                               ].join(" ")}
                             >
                               <div>
-                                <span className="text-[16px] font-bold text-ap-primary tabular-nums tracking-widest">
+                                <span className="text-[18px] font-bold text-ap-primary tabular-nums tracking-widest">
                                   {item.number}
                                 </span>
-                                <span className="text-[10px] text-ap-tertiary ml-1.5">{item.betTypeLabel}</span>
+                                <span className="text-[12px] font-semibold text-ap-tertiary ml-1.5">{item.betTypeLabel}</span>
                               </div>
-                              <span className="text-[12px] text-ap-secondary text-right tabular-nums">
+                              <span className="text-[14px] font-semibold text-ap-secondary text-right tabular-nums">
                                 ฿{item.amount.toLocaleString("th-TH")}
                               </span>
                               <div className="flex justify-end">
                                 {won === true && (
-                                  <span className="text-[10px] font-bold bg-ap-green text-white px-2 py-0.5 rounded-full">{t.won}</span>
+                                  <span className="text-[12px] font-bold bg-ap-green text-white px-2 py-0.5 rounded-full">{t.won}</span>
                                 )}
                                 {won === false && (
-                                  <span className="text-[10px] font-bold bg-ap-red/10 text-ap-red px-2 py-0.5 rounded-full">{t.lost}</span>
+                                  <span className="text-[12px] font-bold bg-ap-red/10 text-ap-red px-2 py-0.5 rounded-full">{t.lost}</span>
                                 )}
                                 {won === null && (
-                                  <span className="text-[10px] text-ap-tertiary">—</span>
+                                  <span className="text-[14px] font-semibold text-ap-tertiary">—</span>
                                 )}
                               </div>
                             </div>
@@ -479,8 +479,8 @@ export default function CheckResultPage({ groups, tickets }: Props) {
 
       {/* Header */}
       <div>
-        <h1 className="text-[20px] font-bold text-ap-primary tracking-tight">🏆 {t.title}</h1>
-        <p className="text-[13px] text-ap-secondary mt-0.5">{t.subtitle}</p>
+        <h1 className="text-[24px] font-bold text-ap-primary tracking-tight">🏆 {t.title}</h1>
+        <p className="text-[15px] font-semibold text-ap-secondary mt-0.5">{t.subtitle}</p>
       </div>
 
       {/* Search by draw_date */}
@@ -490,62 +490,74 @@ export default function CheckResultPage({ groups, tickets }: Props) {
             type="date"
             value={drawDate}
             onChange={(e) => setDrawDate(e.target.value)}
-            className="flex-1 border border-ap-border rounded-xl px-3 py-2 text-[13px] text-ap-primary outline-none focus:border-ap-blue"
+            className="flex-1 border border-ap-border rounded-xl px-3 py-2 text-[15px] font-semibold text-ap-primary outline-none focus:border-ap-blue"
             placeholder="draw_date"
           />
           <button
             type="submit"
             disabled={!drawDate || searching}
-            className="px-4 py-2 rounded-xl bg-ap-blue text-white text-[13px] font-semibold hover:bg-ap-blue-h transition-colors disabled:opacity-50"
+            className="px-4 py-2 rounded-xl bg-ap-blue text-white text-[15px] font-bold hover:bg-ap-blue-h transition-colors disabled:opacity-50"
           >
             {searching ? t.searching : t.searchBtn}
           </button>
         </div>
-        {searchError && <p className="mt-2 text-[12px] text-ap-red">{searchError}</p>}
+        {searchError && <p className="mt-2 text-[14px] font-semibold text-ap-red">{searchError}</p>}
       </form>
 
       {displayGroups.length === 0 && (
         <div className="py-16 text-center bg-white rounded-2xl border border-ap-border shadow-card">
           <p className="text-[32px] mb-3">🏆</p>
-          <p className="text-[14px] font-semibold text-ap-primary">{t.emptyResult}</p>
+          <p className="text-[16px] font-bold text-ap-primary">{t.emptyResult}</p>
         </div>
       )}
 
       {displayGroups.length > 0 && (
         <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
 
-          {/* Tab bar */}
-          <div className={`bg-gradient-to-r ${gradient} p-1 flex gap-1 overflow-x-auto`}>
-            {displayGroups.map((g) => (
-              <button
-                key={g.group_code}
-                onClick={() => setActiveId(g.group_code)}
-                className={[
-                  "flex-shrink-0 flex-1 min-w-[72px] py-2 rounded-xl text-[13px] font-semibold transition-all whitespace-nowrap px-2",
-                  activeId === g.group_code
-                    ? "bg-white text-ap-primary shadow-sm"
-                    : "text-white/80 hover:text-white hover:bg-white/10",
-                ].join(" ")}
-              >
-                {g.group_name}
-              </button>
-            ))}
+          {/* Tab bar - segmented switcher (iOS-like) */}
+          <div className="p-3 bg-white">
+            <div className="p-1 rounded-2xl bg-slate-100 overflow-x-auto scrollbar-hide">
+              <div className="flex gap-1 w-max min-w-full">
+                {displayGroups.map((g) => {
+                  const active = activeId === g.group_code;
+                  return (
+                    <button
+                      key={g.group_code}
+                      onClick={() => setActiveId(g.group_code)}
+                      className={[
+                        "flex-shrink-0 px-4 py-2 rounded-xl text-[14px] font-bold transition-all whitespace-nowrap",
+                        active
+                          ? "bg-white text-ap-primary shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
+                          : "text-ap-tertiary hover:text-ap-primary",
+                      ].join(" ")}
+                    >
+                      {g.group_name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           {/* Group header + description */}
           {activeGroup && (
-            <div className={`bg-gradient-to-r ${gradient} px-4 pb-3 pt-2`}>
-              <p className="text-white font-bold text-[15px]">{activeGroup.group_name}</p>
-              {activeGroup.description && (
-                <p className="text-white/80 text-[12px] mt-0.5">{activeGroup.description}</p>
-              )}
+            <div className={`relative overflow-hidden bg-gradient-to-r ${gradient} px-5 py-3.5`}>
+              <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white/15 to-transparent pointer-events-none" />
+              <div className="relative flex items-center gap-2.5">
+                <span className="w-1 h-7 rounded-full bg-white/90" aria-hidden />
+                <div>
+                  <p className="text-white font-bold text-[18px] leading-tight">{activeGroup.group_name}</p>
+                  {activeGroup.description && (
+                    <p className="text-white/95 text-[14px] font-semibold mt-0.5">{activeGroup.description}</p>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
           {/* Column headers (desktop) */}
-          <div className="hidden md:grid grid-cols-[1fr_80px_64px_64px_64px_80px] gap-2 px-4 py-2 bg-gray-50 border-b border-ap-border text-[11px] font-semibold text-ap-tertiary uppercase tracking-wide">
+          <div className="hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-2 bg-gray-50 border-b border-ap-border text-[13px] font-bold text-ap-tertiary uppercase tracking-wide">
             <span>{t.colType}</span>
-            <span className="text-center">{t.colDraw}</span>
             <span className="text-center">{t.col3top}</span>
             <span className="text-center">{t.col2top}</span>
             <span className="text-center">{t.col2bot}</span>
@@ -585,38 +597,38 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2 min-w-0">
                         {market.market_logo ? (
-                          <img src={market.market_logo} alt={market.market_name} className="w-7 h-7 object-cover flex-shrink-0" />
+                          <img src={market.market_logo} alt={market.market_name} className="w-8 h-8 object-cover flex-shrink-0" />
                         ) : (
-                          <span className="text-[20px] flex-shrink-0">{market.market_icon || "🎯"}</span>
+                          <span className="text-[22px] flex-shrink-0">{market.market_icon || "🎯"}</span>
                         )}
                         <div className="min-w-0">
-                          <p className="text-[12px] font-semibold text-ap-primary truncate">{market.market_name}</p>
-                          <p className="text-[11px] text-ap-secondary tabular-nums">{drawDate}</p>
+                          <p className="text-[15px] font-bold text-ap-primary truncate">{market.market_name}</p>
+                          <p className="text-[13px] font-semibold text-ap-secondary tabular-nums">{drawDate}</p>
                         </div>
                       </div>
                       {myTickets.length > 0 && (
-                        <span className="text-[10px] text-ap-blue font-medium flex-shrink-0">{t.slips.replace("{n}", String(myTickets.length))}</span>
+                        <span className="text-[12px] text-ap-blue font-bold flex-shrink-0">{t.slips.replace("{n}", String(myTickets.length))}</span>
                       )}
                     </div>
 
-                    <div className="mt-2 grid grid-cols-3 gap-2">
-                      <div className="text-center">
-                        <p className="text-[10px] text-ap-tertiary mb-1">{t.col3top}</p>
+                    <div className="mt-2 grid grid-cols-3 gap-2 sm:rounded-xl sm:border sm:border-ap-border sm:bg-slate-50/70 sm:p-2">
+                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
+                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col3top}</p>
                         {top3
-                          ? <span className="inline-block bg-ap-blue text-white text-[12px] font-bold tabular-nums rounded-lg px-2 py-0.5">{top3}</span>
-                          : <span className="text-ap-tertiary text-[12px]">—</span>}
+                          ? <span className="inline-block bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
+                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                       </div>
-                      <div className="text-center">
-                        <p className="text-[10px] text-ap-tertiary mb-1">{t.col2top}</p>
+                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
+                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2top}</p>
                         {top3
-                          ? <span className="inline-block bg-teal-500 text-white text-[12px] font-bold tabular-nums rounded-lg px-2 py-0.5">{t2}</span>
-                          : <span className="text-ap-tertiary text-[12px]">—</span>}
+                          ? <span className="inline-block bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
+                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                       </div>
-                      <div className="text-center">
-                        <p className="text-[10px] text-ap-tertiary mb-1">{t.col2bot}</p>
+                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
+                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2bot}</p>
                         {bot2
-                          ? <span className="inline-block bg-emerald-500 text-white text-[12px] font-bold tabular-nums rounded-lg px-2 py-0.5">{bot2}</span>
-                          : <span className="text-ap-tertiary text-[12px]">—</span>}
+                          ? <span className="inline-block bg-emerald-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
+                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                       </div>
                     </div>
 
@@ -626,7 +638,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                         disabled={!canOpen}
                         onClick={() => canOpen && setModalDraw(drawInfo)}
                         className={[
-                          "px-3 py-1.5 text-[11px] font-bold rounded-full whitespace-nowrap transition-colors",
+                          "px-4 py-2 text-[13px] font-bold rounded-full whitespace-nowrap transition-colors",
                           canOpen
                             ? "bg-ap-blue text-white hover:bg-ap-blue-h cursor-pointer"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed",
@@ -641,42 +653,41 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                   <div
                     onClick={() => canOpen && setModalDraw(drawInfo)}
                     className={[
-                      "hidden md:grid grid-cols-[1fr_80px_64px_64px_64px_80px] gap-2 px-4 py-3 items-center transition-colors",
+                      "hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-3 items-center transition-colors",
                       canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-ap-bg/40",
                     ].join(" ")}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       {market.market_logo ? (
-                        <img src={market.market_logo} alt={market.market_name} className="w-7 h-7 rounded-full object-cover border border-ap-border flex-shrink-0" />
+                        <img src={market.market_logo} alt={market.market_name} className="w-8 h-8 rounded-full object-cover border border-ap-border flex-shrink-0" />
                       ) : (
-                        <span className="text-[20px] flex-shrink-0">{market.market_icon || "🎯"}</span>
+                        <span className="text-[22px] flex-shrink-0">{market.market_icon || "🎯"}</span>
                       )}
                       <div className="min-w-0">
-                        <p className="text-[12px] font-semibold text-ap-primary truncate">{market.market_name}</p>
+                        <p className="text-[15px] font-bold text-ap-primary truncate">{market.market_name}</p>
+                        <p className="text-[12px] font-semibold text-ap-secondary tabular-nums">{drawDate}</p>
                         {myTickets.length > 0 && (
-                          <span className="text-[10px] text-ap-blue font-medium">{t.slips.replace("{n}", String(myTickets.length))}</span>
+                          <span className="text-[12px] text-ap-blue font-bold">{t.slips.replace("{n}", String(myTickets.length))}</span>
                         )}
                       </div>
                     </div>
 
-                    <p className="text-[11px] text-ap-secondary text-center tabular-nums">{drawDate}</p>
-
                     <div className="flex justify-center">
                       {top3
-                        ? <span className="bg-ap-blue text-white text-[13px] font-bold tabular-nums rounded-lg px-2 py-0.5">{top3}</span>
-                        : <span className="text-ap-tertiary text-[12px]">—</span>}
+                        ? <span className="bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
+                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {top3
-                        ? <span className="bg-teal-500 text-white text-[13px] font-bold tabular-nums rounded-lg px-2 py-0.5">{t2}</span>
-                        : <span className="text-ap-tertiary text-[12px]">—</span>}
+                        ? <span className="bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
+                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {bot2
-                        ? <span className="bg-emerald-500 text-white text-[13px] font-bold tabular-nums rounded-lg px-2 py-0.5">{bot2}</span>
-                        : <span className="text-ap-tertiary text-[12px]">—</span>}
+                        ? <span className="bg-emerald-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
+                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                     </div>
 
                     <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
@@ -685,7 +696,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                         disabled={!canOpen}
                         onClick={() => canOpen && setModalDraw(drawInfo)}
                         className={[
-                          "px-3 py-1.5 text-[11px] font-bold rounded-full whitespace-nowrap transition-colors",
+                          "px-4 py-2 text-[13px] font-bold rounded-full whitespace-nowrap transition-colors",
                           canOpen
                             ? "bg-ap-blue text-white hover:bg-ap-blue-h cursor-pointer"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed",

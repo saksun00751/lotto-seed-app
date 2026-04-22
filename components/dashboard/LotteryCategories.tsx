@@ -53,11 +53,21 @@ export default function LotteryCategories({ initialCategories = [] }: LotteryCat
           <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-white shadow-card">
             <div className="h-11 bg-sky-200/70" />
             <div className="h-10 px-4 bg-sky-50 border-b border-slate-200" />
-            <div className="bg-white divide-y divide-slate-200/80">
-              {[1, 2, 3].map((j, idx) => (
-                <div key={j} className={`h-12 px-4 flex items-center gap-2 ${idx % 2 === 0 ? "bg-white" : "bg-slate-50/70"}`}>
-                  <div className="w-6 h-6 rounded-full bg-slate-200" />
-                  <div className="h-3 w-32 rounded bg-slate-200" />
+            <div className="bg-slate-50/50 p-3 space-y-2.5">
+              {[1, 2, 3].map((j) => (
+                <div key={j} className="rounded-xl bg-white border border-slate-200/80 px-3.5 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-slate-200" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-3 w-32 rounded bg-slate-200" />
+                      <div className="h-2.5 w-20 rounded bg-slate-200" />
+                    </div>
+                    <div className="h-7 w-16 rounded-full bg-slate-200" />
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <div className="h-8 rounded-lg bg-slate-200/70" />
+                    <div className="h-8 rounded-lg bg-slate-200/70" />
+                  </div>
                 </div>
               ))}
             </div>
@@ -95,60 +105,49 @@ export default function LotteryCategories({ initialCategories = [] }: LotteryCat
             </div>
           )}
 
-          <div className="grid grid-cols-[1fr_60px_60px_90px] sm:grid-cols-[1fr_100px_72px_72px_120px] px-4 py-2.5 bg-gradient-to-b from-sky-50 to-slate-50 border-b border-slate-200 text-[12px] tracking-[0.02em] font-bold text-slate-700 text-center">
-            <span className="text-left">{t.colLottery}</span>
-            <span className="hidden sm:block">{t.colDraw}</span>
-            <span>{t.colTop3}</span>
-            <span>{t.colBot2}</span>
-            <span>{t.colStatus}</span>
-          </div>
-
-          <div className="bg-white">
-            {cat.items.map((item: SubItem, index) => (
+          <div className="bg-slate-50/50 p-3 space-y-2.5">
+            {cat.items.map((item: SubItem) => (
               <div
                 key={item.id}
-                className={[
-                  "group relative grid grid-cols-[1fr_60px_60px_90px] sm:grid-cols-[1fr_100px_72px_72px_120px] px-4 py-3.5 border-b border-slate-200/80 last:border-0 items-center transition-all",
-                  index % 2 === 0 ? "bg-white" : "bg-slate-50/70",
-                  "hover:bg-sky-50/70",
-                ].join(" ")}
+                className="rounded-xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all px-3.5 py-3"
               >
-                <span className="absolute left-0 top-0 h-full w-1 bg-transparent group-hover:bg-sky-400/80 transition-colors" />
-                <div className="flex items-center gap-2 min-w-0">
+                <div className="flex items-center gap-3">
                   {item.logo
-                    ? <img src={item.logo} alt={item.name} className="w-6 h-6 rounded-full object-cover flex-shrink-0" />
-                    : <span className="text-[18px] flex-shrink-0 emoji-font">{item.flag}</span>}
-                  <div className="min-w-0">
-                    <span className="block text-[15px] font-semibold text-ap-primary truncate">{item.name}</span>
-                    <span className="block sm:hidden text-[12px] text-ap-tertiary truncate">
+                    ? <img src={item.logo} alt={item.name} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
+                    : <span className="text-[26px] flex-shrink-0 emoji-font leading-none">{item.flag}</span>}
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-[15px] font-bold text-ap-primary truncate leading-tight">{item.name}</span>
+                    <span className="block text-[12px] text-ap-tertiary truncate mt-0.5">
                       {t.colDraw} {item.drawDate ?? "—"}
                     </span>
                   </div>
+                  <div className="flex-shrink-0">
+                    {item.drawStatus === "open" && cat.groupId != null && item.drawId != null ? (
+                      <PackageModalButton
+                        groupId={cat.groupId}
+                        drawId={item.drawId}
+                        locale={lang}
+                        closeAt={item.closeAt}
+                      />
+                    ) : (
+                      <StatusBadge status={item.drawStatus} label={item.statusLabel} />
+                    )}
+                  </div>
                 </div>
-                <div className="hidden sm:block text-center text-[13px] text-slate-700 tabular-nums font-medium">
-                  {item.drawDate ?? "—"}
-                </div>
-                <div className="flex justify-center">
-                  {item.result?.top3
-                    ? <span className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white text-[13px] font-bold tabular-nums rounded-lg min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.top3}</span>
-                    : <span className="text-ap-tertiary text-[15px]">—</span>}
-                </div>
-                <div className="flex justify-center">
-                  {item.result?.bot2
-                    ? <span className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white text-[13px] font-bold tabular-nums rounded-lg min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.bot2}</span>
-                    : <span className="text-ap-tertiary text-[15px]">—</span>}
-                </div>
-                <div className="flex justify-center">
-                  {item.drawStatus === "open" && cat.groupId != null && item.drawId != null ? (
-                    <PackageModalButton
-                      groupId={cat.groupId}
-                      drawId={item.drawId}
-                      locale={lang}
-                      closeAt={item.closeAt}
-                    />
-                  ) : (
-                    <StatusBadge status={item.drawStatus} label={item.statusLabel} />
-                  )}
+
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <div className="flex items-center justify-between rounded-lg bg-slate-50 border border-slate-200/80 px-3 py-1.5">
+                    <span className="text-[12px] font-semibold text-slate-600">{t.colTop3}</span>
+                    {item.result?.top3
+                      ? <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[13px] font-bold tabular-nums rounded-md min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.top3}</span>
+                      : <span className="text-ap-tertiary text-[15px]">—</span>}
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg bg-slate-50 border border-slate-200/80 px-3 py-1.5">
+                    <span className="text-[12px] font-semibold text-slate-600">{t.colBot2}</span>
+                    {item.result?.bot2
+                      ? <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[13px] font-bold tabular-nums rounded-md min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.bot2}</span>
+                      : <span className="text-ap-tertiary text-[15px]">—</span>}
+                  </div>
                 </div>
               </div>
             ))}

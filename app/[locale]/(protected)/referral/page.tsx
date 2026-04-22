@@ -5,11 +5,15 @@ import { requireAuth } from "@/lib/session/auth";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { apiGet } from "@/lib/api/client";
 import { getRegisterPagePath } from "@/lib/config/register";
-
-export const metadata: Metadata = { title: "แนะนำเพื่อน — Lotto" };
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
 interface Props {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "referral") };
 }
 
 interface ReferralItem {

@@ -187,7 +187,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
           <Link href={`/${lang}/dashboard`} className="flex items-center flex-shrink-0 group">
             <Image
               src={logoUrl}
-              alt="huayinter88"
+              alt="logo"
               width={200}
               height={200}
               className="h-24 w-auto object-contain group-hover:opacity-90 transition-opacity"
@@ -219,7 +219,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
             <Link href={`/${lang}/deposit`}
               className="flex items-center gap-1.5 bg-ap-bg border border-ap-border rounded-full px-2.5 sm:px-3 py-1.5 hover:border-ap-blue/30 transition-colors">
               <AppIcon name="deposit" className="text-[14px] leading-none" />
-                <span className="text-[12px] sm:text-[13px] font-semibold text-ap-primary tabular-nums">
+                <span className="text-[13px] sm:text-[13px] font-bold text-ap-primary tabular-nums">
                 ฿{liveBalance.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </Link>
@@ -240,11 +240,11 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                 <div className="absolute right-0 top-[calc(100%+8px)] w-[248px] bg-white rounded-2xl shadow-[0_16px_36px_rgba(15,23,42,0.18)] border border-slate-200 overflow-x-hidden overflow-y-auto max-h-[calc(100dvh-88px)] sm:max-h-[80vh] overscroll-contain animate-pop-in z-50">
                   {/* Language switcher */}
                   <div className="px-4 pt-2.5 pb-2 flex items-center justify-between">
-                    <span className="text-[12px] font-medium text-slate-500">{t.language}</span>
+                    <span className="text-[13px] font-bold text-slate-500">{t.language}</span>
                     <button
                       type="button"
                       onClick={() => { setProfileOpen(false); setLangModalOpen(true); }}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-medium text-slate-700 hover:border-ap-blue/35 transition-all"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[13px] font-bold text-slate-700 hover:border-ap-blue/35 transition-all"
                     >
                       <img
                         src={LANGS.find((l) => l.code === lang)?.flagIcon}
@@ -263,20 +263,20 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                         {initials}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-[14px] font-semibold text-ap-primary truncate">{liveUserName}</p>
-                        {liveUserPhone && <p className="text-[12px] text-ap-tertiary">{liveUserPhone}</p>}
+                        <p className="text-[15px] font-bold text-ap-primary truncate">{liveUserName}</p>
+                        {liveUserPhone && <p className="text-[13px] font-semibold text-ap-tertiary">{liveUserPhone}</p>}
                       </div>
                     </div>
                     <div className="mt-3 grid grid-cols-2 gap-1.5">
                       <div className="flex flex-col items-center rounded-xl px-2.5 py-2 border border-slate-200 bg-slate-50/70">
-                        <span className="text-[11px] text-slate-500">{t.balance}</span>
-                        <span className="text-[16px] leading-none mt-0.5 font-extrabold text-ap-blue tabular-nums tracking-tight">
+                        <span className="text-[12px] font-bold text-slate-500">{t.balance}</span>
+                        <span className="text-[17px] leading-none mt-0.5 font-extrabold text-ap-blue tabular-nums tracking-tight">
                           ฿{liveBalance.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </span>
                       </div>
                       <div className="flex flex-col items-center rounded-xl px-2.5 py-2 border border-slate-200 bg-slate-50/70">
-                        <span className="text-[11px] text-slate-500">Diamond</span>
-                        <span className="text-[16px] leading-none mt-0.5 font-extrabold text-cyan-700 tabular-nums inline-flex items-center justify-center gap-1.5 tracking-tight">
+                        <span className="text-[12px] font-bold text-slate-500">Diamond</span>
+                        <span className="text-[17px] leading-none mt-0.5 font-extrabold text-cyan-700 tabular-nums inline-flex items-center justify-center gap-1.5 tracking-tight">
                           <AppIcon name="diamond" className="text-[15px] leading-none" />
                           <span className="leading-none">{liveDiamond.toLocaleString("th-TH")}</span>
                         </span>
@@ -295,10 +295,10 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                         href={item.href}
                         onClick={() => setProfileOpen(false)}
                         className={[
-                          "group flex items-center gap-2.5 px-3 py-2.5 text-[13px] rounded-xl mx-1.5 border border-transparent transition-all duration-200 ease-out",
+                          "group flex items-center gap-2.5 px-3 py-2.5 text-[14px] rounded-xl mx-1.5 border border-transparent transition-all duration-200 ease-out",
                           active
-                            ? "bg-ap-blue/10 text-ap-blue font-semibold"
-                            : "text-ap-primary font-medium hover:bg-gradient-to-r hover:from-[#ffffff] hover:to-[#f3f8ff] hover:border-[#d9e8ff] hover:shadow-[0_6px_14px_rgba(37,99,235,0.10)] hover:-translate-y-[1px]",
+                            ? "bg-ap-blue/10 text-ap-blue font-bold"
+                            : "text-ap-primary font-semibold hover:bg-gradient-to-r hover:from-[#ffffff] hover:to-[#f3f8ff] hover:border-[#d9e8ff] hover:shadow-[0_6px_14px_rgba(37,99,235,0.10)] hover:-translate-y-[1px]",
                         ].join(" ")}
                       >
                         <span className={[
@@ -320,7 +320,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                       <form action={logoutAction}>
                         <button
                           type="submit"
-                          className="group w-full flex items-center gap-2.5 px-3 py-2.5 text-[13px] font-medium transition-all duration-200 ease-out text-ap-red hover:bg-gradient-to-r hover:from-rose-50 hover:to-white hover:border-rose-200/80 border border-transparent hover:shadow-[0_6px_14px_rgba(244,63,94,0.10)] rounded-xl mx-1.5"
+                          className="group w-full flex items-center gap-2.5 px-3 py-2.5 text-[14px] font-bold transition-all duration-200 ease-out text-ap-red hover:bg-gradient-to-r hover:from-rose-50 hover:to-white hover:border-rose-200/80 border border-transparent hover:shadow-[0_6px_14px_rgba(244,63,94,0.10)] rounded-xl mx-1.5"
                         >
                           <span className="w-6.5 h-6.5 rounded-lg flex items-center justify-center border bg-rose-50 border-rose-200 text-rose-500 transition-transform duration-200 group-hover:scale-[1.04]">
                             <AppIcon name="logout" className="w-4 h-4" />
@@ -348,7 +348,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-5 py-4 border-b border-ap-border">
-              <p className="text-[14px] font-semibold text-ap-primary">{t.language}</p>
+              <p className="text-[15px] font-bold text-ap-primary">{t.language}</p>
             </div>
             <div className="p-3 flex flex-col gap-1.5">
               {LANGS.map((l) => (
@@ -357,7 +357,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                   type="button"
                   onClick={() => { setLang(l.code); setLangModalOpen(false); }}
                   className={[
-                    "flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-medium transition-all w-full text-left",
+                    "flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold transition-all w-full text-left",
                     lang === l.code
                       ? "bg-ap-blue/10 text-ap-blue border border-ap-blue/30"
                       : "text-ap-primary hover:bg-ap-bg border border-transparent",
@@ -387,8 +387,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
             return (
               <Link key={l.href} href={l.href}
                 className={[
-                  "min-w-0 transition-all active:scale-95",
-                  isPlay ? "flex items-center justify-center gap-1.5 whitespace-nowrap" : "flex flex-col items-center justify-center gap-0.5",
+                  "min-w-0 transition-all active:scale-95 flex flex-col items-center justify-center gap-0.5",
                   isPlay
                     ? [
                         "relative -mt-4 mb-1 mx-1 px-2.5 rounded-2xl py-2 shadow-lg border",
@@ -401,24 +400,18 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                         active ? "text-ap-blue" : "text-ap-tertiary",
                       ].join(" "),
                 ].join(" ")}>
-                <AppIcon name={l.icon} className={["shrink-0", isPlay ? "w-6 h-6" : "w-[22px] h-[22px]"].join(" ")} />
+                <AppIcon name={l.icon} className={["shrink-0 leading-none", isPlay ? "text-[28px]" : "w-[22px] h-[22px]"].join(" ")} />
                 {isPlay ? (
-                  <span className="text-[11px] leading-none font-bold whitespace-nowrap">
+                  <span className="text-[13px] leading-none font-bold whitespace-nowrap">
                     {ctaLabel}
                   </span>
                 ) : (
                   <span className={[
-                    "block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-[10px] w-full text-center px-0.5 leading-none",
-                    active ? "font-bold" : "font-medium",
+                    "block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-[12px] w-full text-center px-0.5 leading-none",
+                    active ? "font-bold" : "font-bold",
                   ].join(" ")}>
                     {l.label}
                   </span>
-                )}
-                {isPlay && (
-                  <svg className="w-3.5 h-3.5 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
-                    <path d="M5 12h14" />
-                    <path d="M13 6l6 6-6 6" />
-                  </svg>
                 )}
               </Link>
             );

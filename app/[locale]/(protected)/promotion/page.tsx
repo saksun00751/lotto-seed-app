@@ -2,8 +2,16 @@ import type { Metadata } from "next";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { apiGet } from "@/lib/api/client";
 import PromotionPageClient from "@/components/promotion/PromotionPageClient";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "โปรโมชั่น — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "promotion") };
+}
 
 interface ApiPromotion {
   code:           number;

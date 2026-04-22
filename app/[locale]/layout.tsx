@@ -14,6 +14,11 @@ export async function generateMetadata(): Promise<Metadata> {
     return {
       title: data.name,
       description: data.description,
+      icons: {
+        icon: [{ url: imageUrl }],
+        shortcut: [{ url: imageUrl }],
+        apple: [{ url: imageUrl }],
+      },
       openGraph: {
         title: data.title,
         description: data.description,
@@ -29,8 +34,13 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   } catch {
     return {
-      title: "huayinter88.com",
-      description: "huayinter88 สนุกทุกเกมดัง สล็อต คาสิโน กีฬา",
+      title: "",
+      description: " สนุกทุกเกมดัง สล็อต คาสิโน กีฬา",
+      icons: {
+        icon: [{ url: "/logo.png" }],
+        shortcut: [{ url: "/logo.png" }],
+        apple: [{ url: "/logo.png" }],
+      },
     };
   }
 }

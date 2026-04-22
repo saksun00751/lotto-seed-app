@@ -4,8 +4,16 @@ import { apiGet } from "@/lib/api/client";
 import type { MarketsLatestResponse } from "@/lib/api/lotto";
 import CheckResultPage from "@/components/check-result/CheckResultPage";
 import type { Ticket } from "@/app/[locale]/(protected)/history/page";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "ตรวจผล — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "checkResult") };
+}
 
 interface TicketsResponse {
   success: boolean;

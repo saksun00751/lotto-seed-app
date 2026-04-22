@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import ChangePasswordModal from "@/components/profile/ChangePasswordModal";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "เปลี่ยนรหัสผ่าน — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "changePassword") };
+}
 
 export default async function ChangePasswordPage() {
   return (

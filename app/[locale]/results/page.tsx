@@ -2,8 +2,16 @@ import type { Metadata } from "next";
 import Navbar from "@/components/layout/NavbarServer";
 import ResultsPage from "@/components/results/ResultsPage";
 import { requireAuth } from "@/lib/session/auth";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "ลิ้งค์ดูผล — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "results") };
+}
 
 export default async function ResultsRoute() {
   await requireAuth();

@@ -5,6 +5,7 @@ import { getGameTypeMeta } from "@/lib/api/games";
 import { apiGet } from "@/lib/api/client";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import GameGrid from "@/components/games/GameGrid";
+import { withTitleSuffix } from "@/lib/i18n/metaTitle";
 
 interface ApiGame {
   id:           string;
@@ -22,9 +23,12 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id, type } = await params;
+  const { locale, id, type } = await params;
   const meta = getGameTypeMeta(type);
-  return { title: `${id.toUpperCase()} — ${meta.label}` };
+  const tBet = getTranslation(locale, "bet");
+  const typeKey = type.toUpperCase() as keyof typeof tBet;
+  const typeLabel = (tBet[typeKey] as string | undefined) ?? meta.label;
+  return { title: await withTitleSuffix(`${id.toUpperCase()} — ${typeLabel}`) };
 }
 
 export default async function GameProviderGamesPage({ params }: Props) {

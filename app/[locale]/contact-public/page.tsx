@@ -2,8 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getContactChannels, type ContactChannel } from "@/lib/api/contact-channels";
 import { getTranslation } from "@/lib/i18n/getTranslation";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "ติดต่อเรา — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "contactPublic") };
+}
 
 function getChannelMeta(type: string, t: ReturnType<typeof getTranslation<"contact">>) {
   if (type === "line") return {

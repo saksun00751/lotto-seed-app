@@ -3,11 +3,15 @@ import { LangProvider } from "@/lib/i18n/context";
 import CouponPage, { type CouponItem } from "@/components/coupon/CouponPage";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { apiGet, apiPost, ApiError } from "@/lib/api/client";
-
-export const metadata: Metadata = { title: "คูปอง — Lotto" };
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
 interface Props {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "coupon") };
 }
 
 interface CouponApiResponse {

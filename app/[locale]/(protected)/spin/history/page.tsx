@@ -2,8 +2,16 @@ import type { Metadata } from "next";
 import SpinHistoryPage from "@/components/spin/SpinHistoryPage";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { apiGet } from "@/lib/api/client";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "ประวัติวงล้อ — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "spinHistory") };
+}
 
 interface HistoryResponse {
   success: boolean;

@@ -12,13 +12,12 @@ import { mapMarketsToCategories } from "@/lib/api/lotto";
 import type { MarketsLatestResponse } from "@/lib/api/lotto";
 import { getAllGamesGroupedFromApi } from "@/lib/api/games";
 import { getTranslation } from "@/lib/i18n/getTranslation";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 import type { Category } from "@/lib/categories";
 import type { BetRateRow, BettingContext, BettingContextItem, NumberLimitRow } from "@/lib/types/bet";
 import type { BetTypeId } from "@/components/bet/types";
 import { Suspense } from "react";
 
-
-export const metadata: Metadata = { title: "แทงหวย — Lotto" };
 
 interface SelectedPackageResponse {
   success: boolean;
@@ -41,6 +40,11 @@ interface SelectedPackageResponse {
 interface Props {
   params?: Promise<{ locale: string }>;
   searchParams?: Promise<{ lottery?: string; draw_id?: string; toast?: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = (await params)?.locale ?? "th";
+  return { title: await getPageMetaTitle(locale, "bet") };
 }
 
 interface DrawDetailResponse {

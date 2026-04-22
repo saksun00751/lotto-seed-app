@@ -43,7 +43,7 @@ function PasswordField({
 }) {
   return (
     <div>
-      <label className="block text-[12px] font-semibold text-ap-secondary mb-1.5">{label}</label>
+      <label className="block text-[14px] font-bold text-ap-secondary mb-1.5">{label}</label>
       <div className="relative">
         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-ap-tertiary">
           <LockIcon />
@@ -55,7 +55,7 @@ function PasswordField({
           onChange={(e) => onChange(e.target.value)}
           autoComplete="off"
           className={[
-            "w-full border rounded-2xl pl-10 pr-11 py-2.5 text-[14px] text-ap-primary outline-none transition-all",
+            "w-full border rounded-2xl pl-10 pr-11 py-3 text-[16px] font-semibold text-ap-primary outline-none transition-all",
             "focus:ring-2 focus:ring-ap-blue/10",
             error ? "border-ap-red bg-ap-red/5 focus:border-ap-red" : "border-ap-border bg-white focus:border-ap-blue",
           ].join(" ")}
@@ -81,7 +81,7 @@ function SubmitButton({ label, savingLabel }: { label: string; savingLabel: stri
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-ap-blue text-white rounded-full py-3 text-[14px] font-semibold disabled:opacity-40 hover:bg-ap-blue-h transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+      className="w-full bg-ap-blue text-white rounded-full py-3 text-[16px] font-bold disabled:opacity-40 hover:bg-ap-blue-h transition-all active:scale-[0.98] flex items-center justify-center gap-2"
     >
       {pending ? (
         <>
@@ -139,8 +139,8 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
             <div className="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-[22px] mb-3 border border-white/20">
               🔐
             </div>
-            <h2 className="text-[20px] font-bold leading-tight">{t.title}</h2>
-            <p className="text-[13px] text-white/70 mt-1">{t.subtitle}</p>
+            <h2 className="text-[24px] font-bold leading-tight">{t.title}</h2>
+            <p className="text-[15px] font-semibold text-white/90 mt-1">{t.subtitle}</p>
           </div>
         </div>
 
@@ -152,11 +152,11 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
                 <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className="text-[17px] font-bold text-ap-primary">{t.successTitle}</p>
-            <p className="text-[13px] text-ap-secondary mt-1">{t.successDesc}</p>
+            <p className="text-[19px] font-bold text-ap-primary">{t.successTitle}</p>
+            <p className="text-[15px] font-semibold text-ap-secondary mt-1">{t.successDesc}</p>
             <a
               href={`/${lang}/profile`}
-              className="mt-6 flex items-center justify-center w-full bg-ap-blue text-white rounded-full py-3 text-[14px] font-semibold hover:bg-ap-blue-h transition-colors"
+              className="mt-6 flex items-center justify-center w-full bg-ap-blue text-white rounded-full py-3 text-[16px] font-bold hover:bg-ap-blue-h transition-colors"
             >
               {t.backProfile}
             </a>
@@ -170,13 +170,13 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
                 <div className="w-5 h-5 rounded-full bg-ap-red flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-white text-[10px] font-bold">!</span>
                 </div>
-                <p className="text-[13px] text-ap-red">{state.error}</p>
+                <p className="text-[15px] font-semibold text-ap-red">{state.error}</p>
               </div>
             )}
 
             <div className="flex items-center gap-3 pt-1">
               <div className="flex-1 h-px bg-ap-border" />
-              <span className="text-[11px] text-ap-tertiary font-medium uppercase tracking-wide">{t.sectionNew}</span>
+              <span className="text-[13px] text-ap-tertiary font-bold uppercase tracking-wide">{t.sectionNew}</span>
               <div className="flex-1 h-px bg-ap-border" />
             </div>
 
@@ -203,7 +203,7 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
                   onChange={(e) => setConfirmPw(e.target.value)}
                   autoComplete="off"
                   className={[
-                    "w-full border rounded-2xl pl-10 pr-11 py-2.5 text-[14px] text-ap-primary outline-none transition-all",
+                    "w-full border rounded-2xl pl-10 pr-11 py-3 text-[16px] font-semibold text-ap-primary outline-none transition-all",
                     "focus:ring-2",
                     confirmMismatch || state.fieldErrors?.confirmPassword
                       ? "border-ap-red bg-ap-red/5 focus:border-ap-red focus:ring-ap-red/10"
@@ -231,7 +231,7 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
                 </div>
               </div>
               {(state.fieldErrors?.confirmPassword || confirmMismatch) && (
-                <p className="text-[12px] text-ap-red mt-1">
+                <p className="text-[14px] font-semibold text-ap-red mt-1">
                   {state.fieldErrors?.confirmPassword ?? t.mismatch}
                 </p>
               )}
@@ -241,7 +241,7 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
               <SubmitButton label={t.submit} savingLabel={t.saving} />
             </div>
 
-            <p className="text-center text-[12px] text-ap-tertiary pb-1">
+            <p className="text-center text-[14px] font-semibold text-ap-tertiary pb-1">
               <a href={`/${lang}/profile`} className="hover:text-ap-secondary transition-colors">← {t.backProfile}</a>
             </p>
           </form>

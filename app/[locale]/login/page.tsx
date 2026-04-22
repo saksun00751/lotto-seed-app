@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
 import LoginPageClient from "@/components/auth/LoginPageClient";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "เข้าสู่ระบบ — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "login") };
+}
 
 export default async function LoginPage({
   params,

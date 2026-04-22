@@ -8,8 +8,16 @@ import { apiGet } from "@/lib/api/client";
 import { mapMarketsToCategories } from "@/lib/api/lotto";
 import type { MarketsLatestResponse } from "@/lib/api/lotto";
 import type { Category } from "@/lib/categories";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "หน้าหลัก — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "dashboard") };
+}
 
 async function DashboardLotterySection() {
   const [apiToken, lang] = await Promise.all([getApiToken(), getLangCookie()]);

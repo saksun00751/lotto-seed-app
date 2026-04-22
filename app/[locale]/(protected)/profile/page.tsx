@@ -5,9 +5,8 @@ import { logoutAction } from "@/lib/actions";
 import { apiGet } from "@/lib/api/client";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { getTranslation } from "@/lib/i18n/getTranslation";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 import { getBanks, type ApiBankItem } from "@/lib/api/banks";
-
-export const metadata: Metadata = { title: "ข้อมูลสมาชิก — Lotto" };
 
 interface LoadBalanceProfile {
   name:     string;
@@ -31,6 +30,11 @@ function formatPhone(phone: string): string {
 
 interface Props {
   params?: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = (await params)?.locale ?? "th";
+  return { title: await getPageMetaTitle(locale, "profile") };
 }
 
 export default async function ProfilePage({ params }: Props) {

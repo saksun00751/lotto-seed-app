@@ -3,10 +3,9 @@ import Link from "next/link";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { apiGet } from "@/lib/api/client";
 import { getTranslation } from "@/lib/i18n/getTranslation";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 import TicketList from "@/components/history/TicketList";
 import TicketSearch from "@/components/history/TicketSearch";
-
-export const metadata: Metadata = { title: "โพยหวย — Lotto" };
 
 export interface Ticket {
   id:                 number;
@@ -56,6 +55,11 @@ interface TicketsResponse {
 interface Props {
   params?:      Promise<{ locale: string }>;
   searchParams?: Promise<{ status?: string; page?: string; search?: string; draw_date?: string; limit?: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = (await params)?.locale ?? "th";
+  return { title: await getPageMetaTitle(locale, "history") };
 }
 
 export default async function HistoryPage({ params, searchParams }: Props) {

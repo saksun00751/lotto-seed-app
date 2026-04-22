@@ -406,6 +406,7 @@ function BankCard({
           : "border-ap-border hover:border-ap-blue/40 hover:bg-ap-bg",
       ].join(" ")}
     >
+      {/* Header: bank logo + name */}
       <div className="flex items-center gap-3">
         {account.bank_pic ? (
           <img src={account.bank_pic} alt={account.bank_name} className="w-10 h-10 rounded-xl object-contain bg-white border border-ap-border flex-shrink-0" />
@@ -413,38 +414,51 @@ function BankCard({
           <div className="w-10 h-10 rounded-xl bg-ap-bg border border-ap-border flex items-center justify-center text-[20px] flex-shrink-0">🏦</div>
         )}
         <div className="flex-1 min-w-0">
-          <p className="text-[15px] font-bold text-ap-primary">{account.bank_name}</p>
-          <p className="text-[13px] text-ap-secondary mt-0.5">{account.acc_name}</p>
+          <p className="text-[15px] font-bold text-ap-primary truncate">{account.bank_name}</p>
+          <p className="text-[13px] text-ap-secondary mt-0.5 truncate">{account.acc_name}</p>
         </div>
-        <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <p className="text-[16px] sm:text-[18px] font-mono font-bold text-ap-primary tracking-wider leading-none">
-              {account.acc_no}
-            </p>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onCopy(account.acc_no);
-              }}
-              className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg bg-ap-blue text-white text-[11px] font-bold shadow-sm hover:bg-ap-blue-h active:scale-95 transition-all"
-              aria-label="คัดลอกเลขบัญชี"
-            >
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                <rect x="9" y="9" width="10" height="10" rx="2" />
-                <path d="M5 15V7a2 2 0 0 1 2-2h8" />
-              </svg>
-              คัดลอก
-            </button>
-          </div>
-          {minAmt > 0 && (
-            <span className="text-[14px] text-ap-tertiary">ขั้นต่ำ ฿{minAmt.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-          )}
-        </div>
+        {minAmt > 0 && (
+          <span className="hidden sm:inline-block text-[13px] text-ap-tertiary flex-shrink-0">
+            ขั้นต่ำ ฿{minAmt.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        )}
       </div>
+
+      {/* Account number + copy button */}
+      <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-ap-bg/70 border border-ap-border/70 px-3 py-2">
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] text-ap-tertiary uppercase tracking-wide leading-none">เลขบัญชี</p>
+          <p className="mt-1 text-[17px] sm:text-[18px] font-mono font-bold text-ap-primary tracking-wider leading-none break-all">
+            {account.acc_no}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onCopy(account.acc_no);
+          }}
+          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-ap-blue text-white text-[12px] font-bold shadow-sm hover:bg-ap-blue-h active:scale-95 transition-all flex-shrink-0"
+          aria-label="คัดลอกเลขบัญชี"
+        >
+          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <rect x="9" y="9" width="10" height="10" rx="2" />
+            <path d="M5 15V7a2 2 0 0 1 2-2h8" />
+          </svg>
+          คัดลอก
+        </button>
+      </div>
+
+      {/* Mobile-only: minimum amount row */}
+      {minAmt > 0 && (
+        <p className="sm:hidden mt-2 text-[13px] text-ap-tertiary">
+          ขั้นต่ำ ฿{minAmt.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        </p>
+      )}
+
       {account.remark && (
-        <p className="text-[14px] text-amber-600 mt-2 bg-amber-50 rounded-lg px-2 py-1">{account.remark}</p>
+        <p className="text-[13px] text-amber-600 mt-2 bg-amber-50 rounded-lg px-2 py-1">{account.remark}</p>
       )}
     </div>
   );
@@ -512,6 +526,12 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
     selectedPromotion?.select ? selectedPromotion : null,
   );
   const [feedbackToast, setFeedbackToast] = useState<{ message: string; type: "success" | "error" | "warning" } | null>(null);
+
+  // ── Slip upload ────────────────────────────────────────────────────────────
+  const [slipFile,       setSlipFile]       = useState<File | null>(null);
+  const [slipPreview,    setSlipPreview]    = useState<string | null>(null);
+  const [slipAmount,     setSlipAmount]     = useState<string>("");
+  const [slipSubmitting, setSlipSubmitting] = useState(false);
 
   function showFeedback(message: string, type: "success" | "error" | "warning") {
     setFeedbackToast({ message, type });
@@ -618,6 +638,10 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
     setStatusModal(null);
     setBankError(null);
     setShowResult(false);
+    setSlipFile(null);
+    setSlipPreview(null);
+    setSlipAmount("");
+    setSlipSubmitting(false);
     setBankLoading(true);
     try {
       const res  = await fetch("/api/deposit/loadbank", {
@@ -875,6 +899,77 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
     }
   }
 
+  function handleSlipFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      showFeedback("กรุณาเลือกไฟล์รูปภาพ", "error");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showFeedback("ขนาดไฟล์ต้องไม่เกิน 5MB", "error");
+      return;
+    }
+    setSlipFile(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSlipPreview(typeof reader.result === "string" ? reader.result : null);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function clearSlip() {
+    setSlipFile(null);
+    setSlipPreview(null);
+  }
+
+  async function submitSlip() {
+    if (!slipFile) {
+      showFeedback("กรุณาอัปโหลดสลิป", "error");
+      return;
+    }
+    const amount = Number(slipAmount);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      showFeedback("กรุณากรอกจำนวนเงิน", "error");
+      return;
+    }
+
+    setSlipSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("slip", slipFile);
+      formData.append("amount", String(amount));
+      if (selectedBank) {
+        formData.append("bank_code", String(selectedBank.code));
+      }
+
+      const res = await fetch("/api/deposit/slip", {
+        method: "POST",
+        body: formData,
+      });
+
+      let payload: { success?: boolean; message?: string } = {};
+      try { payload = await res.json(); } catch {}
+
+      const ok = Boolean(res.ok && payload.success);
+      const message = payload.message?.trim() || (ok ? "ส่งสลิปสำเร็จ รอระบบตรวจสอบ" : "ไม่สามารถส่งสลิปได้");
+
+      if (!ok) {
+        showFeedback(message, "error");
+        return;
+      }
+
+      showFeedback(message, "success");
+      clearSlip();
+      setSlipAmount("");
+    } catch {
+      showFeedback("ไม่สามารถเชื่อมต่อระบบได้", "error");
+    } finally {
+      setSlipSubmitting(false);
+    }
+  }
+
   async function handleDeselectPromotion() {
     setPromoDeselecting(true);
     try {
@@ -1063,7 +1158,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
           {!channelsLoading && !channelsError && enabledChannels.length > 0 && (
             <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f6f9ff_100%)] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_6px_14px_rgba(15,23,42,0.05)]">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               {enabledChannels.map((ch) => {
                 const meta = CHANNEL_META[ch];
                 const active = method === ch;
@@ -1140,6 +1235,92 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                     onCopy={handleCopyAccount}
                   />
                 ))}
+              </div>
+            )}
+
+            {!bankLoading && method === "slip" && (
+              <div className="space-y-3 pt-2 border-t border-slate-200">
+                <p className="text-[14px] font-bold text-ap-secondary uppercase tracking-wide">
+                  อัปโหลดสลิปโอนเงิน
+                </p>
+
+                <div>
+                  <label className="block text-[13px] font-semibold text-ap-secondary mb-1.5">
+                    จำนวนเงินที่โอน
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] text-ap-tertiary pointer-events-none">฿</span>
+                    <input
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      value={slipAmount}
+                      onChange={(e) => setSlipAmount(e.target.value)}
+                      placeholder="0.00"
+                      className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-white transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[13px] font-semibold text-ap-secondary mb-1.5">
+                    รูปสลิป
+                  </label>
+                  {slipPreview ? (
+                    <div className="relative rounded-2xl border-2 border-ap-border overflow-hidden bg-white">
+                      <img
+                        src={slipPreview}
+                        alt="สลิปที่อัปโหลด"
+                        className="w-full max-h-[420px] object-contain bg-slate-50"
+                      />
+                      <button
+                        type="button"
+                        onClick={clearSlip}
+                        className="absolute top-2 right-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/60 text-white text-[12px] font-semibold hover:bg-black/80 transition-colors"
+                        aria-label="ลบรูปสลิป"
+                      >
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                          <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                        </svg>
+                        ลบ
+                      </button>
+                      <div className="px-3 py-2 bg-white border-t border-ap-border">
+                        <p className="text-[12px] text-ap-tertiary truncate">
+                          {slipFile?.name}
+                          {slipFile && ` • ${(slipFile.size / 1024).toFixed(0)} KB`}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center gap-2 w-full rounded-2xl border-2 border-dashed border-ap-border bg-ap-bg/50 hover:border-ap-blue hover:bg-ap-blue/5 transition-colors py-8 cursor-pointer">
+                      <div className="w-12 h-12 rounded-full bg-ap-blue/10 flex items-center justify-center text-[22px]">
+                        📎
+                      </div>
+                      <p className="text-[14px] font-semibold text-ap-primary">แตะเพื่ออัปโหลดสลิป</p>
+                      <p className="text-[12px] text-ap-tertiary">รองรับ JPG, PNG ขนาดไม่เกิน 5MB</p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleSlipFileChange}
+                      />
+                    </label>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => { void submitSlip(); }}
+                  disabled={
+                    !slipFile ||
+                    !slipAmount ||
+                    Number(slipAmount) <= 0 ||
+                    slipSubmitting
+                  }
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#0a68d8] to-[#1a87ea] text-white text-[14px] font-semibold hover:brightness-105 transition-all disabled:opacity-40 shadow-[0_10px_22px_rgba(37,99,235,0.24)]"
+                >
+                  {slipSubmitting ? "กำลังส่งสลิป..." : "ยืนยันการฝากเงิน"}
+                </button>
               </div>
             )}
 

@@ -4,8 +4,16 @@ import { requireAuth } from "@/lib/session/auth";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { apiGet } from "@/lib/api/client";
 import type { WheelSegment } from "@/components/spin/SpinPage";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "หมุนวงล้อ — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "spin") };
+}
 
 interface WheelListResponse {
   success: boolean;

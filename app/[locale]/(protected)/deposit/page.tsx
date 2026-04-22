@@ -3,8 +3,16 @@ import DepositPage from "@/components/deposit/DepositPage";
 import { apiGet } from "@/lib/api/client";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { getBanks } from "@/lib/api/banks";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "เติมเงิน — Lotto" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "deposit") };
+}
 
 interface LoadBalanceProfile {
   name:    string;

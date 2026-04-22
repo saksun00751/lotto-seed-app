@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { getLangCookie } from "@/lib/session/cookies";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import { getContactChannels, type ContactChannel } from "@/lib/api/contact-channels";
+import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 
-export const metadata: Metadata = { title: "ติดต่อเรา — Lotto" };
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return { title: await getPageMetaTitle(locale, "contact") };
+}
 
 function getChannelMeta(type: string, t: ReturnType<typeof getTranslation<"contact">>) {
   if (type === "line") return {
@@ -41,13 +48,13 @@ function getChannelMeta(type: string, t: ReturnType<typeof getTranslation<"conta
   };
 }
 
-export default async function ContactPage() {
-  const lang = await getLangCookie();
-  const t = getTranslation(lang, "contact");
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params;
+  const t = getTranslation(locale, "contact");
 
   let channels: ContactChannel[] = [];
   try {
-    channels = await getContactChannels(lang);
+    channels = await getContactChannels(locale);
   } catch {}
 
   return (

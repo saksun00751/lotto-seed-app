@@ -9,6 +9,7 @@ import { apiGet } from "@/lib/api/client";
 import { mapMarketsToCategories } from "@/lib/api/lotto";
 import type { MarketsLatestResponse } from "@/lib/api/lotto";
 import { getTranslation } from "@/lib/i18n/getTranslation";
+import { withTitleSuffix } from "@/lib/i18n/metaTitle";
 import type { Category, SubItem } from "@/lib/categories";
 import { Suspense } from "react";
 
@@ -18,7 +19,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  return { title: `${id} — Lotto` };
+  return { title: await withTitleSuffix(id) };
 }
 
 // ─── Sub-item card ──────────────────────────────────────────────────────────────

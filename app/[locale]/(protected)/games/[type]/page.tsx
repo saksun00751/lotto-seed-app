@@ -3,15 +3,19 @@ import Link from "next/link";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { getProvidersByTypeFromApi, getGameTypeMeta } from "@/lib/api/games";
 import { getTranslation } from "@/lib/i18n/getTranslation";
+import { withTitleSuffix } from "@/lib/i18n/metaTitle";
 
 interface Props {
   params: Promise<{ locale: string; type: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { type } = await params;
+  const { locale, type } = await params;
   const meta = getGameTypeMeta(type.toUpperCase());
-  return { title: `${meta.label} — Lotto` };
+  const tBet = getTranslation(locale, "bet");
+  const typeKey = type.toUpperCase() as keyof typeof tBet;
+  const typeLabel = (tBet[typeKey] as string | undefined) ?? meta.label;
+  return { title: await withTitleSuffix(typeLabel) };
 }
 
 export default async function GamesTypePage({ params }: Props) {
