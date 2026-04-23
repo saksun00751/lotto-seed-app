@@ -17,7 +17,7 @@ function LoginContent({ logoUrl }: { logoUrl: string }) {
       {/* Logo + heading */}
       <div className="text-center mb-8">
         <div className="flex justify-center mb-4">
-          <Image src={logoUrl} alt="huayinter88" width={200} height={200} className="h-40 w-auto object-contain" priority />
+          <Image src={logoUrl} alt="Logo" width={200} height={200} className="h-40 w-auto object-contain" priority />
         </div>
         <h1 className="text-[30px] font-bold text-ap-primary tracking-tight leading-none">
           {t.heading}

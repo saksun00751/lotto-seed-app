@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.API_BASE_URL ?? "https://api.huayinter88.com/api/v1";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.API_BASE_URL;
 
 export interface ApiBankItem {
   code: number;

@@ -31,7 +31,7 @@ export type MetaTitleKey =
   | "changePassword"
   | "reward";
 
-const DEFAULT_TITLE_SUFFIX = "huayinter88.com";
+const DEFAULT_TITLE_SUFFIX = "Logo.com";
 
 function resolveLang(locale: string | undefined): Lang {
   if (!locale) return "th";

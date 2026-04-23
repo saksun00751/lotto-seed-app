@@ -201,7 +201,7 @@ export default function UserProvider({
         const config = normalizeRealtimeConfig(configJson);
         const context = normalizeRealtimeContext(contextJson);
         const key = typeof config?.key === "string" ? config.key : "";
-        const appName = process.env.NEXT_PUBLIC_APP_NAME ?? "huayinter88";
+        const appName = process.env.NEXT_PUBLIC_APP_NAME;
         const memberCode = context.memberCode;
         const sharedMemberChannel = typeof config?.shared_member_channel === "string"
           ? config.shared_member_channel
@@ -231,7 +231,7 @@ export default function UserProvider({
         const cluster = typeof config.cluster === "string" && config.cluster
           ? config.cluster
           : "mt1";
-        const publicApiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://api.huayinter88.com/api/v1").replace(/\/$/, "");
+        const publicApiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "").replace(/\/$/, "");
         const authEndpoint = publicApiBase.endsWith("/api/v1")
           ? `${publicApiBase}/realtime/auth`
           : `${publicApiBase}/api/v1/realtime/auth`;

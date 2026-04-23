@@ -7,7 +7,7 @@ interface SiteMeta {
   description: string;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.API_BASE_URL ?? "https://api.huayinter88.com/api/v1";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.API_BASE_URL;
 
 function isSiteMeta(value: unknown): value is SiteMeta {
   if (!value || typeof value !== "object") return false;
