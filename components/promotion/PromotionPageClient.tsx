@@ -109,7 +109,7 @@ function PromoCard({
           <img
             src={promo.filepic}
             alt={promo.name_th}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
       ) : (

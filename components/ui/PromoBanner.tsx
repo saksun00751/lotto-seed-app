@@ -1,26 +1,26 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { useLang } from "@/lib/i18n/context";
 
-interface PromoItem {
+interface SlideItem {
   code:    number;
-  name_th: string;
   filepic: string;
+  image?:  string;
+  sort?:   number;
 }
 
 export default function PromoBanner() {
-  const { lang } = useLang();
-  const [items, setItems]   = useState<PromoItem[]>([]);
+  const [items, setItems]   = useState<SlideItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [idx, setIdx]       = useState(0);
   const timerRef            = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    fetch("/api/promotion/list")
+    fetch("/api/slides")
       .then((r) => r.json())
       .then((res) => {
-        const list: PromoItem[] = (res.data?.promotions ?? []).filter((p: PromoItem) => p.filepic);
+        const list: SlideItem[] = (res.data ?? [])
+          .filter((s: SlideItem) => s.filepic || s.image)
+          .sort((a: SlideItem, b: SlideItem) => (a.sort ?? 9999) - (b.sort ?? 9999));
         setItems(list);
       })
       .catch(() => {})
@@ -53,18 +53,17 @@ export default function PromoBanner() {
         className="flex transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${idx * 100}%)` }}
       >
-        {items.map((p) => (
-          <Link
-            key={p.code}
-            href={`/${lang}/promotion`}
-            className="relative flex-shrink-0 w-full aspect-[16/6] bg-ap-bg block"
+        {items.map((s) => (
+          <div
+            key={s.code}
+            className="relative flex-shrink-0 w-full aspect-[16/6] bg-ap-bg"
           >
             <img
-              src={p.filepic}
-              alt={p.name_th}
+              src={s.filepic || s.image}
+              alt=""
               className="w-full h-full object-cover"
             />
-          </Link>
+          </div>
         ))}
       </div>
 
