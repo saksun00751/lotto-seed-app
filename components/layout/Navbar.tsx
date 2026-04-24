@@ -132,22 +132,24 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
     return () => document.removeEventListener("mousedown", onOutside);
   }, [profileOpen]);
 
-  const fallbackNavLinks = [
-    { href: `/${lang}/dashboard`, label: t.home,     icon: "home" as IconName, isCta: false },
-    { href: `/${lang}/withdraw`,  label: t.withdraw, icon: "withdraw" as IconName, isCta: false },
-    { href: `/${lang}/bet`,       label: t.play,     icon: "play" as IconName, isCta: true  },
-    { href: `/${lang}/history`,   label: t.history,  icon: "history" as IconName, isCta: false },
-    { href: `/${lang}/contact`,   label: t.contact,  icon: "contact" as IconName, isCta: false },
+  const fallbackNavLinks: { href: string; label: string; icon: IconName; rawIcon?: string; isCta: boolean }[] = [
+    { href: `/${lang}/dashboard`, label: t.home,     icon: "home",     isCta: false },
+    { href: `/${lang}/withdraw`,  label: t.withdraw, icon: "withdraw", isCta: false },
+    { href: `/${lang}/bet`,       label: t.play,     icon: "play",     isCta: true  },
+    { href: `/${lang}/history`,   label: t.history,  icon: "history",  isCta: false },
+    { href: `/${lang}/contact`,   label: t.contact,  icon: "contact",  isCta: false },
   ];
 
-  const navLinks = mobileNavItems && mobileNavItems.length > 0
-    ? mobileNavItems.map((item) => ({
-        href:  `/${lang}${item.action_value.startsWith("/") ? item.action_value : `/${item.action_value}`}`,
-        label: item.label_i18n?.[lang] ?? item.label,
-        icon:  normalizeIcon(item.icon, item.action_value),
-        isCta: item.item_type === "center_cta",
-      }))
-    : fallbackNavLinks;
+  const navLinks: { href: string; label: string; icon: IconName; rawIcon?: string; isCta: boolean }[] =
+    mobileNavItems && mobileNavItems.length > 0
+      ? mobileNavItems.map((item) => ({
+          href:    `/${lang}${item.action_value.startsWith("/") ? item.action_value : `/${item.action_value}`}`,
+          label:   item.label_i18n?.[lang] ?? item.label,
+          icon:    normalizeIcon(item.icon, item.action_value),
+          rawIcon: item.icon,
+          isCta:   item.item_type === "center_cta",
+        }))
+      : fallbackNavLinks;
 
   const desktopNavLinks = [
     { href: `/${lang}/dashboard`, label: t.home,    icon: "home" as IconName },
@@ -377,7 +379,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
 
       {/* Mobile bottom tabs */}
       <div
-        className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-ap-border z-50"
+        className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-ap-border z-50 pb-[env(safe-area-inset-bottom)]"
       >
         <div className="grid w-full" style={{ gridTemplateColumns: `repeat(${navLinks.length}, 1fr)` }}>
           {navLinks.map((l) => {
@@ -387,32 +389,19 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
             return (
               <Link key={l.href} href={l.href}
                 className={[
-                  "min-w-0 transition-all active:scale-95 flex flex-col items-center justify-center gap-0.5",
-                  isPlay
-                    ? [
-                        "relative -mt-4 mb-1 mx-1 px-2.5 rounded-2xl py-2 shadow-lg border",
-                        active
-                          ? "bg-ap-blue text-white border-ap-blue"
-                          : "bg-ap-blue text-white border-ap-blue/70 hover:bg-ap-blue-h",
-                      ].join(" ")
-                    : [
-                        "py-1.5",
-                        active ? "text-ap-blue" : "text-ap-tertiary",
-                      ].join(" "),
+                  "min-w-0 transition-all active:scale-95 flex flex-col items-center justify-center gap-0.5 py-1.5",
+                  active ? "text-ap-blue" : "text-ap-tertiary",
                 ].join(" ")}>
-                <AppIcon name={l.icon} className={["shrink-0 leading-none", isPlay ? "text-[28px]" : "w-[22px] h-[22px]"].join(" ")} />
-                {isPlay ? (
-                  <span className="text-[13px] leading-none font-bold whitespace-nowrap">
-                    {ctaLabel}
+                {l.rawIcon ? (
+                  <span aria-hidden className="emoji-font shrink-0 leading-none text-[22px]">
+                    {l.rawIcon}
                   </span>
                 ) : (
-                  <span className={[
-                    "block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-[12px] w-full text-center px-0.5 leading-none",
-                    active ? "font-bold" : "font-bold",
-                  ].join(" ")}>
-                    {l.label}
-                  </span>
+                  <AppIcon name={l.icon} className="shrink-0 leading-none w-[22px] h-[22px]" />
                 )}
+                <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-[12px] w-full text-center px-0.5 leading-none font-bold">
+                  {isPlay ? ctaLabel : l.label}
+                </span>
               </Link>
             );
           })}
