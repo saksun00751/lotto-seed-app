@@ -52,10 +52,28 @@ export default function SpinPage({
 
     let cancelled = false;
 
-    const initWheel = () => {
+    const preloadImages = (urls: string[]) =>
+      Promise.all(
+        urls.map(
+          (url) =>
+            new Promise<void>((resolve) => {
+              if (!url) { resolve(); return; }
+              const img = new Image();
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+              img.src = url;
+            }),
+        ),
+      );
+
+    const initWheel = async () => {
       if (cancelled) return;
       const W = (window as any).Winwheel;
       if (!W) return;
+
+      await preloadImages(segments.map((s) => s.imageUrl));
+      if (cancelled) return;
+
       wheelRef.current = new W({
         canvasId:       "spin-canvas",
         numSegments:    segments.length,
@@ -75,6 +93,11 @@ export default function SpinPage({
           spins:    8,
         },
       });
+
+      // Redraw after a tick to ensure Winwheel's internal image objects are ready
+      setTimeout(() => {
+        if (!cancelled) wheelRef.current?.draw();
+      }, 100);
     };
 
     const loadWheel = () => {
@@ -201,7 +224,7 @@ export default function SpinPage({
           <div className="bg-white rounded-2xl shadow-card-xl border border-ap-border p-6 flex flex-col items-center gap-5">
 
             {/* Top bar */}
-            <div className="w-full flex items-center justify-between">
+            <div className="mb-6 w-full flex items-center justify-between">
               <Link href={`/${lang}/dashboard`}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ap-bg border border-ap-border text-ap-secondary text-[13px] hover:bg-ap-blue/5 transition-colors">
                 {t.back}
@@ -215,15 +238,16 @@ export default function SpinPage({
 
             {/* Wheel */}
             <div className="rng-canvas-container">
+              <img src="/wheel_back.png" alt="" className="rng-canvas-bg" />
               <div className="rng-canvas-pointer">
                 <svg width="22" height="30" viewBox="0 0 22 30">
-                  <polygon points="11,30 0,6 22,6" fill="#EF4444" />
+                  {/* <polygon points="11,30 0,6 22,6" fill="#EF4444" /> */}
                   <circle cx="11" cy="6" r="4" fill="white" stroke="#EF4444" strokeWidth="2" />
                 </svg>
               </div>
               <canvas id="spin-canvas" className="rng-canvas-canvas" width="400" height="400" />
             </div>
-
+<br />
             <button
               onClick={handleSpin}
               disabled={isSpinning || diamond < 1 || !wheelEnabled}
