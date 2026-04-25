@@ -277,15 +277,39 @@ export default function UserProvider({
         const handlePublicActivity = (payload: any) => {
           const eventName = typeof payload?.event === "string" ? payload.event : "";
           const message = typeof payload?.message === "string" ? payload.message : "";
+          const data = (payload?.data ?? {}) as Record<string, unknown>;
+          const marketName = typeof data.market_name === "string" ? data.market_name : "";
+          const drawDate = typeof data.draw_date === "string" ? data.draw_date : "";
+          const statusLabel = typeof data.status_label === "string" ? data.status_label : "";
+          const drawLabel = [marketName, drawDate].filter(Boolean).join(" ");
+
           switch (eventName) {
             case "lotto.draw_closed":
-              toast.info(message || "งวดหวยปิดรับแทงแล้ว");
+              toast.info(message || `${drawLabel || "งวดหวย"} ปิดรับแทงแล้ว`);
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("lotto:draw-closed", { detail: payload }));
+              }
               break;
             case "lotto.draw_resulted":
-              toast.success(message || "ประกาศผลหวยแล้ว");
+              toast.success(message || `${drawLabel || "งวดหวย"} ประกาศผลแล้ว`);
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("lotto:draw-resulted", { detail: payload }));
+              }
               break;
             case "lotto.draw_status_changed":
-              toast.info(message || "สถานะงวดหวยมีการเปลี่ยนแปลง");
+              toast.info(
+                message ||
+                  `${drawLabel || "งวดหวย"} เปลี่ยนสถานะ${statusLabel ? ` → ${statusLabel}` : ""}`
+              );
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("lotto:draw-status-changed", { detail: payload }));
+              }
+              break;
+            case "lotto.ticket.list.changed":
+              if (message) toast.info(message);
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("lotto:ticket-list-changed", { detail: payload }));
+              }
               break;
           }
         };
