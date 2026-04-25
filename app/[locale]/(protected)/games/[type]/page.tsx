@@ -2,11 +2,46 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { getProvidersByTypeFromApi, getGameTypeMeta } from "@/lib/api/games";
+import type { GameProviderItem } from "@/lib/api/games";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import { withTitleSuffix } from "@/lib/i18n/metaTitle";
 
 interface Props {
   params: Promise<{ locale: string; type: string }>;
+}
+
+const CARD_GROUP_LABELS: Record<string, Record<string, string>> = {
+  th: { card: "เกมไพ่", poker: "โป๊กเกอร์", keno: "คีโน่" },
+  en: { card: "Card", poker: "Poker", keno: "Keno" },
+  kh: { card: "បៀ", poker: "ប៉ូកែ", keno: "គីណូ" },
+  la: { card: "ໄພ່", poker: "ໂປກເກີ", keno: "ກີໂນ" },
+};
+
+const CARD_GROUP_EMOJI: Record<string, string> = {
+  card: "🃏",
+  poker: "♠️",
+  keno: "🎱",
+};
+
+const CARD_GROUP_TYPES = ["card", "poker", "keno"];
+
+function ProviderTile({ game, locale }: { game: GameProviderItem; locale: string }) {
+  return (
+    <Link
+      key={`${game.game_type}:${game.id}`}
+      href={`/${locale}/games/${game.game_type}/${game.id.toLowerCase()}`}
+      className="group flex flex-col items-center gap-2 text-center active:scale-[0.97] transition-all"
+    >
+      <div className="w-full aspect-[3/5] rounded-2xl overflow-hidden flex items-center justify-center">
+        <img
+          src={game.filepic}
+          alt={game.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <p className="text-[11px] font-semibold text-ap-primary leading-tight line-clamp-2 w-full">{game.name}</p>
+    </Link>
+  );
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -29,6 +64,13 @@ export default async function GamesTypePage({ params }: Props) {
   ]);
   const games = await getProvidersByTypeFromApi(gameType, apiToken ?? undefined, lang);
   const t = getTranslation(lang, "games");
+  const isCardGroupPage = type.toLowerCase() === "cardgroup";
+  const cardGroupLabels = CARD_GROUP_LABELS[lang] ?? CARD_GROUP_LABELS.th;
+  const groupedGames = CARD_GROUP_TYPES.map((groupType) => ({
+    type: groupType,
+    label: cardGroupLabels[groupType] ?? groupType,
+    games: games.filter((g) => g.game_type.toLowerCase() === groupType),
+  })).filter((group) => group.games.length > 0);
 
   return (
     <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
@@ -55,24 +97,34 @@ export default async function GamesTypePage({ params }: Props) {
               <p className="text-[13px] text-ap-tertiary">{t.noProviders}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 p-3">
-              {games.map((g) => (
-                <Link
-                  key={g.id}
-                  href={`/${locale}/games/${type}/${g.id.toLowerCase()}`}
-                  className="group flex flex-col items-center gap-2 text-center active:scale-[0.97] transition-all"
-                >
-                  <div className="w-full aspect-[3/5] rounded-2xl overflow-hidden flex items-center justify-center">
-                    <img
-                      src={g.filepic}
-                      alt={g.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <p className="text-[11px] font-semibold text-ap-primary leading-tight line-clamp-2 w-full">{g.name}</p>
-                </Link>
-              ))}
-            </div>
+            isCardGroupPage ? (
+              <div className="p-3 space-y-5">
+                {groupedGames.map((group) => (
+                  <section key={group.type} className="overflow-hidden rounded-2xl border border-ap-border bg-white">
+                    <div className="flex items-center gap-2 border-b border-ap-border bg-ap-bg px-3 py-2.5">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-[18px] shrink-0">{CARD_GROUP_EMOJI[group.type] ?? meta.emoji}</span>
+                        <div className="min-w-0">
+                          <h2 className="text-[14px] font-bold text-ap-primary leading-tight truncate">{group.label}</h2>
+                          <p className="text-[12px] text-ap-secondary leading-tight mt-0.5">{group.games.length} {t.providers}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 p-3">
+                      {group.games.map((g) => (
+                        <ProviderTile key={`${g.game_type}:${g.id}`} game={g} locale={locale} />
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 p-3">
+                {games.map((g) => (
+                  <ProviderTile key={`${g.game_type}:${g.id}`} game={g} locale={locale} />
+                ))}
+              </div>
+            )
           )}
         </div>
 

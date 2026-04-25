@@ -51,8 +51,16 @@ const GAME_TYPE_META: Record<string, { label: string; emoji: string }> = {
 const CARD_GROUP_IDS = ["card", "poker", "keno"];
 const TYPE_ORDER     = ["SLOT", "CASINO", "SPORT", "CARDGROUP", "COCK", "FISH"];
 
+function isCardGroupType(id: string) {
+  return id.toLowerCase() === "cardgroup";
+}
+
+function isCardGroupMember(id: string) {
+  return CARD_GROUP_IDS.includes(id.toLowerCase());
+}
+
 export function getGameTypeMeta(id: string) {
-  const key = CARD_GROUP_IDS.includes(id.toLowerCase()) ? "CARDGROUP" : id.toUpperCase();
+  const key = isCardGroupMember(id) ? "CARDGROUP" : id.toUpperCase();
   return GAME_TYPE_META[key] ?? { label: id, emoji: "🎮" };
 }
 
@@ -93,7 +101,7 @@ export async function getAllGamesGroupedFromApi(
   for (const r of results) {
     if (r.status !== "fulfilled") continue;
     const { typeId, providers } = r.value;
-    const groupKey = CARD_GROUP_IDS.includes(typeId) ? "CARDGROUP" : typeId.toUpperCase();
+    const groupKey = isCardGroupMember(typeId) ? "CARDGROUP" : typeId.toUpperCase();
     if (!merged.has(groupKey)) merged.set(groupKey, []);
     merged.get(groupKey)!.push(
       ...providers
@@ -128,13 +136,38 @@ export async function getProvidersByTypeFromApi(
   token?: string,
   lang?: string
 ): Promise<GameProviderItem[]> {
-  const res = await apiGet<ApiProvidersResponse>(`/games/providers/${gameType.toLowerCase()}`, token, lang);
+  const typeId = gameType.toLowerCase();
+
+  if (isCardGroupType(typeId)) {
+    const results = await Promise.allSettled(
+      CARD_GROUP_IDS.map((id) =>
+        apiGet<ApiProvidersResponse>(`/games/providers/${id}`, token, lang).then((res) => ({
+          typeId: id,
+          providers: extractProviders(res?.data),
+        }))
+      )
+    );
+
+    return results.flatMap((r) => {
+      if (r.status !== "fulfilled") return [];
+      return r.value.providers
+        .filter((p) => !p.status || p.status === "ACTIVE")
+        .map((p) => ({
+          id:        p.provider,
+          name:      p.providerName,
+          filepic:   p.logoURL ?? "",
+          game_type: r.value.typeId,
+        }));
+    });
+  }
+
+  const res = await apiGet<ApiProvidersResponse>(`/games/providers/${typeId}`, token, lang);
   return extractProviders(res?.data)
     .filter((p) => !p.status || p.status === "ACTIVE")
     .map((p) => ({
       id:        p.provider,
       name:      p.providerName,
       filepic:   p.logoURL ?? "",
-      game_type: gameType.toLowerCase(),
+      game_type: typeId,
     }));
 }

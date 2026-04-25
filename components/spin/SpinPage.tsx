@@ -247,7 +247,7 @@ export default function SpinPage({
               </div>
               <canvas id="spin-canvas" className="rng-canvas-canvas" width="400" height="400" />
             </div>
-<br />
+<br /> <br />
             <button
               onClick={handleSpin}
               disabled={isSpinning || diamond < 1 || !wheelEnabled}
