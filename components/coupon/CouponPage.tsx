@@ -37,7 +37,7 @@ function StatusBadge({ status }: { status: string }) {
   };
   const s = map[status] ?? { cls: "bg-gray-100 text-gray-500 border-gray-300", label: status };
   return (
-    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${s.cls}`}>
+    <span className={`text-[13px] font-bold px-2.5 py-0.5 rounded-full border ${s.cls}`}>
       {s.label}
     </span>
   );
@@ -50,7 +50,7 @@ function TypeBadge({ type, label }: { type: string; label: string }) {
     cashback: "bg-green-100 text-green-700",
   };
   return (
-    <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${colors[type] ?? "bg-gray-100 text-gray-600"}`}>
+    <span className={`text-[12px] font-bold px-2 py-0.5 rounded ${colors[type] ?? "bg-gray-100 text-gray-600"}`}>
       {label}
     </span>
   );
@@ -90,7 +90,7 @@ function CouponCard({
         {/* Header row */}
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex-1 min-w-0">
-            <p className="text-[15px] font-bold text-ap-primary leading-tight">{item.name}</p>
+            <p className="text-[17px] font-extrabold text-ap-primary leading-tight">{item.name}</p>
             <div className="flex items-center gap-1.5 mt-1 flex-wrap">
               <TypeBadge type={item.type} label={item.type_label} />
               <StatusBadge status={item.status} />
@@ -98,7 +98,7 @@ function CouponCard({
           </div>
           {/* Value */}
           <div className="text-right flex-shrink-0">
-            <p className="text-[24px] font-bold text-amber-500 tabular-nums leading-tight">
+            <p className="text-[26px] font-extrabold text-amber-500 tabular-nums leading-tight">
               ฿{item.value.toLocaleString("en-US", { minimumFractionDigits: 0 })}
             </p>
           </div>
@@ -112,23 +112,23 @@ function CouponCard({
 
         {/* Code */}
         <div className="bg-ap-bg rounded-xl px-3 py-2 mb-3 flex items-center justify-between">
-          <span className="text-[11px] text-ap-tertiary font-medium">CODE</span>
-          <span className="text-[15px] font-bold font-mono tracking-widest text-ap-primary">{item.code}</span>
+          <span className="text-[13px] text-ap-tertiary font-bold">CODE</span>
+          <span className="text-[17px] font-extrabold font-mono tracking-widest text-ap-primary">{item.code}</span>
         </div>
 
         {/* Meta info */}
         <div className="grid grid-cols-3 gap-2 mb-3 text-center">
           <div className="bg-ap-bg/60 rounded-xl py-2">
-            <p className="text-[10px] text-ap-tertiary">{t.labelTurnover}</p>
-            <p className="text-[13px] font-bold text-ap-primary tabular-nums">×{item.turnpro}</p>
+            <p className="text-[12px] font-semibold text-ap-tertiary">{t.labelTurnover}</p>
+            <p className="text-[15px] font-extrabold text-ap-primary tabular-nums">×{item.turnpro}</p>
           </div>
           <div className="bg-ap-bg/60 rounded-xl py-2">
-            <p className="text-[10px] text-ap-tertiary">{t.labelLimit}</p>
-            <p className="text-[13px] font-bold text-ap-primary tabular-nums">{item.amount_limit}</p>
+            <p className="text-[12px] font-semibold text-ap-tertiary">{t.labelLimit}</p>
+            <p className="text-[15px] font-extrabold text-ap-primary tabular-nums">{item.amount_limit}</p>
           </div>
           <div className="bg-ap-bg/60 rounded-xl py-2">
-            <p className="text-[10px] text-ap-tertiary">{t.labelExpire}</p>
-            <p className="text-[11px] font-bold text-ap-primary">
+            <p className="text-[12px] font-semibold text-ap-tertiary">{t.labelExpire}</p>
+            <p className="text-[13px] font-extrabold text-ap-primary">
               {item.date_expire
                 ? new Date(item.date_expire).toLocaleDateString("th-TH", { day: "numeric", month: "short" })
                 : t.noExpire}
@@ -142,19 +142,19 @@ function CouponCard({
             type="button"
             onClick={handleClaim}
             disabled={pending}
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[13px] font-bold hover:opacity-90 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
+            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[15px] font-extrabold hover:opacity-90 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
           >
             {pending ? t.claiming : t.claimBtn}
           </button>
         ) : isClaimed ? (
-          <div className="w-full py-2.5 rounded-xl bg-ap-bg border border-ap-border text-center text-[13px] font-semibold text-ap-tertiary">
+          <div className="w-full py-2.5 rounded-xl bg-ap-bg border border-ap-border text-center text-[15px] font-bold text-ap-tertiary">
             ✓ {item.status_label}
           </div>
         ) : null}
 
         {/* Toast */}
         {toast && (
-          <div className={`mt-2 px-3 py-2 rounded-xl text-[12px] font-semibold text-center ${toast.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"}`}>
+          <div className={`mt-2 px-3 py-2 rounded-xl text-[14px] font-bold text-center ${toast.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"}`}>
             {toast.msg}
           </div>
         )}
@@ -182,7 +182,7 @@ function RedeemBox({ onRedeem }: { onRedeem: (code: string) => Promise<{ success
 
   return (
     <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4">
-      <p className="text-[12px] font-bold text-ap-tertiary uppercase tracking-wide mb-3">🎟 {t.redeemLabel}</p>
+      <p className="text-[14px] font-extrabold text-ap-tertiary uppercase tracking-wide mb-3">🎟 {t.redeemLabel}</p>
       <form onSubmit={handleRedeem} className="flex gap-2">
         <input
           type="text"
@@ -190,18 +190,18 @@ function RedeemBox({ onRedeem }: { onRedeem: (code: string) => Promise<{ success
           onChange={(e) => setCode(e.target.value.toUpperCase())}
           placeholder={t.redeemPlaceholder}
           maxLength={30}
-          className="flex-1 border border-ap-border rounded-xl px-3 py-2.5 text-[13px] font-mono font-bold uppercase tracking-wider outline-none focus:border-ap-blue bg-white transition-all"
+          className="flex-1 border border-ap-border rounded-xl px-3 py-2.5 text-[15px] font-mono font-bold uppercase tracking-wider outline-none focus:border-ap-blue bg-white transition-all"
         />
         <button
           type="submit"
           disabled={!code.trim() || pending}
-          className="px-4 py-2.5 rounded-xl bg-ap-blue text-white text-[13px] font-bold hover:bg-ap-blue-h active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2.5 rounded-xl bg-ap-blue text-white text-[15px] font-extrabold hover:bg-ap-blue-h active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {pending ? "..." : t.redeemBtn}
         </button>
       </form>
       {toast && (
-        <div className={`mt-2 px-3 py-2 rounded-xl text-[12px] font-semibold ${toast.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"}`}>
+        <div className={`mt-2 px-3 py-2 rounded-xl text-[14px] font-bold ${toast.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"}`}>
           {toast.msg}
         </div>
       )}
@@ -226,8 +226,8 @@ export default function CouponPage({ items, count, locale, onClaim, onRedeem }: 
             </svg>
           </Link>
           <div>
-            <h1 className="text-[18px] font-bold text-ap-primary leading-tight">🎟 {t.title}</h1>
-            <p className="text-[12px] text-ap-tertiary">{t.count.replace("{n}", String(count))}</p>
+            <h1 className="text-[20px] font-extrabold text-ap-primary leading-tight">🎟 {t.title}</h1>
+            <p className="text-[14px] font-medium text-ap-tertiary">{t.count.replace("{n}", String(count))}</p>
           </div>
         </div>
 
@@ -238,8 +238,8 @@ export default function CouponPage({ items, count, locale, onClaim, onRedeem }: 
         {items.length === 0 ? (
           <div className="bg-white rounded-2xl border border-ap-border shadow-card py-16 text-center">
             <div className="text-[48px] mb-3">🎟</div>
-            <p className="text-[15px] font-bold text-ap-primary">{t.empty}</p>
-            <p className="text-[12px] text-ap-tertiary mt-1">{t.emptyDesc}</p>
+            <p className="text-[17px] font-extrabold text-ap-primary">{t.empty}</p>
+            <p className="text-[14px] font-medium text-ap-tertiary mt-1">{t.emptyDesc}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

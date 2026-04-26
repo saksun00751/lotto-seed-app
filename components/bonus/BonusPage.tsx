@@ -329,8 +329,8 @@ export default function BonusPage({
             </svg>
           </Link>
           <div>
-            <h1 className="text-[18px] font-bold text-ap-primary leading-tight">🎁 {t.title}</h1>
-            <p className="text-[12px] text-ap-tertiary">{t.subtitle}</p>
+            <h1 className="text-[20px] font-extrabold text-ap-primary leading-tight">🎁 {t.title}</h1>
+            <p className="text-[14px] font-medium text-ap-tertiary">{t.subtitle}</p>
           </div>
         </div>
 
@@ -368,15 +368,15 @@ export default function BonusPage({
                 </div>
 
                 <div>
-                  <p className="text-[13px] font-semibold text-ap-secondary leading-tight">{item.label}</p>
-                  <p className="text-[11px] text-ap-tertiary mt-0.5 leading-snug line-clamp-1">{item.desc}</p>
+                  <p className="text-[15px] font-bold text-ap-secondary leading-tight">{item.label}</p>
+                  <p className="text-[13px] font-medium text-ap-tertiary mt-0.5 leading-snug line-clamp-1">{item.desc}</p>
                 </div>
 
                 <div className="flex items-baseline gap-1.5 mt-1">
-                  <span className="text-[24px] sm:text-[26px] font-extrabold text-ap-primary tabular-nums leading-none tracking-tight">
+                  <span className="text-[26px] sm:text-[28px] font-extrabold text-ap-primary tabular-nums leading-none tracking-tight">
                     {item.value}
                   </span>
-                  <span className="text-[11px] font-semibold text-ap-tertiary">{item.unit}</span>
+                  <span className="text-[13px] font-bold text-ap-tertiary">{item.unit}</span>
                 </div>
               </div>
             </button>
@@ -386,7 +386,7 @@ export default function BonusPage({
         {/* How it works */}
         <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
           <div className="px-5 py-3 border-b border-ap-border">
-            <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">{t.howTitle}</p>
+            <p className="text-[14px] font-bold text-ap-tertiary uppercase tracking-wide">{t.howTitle}</p>
           </div>
           <ul className="divide-y divide-ap-border">
             {[
@@ -396,19 +396,18 @@ export default function BonusPage({
               { icon: "🤝", label: t.stepReferTitle,    desc: t.stepReferDesc },
             ].map((step, idx) => (
               <li key={idx} className="flex items-center gap-4 px-5 py-3.5">
-                <div className="w-9 h-9 rounded-xl bg-ap-bg flex items-center justify-center text-[18px] flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-ap-bg flex items-center justify-center text-[20px] flex-shrink-0">
                   {step.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-ap-primary leading-tight">{step.label}</p>
-                  <p className="text-[11px] text-ap-tertiary mt-0.5 leading-snug">{step.desc}</p>
+                  <p className="text-[15px] font-bold text-ap-primary leading-tight">{step.label}</p>
+                  <p className="text-[13px] font-medium text-ap-secondary mt-0.5 leading-snug">{step.desc}</p>
                 </div>
               </li>
             ))}
           </ul>
         </div>
 
-        <p className="text-center text-[11px] text-ap-tertiary pt-1">{t.footnote}</p>
       </div>
 
       <ClaimConfirmModal
