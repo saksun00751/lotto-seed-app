@@ -1,26 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
-import { apiPost, ApiError } from "@/lib/api/client";
+import { apiGet, ApiError } from "@/lib/api/client";
 
-export async function POST(
+const ID_PATTERN = /^[a-zA-Z0-9_-]+$/;
+
+export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ txid: string }> },
+  { params }: { params: Promise<{ id: string; txid: string }> },
 ) {
   void req;
   const token = await getApiToken();
   if (!token) return NextResponse.json({ success: false, message: "กรุณาเข้าสู่ระบบ" }, { status: 401 });
 
-  const { txid } = await params;
-  const id = txid.trim();
-  if (!id) {
+  const { id, txid } = await params;
+  const providerId = id.trim();
+  const tx = txid.trim();
+  if (!providerId || !ID_PATTERN.test(providerId)) {
+    return NextResponse.json({ success: false, message: "provider id ไม่ถูกต้อง" }, { status: 400 });
+  }
+  if (!tx) {
     return NextResponse.json({ success: false, message: "ไม่พบ txid" }, { status: 400 });
   }
 
   const lang = await getLangCookie();
   try {
-    const data = await apiPost<Record<string, unknown>>(
-      `/smkpay/deposit/expire/${encodeURIComponent(id)}`,
-      {},
+    const data = await apiGet<Record<string, unknown>>(
+      `/${providerId}/deposit/status/${encodeURIComponent(tx)}`,
       token,
       lang,
     );
@@ -32,6 +37,6 @@ export async function POST(
       }
       return NextResponse.json({ success: false, message: e.message }, { status: e.status || 400 });
     }
-    return NextResponse.json({ success: false, message: "ไม่สามารถปิดรายการฝากเงินได้" }, { status: 500 });
+    return NextResponse.json({ success: false, message: "ไม่สามารถตรวจสอบสถานะฝากเงินได้" }, { status: 500 });
   }
 }

@@ -122,6 +122,46 @@ function asRecord(value: unknown): Record<string, unknown> | null {
   return value as Record<string, unknown>;
 }
 
+function normalizeQrData(payload: unknown, fallbackRequestId: string = ""): QrCodeData | null {
+  const root = asRecord(payload);
+  if (!root) return null;
+
+  const data = asRecord(root.data) || root;
+  const qrcode = typeof data.qrcode === "string" ? data.qrcode.trim() : "";
+  if (!qrcode) return null;
+
+  const request_id =
+    (typeof data.request_id === "string" ? data.request_id.trim() : "")
+    || (typeof data.requestId === "string" ? data.requestId.trim() : "")
+    || fallbackRequestId.trim();
+  if (!request_id) return null;
+
+  const txid = typeof data.txid === "string" ? data.txid : "";
+  const status = typeof data.status === "string" ? data.status : "";
+  const amountRaw = data.amount;
+  const payAmountRaw = data.payamount;
+  const amount = typeof amountRaw === "number" ? amountRaw : Number(amountRaw) || 0;
+  const payamount = typeof payAmountRaw === "number" ? payAmountRaw : Number(payAmountRaw) || 0;
+  const qr_string = typeof data.qr_string === "string" ? data.qr_string : "";
+  const expired_date = typeof data.expired_date === "string" ? data.expired_date : "";
+  const memberRec = asRecord(data.member);
+
+  return {
+    request_id,
+    txid,
+    status,
+    amount,
+    payamount,
+    qrcode,
+    qr_string,
+    expired_date,
+    member: {
+      user_name: typeof memberRec?.user_name === "string" ? memberRec.user_name : "",
+      name: typeof memberRec?.name === "string" ? memberRec.name : "",
+    },
+  };
+}
+
 function pickRequestId(payload: unknown): string | null {
   const rec = asRecord(payload);
   if (!rec) return null;
@@ -150,41 +190,6 @@ function pickRequestId(payload: unknown): string | null {
     const last = url.split("/").filter(Boolean).pop() ?? "";
     return last || null;
   }
-}
-
-function normalizeQrData(payload: unknown): QrCodeData | null {
-  const root = asRecord(payload);
-  const data = asRecord(root?.data);
-  if (!data) return null;
-
-  const request_id = typeof data.request_id === "string" ? data.request_id : "";
-  const txid = typeof data.txid === "string" ? data.txid : "";
-  const status = typeof data.status === "string" ? data.status : "";
-  const qrcode = typeof data.qrcode === "string" ? data.qrcode : "";
-  if (!request_id || !qrcode) return null;
-
-  const amountRaw = data.amount;
-  const payAmountRaw = data.payamount;
-  const amount = typeof amountRaw === "number" ? amountRaw : Number(amountRaw) || 0;
-  const payamount = typeof payAmountRaw === "number" ? payAmountRaw : Number(payAmountRaw) || 0;
-  const qr_string = typeof data.qr_string === "string" ? data.qr_string : "";
-  const expired_date = typeof data.expired_date === "string" ? data.expired_date : "";
-  const memberRec = asRecord(data.member);
-
-  return {
-    request_id,
-    txid,
-    status,
-    amount,
-    payamount,
-    qrcode,
-    qr_string,
-    expired_date,
-    member: {
-      user_name: typeof memberRec?.user_name === "string" ? memberRec.user_name : "",
-      name: typeof memberRec?.name === "string" ? memberRec.name : "",
-    },
-  };
 }
 
 function parseExpiredDateMs(raw: string): number | null {
@@ -529,6 +534,8 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
   const [selectedPayment, setSelectedPayment] = useState<PaymentOption | null>(null);
   const [paymentAmount,   setPaymentAmount]   = useState<string>("");
   const [paymentSubmitting, setPaymentSubmitting] = useState(false);
+  const [createEndpointInfo, setCreateEndpointInfo] = useState<Record<string, unknown> | null>(null);
+  const [createResponseInfo, setCreateResponseInfo] = useState<Record<string, unknown> | null>(null);
   const [qrCodeData,        setQrCodeData]        = useState<QrCodeData | null>(null);
   const [nowTs,             setNowTs]             = useState<number>(Date.now());
   const [expireDoneTxids,   setExpireDoneTxids]   = useState<Record<string, true>>({});
@@ -704,11 +711,22 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
     setStatusModal(null);
     setBankError(null);
 
+    const providerId = encodeURIComponent(selectedPayment.id);
+    const proxyUrl = `/api/payment/${providerId}/deposit/create`;
+    const requestBody = { amount, payment_url: selectedPayment.payment_url };
+    setCreateEndpointInfo({
+      method: "POST",
+      proxy: proxyUrl,
+      target: selectedPayment.payment_url,
+      body: requestBody,
+    });
+    setCreateResponseInfo(null);
+
     try {
-      const createRes = await fetch("/api/smkpay/deposit/create", {
+      const createRes = await fetch(proxyUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify(requestBody),
       });
 
       let createData: unknown;
@@ -722,8 +740,58 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
         };
       }
 
+      setCreateResponseInfo({
+        status: createRes.status,
+        ok: createRes.ok,
+        body: createData,
+      });
+
       if (!createRes.ok || isApiSuccessFalse(createData)) {
         setBankError(pickErrorMessage(createData, t.eCreateDeposit));
+        return;
+      }
+
+      const hasTarget = (createData as Record<string, unknown>)?.target !== undefined;
+      const paymentUrl = typeof (createData as Record<string, unknown>)?.url === "string"
+        ? ((createData as Record<string, unknown>).url as string).trim()
+        : "";
+
+      if (hasTarget && paymentUrl) {
+        const target = (createData as Record<string, unknown>)?.target === "blank" ? "_blank" : "_self";
+        window.open(paymentUrl, target);
+        setShowResult(true);
+        return;
+      }
+
+      let qrResponse: unknown = createData;
+      if (!hasTarget && paymentUrl) {
+        try {
+          const res = await fetch(paymentUrl, {
+            method: "GET",
+          });
+          try {
+            qrResponse = await res.json();
+          } catch {
+            qrResponse = {
+              success: false,
+              message: t.eQrResponseNotJson,
+              status: res.status,
+            };
+          }
+          if (!res.ok || isApiSuccessFalse(qrResponse)) {
+            setBankError(pickErrorMessage(qrResponse, t.eLoadQr));
+            return;
+          }
+        } catch {
+          setBankError(t.eConnect);
+          return;
+        }
+      }
+
+      let normalized = normalizeQrData(qrResponse, "");
+      if (normalized) {
+        setQrCodeData(normalized);
+        setShowResult(true);
         return;
       }
 
@@ -733,7 +801,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
         return;
       }
 
-      const qrRes = await fetch(`/api/smkpay/qrcode/${encodeURIComponent(requestId)}`, {
+      const qrRes = await fetch(`/api/payment/${providerId}/qrcode/${encodeURIComponent(requestId)}`, {
         method: "GET",
       });
 
@@ -753,7 +821,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
         return;
       }
 
-      const normalized = normalizeQrData(qrData);
+      normalized = normalizeQrData(qrData, requestId);
       if (!normalized) {
         setBankError(t.eBadQr);
         return;
@@ -761,8 +829,12 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
       setQrCodeData(normalized);
       setShowResult(true);
-    } catch {
+    } catch (err) {
       setBankError(t.eConnect);
+      setCreateResponseInfo({
+        ok: false,
+        error: err instanceof Error ? err.message : String(err),
+      });
     } finally {
       setPaymentSubmitting(false);
     }
@@ -792,7 +864,9 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
     void (async () => {
       try {
-        const res = await fetch(`/api/smkpay/deposit/expire/${encodeURIComponent(txid)}`, {
+        const providerId = encodeURIComponent(selectedPayment?.id ?? "");
+        if (!providerId) return;
+        const res = await fetch(`/api/payment/${providerId}/deposit/expire/${encodeURIComponent(txid)}`, {
           method: "POST",
         });
         if (!res.ok) {
@@ -821,7 +895,12 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
     const pollStatus = async () => {
       if (cancelled) return;
       try {
-        const res = await fetch(`/api/smkpay/deposit/status/${encodeURIComponent(txid)}`, {
+        const providerId = encodeURIComponent(selectedPayment?.id ?? "");
+        if (!providerId) {
+          scheduleNext();
+          return;
+        }
+        const res = await fetch(`/api/payment/${providerId}/deposit/status/${encodeURIComponent(txid)}`, {
           method: "GET",
         });
 
@@ -1414,6 +1493,22 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                     >
                       {paymentSubmitting ? t.creatingQr : t.createQr}
                     </button>
+                    {createEndpointInfo && (
+                      <div className="mt-2">
+                        <p className="text-[11px] font-semibold text-ap-tertiary mb-1">Request</p>
+                        <pre className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-[12px] text-ap-primary overflow-x-auto whitespace-pre-wrap break-all">
+{JSON.stringify(createEndpointInfo, null, 2)}
+                        </pre>
+                      </div>
+                    )}
+                    {createResponseInfo && (
+                      <div className="mt-2">
+                        <p className="text-[11px] font-semibold text-ap-tertiary mb-1">Response</p>
+                        <pre className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-[12px] text-ap-primary overflow-x-auto whitespace-pre-wrap break-all">
+{JSON.stringify(createResponseInfo, null, 2)}
+                        </pre>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
