@@ -58,17 +58,17 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
               <span className="text-[24px]">{item.flag}</span>
             )}
             <div>
-              <div className="text-[13px] font-semibold text-ap-primary leading-tight">{item.name}</div>
-              <div className="text-[11px] text-ap-tertiary mt-0.5">{item.sub}</div>
+              <div className="text-[14px] font-semibold text-ap-primary leading-tight">{item.name}</div>
+              <div className="text-[12px] text-ap-tertiary mt-0.5">{item.sub}</div>
             </div>
           </div>
           {item.isOpen ? (
-            <span className="flex items-center gap-1 text-[10px] font-medium text-ap-red bg-ap-red/8 px-2 py-0.5 rounded-full border border-ap-red/15 flex-shrink-0">
+            <span className="flex items-center gap-1 text-[12px] font-medium text-ap-red bg-ap-red/8 px-2 py-0.5 rounded-full border border-ap-red/15 flex-shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-ap-red animate-pulse inline-block" />
               {t.live}
             </span>
           ) : (
-            <span className="text-[10px] font-medium text-ap-green bg-ap-green/8 px-2 py-0.5 rounded-full border border-ap-green/15 flex-shrink-0">
+            <span className="text-[12px] font-medium text-ap-green bg-ap-green/8 px-2 py-0.5 rounded-full border border-ap-green/15 flex-shrink-0">
               ✓ {t.drawn}
             </span>
           )}
@@ -79,11 +79,11 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
           <div className="grid grid-cols-2 gap-1.5 h-[68px] mb-3">
             <div className="bg-ap-bg rounded-xl p-2 text-center flex flex-col justify-center">
               <div className="text-[20px] font-bold text-ap-primary tabular-nums">{item.result.top3}</div>
-              <div className="text-[10px] text-ap-tertiary">{t.top3}</div>
+              <div className="text-[12px] text-ap-tertiary">{t.top3}</div>
             </div>
             <div className="bg-ap-bg rounded-xl p-2 text-center flex flex-col justify-center">
               <div className="text-[20px] font-bold text-ap-primary tabular-nums">{item.result.bot2}</div>
-              <div className="text-[10px] text-ap-tertiary">{t.bot2}</div>
+              <div className="text-[12px] text-ap-tertiary">{t.bot2}</div>
             </div>
           </div>
         ) : (
@@ -110,7 +110,7 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
               toastClosedRefresh={t.closedRefreshing}
             />
           ) : (
-            <button className="block w-full text-center bg-ap-bg border border-ap-border text-ap-secondary rounded-full py-2 text-[12px] font-medium cursor-default">
+            <button className="block w-full text-center bg-ap-bg border border-ap-border text-ap-secondary rounded-full py-2 text-[13px] font-medium cursor-default">
               {t.viewPast}
             </button>
           )}

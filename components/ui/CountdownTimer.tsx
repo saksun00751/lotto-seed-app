@@ -1,38 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useLang } from "@/lib/i18n/context";
+import { useEffect, useState } from "react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 
-type LangCode = "th" | "en" | "kh" | "la";
+interface Parts {
+  expired: boolean;
+  hh: string;
+  mm: string;
+  ss: string;
+}
 
-const DATE_LOCALE_BY_LANG: Record<LangCode, string> = {
-  th: "th-TH",
-  en: "en-US",
-  kh: "km-KH",
-  la: "lo-LA",
-};
-
-function format(closeAt: string, expiredText: string, dayText: string, dateLocale: string): string {
+function compute(closeAt: string): Parts {
   const diffMs = new Date(closeAt).getTime() - Date.now();
-  if (diffMs <= 0) return expiredText;
+  if (diffMs <= 0) return { expired: true, hh: "00", mm: "00", ss: "00" };
 
   const totalSec = Math.floor(diffMs / 1000);
-  const days  = Math.floor(totalSec / 86400);
-  const hours = Math.floor((totalSec % 86400) / 3600);
+  const hours = Math.floor(totalSec / 3600);
   const mins  = Math.floor((totalSec % 3600) / 60);
   const secs  = totalSec % 60;
 
-  if (days > 0) {
-    const closeDate = new Date(closeAt).toLocaleString(dateLocale, {
-      day: "numeric",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    return `${days} ${dayText} (${closeDate})`;
-  }
-  return [hours, mins, secs].map((n) => String(n).padStart(2, "0")).join(":");
+  const p2 = (n: number) => String(n).padStart(2, "0");
+  return { expired: false, hh: p2(hours), mm: p2(mins), ss: p2(secs) };
 }
 
 interface Props {
@@ -44,53 +32,45 @@ interface Props {
 }
 
 export default function CountdownTimer({ closeAt, className = "", showCurrentTime, expiredText, expiredClassName }: Props) {
-  const { lang } = useLang();
   const tc = useTranslation("countdown");
-  const langKey = (lang in DATE_LOCALE_BY_LANG ? lang : "th") as LangCode;
   const expiredLabel = expiredText ?? tc.expired;
-  const textRef = useRef<HTMLSpanElement>(null);
 
-  const [display,   setDisplay]  = useState("");
-  const [isExpired, setIsExpired] = useState(false);
-  const [shrinkText, setShrinkText] = useState(false);
+  const [parts, setParts] = useState<Parts>(() => compute(closeAt));
 
   useEffect(() => {
-    const tick = () => {
-      const expired = new Date(closeAt).getTime() <= Date.now();
-      setIsExpired(expired);
-      setDisplay(format(closeAt, expiredLabel, tc.day, DATE_LOCALE_BY_LANG[langKey]));
-    };
+    const tick = () => setParts(compute(closeAt));
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, [closeAt, expiredLabel, tc.day, langKey]);
+  }, [closeAt]);
 
-  const activeClass = isExpired && expiredClassName ? expiredClassName : className;
-  const finalClass = !showCurrentTime && shrinkText ? `${activeClass} text-[16px]` : activeClass;
+  const activeClass = parts.expired && expiredClassName ? expiredClassName : className;
 
-  useEffect(() => {
-    if (showCurrentTime) return;
-    const el = textRef.current;
-    if (!el) return;
+  const renderBlocks = () => (
+    <div className="inline-flex items-center gap-1 text-[18px]">
+      {[parts.hh, parts.mm, parts.ss].map((v, i) => (
+        <span key={i} className="flex items-center gap-1">
+          <span className="inline-flex items-center justify-center min-w-[30px] px-1.5 py-0.5 rounded-md bg-ap-bg border border-ap-border tabular-nums">
+            {v}
+          </span>
+          {i < 2 && <span className="text-ap-tertiary">:</span>}
+        </span>
+      ))}
+    </div>
+  );
 
-    const lineHeight = parseFloat(getComputedStyle(el).lineHeight || "0");
-    if (!lineHeight) {
-      setShrinkText(false);
-      return;
-    }
-
-    const lineCount = el.scrollHeight / lineHeight;
-    setShrinkText(lineCount > 2);
-  }, [display, showCurrentTime, activeClass]);
+  if (parts.expired) {
+    return <span className={activeClass}>{expiredLabel}</span>;
+  }
 
   if (showCurrentTime) {
     return (
       <div className="text-center">
-        <span ref={textRef} className={finalClass}>{display}</span>
-        {!isExpired && <div className="text-[10px] text-ap-tertiary mt-0.5">{tc.hms}</div>}
+        <span className={activeClass}>{renderBlocks()}</span>
+        <div className="text-[12px] text-ap-tertiary mt-1">{tc.hms}</div>
       </div>
     );
   }
 
-  return <span ref={textRef} className={finalClass}>{display}</span>;
+  return <span className={activeClass}>{renderBlocks()}</span>;
 }
