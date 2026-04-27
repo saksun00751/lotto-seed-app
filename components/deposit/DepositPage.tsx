@@ -534,8 +534,6 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
   const [selectedPayment, setSelectedPayment] = useState<PaymentOption | null>(null);
   const [paymentAmount,   setPaymentAmount]   = useState<string>("");
   const [paymentSubmitting, setPaymentSubmitting] = useState(false);
-  const [createEndpointInfo, setCreateEndpointInfo] = useState<Record<string, unknown> | null>(null);
-  const [createResponseInfo, setCreateResponseInfo] = useState<Record<string, unknown> | null>(null);
   const [qrCodeData,        setQrCodeData]        = useState<QrCodeData | null>(null);
   const [nowTs,             setNowTs]             = useState<number>(Date.now());
   const [expireDoneTxids,   setExpireDoneTxids]   = useState<Record<string, true>>({});
@@ -714,13 +712,6 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
     const providerId = encodeURIComponent(selectedPayment.id);
     const proxyUrl = `/api/payment/${providerId}/deposit/create`;
     const requestBody = { amount, payment_url: selectedPayment.payment_url };
-    setCreateEndpointInfo({
-      method: "POST",
-      proxy: proxyUrl,
-      target: selectedPayment.payment_url,
-      body: requestBody,
-    });
-    setCreateResponseInfo(null);
 
     try {
       const createRes = await fetch(proxyUrl, {
@@ -739,12 +730,6 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
           status: createRes.status,
         };
       }
-
-      setCreateResponseInfo({
-        status: createRes.status,
-        ok: createRes.ok,
-        body: createData,
-      });
 
       if (!createRes.ok || isApiSuccessFalse(createData)) {
         setBankError(pickErrorMessage(createData, t.eCreateDeposit));
@@ -831,10 +816,6 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
       setShowResult(true);
     } catch (err) {
       setBankError(t.eConnect);
-      setCreateResponseInfo({
-        ok: false,
-        error: err instanceof Error ? err.message : String(err),
-      });
     } finally {
       setPaymentSubmitting(false);
     }
@@ -1493,22 +1474,6 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                     >
                       {paymentSubmitting ? t.creatingQr : t.createQr}
                     </button>
-                    {createEndpointInfo && (
-                      <div className="mt-2">
-                        <p className="text-[11px] font-semibold text-ap-tertiary mb-1">Request</p>
-                        <pre className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-[12px] text-ap-primary overflow-x-auto whitespace-pre-wrap break-all">
-{JSON.stringify(createEndpointInfo, null, 2)}
-                        </pre>
-                      </div>
-                    )}
-                    {createResponseInfo && (
-                      <div className="mt-2">
-                        <p className="text-[11px] font-semibold text-ap-tertiary mb-1">Response</p>
-                        <pre className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-[12px] text-ap-primary overflow-x-auto whitespace-pre-wrap break-all">
-{JSON.stringify(createResponseInfo, null, 2)}
-                        </pre>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
