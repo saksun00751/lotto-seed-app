@@ -32,7 +32,7 @@ export const getContactChannels = cache(async (lang?: string): Promise<ContactCh
       method: "GET",
       headers: buildHeaders(lang),
       redirect: "manual",
-      next: { revalidate: 600, tags: ["contact-channels"] },
+      cache: "no-store",
     });
     if (!res.ok) return [];
 
