@@ -212,7 +212,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setTripleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-yellow-50 border-yellow-300 text-yellow-700 hover:bg-yellow-100 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
                       >
                         {t.tripleNumbers}
                       </button>
@@ -221,7 +221,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setDoubleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-yellow-50 border-yellow-300 text-yellow-700 hover:bg-yellow-100 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
                       >
                         {t.doubleNumbers}
                       </button>
