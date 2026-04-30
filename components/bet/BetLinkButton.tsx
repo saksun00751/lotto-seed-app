@@ -38,7 +38,7 @@ export default function BetLinkButton({
 
   if (expired) {
     return (
-      <div className="block w-full text-center bg-ap-red/10 border border-ap-red/20 text-ap-red rounded-full py-2 text-[12px] font-semibold">
+      <div className="block w-full text-center bg-ap-red/10 border border-ap-red/20 text-ap-red rounded-full py-2 text-[14px] font-semibold">
         {labelClosed}
       </div>
     );
@@ -57,7 +57,7 @@ export default function BetLinkButton({
     <>
       <button
         onClick={handleClick}
-        className="inline-flex w-full items-center justify-center gap-1.5 whitespace-nowrap bg-ap-blue text-white rounded-full py-2 text-[12px] font-semibold hover:bg-ap-blue-h transition-colors active:scale-95"
+        className="inline-flex w-full items-center justify-center gap-1.5 whitespace-nowrap bg-ap-blue text-white rounded-full py-2 text-[14px] font-semibold hover:bg-ap-blue-h transition-colors active:scale-95"
       >
         <span className="leading-none">{playLabel}</span>
         <svg className="w-3.5 h-3.5 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>

@@ -252,7 +252,7 @@ function CategoryCard({
   return (
     <Link
       href={`/${locale}/category/${code}`}
-      className={`bg-gradient-to-br ${gradientClass} rounded-2xl relative overflow-hidden group active:scale-[0.98] transition-all shadow-card p-4 h-[150px] flex flex-col justify-between`}
+      className={`bg-gradient-to-br ${gradientClass} rounded-2xl relative overflow-hidden group active:scale-[0.98] transition-all shadow-card p-4 min-h-[170px] flex flex-col justify-between`}
     >
       <span className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none" />
       <span className="absolute -bottom-6 -right-2 w-28 h-28 rounded-full bg-white/10 pointer-events-none" />
@@ -264,7 +264,7 @@ function CategoryCard({
           ) : null}
           <span className="truncate">{cat.label}</span>
         </div>
-        <div className="text-white/70 mt-0.5 text-[11px] h-[30px] overflow-hidden">{cat.description || emptyDescription}</div>
+        <div className="text-white/70 mt-0.5 text-[14px] leading-snug ">{cat.description || emptyDescription}</div>
       </div>
 
       <div className="mt-3 h-[24px] flex items-center gap-2">

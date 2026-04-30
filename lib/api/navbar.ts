@@ -1,15 +1,15 @@
 import { cache } from "react";
 
 export interface NavbarItem {
-  key:          string;
-  item_type:    "normal" | "center_cta";
-  icon_type:    string;
-  icon:         string;
-  label:        string;
-  label_i18n:   Record<string, string>;
-  action_type:  string;
+  key: string;
+  item_type: "normal" | "center_cta";
+  icon_type: string;
+  icon: string;
+  label: string;
+  label_i18n: Record<string, string>;
+  action_type: string;
   action_value: string;
-  sort_order:   number;
+  sort_order: number;
 }
 
 export interface NavbarConfigResponse {
@@ -17,9 +17,9 @@ export interface NavbarConfigResponse {
   data: {
     language: string;
     navbar: {
-      code:              string;
+      code: string;
       published_version: number;
-      items:             NavbarItem[];
+      items: NavbarItem[];
     };
   };
 }

@@ -82,7 +82,7 @@ export default function BetConfirmModal({
         <div className="px-5 py-4 border-b border-ap-border flex items-center justify-between shrink-0">
           <div>
             <p className="text-[16px] font-bold text-ap-primary">{t.confirmTitle}</p>
-            <p className="text-[13px] text-ap-primary font-medium mt-0.5">{lotteryName} • {today}</p>
+            <p className="text-[14px] text-ap-primary font-medium mt-0.5">{lotteryName} • {today}</p>
           </div>
           <button onClick={onCancel}
             className="w-8 h-8 flex items-center justify-center rounded-full bg-ap-bg hover:bg-ap-border text-ap-secondary transition-colors text-[18px]">
@@ -98,22 +98,22 @@ export default function BetConfirmModal({
             return (
               <div key={group.key} className="border-b border-ap-border last:border-0">
                 <div className="px-5 py-2 bg-ap-bg/80 flex items-center justify-between">
-                  <span className="text-[12px] font-bold text-ap-primary uppercase tracking-wide">{group.label}</span>
-                  <span className="text-[12px] font-bold text-ap-secondary">{items.length} {t.items}</span>
+                  <span className="text-[14px] font-bold text-ap-primary uppercase tracking-wide">{group.label}</span>
+                  <span className="text-[14px] font-bold text-ap-secondary">{items.length} {t.items}</span>
                 </div>
                 {items.map((b) => {
                   const amt = b.top + b.bot;
                   return (
                     <div key={b.id} className="px-5 py-2.5 flex items-center gap-3 border-t border-ap-border first:border-t-0">
                       <div className="w-10 h-10 rounded-xl bg-ap-primary flex items-center justify-center shrink-0">
-                        <span className="text-white font-extrabold text-[13px] tabular-nums">{b.number}</span>
+                        <span className="text-white font-extrabold text-[14px] tabular-nums">{b.number}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <span className="text-[11px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-1.5 py-0.5 rounded-full">
+                        <span className="text-[14px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-1.5 py-0.5 rounded-full">
                           {getBetTypeLabel(b.betType)}
                         </span>
-                        <p className="mt-0.5 text-[13px] font-bold tabular-nums text-ap-blue">
-                          <span className="font-semibold text-[11px]">{getAmountLabel(b.betType, "top", t as Record<string, string>)} </span>
+                        <p className="mt-0.5 text-[14px] font-bold tabular-nums text-ap-blue">
+                          <span className="font-semibold text-[14px]">{getAmountLabel(b.betType, "top", t as Record<string, string>)} </span>
                           {amt}
                         </p>
                       </div>
@@ -142,8 +142,8 @@ export default function BetConfirmModal({
           return (
             <div className="shrink-0 border-t border-ap-border bg-ap-bg/70 px-5 py-3 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[13px] font-semibold text-ap-primary">{t.totalItems}</span>
-                <span className="text-[13px] font-bold text-ap-primary">{bills.length} {t.items}</span>
+                <span className="text-[14px] font-semibold text-ap-primary">{t.totalItems}</span>
+                <span className="text-[14px] font-bold text-ap-primary">{bills.length} {t.items}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[14px] font-semibold text-ap-primary">ยอดก่อนหักส่วนลด</span>
@@ -152,7 +152,7 @@ export default function BetConfirmModal({
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[13px] font-semibold text-ap-primary">
+                <span className="text-[14px] font-semibold text-ap-primary">
                   ส่วนลด ({discountPct.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}%)
                 </span>
                 <span className="text-[14px] font-bold text-ap-green tabular-nums">

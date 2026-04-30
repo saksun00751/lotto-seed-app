@@ -67,7 +67,7 @@ export default function CountdownTimer({ closeAt, className = "", showCurrentTim
     return (
       <div className="text-center">
         <span className={activeClass}>{renderBlocks()}</span>
-        <div className="text-[12px] text-ap-tertiary mt-1">{tc.hms}</div>
+        <div className="text-[14px] text-ap-tertiary mt-1">{tc.hms}</div>
       </div>
     );
   }

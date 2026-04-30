@@ -20,11 +20,11 @@ function limitFor(limits: NumberLimitRow[], number: string, betType: string): Nu
 }
 
 function LimitBadge({ limit, closedLabel }: { limit: NumberLimitRow | undefined; closedLabel: string }) {
-  if (!limit) return <span className="text-ap-tertiary text-[10px]">—</span>;
+  if (!limit) return <span className="text-ap-tertiary text-[14px]">—</span>;
   if (limit.isClosed)
-    return <span className="bg-ap-red text-white text-[10px] font-bold px-2 py-0.5 rounded">{closedLabel}</span>;
+    return <span className="bg-ap-red text-white text-[14px] font-bold px-2 py-0.5 rounded">{closedLabel}</span>;
   return (
-    <span className="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-0.5 rounded border border-yellow-300">
+    <span className="bg-yellow-100 text-yellow-700 text-[14px] font-bold px-2 py-0.5 rounded border border-yellow-300">
       ≤{limit.maxAmount?.toLocaleString()}
     </span>
   );
@@ -70,7 +70,7 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, selectedPack
           <span className="text-[15px]">🔒</span>
           <span className="font-bold text-white text-[14px]">{t.blockedNumbers}</span>
           {numberLimits.length > 0 && (
-            <span className="ml-auto text-[11px] font-semibold text-white bg-white/20 px-2 py-0.5 rounded-full">
+            <span className="ml-auto text-[14px] font-semibold text-white bg-white/20 px-2 py-0.5 rounded-full">
               {numberLimits.length} {t.items}
             </span>
           )}
@@ -79,7 +79,7 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, selectedPack
         <div className="flex border-b border-ap-border">
           {leftTabs.map((tab) => (
             <button key={tab.id} onClick={() => setLeftTab(tab.id)}
-              className={["flex-1 py-2 text-[12px] font-semibold transition-all",
+              className={["flex-1 py-2 text-[14px] font-semibold transition-all",
                 leftTab === tab.id
                   ? "bg-white text-ap-primary border-b-2 border-ap-blue"
                   : "bg-ap-bg text-ap-secondary hover:bg-white",
@@ -90,18 +90,18 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, selectedPack
         </div>
 
         <div className="overflow-y-auto max-h-[260px]">
-          <table className="w-full text-[12px]">
+          <table className="w-full text-[14px]">
             <thead className="sticky top-0 z-10">
               <tr className="bg-ap-bg border-b border-ap-border">
                 {TAB_COLS[leftTab].map((c) => (
-                  <th key={c} className="py-2 px-2 text-center text-[10px] font-semibold text-ap-secondary uppercase tracking-wide">{c}</th>
+                  <th key={c} className="py-2 px-2 text-center text-[14px] font-semibold text-ap-secondary uppercase tracking-wide">{c}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {tabNumbers.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="py-6 text-center text-[12px] text-ap-tertiary">{t.noBlockedNumbers}</td>
+                  <td colSpan={3} className="py-6 text-center text-[14px] text-ap-tertiary">{t.noBlockedNumbers}</td>
                 </tr>
               ) : (
                 tabNumbers.map((num, i) => (
@@ -135,7 +135,7 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, selectedPack
               className="w-full object-cover"
             />
           ) : (
-            <div className="px-4 py-3 text-[13px] font-semibold text-ap-primary">
+            <div className="px-4 py-3 text-[14px] font-semibold text-ap-primary">
               {selectedPackage.name}
             </div>
           )}

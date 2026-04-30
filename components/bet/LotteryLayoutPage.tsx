@@ -78,6 +78,10 @@ export default function LotteryLayoutPage({
   const handleAddBills = (rows: BillRow[]) => setBills((prev) => [...prev, ...rows]);
   const handleDelete   = (id: string)      => setBills((prev) => prev.filter((b) => b.id !== id));
   const handleClearAll = ()                => setBills([]);
+  const handleUpdateAmount = (id: string, amount: number) =>
+    setBills((prev) => prev.map((b) => (b.id === id ? { ...b, top: amount } : b)));
+  const handleSetAllAmount = (amount: number) =>
+    setBills((prev) => prev.map((b) => ({ ...b, top: amount })));
 
   const changeBetType = (id: BetTypeId) => {
     setBetType(id);
@@ -183,7 +187,7 @@ export default function LotteryLayoutPage({
               return (
                 <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
                   <div className="px-4 py-2.5 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border">
-                    <p className="text-[13px] text-white font-bold uppercase tracking-wide">{t.specialModeTitle}</p>
+                    <p className="text-[14px] text-white font-bold uppercase tracking-wide">{t.specialModeTitle}</p>
                   </div>
                   <div className="grid grid-cols-3 gap-2 p-3">
                     {visible.map((mode) => {
@@ -194,7 +198,7 @@ export default function LotteryLayoutPage({
                           type="button"
                           onClick={() => changeSpecialMode(mode.id)}
                           className={[
-                            "py-2 rounded-xl text-[13px] font-bold border transition-all",
+                            "py-2 rounded-xl text-[14px] font-bold border transition-all",
                             active
                               ? "bg-violet-50 border-violet-300 text-violet-700"
                               : "bg-white border-ap-border text-ap-primary hover:border-ap-blue/30",
@@ -208,7 +212,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setTripleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[13px] font-bold border transition-all bg-yellow-50 border-yellow-300 text-yellow-700 hover:bg-yellow-100 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-yellow-50 border-yellow-300 text-yellow-700 hover:bg-yellow-100 active:scale-95"
                       >
                         {t.tripleNumbers}
                       </button>
@@ -217,7 +221,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setDoubleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[13px] font-bold border transition-all bg-yellow-50 border-yellow-300 text-yellow-700 hover:bg-yellow-100 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-yellow-50 border-yellow-300 text-yellow-700 hover:bg-yellow-100 active:scale-95"
                       >
                         {t.doubleNumbers}
                       </button>
@@ -261,6 +265,8 @@ export default function LotteryLayoutPage({
             closeAt={closeAt}
             totalAmount={totalAmount}
             onDelete={handleDelete}
+            onUpdateAmount={handleUpdateAmount}
+            onSetAllAmount={handleSetAllAmount}
             onClearAll={handleClearAll}
             onConfirm={handleConfirm}
             onConfirmSuccess={handleConfirmSuccess}

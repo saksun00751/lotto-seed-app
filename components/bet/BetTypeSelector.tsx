@@ -73,7 +73,7 @@ export default function BetTypeSelector({ betType, onChange, selected3, selected
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
       <div className="px-4 py-2.5 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border">
-        <p className="text-[13px] font-bold text-white uppercase tracking-wider">{t.betTypeTitle}</p>
+        <p className="text-[14px] font-bold text-white uppercase tracking-wider">{t.betTypeTitle}</p>
       </div>
       <div className="p-3 space-y-2">
         {visibleGroups.map((group) => {
@@ -104,7 +104,7 @@ export default function BetTypeSelector({ betType, onChange, selected3, selected
                 />
                 <span
                   className={[
-                    "text-[13px] font-bold transition-colors",
+                    "text-[14px] font-bold transition-colors",
                     isActive ? "text-ap-blue" : "text-ap-secondary",
                   ].join(" ")}
                 >
@@ -155,7 +155,7 @@ export default function BetTypeSelector({ betType, onChange, selected3, selected
                       <div className="min-w-0">
                         <span
                           className={[
-                            "text-[13px] font-bold",
+                            "text-[14px] font-bold",
                             checked && isActive ? "text-violet-700" : "text-ap-primary",
                           ].join(" ")}
                         >
@@ -164,7 +164,7 @@ export default function BetTypeSelector({ betType, onChange, selected3, selected
                         {payout && (
                           <span
                             className={[
-                              "text-[11px] font-semibold ml-1.5",
+                              "text-[14px] font-semibold ml-1.5",
                               checked && isActive ? "text-violet-500" : "text-ap-green",
                             ].join(" ")}
                           >

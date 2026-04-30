@@ -58,7 +58,7 @@ export default function GameGroupSlider({ games, gameType }: Props) {
                 className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-300"
               />
             </div>
-            <p className="text-[11px] font-semibold text-ap-primary leading-tight line-clamp-2 w-full">
+            <p className="text-[14px] font-semibold text-ap-primary leading-tight line-clamp-2 w-full">
               {g.name}
             </p>
           </Link>

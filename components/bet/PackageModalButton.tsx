@@ -125,7 +125,7 @@ export default function PackageModalButton({
 
   if (expired) {
     return (
-      <div className="block w-full text-center bg-ap-red/10 border border-ap-red/20 text-ap-red rounded-full py-2 text-[12px] font-semibold">
+      <div className="block w-full text-center bg-ap-red/10 border border-ap-red/20 text-ap-red rounded-full py-2 text-[14px] font-semibold">
         {labelClosed}
       </div>
     );
@@ -136,7 +136,7 @@ export default function PackageModalButton({
       <button
         onClick={handleOpen}
         disabled={loading}
-        className="inline-flex h-[34px] items-center justify-center gap-1.5 whitespace-nowrap w-full bg-gradient-to-r from-[#0066d1] via-[#0a79de] to-[#1895f3] text-white rounded-full px-4 text-[13px] font-bold border border-sky-200/50 hover:brightness-105 transition-all active:scale-95 disabled:opacity-70 shadow-md"
+        className="inline-flex h-[34px] items-center justify-center gap-1.5 whitespace-nowrap w-full bg-gradient-to-r from-[#0066d1] via-[#0a79de] to-[#1895f3] text-white rounded-full px-4 text-[14px] font-bold border border-sky-200/50 hover:brightness-105 transition-all active:scale-95 disabled:opacity-70 shadow-md"
       >
         {loading && (
           <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" />
