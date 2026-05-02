@@ -39,7 +39,7 @@ interface SelectedPackageResponse {
 
 interface Props {
   params?: Promise<{ locale: string }>;
-  searchParams?: Promise<{ lottery?: string; draw_id?: string; toast?: string }>;
+  searchParams?: Promise<{ lottery?: string; draw_id?: string; round_id?: string; toast?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -52,16 +52,28 @@ interface DrawDetailResponse {
   data?: {
     id?: number;
     draw_id?: number;
+    round_id?: number;
     draw_date?: string;
     open_at?: string;
     close_at?: string;
     status?: string;
+    status_label?: string;
     market_id?: number | string;
     market_code?: string;
+    // Yeekee-specific
+    result_mode?: string;
+    round_no?: number;
+    formula_label?: string;
+    bet_open_at?: string;
+    bet_close_at?: string;
+    shoot_open_at?: string;
+    shoot_close_at?: string;
+    result_compute_at?: string;
     market?: {
       id?: number | string;
       name?: string;
       group_id?: number;
+      group_code?: string;
       logo?: string;
       icon?: string;
       group_name?: string;
@@ -296,6 +308,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
   let allCategories: Category[] = [];
   let gameGroups: Awaited<ReturnType<typeof getAllGamesGroupedFromApi>> = [];
   const drawIdFromQuery = sp?.draw_id ? Number(sp.draw_id) : undefined;
+  const roundIdFromQuery = sp?.round_id ? Number(sp.round_id) : undefined;
   let drawDetail: DrawDetailResponse["data"] | null = null;
   try {
     const drawReq = Number.isFinite(drawIdFromQuery)
@@ -373,7 +386,36 @@ export default async function BetRoute({ params, searchParams }: Props) {
     const lotteryFlag  = lotteryItem?.flag ?? "";
     const lotteryLogo  = lotteryItem?.logo ?? drawDetail?.market?.logo ?? drawDetail?.market?.icon;
     const categoryName = categoryItem?.label ?? drawDetail?.market?.group_name ?? "";
-    const closeAt      = lotteryItem?.closeAt ?? bkkToIso(drawDetail?.close_at);
+    // สำหรับ Yeekee ใช้ bet_close_at ของรอบโดยตรง
+    const isYeekee     = (drawDetail?.result_mode === "yeekee")
+      || (drawDetail?.market?.group_code ?? "").toLowerCase().includes("yeekee")
+      || (categoryItem?.code ?? "").toLowerCase().includes("yeekee");
+    const closeAt      = isYeekee
+      ? bkkToIso(drawDetail?.bet_close_at ?? drawDetail?.close_at)
+      : (lotteryItem?.closeAt ?? bkkToIso(drawDetail?.close_at));
+
+    const lotteryInfo = !isYeekee && drawDetail
+      ? {
+          drawDate:    drawDetail.draw_date,
+          openAt:      bkkToIso(drawDetail.open_at),
+          closeAt:     bkkToIso(drawDetail.close_at),
+          statusLabel: drawDetail.status_label,
+        }
+      : undefined;
+
+    const yeekeeInfo = isYeekee && drawDetail
+      ? {
+          roundId: Number.isFinite(roundIdFromQuery) ? roundIdFromQuery : drawDetail.round_id,
+          roundNo: drawDetail.round_no,
+          formulaLabel: drawDetail.formula_label,
+          drawDate: drawDetail.draw_date,
+          betOpenAt: bkkToIso(drawDetail.bet_open_at),
+          betCloseAt: bkkToIso(drawDetail.bet_close_at ?? drawDetail.close_at),
+          shootOpenAt: bkkToIso(drawDetail.shoot_open_at),
+          shootCloseAt: bkkToIso(drawDetail.shoot_close_at),
+          resultComputeAt: bkkToIso(drawDetail.result_compute_at),
+        }
+      : undefined;
 
     const selectedPackage = selectedPkgRes?.selected && selectedPkgRes.data
       ? {
@@ -398,6 +440,8 @@ export default async function BetRoute({ params, searchParams }: Props) {
           betRates={finalBetRates}
           selectedPackage={selectedPackage}
           bettingContext={bettingContext}
+          yeekeeInfo={yeekeeInfo}
+          lotteryInfo={lotteryInfo}
         />
       </div>
     );

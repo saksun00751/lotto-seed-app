@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { BetTypeId, BillRow, betTypeLabel } from "./types";
 import BetConfirmModal from "./BetConfirmModal";
 import CountdownTimer from "@/components/ui/CountdownTimer";
@@ -97,6 +98,10 @@ const PAYLOAD_TO_CTX_BET_TYPE: Record<PayloadBetType, BetTypeId> = {
   run_bottom: "winlay",
 };
 
+function isCloseAtExpired(closeAt?: string): boolean {
+  return !!closeAt && new Date(closeAt).getTime() <= Date.now();
+}
+
 function getAmountLabel(betType: BetTypeId, side: "top" | "bot", t: Record<string, string>): string {
   if (side === "top") {
     if (betType === "3top" || betType === "2top" || betType === "6perm" || betType === "19door" || betType === "winnum") return t.top;
@@ -134,6 +139,7 @@ export default function BetSlipSidebar({
   onConfirm,
   onConfirmSuccess,
 }: Props) {
+  const router = useRouter();
   const { lang } = useLang();
   const t = useTranslation("bet");
   const localeByLang: Record<string, string> = { th: "th-TH", en: "en-US", kh: "km-KH", la: "lo-LA" };
@@ -147,8 +153,20 @@ export default function BetSlipSidebar({
   const [saving,       setSaving]       = useState(false);
   const [resultToast,  setResultToast]  = useState<{ msg: string; type: "success" | "error" } | null>(null);
   const [bulkAmount,   setBulkAmount]   = useState("");
+  const [expired,      setExpired]      = useState(() => isCloseAtExpired(closeAt));
   const bulkDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (bulkDebounceRef.current) clearTimeout(bulkDebounceRef.current); }, []);
+  useEffect(() => {
+    setExpired(isCloseAtExpired(closeAt));
+    if (!closeAt) return;
+    const diff = new Date(closeAt).getTime() - Date.now();
+    if (diff <= 0) return;
+    const id = setTimeout(() => {
+      setExpired(true);
+      setShowModal(false);
+    }, diff);
+    return () => clearTimeout(id);
+  }, [closeAt]);
   const groupedBills = (() => {
     const base: Record<SlipGroupKey, BillRow[]> = { top: [], bottom: [], tod: [] };
     for (const b of [...bills].reverse()) {
@@ -171,19 +189,35 @@ export default function BetSlipSidebar({
   const discountPct = subtotalAmount > 0 ? (discountAmount / subtotalAmount) * 100 : 0;
   const netAmount = Math.max(0, subtotalAmount - discountAmount);
 
+  function showClosedToast() {
+    setShowModal(false);
+    setSaving(false);
+    setExpired(true);
+    setClosedToast(true);
+    router.refresh();
+  }
+
   function handleOpenModal() {
-    if (closeAt && new Date(closeAt).getTime() <= Date.now()) {
-      setClosedToast(true);
+    if (isCloseAtExpired(closeAt)) {
+      showClosedToast();
       return;
     }
     setShowModal(true);
   }
 
   const handleConfirmAndClose = async () => {
+    if (isCloseAtExpired(closeAt)) {
+      showClosedToast();
+      return;
+    }
     setShowModal(false);
     setSaving(true);
     // แสดง loading 2 วิก่อน แล้วค่อย post
     await new Promise((r) => setTimeout(r, 2000));
+    if (isCloseAtExpired(closeAt)) {
+      showClosedToast();
+      return;
+    }
     const result = await onConfirm();
     setSaving(false);
     if (result.ok) {
@@ -395,8 +429,11 @@ export default function BetSlipSidebar({
             </div>
             <div className="px-4 pb-4 space-y-2">
               <button onClick={handleOpenModal}
-                className="w-full bg-ap-blue hover:bg-ap-blue-h text-white font-bold text-[14px] py-3 rounded-2xl transition-colors active:scale-[0.98]">
-                {t.confirmBet}
+                className={[
+                  "w-full text-white font-bold text-[14px] py-3 rounded-2xl transition-colors active:scale-[0.98]",
+                  expired ? "bg-ap-red/80 hover:bg-ap-red" : "bg-ap-blue hover:bg-ap-blue-h",
+                ].join(" ")}>
+                {expired ? t.closedBetToast : t.confirmBet}
               </button>
             </div>
           </div>

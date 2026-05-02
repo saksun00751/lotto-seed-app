@@ -8,6 +8,15 @@ npm run dev
 # → http://localhost:3000/login
 ```
 
+## ⚙️ Dashboard Mode
+
+ตั้งค่าใน `.env` เพื่อเลือกหน้าหลักหลังล็อกอิน:
+
+```bash
+DASHBOARD_MODE=lotto # แสดงหวย
+DASHBOARD_MODE=game  # แสดงเกม
+```
+
 ## 📁 โครงสร้างไฟล์
 
 ```
@@ -63,4 +72,3 @@ ap-tertiary #aeaeb2    placeholder / hint
 ap-red      #ff3b30    error
 ap-green    #34c759    success
 ```
-

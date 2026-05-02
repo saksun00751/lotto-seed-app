@@ -29,9 +29,10 @@ interface Props {
   showCurrentTime?:  boolean;
   expiredText?:      string;   // optional override text
   expiredClassName?: string;
+  plain?:            boolean;
 }
 
-export default function CountdownTimer({ closeAt, className = "", showCurrentTime, expiredText, expiredClassName }: Props) {
+export default function CountdownTimer({ closeAt, className = "", showCurrentTime, expiredText, expiredClassName, plain = false }: Props) {
   const tc = useTranslation("countdown");
   const expiredLabel = expiredText ?? tc.expired;
 
@@ -59,6 +60,12 @@ export default function CountdownTimer({ closeAt, className = "", showCurrentTim
     </div>
   );
 
+  const renderPlain = () => (
+    <span className="tabular-nums">
+      {parts.hh}:{parts.mm}:{parts.ss}
+    </span>
+  );
+
   if (parts.expired) {
     return <span className={activeClass}>{expiredLabel}</span>;
   }
@@ -66,11 +73,11 @@ export default function CountdownTimer({ closeAt, className = "", showCurrentTim
   if (showCurrentTime) {
     return (
       <div className="text-center">
-        <span className={activeClass}>{renderBlocks()}</span>
+        <span className={activeClass}>{plain ? renderPlain() : renderBlocks()}</span>
         <div className="text-[14px] text-ap-tertiary mt-1">{tc.hms}</div>
       </div>
     );
   }
 
-  return <span className={activeClass}>{renderBlocks()}</span>;
+  return <span className={activeClass}>{plain ? renderPlain() : renderBlocks()}</span>;
 }

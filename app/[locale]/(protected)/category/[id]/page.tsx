@@ -2,6 +2,7 @@ import CountdownTimer from "@/components/ui/CountdownTimer";
 import PackageModalButton from "@/components/bet/PackageModalButton";
 import BetToastNotice from "@/components/bet/BetToastNotice";
 import BackButton from "@/components/ui/BackButton";
+import YeekeeRoundsBoard from "@/components/bet/YeekeeRoundsBoard";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
@@ -157,6 +158,12 @@ export default async function CategoryPage({ params }: Props) {
   if (!cat) notFound();
   const openCount = cat.items.filter((i) => i.isOpen).length;
 
+  const isYeekee = (() => {
+    const code = (cat.code ?? cat.id ?? "").toLowerCase();
+    const label = (cat.label ?? "").toLowerCase();
+    return code.includes("yeekee") || label.includes("yeekee") || label.includes("ยี่กี");
+  })();
+
   return (
     <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
       <Suspense fallback={null}>
@@ -189,16 +196,34 @@ export default async function CategoryPage({ params }: Props) {
           </div>
         </div>
 
+        {/* Yeekee rounds boards */}
+        {isYeekee && cat.items.length > 0 && (
+          <div className="space-y-4 mb-6">
+            {cat.items
+              .filter((i) => Number.isFinite(Number(i.id)))
+              .map((i) => (
+                <YeekeeRoundsBoard
+                  key={i.id}
+                  marketId={Number(i.id)}
+                  marketName={i.name}
+                  logo={i.logo}
+                  locale={locale}
+                  groupId={cat.groupId ?? 0}
+                />
+              ))}
+          </div>
+        )}
+
         {/* Items or coming soon */}
         {cat.items.length === 0 ? (
           <ComingSoon emoji={cat.emoji} label={cat.label} t={t} />
-        ) : (
+        ) : !isYeekee ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {cat.items.map((item) => (
               <SubItemCard key={item.id} item={item} t={t} groupId={cat.groupId ?? 0} locale={locale} />
             ))}
           </div>
-        )}
+        ) : null}
 
       </div>
     </div>

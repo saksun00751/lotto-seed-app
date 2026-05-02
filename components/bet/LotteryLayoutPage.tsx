@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useLang } from "@/lib/i18n/context";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import { BetTypeId, BillRow, BET_TYPE_BTNS } from "./types";
@@ -13,6 +14,38 @@ import BetSlipSidebar  from "./BetSlipSidebar";
 import { confirmBet }  from "@/app/actions/bet";
 import type { BetRateRow, BettingContext } from "@/lib/types/bet";
 import CountdownTimer from "@/components/ui/CountdownTimer";
+
+export interface YeekeeInfo {
+  roundId?:        number;
+  roundNo?:         number;
+  formulaLabel?:    string;
+  drawDate?:        string;
+  betOpenAt?:       string;
+  betCloseAt?:      string;
+  shootOpenAt?:     string;
+  shootCloseAt?:    string;
+  resultComputeAt?: string;
+}
+
+export interface LotteryInfo {
+  drawDate?:    string;
+  openAt?:      string;
+  closeAt?:     string;
+  statusLabel?: string;
+}
+
+function getYeekeeShootState(nowMs: number, shootOpenAt?: string, shootCloseAt?: string) {
+  const openMs = shootOpenAt ? new Date(shootOpenAt).getTime() : undefined;
+  const closeMs = shootCloseAt ? new Date(shootCloseAt).getTime() : undefined;
+
+  if (openMs && nowMs < openMs) return { label: "รอยิงเลข", disabled: true };
+  if (closeMs && nowMs > closeMs) return { label: "ปิดยิงเลข", disabled: true };
+  return { label: "ยิงเลข", disabled: false };
+}
+
+function isCloseAtExpired(closeAt?: string): boolean {
+  return !!closeAt && new Date(closeAt).getTime() <= Date.now();
+}
 
 export default function LotteryLayoutPage({
   lotteryTypeId = "",
@@ -26,6 +59,8 @@ export default function LotteryLayoutPage({
   betRates      = [],
   selectedPackage,
   bettingContext,
+  yeekeeInfo,
+  lotteryInfo,
 }: {
   lotteryTypeId?:   string;
   drawId?:          number;
@@ -38,8 +73,11 @@ export default function LotteryLayoutPage({
   betRates?:        BetRateRow[];
   selectedPackage?: { id?: number; name: string; image?: string; discountPercent?: number };
   bettingContext?:  BettingContext;
+  yeekeeInfo?:      YeekeeInfo;
+  lotteryInfo?:     LotteryInfo;
 }) {
   const { lang } = useLang();
+  const router = useRouter();
   const t = getTranslation(lang, "bet");
   const [bills,       setBills]       = useState<BillRow[]>([]);
   const [betType,     setBetType]     = useState<BetTypeId>("3top");
@@ -50,6 +88,9 @@ export default function LotteryLayoutPage({
   const [isClassic,   setIsClassic]   = useState(false);
   const [tripleTrigger, setTripleTrigger] = useState(0);
   const [doubleTrigger, setDoubleTrigger] = useState(0);
+  const [shootNowMs, setShootNowMs] = useState(() => Date.now());
+  const [closedModalOpen, setClosedModalOpen] = useState(() => isCloseAtExpired(closeAt));
+  const [redirectCountdown, setRedirectCountdown] = useState(3);
 
   const availableBetTypeIds = betRates.map((r) => r.id);
   // เพิ่ม run/winlay อัตโนมัติถ้า API ไม่ส่งมา แต่มี 2top อยู่
@@ -69,6 +110,37 @@ export default function LotteryLayoutPage({
       setBetType(enrichedIds[0] ?? availableBetTypeIds[0]);
     }
   }, [availableBetTypeIds, betType]);
+
+  useEffect(() => {
+    if (!yeekeeInfo) return;
+    const id = setInterval(() => setShootNowMs(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [yeekeeInfo]);
+
+  useEffect(() => {
+    setClosedModalOpen(isCloseAtExpired(closeAt));
+    setRedirectCountdown(3);
+    if (!closeAt) return;
+
+    const diff = new Date(closeAt).getTime() - Date.now();
+    if (diff <= 0) return;
+
+    const id = setTimeout(() => {
+      setRedirectCountdown(3);
+      setClosedModalOpen(true);
+    }, diff);
+    return () => clearTimeout(id);
+  }, [closeAt]);
+
+  useEffect(() => {
+    if (!closedModalOpen) return;
+    if (redirectCountdown <= 0) {
+      router.replace(`/${lang}/bet`);
+      return;
+    }
+    const id = setTimeout(() => setRedirectCountdown((n) => n - 1), 1000);
+    return () => clearTimeout(id);
+  }, [closedModalOpen, redirectCountdown, router, lang]);
 
   // effectiveBetType = โหมดพิเศษถ้าเลือกอยู่ มิฉะนั้นใช้ betType ปกติ
   const effectiveBetType: BetTypeId = specialMode ?? betType;
@@ -122,9 +194,40 @@ export default function LotteryLayoutPage({
   const handleConfirmSuccess = () => {
     setBills([]);
   };
+  const handleClosedRedirect = () => {
+    router.replace(`/${lang}/bet`);
+  };
+  const shootState = yeekeeInfo
+    ? getYeekeeShootState(shootNowMs, yeekeeInfo.shootOpenAt, yeekeeInfo.shootCloseAt)
+    : null;
 
   return (
     <div className="min-h-screen bg-ap-bg">
+      {closedModalOpen && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm rounded-3xl bg-white shadow-card-xl border border-ap-border overflow-hidden animate-pop-in">
+            <div className="px-5 py-5 text-center">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-ap-red/10 border border-ap-red/15 text-ap-red flex items-center justify-center mb-4">
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <h2 className="text-[18px] font-extrabold text-ap-primary">หวยปิดรับแล้ว</h2>
+              <p className="mt-2 text-[14px] font-medium text-ap-secondary leading-relaxed">
+                ระบบจะพากลับไปหน้าเลือกหวยใน {redirectCountdown} วินาที
+              </p>
+              <button
+                type="button"
+                onClick={handleClosedRedirect}
+                className="mt-5 w-full rounded-2xl bg-ap-blue hover:bg-ap-blue-h text-white text-[15px] font-bold py-3 transition-colors active:scale-[0.98]"
+              >
+                ไปหน้าแทงหวย
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Breadcrumb bar ─────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-ap-border px-4 py-2.5 flex items-center justify-between sticky top-0 z-20 shadow-sm">
@@ -154,6 +257,92 @@ export default function LotteryLayoutPage({
           </div>
         )}
       </div>
+
+      {/* ── Yeekee round info banner ──────────────────────────────────────── */}
+      {yeekeeInfo && (
+        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white px-4 py-3 overflow-x-auto">
+          <div className="max-w-[1280px] mx-auto flex items-center justify-center gap-x-5 whitespace-nowrap">
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-[18px]" aria-label="Yeekee">⚡</span>
+              {yeekeeInfo.roundNo != null && (
+                <span className="text-[20px] font-extrabold">รอบที่ {yeekeeInfo.roundNo}</span>
+              )}
+            </div>
+            {yeekeeInfo.drawDate && (
+              <div className="flex items-center gap-2 text-[16px] shrink-0">
+                <span className="text-[18px]" aria-label="วันที่">📅</span>
+                <span className="font-semibold tabular-nums">{yeekeeInfo.drawDate}</span>
+              </div>
+            )}
+            {yeekeeInfo.betCloseAt && (
+              <div className="flex items-center gap-2 text-[16px] shrink-0">
+                <span className="text-[18px]" aria-label="ปิดรับ">⏰</span>
+                <span className="font-semibold tabular-nums">
+                  {new Date(yeekeeInfo.betCloseAt).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", hour12: false })}
+                </span>
+              </div>
+            )}
+            {yeekeeInfo.formulaLabel && (
+              <div className="text-[13px] bg-white/15 rounded-full px-3 py-1 font-medium shrink-0">
+                {yeekeeInfo.formulaLabel}
+              </div>
+            )}
+            {shootState && (
+              drawId && yeekeeInfo.roundId != null && !shootState.disabled ? (
+                <Link
+                  href={`/${lang}/bet/yeekee/shoot/${yeekeeInfo.roundId}/${drawId}`}
+                  className="h-9 inline-flex items-center rounded-full px-4 text-[14px] font-extrabold transition-all border shrink-0 bg-white text-violet-700 border-white shadow-sm hover:bg-violet-50 active:scale-[0.98]"
+                >
+                  {shootState.label}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  className="h-9 rounded-full px-4 text-[14px] font-extrabold transition-all border shrink-0 bg-white/10 border-white/20 text-white/55 cursor-not-allowed"
+                >
+                  {shootState.label}
+                </button>
+              )
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── Lottery (non-Yeekee) info banner ──────────────────────────────── */}
+      {!yeekeeInfo && lotteryInfo && (lotteryInfo.drawDate || lotteryInfo.openAt || lotteryInfo.closeAt) && (
+        <div className="bg-gradient-to-r from-ap-blue to-sky-400 text-white px-4 py-3 overflow-x-auto">
+          <div className="max-w-[1280px] mx-auto flex items-center justify-center gap-x-5 whitespace-nowrap">
+            {lotteryInfo.drawDate && (
+              <div className="flex items-center gap-2 text-[16px] shrink-0">
+                <span className="text-[18px]" aria-label="วันที่">📅</span>
+                <span className="font-semibold tabular-nums">{lotteryInfo.drawDate}</span>
+              </div>
+            )}
+            {lotteryInfo.openAt && (
+              <div className="flex items-center gap-2 text-[16px] shrink-0">
+                <span className="text-[18px]" aria-label="เปิดรับ">🟢</span>
+                <span className="font-semibold tabular-nums">
+                  {new Date(lotteryInfo.openAt).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", hour12: false })}
+                </span>
+              </div>
+            )}
+            {lotteryInfo.closeAt && (
+              <div className="flex items-center gap-2 text-[16px] shrink-0">
+                <span className="text-[18px]" aria-label="ปิดรับ">⏰</span>
+                <span className="font-semibold tabular-nums">
+                  {new Date(lotteryInfo.closeAt).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", hour12: false })}
+                </span>
+              </div>
+            )}
+            {lotteryInfo.statusLabel && (
+              <div className="text-[13px] bg-white/15 rounded-full px-3 py-1 font-medium shrink-0">
+                {lotteryInfo.statusLabel}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
       <div className="max-w-[1280px] mx-auto px-3 py-4 pb-12">

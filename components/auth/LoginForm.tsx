@@ -160,9 +160,9 @@ export default function LoginForm() {
           name="user_name" type="text" inputMode="text"
           placeholder={(t as Record<string, string>).usernamePlaceholder ?? "username"}
           autoComplete="username"
+          autoFocus
           value={username}
           onChange={(e) => { setUsername(e.target.value); setUsernameError(""); }}
-          onBlur={validateUsername}
           error={usernameError || pwState.fieldErrors?.user_name}
           leftEl={<UserIcon />} rightEl={usernameGreenCheck}
         />

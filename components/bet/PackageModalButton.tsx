@@ -28,6 +28,7 @@ function resolveImage(path?: string): string | undefined {
 interface Props {
   groupId:             number;
   drawId:              number;
+  roundId?:            number;
   locale:              string;
   closeAt?:            string;
   labelPlay?:          string;
@@ -41,6 +42,7 @@ interface Props {
 export default function PackageModalButton({
   groupId,
   drawId,
+  roundId,
   locale,
   closeAt,
   labelPlay          = "แทงหวย →",
@@ -120,7 +122,8 @@ export default function PackageModalButton({
       setSelecting(false);
     }
     setOpen(false);
-    router.push(`/${locale}/bet/${drawId}/${packageId}`);
+    const roundPath = roundId != null ? `/${roundId}` : "";
+    router.push(`/${locale}/bet/${drawId}${roundPath}/${packageId}`);
   }
 
   if (expired) {
