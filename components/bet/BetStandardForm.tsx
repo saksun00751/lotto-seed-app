@@ -66,19 +66,20 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
   const botBillType: BetTypeId = is3DigitPair ? "3tod" : is2DigitPair ? "2bot" : isRunPair ? "winlay" : (BOT_BET_TYPE[pairingType] ?? pairingType);
 
   const showTop = is3DigitPair
-    ? (selected3?.includes("3top") ?? true)
+    ? (selected3?.includes("3top") ?? false)
     : is2DigitPair
-      ? (selected2?.includes("2top") ?? true)
+      ? (selected2?.includes("2top") ?? false)
     : isRunPair
-      ? (selectedRun?.includes("run") ?? true)
-    : true;
+      ? (selectedRun?.includes("run") ?? false)
+    : false;
   const showBot = is3DigitPair
-    ? (selected3?.includes("3tod") ?? true)
+    ? (selected3?.includes("3tod") ?? false)
     : is2DigitPair
-      ? (selected2?.includes("2bot") ?? true)
+      ? (selected2?.includes("2bot") ?? false)
     : isRunPair
-      ? (selectedRun?.includes("winlay") ?? true)
-    : (is2DigitPair || isRunPair);
+      ? (selectedRun?.includes("winlay") ?? false)
+    : false;
+  const hasSelection = showTop || showBot;
 
   const [inputBuf,   setInputBuf]   = useState("");
   const [toastMsg,   setToastMsg]   = useState<{ text: string; type: "warning" | "error" } | null>(null);
@@ -90,6 +91,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
 
     const todNums = botBillType === "3tod"
       ? nums.filter((num, idx) => {
+          if (showTop && new Set(num).size === 1) return false;
           const key = num.split("").sort().join("");
           return nums.findIndex((n) => n.split("").sort().join("") === key) === idx;
         })
@@ -238,7 +240,12 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
     <>
       {toastMsg && <Toast message={toastMsg.text} type={toastMsg.type} onClose={() => setToastMsg(null)} />}
       <div className="p-4">
-        <div className="bg-ap-bg/70 rounded-2xl border border-ap-border p-4 mb-4">
+        {!hasSelection && (
+          <div className="mb-4 rounded-2xl border-2 border-dashed border-violet-300 bg-violet-50/60 px-4 py-3 text-center">
+            <p className="text-[14px] font-bold text-violet-700">เลือกประเภทการแทงด้านบนก่อนเริ่มใส่เลข</p>
+          </div>
+        )}
+        <div className={["bg-ap-bg/70 rounded-2xl border-2 border-ap-blue p-4 mb-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
           <div className="flex items-center justify-center gap-2 mb-2">
             {Array.from({ length: maxDigits }).map((_, i) => (
               <div
@@ -248,8 +255,8 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
                   inputBuf[i]
                     ? "border-ap-blue bg-white text-ap-blue shadow-md"
                     : i === inputBuf.length
-                      ? "border-ap-blue/50 bg-blue-50/50 text-ap-tertiary animate-pulse"
-                      : "border-ap-border bg-white text-ap-tertiary/30",
+                      ? "border-ap-blue bg-blue-50 text-ap-tertiary animate-pulse"
+                      : "border-ap-blue bg-white text-ap-tertiary/30",
                 ].join(" ")}
               >
                 {inputBuf[i] ?? "·"}
@@ -261,14 +268,14 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className={["grid grid-cols-3 gap-2 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
           {numpadKeys.map((key) => {
             if (key === "clear") {
               return (
                 <button
                   key={key}
                   onClick={pressClear}
-                  className="py-3.5 rounded-xl bg-ap-red/10 border border-ap-red/30 text-ap-red text-[14px] font-bold hover:bg-ap-red hover:text-white active:scale-95 transition-all"
+                  className="py-3.5 rounded-xl bg-ap-red/10 border-2 border-ap-red text-ap-red text-[14px] font-bold shadow-sm hover:bg-ap-red hover:text-white active:scale-95 transition-all"
                 >
                   C
                 </button>
@@ -279,7 +286,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
                 <button
                   key={key}
                   onClick={pressBackspace}
-                  className="py-3.5 rounded-xl bg-yellow-50 border border-yellow-300 text-yellow-700 text-[14px] font-bold hover:bg-yellow-100 active:scale-95 transition-all"
+                  className="py-3.5 rounded-xl bg-yellow-50 border-2 border-yellow-500 text-yellow-700 text-[14px] font-bold shadow-sm hover:bg-yellow-100 active:scale-95 transition-all"
                 >
                   ⌫
                 </button>
@@ -289,7 +296,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
               <button
                 key={key}
                 onClick={() => pressDigit(key)}
-                className="py-3.5 rounded-xl bg-white border-2 border-ap-border text-[20px] font-extrabold text-ap-primary hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all shadow-sm"
+                className="py-3.5 rounded-xl bg-white border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all"
               >
                 {key}
               </button>

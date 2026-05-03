@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import PackageModalButton from "@/components/bet/PackageModalButton";
 
 interface YeekeeRound {
@@ -62,6 +63,7 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState<number>(() => Date.now());
   const [selectedRoundNo, setSelectedRoundNo] = useState<number | null>(null);
+  const [resultByRound, setResultByRound] = useState<Record<number, { top_3: string; bottom_2: string } | "loading" | "error">>({});
   const userPickedRef = useRef(false);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const didAutoScrollRef = useRef(false);
@@ -133,6 +135,22 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
     }
     return { total: rounds.length, finished, open, upcoming };
   }, [rounds, now]);
+
+  const fetchResultProof = useCallback(async (roundId: number) => {
+    setResultByRound((prev) => (prev[roundId] ? prev : { ...prev, [roundId]: "loading" }));
+    try {
+      const res = await fetch(`/api/v1/lotto/yeekee/rounds/${roundId}/result-proof`, { cache: "no-store" });
+      const json = await res.json();
+      const payload = json?.data?.proof?.result_payload;
+      if (json?.success && payload && (payload.top_3 || payload.bottom_2)) {
+        setResultByRound((prev) => ({ ...prev, [roundId]: { top_3: String(payload.top_3 ?? ""), bottom_2: String(payload.bottom_2 ?? "") } }));
+      } else {
+        setResultByRound((prev) => ({ ...prev, [roundId]: "error" }));
+      }
+    } catch {
+      setResultByRound((prev) => ({ ...prev, [roundId]: "error" }));
+    }
+  }, []);
 
   const selectedRound = useMemo(
     () => rounds?.find((r) => r.round_no === selectedRoundNo) ?? null,
@@ -218,6 +236,9 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
                   onClick={() => {
                     userPickedRef.current = true;
                     setSelectedRoundNo(r.round_no);
+                    if (isFinished && r.status !== "voided" && !resultByRound[r.round_id]) {
+                      fetchResultProof(r.round_id);
+                    }
                   }}
                   className={baseCls + " " + stateCls + selectedRing + " active:scale-95"}
                   aria-label={title}
@@ -246,20 +267,56 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
               </span>
             </div>
 
-            <div className="text-center">
-              <div className="text-[14px] font-semibold text-ap-tertiary leading-none">
-                {selectedInfo.isLive ? "เหลือเวลา" : selectedInfo.isFinished ? "ปิดแล้ว" : "เปิดอีก"}
+            {selectedRound.status !== "resulted" && (
+              <div className="text-center">
+                <div className="text-[14px] font-semibold text-ap-tertiary leading-none">
+                  {selectedInfo.isLive ? "เหลือเวลา" : selectedInfo.isFinished ? "ปิดแล้ว" : "เปิดอีก"}
+                </div>
+                <div className={`text-[28px] font-extrabold tabular-nums leading-none mt-1 ${
+                  selectedInfo.isLive ? "text-emerald-600" : selectedInfo.isFinished ? "text-ap-tertiary" : "text-violet-600"
+                }`}>
+                  {selectedInfo.isFinished ? "—" : formatCountdown(
+                    selectedInfo.isLive
+                      ? selectedInfo.remaining
+                      : bkkToMs(selectedRound.bet_open_at) - now,
+                  )}
+                </div>
               </div>
-              <div className={`text-[28px] font-extrabold tabular-nums leading-none mt-1 ${
-                selectedInfo.isLive ? "text-emerald-600" : selectedInfo.isFinished ? "text-ap-tertiary" : "text-violet-600"
-              }`}>
-                {selectedInfo.isFinished ? "—" : formatCountdown(
-                  selectedInfo.isLive
-                    ? selectedInfo.remaining
-                    : bkkToMs(selectedRound.bet_open_at) - now,
-                )}
-              </div>
-            </div>
+            )}
+
+            {selectedInfo.isFinished && selectedRound.status !== "voided" && (() => {
+              const r = resultByRound[selectedRound.round_id];
+              if (r === "loading") {
+                return <div className="text-[13px] text-ap-tertiary">กำลังโหลดผล…</div>;
+              }
+              if (r === "error" || !r) {
+                return r === "error" ? <div className="text-[13px] text-ap-red">โหลดผลไม่สำเร็จ</div> : null;
+              }
+              return (
+                <div className="w-full space-y-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-ap-border px-3 py-2">
+                      <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
+                        {r.top_3 || "—"}
+                      </span>
+                      <span className="mt-1 text-[12px] font-semibold text-slate-500">3 ตัวบน</span>
+                    </div>
+                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-ap-border px-3 py-2">
+                      <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
+                        {r.bottom_2 || "—"}
+                      </span>
+                      <span className="mt-1 text-[12px] font-semibold text-slate-500">2 ตัวล่าง</span>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/${locale}/bet/yeekee/rounds/${selectedRound.round_id}/result`}
+                    className="block w-full max-w-[240px] mx-auto text-center rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-[14px] font-bold px-6 py-2.5 shadow-sm hover:opacity-90 active:scale-[0.98] transition-all"
+                  >
+                    เช็คผลรางวัล →
+                  </Link>
+                </div>
+              );
+            })()}
 
             {selectedInfo.isLive ? (
               <div className="w-full max-w-[200px]">
@@ -273,7 +330,7 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
                   labelPlay="แทงรอบนี้ →"
                 />
               </div>
-            ) : (
+            ) : selectedRound.status !== "resulted" && (
               <button
                 type="button"
                 disabled

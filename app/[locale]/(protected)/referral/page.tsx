@@ -59,7 +59,7 @@ export default async function ReferralRoute({ params }: Props) {
   const proto = host.startsWith("localhost") ? "http" : "https";
   const [token, lang] = await Promise.all([getApiToken(), getLangCookie()]);
 
-  let referralCode = user.referralCode ?? ("LT" + user.id.slice(0, 6).toUpperCase());
+  let referralCode: string = user.referralCode ?? "";
   let referredCount = 0;
   let totalEarned = 0;
   let promotionBonusIncome = 0;

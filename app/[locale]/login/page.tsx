@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import LoginPageClient from "@/components/auth/LoginPageClient";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
+import { getCurrentUser } from "@/lib/session/auth";
 
 export async function generateMetadata({
   params,
@@ -20,6 +22,8 @@ export default async function LoginPage({
   searchParams: Promise<Record<string, string>>;
 }) {
   const { locale }  = await params;
+  const user        = await getCurrentUser();
+  if (user) redirect(`/${locale}/dashboard`);
   const sp          = await searchParams;
   const expired     = sp.expired === "1";
   const meta        = await getSiteMeta();

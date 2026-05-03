@@ -375,7 +375,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
         <input
           type="text" value={note} onChange={(e) => setNote(e.target.value)}
           placeholder={t.notePlaceholder}
-          className="flex-1 border border-ap-border rounded-xl px-3 py-1.5 text-[14px] outline-none focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/10 bg-white transition-all"
+          className="flex-1 border-2 border-ap-blue rounded-xl px-3 py-1.5 text-[14px] outline-none focus:ring-2 focus:ring-ap-blue/10 bg-white transition-all"
         />
         {lotteryLogo
           ? <img src={lotteryLogo} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />

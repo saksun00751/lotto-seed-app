@@ -99,19 +99,20 @@ export default function BetQuickForm({
   const TOP_TYPES: BetTypeId[] = ["3top", "3perm", "6perm", "2top", "2perm", "19door", "run"];
   const BOT_TYPES: BetTypeId[] = ["3perm", "6perm", "3tod", "2perm", "19door", "2bot", "winlay"];
   const showTop = is3DigitPair
-    ? (selected3?.includes("3top") ?? true)
+    ? (selected3?.includes("3top") ?? false)
     : is2DigitPair
-      ? (selected2?.includes("2top") ?? true)
+      ? (selected2?.includes("2top") ?? false)
     : isRunPair
-      ? (selectedRun?.includes("run") ?? true)
-    : (is2DigitPair || isRunPair || TOP_TYPES.includes(betType));
+      ? (selectedRun?.includes("run") ?? false)
+    : TOP_TYPES.includes(betType);
   const showBot = is3DigitPair
-    ? (selected3?.includes("3tod") ?? true)
+    ? (selected3?.includes("3tod") ?? false)
     : is2DigitPair
-      ? (selected2?.includes("2bot") ?? true)
+      ? (selected2?.includes("2bot") ?? false)
     : isRunPair
-      ? (selectedRun?.includes("winlay") ?? true)
-    : (is2DigitPair || isRunPair || BOT_TYPES.includes(betType));
+      ? (selectedRun?.includes("winlay") ?? false)
+    : BOT_TYPES.includes(betType);
+  const hasSelection = showTop || showBot;
 
   const tabLabels: Record<TabId, string> = {
     standard: t.tabStandard,
@@ -132,6 +133,7 @@ export default function BetQuickForm({
 
     const todNums = botBillType === "3tod"
       ? nums.filter((num, idx) => {
+          if (showTop && new Set(num).size === 1) return false;
           const key = num.split("").sort().join("");
           return nums.findIndex((n) => n.split("").sort().join("") === key) === idx;
         })
@@ -411,9 +413,15 @@ export default function BetQuickForm({
           <p className="text-[14px] text-ap-primary font-medium mt-0.5">{lotteryName} • {today}</p>
         </div>
 
+        {!hasSelection && (
+          <div className="mb-3 rounded-2xl border-2 border-dashed border-violet-300 bg-violet-50/60 px-4 py-3 text-center">
+            <p className="text-[14px] font-bold text-violet-700">เลือกประเภทการแทงด้านบนก่อนเริ่มใส่เลข</p>
+          </div>
+        )}
+
         {/* Input area */}
         {activeTab === "slip" ? (
-          <div className="bg-ap-bg/70 rounded-2xl border border-ap-border p-4">
+          <div className={["bg-ap-bg/70 rounded-2xl border-2 border-ap-blue p-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
             <label className="text-[14px] text-ap-primary font-bold mb-1.5 block uppercase tracking-wide">
               {t.pasteSlipLabel.replace("{digits}", String(maxDigits))}
             </label>
@@ -422,12 +430,12 @@ export default function BetQuickForm({
               onChange={(e) => handleSlipChange(e.target.value)}
               placeholder={`${t.pasteSlipPlaceholder.replace("{digits}", String(maxDigits))}\n${t.exampleLabel} ${maxDigits === 3 ? t.pasteSlipExample3 : t.pasteSlipExample2}`}
               rows={4}
-              className="w-full border-2 border-ap-blue/40 rounded-xl px-3 py-3 text-[15px] font-bold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-white shadow-sm transition-all resize-none leading-relaxed"
+              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[15px] font-bold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-white shadow-sm transition-all resize-none leading-relaxed"
             />
             <p className="mt-1.5 text-[14px] text-ap-secondary font-medium">{t.pasteSlipHint}</p>
           </div>
         ) : (
-          <div className="bg-ap-bg/70 rounded-2xl border border-ap-border p-4">
+          <div className={["bg-ap-bg/70 rounded-2xl border-2 border-ap-blue p-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
             <label className="text-[14px] text-ap-primary font-bold mb-1 block uppercase tracking-wide">
               {t.inputNumberLabel.replace("{digits}", String(maxDigits))}
             </label>
@@ -438,7 +446,7 @@ export default function BetQuickForm({
               onChange={(e) => handleNumberInput(e.target.value)}
               maxLength={maxDigits}
               placeholder={"·".repeat(maxDigits)}
-              className="w-full border-2 border-ap-blue/40 rounded-xl px-3 py-3 text-[22px] text-center font-extrabold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-white shadow-sm transition-all placeholder:text-ap-tertiary/40"
+              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[22px] text-center font-extrabold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-white shadow-sm transition-all placeholder:text-ap-tertiary/40"
             />
           </div>
         )}

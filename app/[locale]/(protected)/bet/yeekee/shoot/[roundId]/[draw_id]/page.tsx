@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import YeekeeShootForm from "@/components/bet/YeekeeShootForm";
+import YeekeeShootsList from "@/components/bet/YeekeeShootsList";
 import BackButton from "@/components/ui/BackButton";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { apiGet } from "@/lib/api/client";
@@ -106,7 +106,7 @@ export default async function YeekeeShootPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
-      <div className="max-w-4xl mx-auto px-5 pt-6 space-y-5">
+      <div className="max-w-6xl mx-auto px-5 pt-6 space-y-5">
         <div className="flex items-center gap-3">
           <BackButton
             fallbackHref={`/${locale}/bet`}
@@ -157,11 +157,14 @@ export default async function YeekeeShootPage({ params }: Props) {
           </div>
         </section>
 
-        <YeekeeShootForm roundId={roundId} />
-
-        <Link href={`/${locale}/bet`} className="inline-flex text-[14px] font-semibold text-ap-secondary hover:text-ap-primary">
-          กลับหน้าแทงหวย
-        </Link>
+        <div className="grid gap-5 lg:grid-cols-3">
+          <div className="lg:col-span-2 space-y-5">
+            <YeekeeShootForm roundId={roundId} />
+          </div>
+          <div className="lg:col-span-1">
+            <YeekeeShootsList roundId={roundId} />
+          </div>
+        </div>
       </div>
     </div>
   );

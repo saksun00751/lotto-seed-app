@@ -81,9 +81,9 @@ export default function LotteryLayoutPage({
   const t = getTranslation(lang, "bet");
   const [bills,       setBills]       = useState<BillRow[]>([]);
   const [betType,     setBetType]     = useState<BetTypeId>("3top");
-  const [selected3,   setSelected3]   = useState<BetTypeId[]>(["3top"]);
-  const [selected2,   setSelected2]   = useState<BetTypeId[]>(["2top"]);
-  const [selectedRun, setSelectedRun] = useState<BetTypeId[]>(["run"]);
+  const [selected3,   setSelected3]   = useState<BetTypeId[]>([]);
+  const [selected2,   setSelected2]   = useState<BetTypeId[]>([]);
+  const [selectedRun, setSelectedRun] = useState<BetTypeId[]>([]);
   const [specialMode, setSpecialMode] = useState<BetTypeId | null>(null);
   const [isClassic,   setIsClassic]   = useState(false);
   const [tripleTrigger, setTripleTrigger] = useState(0);
@@ -158,31 +158,32 @@ export default function LotteryLayoutPage({
   const changeBetType = (id: BetTypeId) => {
     setBetType(id);
     setSpecialMode(null);
-    // reset selected3 เมื่อเข้ากลุ่ม 3 ตัว
-    if (id === "3top" || id === "3tod") setSelected3(["3top"]);
-    if (id === "2top" || id === "2bot") setSelected2(["2top"]);
-    if (id === "run" || id === "winlay") setSelectedRun(["run"]);
+    // เปลี่ยนกลุ่ม: ตั้ง chip ที่กดเป็นรายการเดียวที่ถูกเลือก, ล้างกลุ่มอื่น
+    if (id === "3top" || id === "3tod") {
+      setSelected3([id]);
+      setSelected2([]);
+      setSelectedRun([]);
+    } else if (id === "2top" || id === "2bot") {
+      setSelected2([id]);
+      setSelected3([]);
+      setSelectedRun([]);
+    } else if (id === "run" || id === "winlay") {
+      setSelectedRun([id]);
+      setSelected3([]);
+      setSelected2([]);
+    }
   };
   const toggle3Type = (id: BetTypeId) => {
-    setSelected3((prev) => {
-      const has = prev.includes(id);
-      if (has && prev.length <= 1) return prev; // ห้ามปิดทั้งคู่
-      return has ? prev.filter((x) => x !== id) : [...prev, id];
-    });
+    setSelected3((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setBetType(id);
   };
   const toggle2Type = (id: BetTypeId) => {
-    setSelected2((prev) => {
-      const has = prev.includes(id);
-      if (has && prev.length <= 1) return prev; // ห้ามปิดทั้งคู่
-      return has ? prev.filter((x) => x !== id) : [...prev, id];
-    });
+    setSelected2((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setBetType(id);
   };
   const toggleRunType = (id: BetTypeId) => {
-    setSelectedRun((prev) => {
-      const has = prev.includes(id);
-      if (has && prev.length <= 1) return prev; // ห้ามปิดทั้งคู่
-      return has ? prev.filter((x) => x !== id) : [...prev, id];
-    });
+    setSelectedRun((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setBetType(id);
   };
   const changeSpecialMode = (id: BetTypeId) => {
     setSpecialMode((prev) => (prev === id ? null : id)); // toggle
@@ -353,7 +354,9 @@ export default function LotteryLayoutPage({
 
           {/* Main column */}
           <div className="space-y-3">
-            <BetTypeSelector betType={betType} onChange={changeBetType} selected3={selected3} selected2={selected2} selectedRun={selectedRun} onToggle3={toggle3Type} onToggle2={toggle2Type} onToggleRun={toggleRunType} visibleIds={selectorTypeIds} disabled={isClassic} bettingContext={bettingContext} />
+            {!isClassic && (
+              <BetTypeSelector betType={betType} onChange={changeBetType} selected3={selected3} selected2={selected2} selectedRun={selectedRun} onToggle3={toggle3Type} onToggle2={toggle2Type} onToggleRun={toggleRunType} visibleIds={selectorTypeIds} bettingContext={bettingContext} />
+            )}
 
             {/* โหมดพิเศษ */}
             {(() => {

@@ -7,6 +7,13 @@ import type { Category, SubItem } from "@/lib/categories";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLang } from "@/lib/i18n/context";
 import PackageModalButton from "@/components/bet/PackageModalButton";
+import YeekeeRoundsBoard from "@/components/bet/YeekeeRoundsBoard";
+
+function isYeekeeCategory(cat: Category): boolean {
+  const code = (cat.code ?? cat.id ?? "").toLowerCase();
+  const label = (cat.label ?? "").toLowerCase();
+  return code.includes("yeekee") || label.includes("yeekee") || label.includes("ยี่กี");
+}
 
 function StatusBadge({ status, label }: { status: SubItem["drawStatus"]; label?: string }) {
   const text = label?.trim() || "—";
@@ -21,9 +28,10 @@ function StatusBadge({ status, label }: { status: SubItem["drawStatus"]; label?:
 
 interface LotteryCategoriesProps {
   initialCategories?: Category[];
+  locale?: string;
 }
 
-export default function LotteryCategories({ initialCategories = [] }: LotteryCategoriesProps) {
+export default function LotteryCategories({ initialCategories = [], locale }: LotteryCategoriesProps) {
   const t = useTranslation("dashboard");
   const { lang } = useLang();
   const [categories, setCategories] = useState<Category[]>(initialCategories);
@@ -105,6 +113,22 @@ export default function LotteryCategories({ initialCategories = [] }: LotteryCat
             </div>
           )}
 
+          {isYeekeeCategory(cat) ? (
+            <div className="bg-slate-50/50 p-3 space-y-3">
+              {cat.items
+                .filter((i) => Number.isFinite(Number(i.id)))
+                .map((i) => (
+                  <YeekeeRoundsBoard
+                    key={i.id}
+                    marketId={Number(i.id)}
+                    marketName={i.name}
+                    logo={i.logo}
+                    locale={locale ?? lang}
+                    groupId={cat.groupId ?? 0}
+                  />
+                ))}
+            </div>
+          ) : (
           <div className="bg-slate-50/50 p-3 space-y-2.5">
             {cat.items.map((item: SubItem) => (
               <div
@@ -152,6 +176,7 @@ export default function LotteryCategories({ initialCategories = [] }: LotteryCat
               </div>
             ))}
           </div>
+          )}
 
         </div>
       ))}

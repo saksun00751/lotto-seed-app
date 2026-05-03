@@ -35,7 +35,7 @@ export async function generateMetadata({
   return { title: await getPageMetaTitle(locale, "dashboard") };
 }
 
-async function DashboardLotterySection() {
+async function DashboardLotterySection({ locale }: { locale: string }) {
   const [apiToken, lang] = await Promise.all([getApiToken(), getLangCookie()]);
   let categories: Category[] = [];
   try {
@@ -45,7 +45,7 @@ async function DashboardLotterySection() {
     }
   } catch {}
 
-  return <LotteryCategories initialCategories={categories} />;
+  return <LotteryCategories initialCategories={categories} locale={locale} />;
 }
 
 async function DashboardGamesSection({ locale }: { locale: string }) {
@@ -145,7 +145,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
           </>
         ) : (
           <Suspense fallback={<DashboardLotteryFallback />}>
-            <DashboardLotterySection />
+            <DashboardLotterySection locale={locale} />
           </Suspense>
         )}
       </div>
