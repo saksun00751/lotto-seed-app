@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import DepositPage from "@/components/deposit/DepositPage";
+import DepositPageRandom from "@/components/deposit/DepositPageRandom";
 import { apiGet } from "@/lib/api/client";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { getBanks } from "@/lib/api/banks";
@@ -53,9 +54,12 @@ export default async function DepositRoute() {
     bankLogo = bank?.image_url ?? null;
   }
 
+  const style = (process.env.NEXT_PUBLIC_DEPOSIT_STYLE ?? "NORMAL").toUpperCase();
+  const DepositComponent = style === "RANDOM" ? DepositPageRandom : DepositPage;
+
   return (
     <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
-      <DepositPage
+      <DepositComponent
         displayName={profile?.name ?? "สมาชิก"}
         bankName={bankName}
         bankLogo={bankLogo}
