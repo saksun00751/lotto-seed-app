@@ -28,6 +28,7 @@ interface NavbarProps {
 
 type IconName =
   | "home"
+  | "lotto"
   | "withdraw"
   | "play"
   | "history"
@@ -47,8 +48,8 @@ type IconName =
   | "diamond";
 
 function iconForPath(path: string): IconName {
+  if (path.includes("/bet") || path.includes("/category")) return "lotto";
   if (path.includes("/withdraw")) return "withdraw";
-  if (path.includes("/bet")) return "play";
   if (path.includes("/history")) return "history";
   if (path.includes("/contact")) return "contact";
   if (path.includes("/profile")) return "profile";
@@ -68,6 +69,7 @@ function iconForPath(path: string): IconName {
 function normalizeIcon(raw: string | null | undefined, path?: string): IconName {
   const value = (raw ?? "").toLowerCase();
   if (value.includes("home") || value.includes("house")) return "home";
+  if (value.includes("lotto") || value.includes("lottery")) return "lotto";
   if (value.includes("withdraw")) return "withdraw";
   if (value.includes("bet") || value.includes("target") || value.includes("play")) return "play";
   if (value.includes("history") || value.includes("list")) return "history";
@@ -89,6 +91,7 @@ function AppIcon({ name, className }: { name: IconName; className?: string }) {
   const cls = className ?? "text-[14px] leading-none";
   const map: Record<IconName, string> = {
     home: "🏠",
+    lotto: "🎯",
     withdraw: "🍀",
     play: "🎯",
     history: "📋",
@@ -163,6 +166,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
   const profileMenuItems = [
     { icon: "profile" as IconName, label: t.profile,        href: `/${lang}/profile` },
     { icon: "referral" as IconName, label: t.referral,       href: `/${lang}/referral` },
+    { icon: "lotto" as IconName, label: t.lotto,          href: `/${lang}/bet` },
     { icon: "history" as IconName, label: t.history,        href: `/${lang}/history` },
     { icon: "promotion" as IconName, label: t.promotion,      href: `/${lang}/promotion` },
     { icon: "finance" as IconName, label: t.finance,        href: `/${lang}/transactions` },
@@ -226,16 +230,22 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
               </span>
             </Link>
 
-            {/* Avatar + dropdown */}
+            {/* Menu dropdown */}
             <div className="relative" ref={dropRef}>
               <button
                 onClick={() => setProfileOpen((v) => !v)}
                 className={[
-                  "w-8 h-8 rounded-full bg-ap-blue flex items-center justify-center text-white text-[13px] font-bold shadow-sm transition-all",
-                  profileOpen ? "ring-2 ring-ap-blue/30 shadow-md" : "hover:shadow-md",
+                  "w-9 h-9 rounded-full bg-white border border-ap-border flex items-center justify-center text-ap-primary shadow-sm transition-all",
+                  profileOpen ? "ring-2 ring-ap-blue/25 border-ap-blue/35 shadow-md" : "hover:border-ap-blue/35 hover:shadow-md",
                 ].join(" ")}
+                aria-label="Open menu"
+                aria-expanded={profileOpen}
               >
-                {initials}
+                <span className="flex flex-col gap-1" aria-hidden>
+                  <span className="block h-0.5 w-4 rounded-full bg-current" />
+                  <span className="block h-0.5 w-4 rounded-full bg-current" />
+                  <span className="block h-0.5 w-4 rounded-full bg-current" />
+                </span>
               </button>
 
               {profileOpen && (

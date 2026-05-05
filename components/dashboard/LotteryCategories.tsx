@@ -43,7 +43,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
       .then((r) => r.json())
       .then((res: MarketsLatestResponse) => {
         if (!cancelled && res?.data?.groups) {
-          setCategories(mapMarketsToCategories(res.data.groups));
+          setCategories(mapMarketsToCategories(res.data.groups, lang));
         }
       })
       .finally(() => {
@@ -52,7 +52,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [lang]);
 
   if (loading) {
     return (

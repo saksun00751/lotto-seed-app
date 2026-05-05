@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLang } from "@/lib/i18n/context";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import { BetTypeId, BillRow, BET_TYPE_BTNS } from "./types";
@@ -11,6 +11,8 @@ import type { NumberLimitRow } from "@/lib/types/bet";
 import BetTypeSelector from "./BetTypeSelector";
 import BetQuickForm    from "./BetQuickForm";
 import BetSlipSidebar  from "./BetSlipSidebar";
+import YeekeeShootForm from "./YeekeeShootForm";
+import YeekeeShootsList from "./YeekeeShootsList";
 import { confirmBet }  from "@/app/actions/bet";
 import type { BetRateRow, BettingContext } from "@/lib/types/bet";
 import CountdownTimer from "@/components/ui/CountdownTimer";
@@ -25,6 +27,7 @@ export interface YeekeeInfo {
   shootOpenAt?:     string;
   shootCloseAt?:    string;
   resultComputeAt?: string;
+  statusLabel?:     string;
 }
 
 export interface LotteryInfo {
@@ -34,17 +37,16 @@ export interface LotteryInfo {
   statusLabel?: string;
 }
 
-function getYeekeeShootState(nowMs: number, shootOpenAt?: string, shootCloseAt?: string) {
-  const openMs = shootOpenAt ? new Date(shootOpenAt).getTime() : undefined;
-  const closeMs = shootCloseAt ? new Date(shootCloseAt).getTime() : undefined;
-
-  if (openMs && nowMs < openMs) return { label: "รอยิงเลข", disabled: true };
-  if (closeMs && nowMs > closeMs) return { label: "ปิดยิงเลข", disabled: true };
-  return { label: "ยิงเลข", disabled: false };
-}
-
 function isCloseAtExpired(closeAt?: string): boolean {
   return !!closeAt && new Date(closeAt).getTime() <= Date.now();
+}
+
+type LotteryTab = "bet" | "shoot" | "rules";
+
+function normalizeLotteryTab(tab: string | null, hasYeekee: boolean): LotteryTab {
+  if (tab === "shoot" && hasYeekee) return "shoot";
+  if (tab === "rules") return "rules";
+  return "bet";
 }
 
 export default function LotteryLayoutPage({
@@ -54,6 +56,7 @@ export default function LotteryLayoutPage({
   lotteryFlag   = "",
   lotteryLogo,
   categoryName  = "",
+  categoryCode  = "",
   closeAt,
   numberLimits  = [],
   betRates      = [],
@@ -68,6 +71,7 @@ export default function LotteryLayoutPage({
   lotteryFlag?:     string;
   lotteryLogo?:     string;
   categoryName?:    string;
+  categoryCode?:    string;
   closeAt?:         string;
   numberLimits?:    NumberLimitRow[];
   betRates?:        BetRateRow[];
@@ -78,6 +82,8 @@ export default function LotteryLayoutPage({
 }) {
   const { lang } = useLang();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const t = getTranslation(lang, "bet");
   const [bills,       setBills]       = useState<BillRow[]>([]);
   const [betType,     setBetType]     = useState<BetTypeId>("3top");
@@ -88,9 +94,9 @@ export default function LotteryLayoutPage({
   const [isClassic,   setIsClassic]   = useState(false);
   const [tripleTrigger, setTripleTrigger] = useState(0);
   const [doubleTrigger, setDoubleTrigger] = useState(0);
-  const [shootNowMs, setShootNowMs] = useState(() => Date.now());
   const [closedModalOpen, setClosedModalOpen] = useState(() => isCloseAtExpired(closeAt));
   const [redirectCountdown, setRedirectCountdown] = useState(3);
+  const [activeTab, setActiveTab] = useState<LotteryTab>(() => normalizeLotteryTab(searchParams.get("tab"), Boolean(yeekeeInfo)));
 
   const availableBetTypeIds = betRates.map((r) => r.id);
   // เพิ่ม run/winlay อัตโนมัติถ้า API ไม่ส่งมา แต่มี 2top อยู่
@@ -110,12 +116,6 @@ export default function LotteryLayoutPage({
       setBetType(enrichedIds[0] ?? availableBetTypeIds[0]);
     }
   }, [availableBetTypeIds, betType]);
-
-  useEffect(() => {
-    if (!yeekeeInfo) return;
-    const id = setInterval(() => setShootNowMs(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, [yeekeeInfo]);
 
   useEffect(() => {
     setClosedModalOpen(isCloseAtExpired(closeAt));
@@ -146,6 +146,20 @@ export default function LotteryLayoutPage({
   const effectiveBetType: BetTypeId = specialMode ?? betType;
 
   const totalAmount = bills.reduce((s, b) => s + b.top + b.bot, 0);
+
+  useEffect(() => {
+    const nextTab = normalizeLotteryTab(searchParams.get("tab"), Boolean(yeekeeInfo));
+    setActiveTab((current) => current === nextTab ? current : nextTab);
+  }, [searchParams, yeekeeInfo]);
+
+  const changeActiveTab = (tab: LotteryTab) => {
+    setActiveTab(tab);
+    const params = new URLSearchParams(searchParams.toString());
+    if (tab === "bet") params.delete("tab");
+    else params.set("tab", tab);
+    const query = params.toString();
+    router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
+  };
 
   const handleAddBills = (rows: BillRow[]) => setBills((prev) => [...prev, ...rows]);
   const handleDelete   = (id: string)      => setBills((prev) => prev.filter((b) => b.id !== id));
@@ -198,10 +212,6 @@ export default function LotteryLayoutPage({
   const handleClosedRedirect = () => {
     router.replace(`/${lang}/bet`);
   };
-  const shootState = yeekeeInfo
-    ? getYeekeeShootState(shootNowMs, yeekeeInfo.shootOpenAt, yeekeeInfo.shootCloseAt)
-    : null;
-
   return (
     <div className="min-h-screen bg-ap-bg">
       {closedModalOpen && (
@@ -214,16 +224,16 @@ export default function LotteryLayoutPage({
                   <path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <h2 className="text-[18px] font-extrabold text-ap-primary">หวยปิดรับแล้ว</h2>
+              <h2 className="text-[18px] font-extrabold text-ap-primary">{t.closedModalTitle}</h2>
               <p className="mt-2 text-[14px] font-medium text-ap-secondary leading-relaxed">
-                ระบบจะพากลับไปหน้าเลือกหวยใน {redirectCountdown} วินาที
+                {t.closedModalMessage.replace("{n}", String(redirectCountdown))}
               </p>
               <button
                 type="button"
                 onClick={handleClosedRedirect}
                 className="mt-5 w-full rounded-2xl bg-ap-blue hover:bg-ap-blue-h text-white text-[15px] font-bold py-3 transition-colors active:scale-[0.98]"
               >
-                ไปหน้าแทงหวย
+                {t.closedModalAction}
               </button>
             </div>
           </div>
@@ -238,7 +248,12 @@ export default function LotteryLayoutPage({
           <Link href={`/${lang}/bet`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">{t.title}</Link>
           {categoryName && <>
             <span className="text-ap-tertiary shrink-0">›</span>
-            <Link href={`/${lang}/bet`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0 hidden sm:inline">{categoryName}</Link>
+            <Link
+              href={categoryCode ? `/${lang}/category/${categoryCode}` : `/${lang}/bet`}
+              className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0 hidden sm:inline"
+            >
+              {categoryName}
+            </Link>
           </>}
           <span className="text-ap-tertiary shrink-0">›</span>
           <span className="font-bold text-ap-primary truncate flex items-center gap-1.5 min-w-0">
@@ -266,7 +281,7 @@ export default function LotteryLayoutPage({
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-[18px]" aria-label="Yeekee">⚡</span>
               {yeekeeInfo.roundNo != null && (
-                <span className="text-[20px] font-extrabold">รอบที่ {yeekeeInfo.roundNo}</span>
+                <span className="text-[20px] font-extrabold">{t.yeekeeRoundFmt.replace("{n}", String(yeekeeInfo.roundNo))}</span>
               )}
             </div>
             {yeekeeInfo.drawDate && (
@@ -287,24 +302,6 @@ export default function LotteryLayoutPage({
               <div className="text-[13px] bg-white/15 rounded-full px-3 py-1 font-medium shrink-0">
                 {yeekeeInfo.formulaLabel}
               </div>
-            )}
-            {shootState && (
-              drawId && yeekeeInfo.roundId != null && !shootState.disabled ? (
-                <Link
-                  href={`/${lang}/bet/yeekee/shoot/${yeekeeInfo.roundId}/${drawId}`}
-                  className="h-9 inline-flex items-center rounded-full px-4 text-[14px] font-extrabold transition-all border shrink-0 bg-white text-violet-700 border-white shadow-sm hover:bg-violet-50 active:scale-[0.98]"
-                >
-                  {shootState.label}
-                </Link>
-              ) : (
-                <button
-                  type="button"
-                  disabled
-                  className="h-9 rounded-full px-4 text-[14px] font-extrabold transition-all border shrink-0 bg-white/10 border-white/20 text-white/55 cursor-not-allowed"
-                >
-                  {shootState.label}
-                </button>
-              )
             )}
           </div>
         </div>
@@ -346,8 +343,34 @@ export default function LotteryLayoutPage({
       )}
 
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
-      <div className="max-w-[1280px] mx-auto px-3 py-4 pb-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr_280px] gap-4">
+      <div className="max-w-[1280px] mx-auto px-3 py-4 pb-12 space-y-4">
+        {/* Tabs */}
+        <div className="bg-white rounded-2xl border border-ap-border shadow-card p-1 flex gap-1">
+          {([
+            { id: "bet", label: t.tabBet },
+            ...(yeekeeInfo ? [{ id: "shoot" as const, label: t.tabShoot }] : []),
+            { id: "rules", label: t.tabRules },
+          ] as { id: LotteryTab; label: string }[]).map((tab) => {
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => changeActiveTab(tab.id)}
+                className={[
+                  "flex-1 py-2 rounded-xl text-[14px] font-bold transition-all",
+                  active
+                    ? "bg-ap-blue text-white shadow-sm"
+                    : "text-ap-secondary hover:bg-slate-50",
+                ].join(" ")}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className={activeTab === "bet" ? "grid grid-cols-1 lg:grid-cols-[260px_1fr_280px] gap-4" : "hidden"}>
 
           {/* Left sidebar */}
           <BetLeftSidebar lotteryName={lotteryName} numberLimits={numberLimits} selectedPackage={selectedPackage} />
@@ -465,6 +488,73 @@ export default function LotteryLayoutPage({
           />
 
         </div>
+
+        {activeTab === "shoot" && yeekeeInfo?.roundId != null && (
+          <div className="space-y-5">
+            <section className="overflow-hidden rounded-2xl border border-ap-border bg-white shadow-card">
+              <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-white">
+                <div className="flex items-center gap-3">
+                  {lotteryLogo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={lotteryLogo} alt={lotteryName} className="w-11 h-11 rounded-2xl object-cover bg-white/15 border border-white/25" />
+                  ) : (
+                    <div className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center text-[22px]">⚡</div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[18px] font-extrabold leading-tight truncate">{lotteryName}</p>
+                    <p className="text-[14px] text-white/75 mt-0.5">Yeekee</p>
+                  </div>
+                  {yeekeeInfo.shootCloseAt && (
+                    <div className="shrink-0 text-right">
+                      <p className="text-[14px] text-white/70 font-semibold">{t.shootCloseIn}</p>
+                      <CountdownTimer
+                        closeAt={yeekeeInfo.shootCloseAt}
+                        className="text-[15px] font-extrabold tabular-nums text-ap-red"
+                        expiredClassName="text-[15px] font-extrabold text-ap-red"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 bg-slate-50/60">
+                {[
+                  { label: t.shootDetailDate, value: yeekeeInfo.drawDate ? new Date(yeekeeInfo.drawDate).toLocaleDateString("th-TH", { day: "2-digit", month: "2-digit", year: "numeric" }) : "-" },
+                  { label: t.shootDetailRound, value: yeekeeInfo.roundNo != null ? t.shootDetailRoundFmt.replace("{n}", String(yeekeeInfo.roundNo)) : `#${yeekeeInfo.roundId}` },
+                  { label: t.shootDetailStatus, value: yeekeeInfo.statusLabel ?? "-" },
+                  { label: t.shootDetailCloseTime, value: (yeekeeInfo.shootCloseAt ?? yeekeeInfo.betCloseAt) ? new Date((yeekeeInfo.shootCloseAt ?? yeekeeInfo.betCloseAt) as string).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", hour12: false }) : "-" },
+                ].map((row) => (
+                  <div key={row.label} className="rounded-xl border border-slate-200 bg-white px-3 py-2.5">
+                    <p className="text-[14px] font-semibold text-ap-tertiary">{row.label}</p>
+                    <p className="mt-1 text-[14px] font-bold text-ap-primary truncate">{row.value}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <div className="grid gap-5 lg:grid-cols-3">
+              <div className="lg:col-span-2 space-y-5">
+                <YeekeeShootForm roundId={yeekeeInfo.roundId} />
+              </div>
+              <div className="lg:col-span-1">
+                <YeekeeShootsList roundId={yeekeeInfo.roundId} />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "rules" && (
+          <div className="bg-white rounded-2xl border border-ap-border shadow-card p-5 space-y-3 text-[14px] text-ap-secondary leading-relaxed">
+            <h3 className="text-[16px] font-extrabold text-ap-primary">{t.rulesTitle}</h3>
+            <ul className="list-disc pl-5 space-y-1.5">
+              <li>{t.ruleCheckBeforeConfirm}</li>
+              <li>{t.ruleCannotCancel}</li>
+              <li>{t.rulePackagePrice}</li>
+              <li>{t.ruleBlockedNumbers}</li>
+              {yeekeeInfo && <li>{t.ruleYeekee}</li>}
+              <li>{t.ruleSupport}</li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -82,7 +82,7 @@ export default function LotteryGroups() {
       .then((r) => r.json())
       .then((res: MarketsLatestResponse) => {
         if (!cancelled && res?.data?.groups) {
-          setGroups(mapMarketsToCategories(res.data.groups));
+          setGroups(mapMarketsToCategories(res.data.groups, lang));
         }
       })
       .finally(() => {
@@ -91,7 +91,7 @@ export default function LotteryGroups() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [lang]);
 
   if (loading) {
     return (

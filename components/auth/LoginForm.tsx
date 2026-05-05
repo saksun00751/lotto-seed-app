@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { loginWithPasswordAction } from "@/lib/actions";
-import { getRegisterPagePath } from "@/lib/config/register";
+import { getRegisterClientVariant, getRegisterPagePath } from "@/lib/config/register";
 import Input from "@/components/ui/Input";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLang } from "@/lib/i18n/context";
@@ -70,6 +70,8 @@ function ErrorBanner({ msg }: { msg: string }) {
 export default function LoginForm() {
   const t = useTranslation("login");
   const { lang } = useLang();
+  const registerVariant = getRegisterClientVariant();
+  const usePhoneUser = registerVariant === "register";
   const registerPath = getRegisterPagePath(lang);
 
   const [username, setUsername] = useState("");
@@ -108,7 +110,7 @@ export default function LoginForm() {
   function validateUsername(): boolean {
     const value = username.trim();
     if (!value) {
-      setUsernameError((t as Record<string, string>).errUsername ?? t.errPhone);
+      setUsernameError(usePhoneUser ? ((t as Record<string, string>).errUserPhone ?? t.errPhone) : ((t as Record<string, string>).errUsername ?? t.errPhone));
       return false;
     }
     return true;
@@ -156,9 +158,9 @@ export default function LoginForm() {
         onSubmit={(e) => { if (!validateUsername()) e.preventDefault(); }}>
         <input type="hidden" name="lang" value={lang} />
         <Input
-          label={(t as Record<string, string>).username ?? t.phone}
+          label={usePhoneUser ? ((t as Record<string, string>).userPhone ?? t.phone) : ((t as Record<string, string>).username ?? t.phone)}
           name="user_name" type="text" inputMode="text"
-          placeholder={(t as Record<string, string>).usernamePlaceholder ?? "username"}
+          placeholder={usePhoneUser ? ((t as Record<string, string>).userPhonePlaceholder ?? t.phoneHint) : ((t as Record<string, string>).usernamePlaceholder ?? "username")}
           autoComplete="username"
           autoFocus
           value={username}

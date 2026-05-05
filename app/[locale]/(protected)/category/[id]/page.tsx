@@ -60,7 +60,7 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
             )}
             <div>
               <div className="text-[14px] font-semibold text-ap-primary leading-tight">{item.name}</div>
-              <div className="text-[12px] text-ap-tertiary mt-0.5">{item.sub}</div>
+              <div className="text-[14px] font-bold text-ap-red mt-0.5 tabular-nums">{item.sub}</div>
             </div>
           </div>
           {item.isOpen ? (
@@ -90,7 +90,7 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
         ) : (
           <div className="text-center h-[68px] flex flex-col items-center justify-center mb-3">
             {item.closeAt
-              ? <CountdownTimer closeAt={item.closeAt} className="text-[22px] font-bold text-ap-primary tabular-nums tracking-wide" showCurrentTime expiredText="—" />
+              ? <CountdownTimer closeAt={item.closeAt} className="text-[22px] font-bold text-ap-primary tabular-nums tracking-wide" expiredText="—" />
               : <span className="text-[22px] font-bold text-ap-primary tabular-nums tracking-wide">{item.countdown ?? "—"}</span>
             }
           </div>
@@ -150,7 +150,7 @@ export default async function CategoryPage({ params }: Props) {
       lang,
     );
     if (res?.data?.groups) {
-      const categories = mapMarketsToCategories(res.data.groups);
+      const categories = mapMarketsToCategories(res.data.groups, lang);
       cat = categories.find((c) => c.id === id || c.code === id);
     }
   } catch {}
@@ -218,7 +218,7 @@ export default async function CategoryPage({ params }: Props) {
         {cat.items.length === 0 ? (
           <ComingSoon emoji={cat.emoji} label={cat.label} t={t} />
         ) : !isYeekee ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {cat.items.map((item) => (
               <SubItemCard key={item.id} item={item} t={t} groupId={cat.groupId ?? 0} locale={locale} />
             ))}

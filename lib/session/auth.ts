@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { getApiToken, getLangCookie, getMemberCodeCookie } from "./cookies";
-import { apiGet } from "@/lib/api/client";
+import { apiGet, ApiError } from "@/lib/api/client";
 
 export interface AuthUser {
   id:          string;        // user_name (phone)
@@ -59,7 +59,9 @@ export const getCurrentUser = cache(async function (): Promise<AuthUser | null> 
       createdAt:   null,
     };
   } catch (e) {
-    console.error("[getCurrentUser] error:", e);
+    if (!(e instanceof ApiError && (e.status === 401 || e.status === 403))) {
+      console.error("[getCurrentUser] error:", e);
+    }
     return null;
   }
 });
@@ -68,7 +70,8 @@ export async function requireAuth(): Promise<AuthUser> {
   const user = await getCurrentUser();
   if (!user) {
     const { redirect } = await import("next/navigation");
-    redirect("/login?expired=1");
+    const lang = await getLangCookie();
+    redirect(`/${lang}/login?expired=1`);
   }
   return user as AuthUser;
 }

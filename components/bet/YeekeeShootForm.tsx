@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const NUMPAD_KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "clear", "0", "del"];
 const MAX_DIGITS = 5;
+const COOLDOWN_SECONDS = 5;
 
 export default function YeekeeShootForm({ roundId }: { roundId: number }) {
   const [inputBuf, setInputBuf] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
   const apiEndpointPath = `/lotto/yeekee/rounds/${roundId}/shoot`;
   const endpoint = `/api/v1${apiEndpointPath}`;
 
@@ -25,24 +27,64 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
     setInputBuf(next);
   };
 
-  const handleSubmit = async () => {
-    if (inputBuf.length !== MAX_DIGITS || loading) return;
+  const submittingRef = useRef(false);
+  const handleSubmit = async (numberToSend: string) => {
+    if (numberToSend.length !== MAX_DIGITS || submittingRef.current) return;
+    submittingRef.current = true;
     setLoading(true);
     try {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ number: inputBuf }),
+        body: JSON.stringify({ number: numberToSend }),
       });
       const json = await res.json().catch(() => ({ success: false }));
       if (res.ok && (json as { success?: boolean })?.success !== false) {
-        toast.success(`ยิงเลข ${inputBuf} สำเร็จ`);
+        toast.success(`ยิงเลข ${numberToSend} สำเร็จ`);
         window.dispatchEvent(new CustomEvent("yeekee-shoot-submitted"));
         setInputBuf("");
+        setCooldown(COOLDOWN_SECONDS);
+      } else {
+        const msg = (json as { message?: string })?.message;
+        toast.error(msg || "ยิงเลขไม่สำเร็จ");
+        setInputBuf("");
       }
+    } catch {
+      toast.error("เชื่อมต่อไม่สำเร็จ");
+      setInputBuf("");
     } finally {
       setLoading(false);
+      submittingRef.current = false;
     }
+  };
+
+  useEffect(() => {
+    if (inputBuf.length !== MAX_DIGITS || submittingRef.current || cooldown > 0) return;
+    const t = setTimeout(() => {
+      handleSubmit(inputBuf);
+    }, 500);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputBuf, cooldown]);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => Math.max(0, c - 1)), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  const isLocked = loading || cooldown > 0;
+  const pressDigitGuarded = (digit: string) => {
+    if (isLocked) return;
+    pressDigit(digit);
+  };
+  const pressBackspaceGuarded = () => {
+    if (isLocked) return;
+    pressBackspace();
+  };
+  const pressRandomGuarded = () => {
+    if (isLocked) return;
+    pressRandom();
   };
 
   return (
@@ -82,8 +124,9 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                 <button
                   key={key}
                   type="button"
-                  onClick={pressRandom}
-                  className="py-3.5 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-emerald-700 text-[14px] font-bold shadow-sm hover:bg-emerald-100 active:scale-95 transition-all"
+                  onClick={pressRandomGuarded}
+                  disabled={isLocked}
+                  className="py-3.5 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-emerald-700 text-[14px] font-bold shadow-sm hover:bg-emerald-100 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   สุ่มเลข
                 </button>
@@ -94,8 +137,9 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                 <button
                   key={key}
                   type="button"
-                  onClick={pressBackspace}
-                  className="py-3.5 rounded-xl bg-yellow-50 border-2 border-yellow-500 text-yellow-700 text-[14px] font-bold shadow-sm hover:bg-yellow-100 active:scale-95 transition-all"
+                  onClick={pressBackspaceGuarded}
+                  disabled={isLocked}
+                  className="py-3.5 rounded-xl bg-yellow-50 border-2 border-yellow-500 text-yellow-700 text-[14px] font-bold shadow-sm hover:bg-yellow-100 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   ⌫
                 </button>
@@ -105,8 +149,9 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
               <button
                 key={key}
                 type="button"
-                onClick={() => pressDigit(key)}
-                className="py-3.5 rounded-xl bg-white border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all"
+                onClick={() => pressDigitGuarded(key)}
+                disabled={isLocked}
+                className="py-3.5 rounded-xl bg-white border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {key}
               </button>
@@ -114,14 +159,14 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
           })}
         </div>
 
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={inputBuf.length !== MAX_DIGITS || loading}
-          className="mt-4 w-full rounded-2xl bg-ap-blue px-6 py-3 text-[15px] font-extrabold text-white shadow-sm hover:bg-ap-blue-h active:scale-[0.98] transition-all disabled:opacity-45 disabled:cursor-not-allowed"
-        >
-          {loading ? "กำลังยิงเลข..." : "ยิงเลข"}
-        </button>
+        {loading && (
+          <p className="mt-4 text-center text-[14px] font-bold text-ap-blue">กำลังยิงเลข...</p>
+        )}
+        {!loading && cooldown > 0 && (
+          <p className="mt-4 text-center text-[14px] font-bold text-ap-tertiary tabular-nums">
+            ยิงครั้งถัดไปใน {cooldown} วินาที
+          </p>
+        )}
       </div>
     </section>
   );

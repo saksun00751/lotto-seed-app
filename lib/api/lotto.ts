@@ -1,5 +1,7 @@
 import type { Category, SubItem } from "@/lib/categories";
 
+type MarketLang = "th" | "en" | "kh" | "la";
+
 // ─── API Types ────────────────────────────────────────────────────────────────
 interface ApiDraw {
   draw_id:        number;
@@ -55,15 +57,41 @@ function bkkToIso(dt: string | null): string | undefined {
   return new Date(dt.replace(" ", "T") + "+07:00").toISOString();
 }
 
-function formatDrawDate(date: string | null): string | undefined {
+function normalizeLang(lang?: string): MarketLang {
+  return lang === "en" || lang === "kh" || lang === "la" ? lang : "th";
+}
+
+function formatCloseTime(dt: string | null, lang?: string): string {
+  if (!dt) return "";
+  const time = dt.slice(11, 16);
+  switch (normalizeLang(lang)) {
+    case "en":
+      return `Closes ${time}`;
+    case "kh":
+      return `បិទ ${time}`;
+    case "la":
+      return `ປິດ ${time}`;
+    case "th":
+    default:
+      return `ปิด ${time} น.`;
+  }
+}
+
+function formatDrawDate(date: string | null, lang?: string): string | undefined {
   if (!date) return undefined;
-  return new Date(date).toLocaleDateString("th-TH", {
+  const localeByLang: Record<MarketLang, string> = {
+    th: "th-TH",
+    en: "en-US",
+    kh: "km-KH",
+    la: "lo-LA",
+  };
+  return new Date(date).toLocaleDateString(localeByLang[normalizeLang(lang)], {
     day: "2-digit", month: "2-digit", year: "numeric",
   });
 }
 
 // ─── Mapper ───────────────────────────────────────────────────────────────────
-export function mapMarketsToCategories(groups: ApiGroup[]): Category[] {
+export function mapMarketsToCategories(groups: ApiGroup[], lang?: string): Category[] {
   return groups.map((group): Category => {
     const meta = {
       emoji: "🎯",
@@ -85,7 +113,7 @@ export function mapMarketsToCategories(groups: ApiGroup[]): Category[] {
           name:       market.market_name,
           flag:       meta.emoji,
           logo:       market.market_logo || undefined,
-          sub:        draw.close_at ? `ปิด ${draw.close_at.slice(11, 16)} น.` : "",
+          sub:        formatCloseTime(draw.close_at, lang),
           isOpen,
           closeAt:    isOpen ? bkkToIso(draw.close_at) : undefined,
           result:     resulted && draw.result_top_3 && draw.result_bottom_2
@@ -93,7 +121,7 @@ export function mapMarketsToCategories(groups: ApiGroup[]): Category[] {
                         : undefined,
           drawStatus,
           statusLabel: draw.status_label,
-          drawDate:   formatDrawDate(draw.draw_date),
+          drawDate:   formatDrawDate(draw.draw_date, lang),
           drawId:     draw.draw_id,
           barClass:   meta.barClass,
           href:       isOpen ? `/bet/${draw.draw_id}` : "",

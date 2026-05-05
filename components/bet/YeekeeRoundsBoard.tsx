@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import PackageModalButton from "@/components/bet/PackageModalButton";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 interface YeekeeRound {
   market_id: number;
@@ -57,23 +58,22 @@ function formatCountdown(ms: number): string {
 }
 
 export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, groupId }: Props) {
+  const t = useTranslation("category");
   const [rounds, setRounds] = useState<YeekeeRound[] | null>(null);
   const [drawDate, setDrawDate] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState<number>(() => Date.now());
   const [selectedRoundNo, setSelectedRoundNo] = useState<number | null>(null);
-  const [resultByRound, setResultByRound] = useState<Record<number, { top_3: string; bottom_2: string } | "loading" | "error">>({});
+  const [resultByRound, setResultByRound] = useState<Record<number, { top_3: string; bottom_2: string } | { error: string } | "loading">>({});
   const userPickedRef = useRef(false);
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const didAutoScrollRef = useRef(false);
 
   const fetchRounds = useCallback(async () => {
     try {
       const res = await fetch(`/api/lotto/yeekee/${marketId}/rounds`, { cache: "no-store" });
       const json: YeekeeRoundsResponse = await res.json();
       if (!json.success || !json.data) {
-        setError(json && (json as { message?: string }).message ? String((json as { message?: string }).message) : "โหลดข้อมูลไม่สำเร็จ");
+        setError(json && (json as { message?: string }).message ? String((json as { message?: string }).message) : t.yeekeeLoadFailed);
         return;
       }
       setRounds(json.data.items);
@@ -82,11 +82,11 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
       if (sv) setNow(bkkToMs(sv));
       setError(null);
     } catch {
-      setError("เชื่อมต่อไม่สำเร็จ");
+      setError(t.yeekeeNetworkFailed);
     } finally {
       setLoading(false);
     }
-  }, [marketId]);
+  }, [marketId, t]);
 
   useEffect(() => {
     fetchRounds();
@@ -113,19 +113,7 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
     }
   }, [currentRoundNo]);
 
-  // Auto-scroll to current round once rounds load
-  useEffect(() => {
-    if (didAutoScrollRef.current || !rounds || currentRoundNo == null) return;
-    const el = scrollerRef.current?.querySelector<HTMLElement>(
-      `[data-round="${currentRoundNo}"]`
-    );
-    if (el) {
-      el.scrollIntoView({ block: "center", behavior: "smooth" });
-      didAutoScrollRef.current = true;
-    }
-  }, [rounds, currentRoundNo]);
-
-  const stats = useMemo(() => {
+const stats = useMemo(() => {
     if (!rounds) return { total: 0, finished: 0, open: 0, upcoming: 0 };
     let finished = 0, open = 0, upcoming = 0;
     for (const r of rounds) {
@@ -145,12 +133,13 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
       if (json?.success && payload && (payload.top_3 || payload.bottom_2)) {
         setResultByRound((prev) => ({ ...prev, [roundId]: { top_3: String(payload.top_3 ?? ""), bottom_2: String(payload.bottom_2 ?? "") } }));
       } else {
-        setResultByRound((prev) => ({ ...prev, [roundId]: "error" }));
+        const msg = String(json?.message ?? t.yeekeeResultLoadFailed);
+        setResultByRound((prev) => ({ ...prev, [roundId]: { error: msg } }));
       }
     } catch {
-      setResultByRound((prev) => ({ ...prev, [roundId]: "error" }));
+      setResultByRound((prev) => ({ ...prev, [roundId]: { error: t.yeekeeNetworkFailed } }));
     }
-  }, []);
+  }, [t]);
 
   const selectedRound = useMemo(
     () => rounds?.find((r) => r.round_no === selectedRoundNo) ?? null,
@@ -163,15 +152,15 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
     const isLive = selectedRound.is_open_for_play && closeMs > now;
     const isFinished = selectedRound.is_final || closeMs <= now;
     const remaining = closeMs - now;
-    let label = "รอเปิด";
+    let label = t.yeekeeBadgeWaiting;
     let badgeCls = "bg-ap-bg text-ap-secondary";
-    if (isLive) { label = "เปิดรับแทง"; badgeCls = "bg-emerald-100 text-emerald-700"; }
+    if (isLive) { label = t.yeekeeBadgeOpen; badgeCls = "bg-emerald-100 text-emerald-700"; }
     else if (isFinished) {
-      label = selectedRound.status === "voided" ? "ยกเลิก" : "ปิดรับแทง";
+      label = selectedRound.status === "voided" ? t.yeekeeBadgeVoided : t.yeekeeBadgeClosed;
       badgeCls = "bg-ap-bg text-ap-tertiary";
     }
     return { closeMs, isLive, isFinished, remaining, label, badgeCls };
-  }, [selectedRound, now]);
+  }, [selectedRound, now, t]);
 
   return (
     <section className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
@@ -185,25 +174,22 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
         <div className="flex-1 min-w-0">
           <h2 className="text-[15px] font-bold text-white tracking-tight truncate">{marketName}</h2>
           <p className="text-[12px] text-white/80 leading-tight">
-            {drawDate || "—"} · {stats.total} รอบ · รอบละ 15 นาที
+            {drawDate || "—"} · {t.yeekeeRoundsCount.replace("{n}", String(stats.total))} · {t.yeekeeRoundInterval}
           </p>
         </div>
         <div className="hidden sm:flex items-center gap-2 text-[14px] font-semibold text-white/90">
-          <span className="bg-white/20 rounded-full px-2 py-0.5">เปิด {stats.open}</span>
-          <span className="bg-white/10 rounded-full px-2 py-0.5">รอ {stats.upcoming}</span>
-          <span className="bg-black/20 rounded-full px-2 py-0.5">จบ {stats.finished}</span>
+          <span className="bg-white/20 rounded-full px-2 py-0.5">{t.yeekeeStatsOpen.replace("{n}", String(stats.open))}</span>
+          <span className="bg-white/10 rounded-full px-2 py-0.5">{t.yeekeeStatsUpcoming.replace("{n}", String(stats.upcoming))}</span>
+          <span className="bg-black/20 rounded-full px-2 py-0.5">{t.yeekeeStatsFinished.replace("{n}", String(stats.finished))}</span>
         </div>
       </div>
 
       <div className="p-3 space-y-3">
-        {loading && <div className="h-[92px] flex items-center justify-center text-[13px] text-ap-tertiary">กำลังโหลดรอบ…</div>}
+        {loading && <div className="h-[92px] flex items-center justify-center text-[13px] text-ap-tertiary">{t.yeekeeLoadingRounds}</div>}
         {error && !loading && <div className="h-[92px] flex items-center justify-center text-[13px] text-ap-red">{error}</div>}
 
         {!loading && !error && rounds && (
-          <div
-            ref={scrollerRef}
-            className="grid grid-cols-[repeat(auto-fill,minmax(2.5rem,1fr))] gap-1.5"
-          >
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(2.5rem,1fr))] gap-1.5">
             {rounds.map((r) => {
               const closeMs = bkkToMs(r.bet_close_at);
               const isLive = r.is_open_for_play && closeMs > now;
@@ -211,6 +197,7 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
               const isSelected = r.round_no === selectedRoundNo;
               const isFinished = r.is_final || closeMs <= now;
               const isUpcoming = !isLive && !isFinished;
+              const isResulted = r.status === "resulted";
 
               const baseCls =
                 "aspect-square w-full rounded-lg border flex items-center justify-center text-[14px] font-bold tabular-nums transition-all";
@@ -221,12 +208,14 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
                 stateCls = "border-emerald-300 text-emerald-700 hover:bg-emerald-50";
               } else if (isUpcoming) {
                 stateCls = "border-transparent text-ap-secondary hover:border-ap-blue/40";
+              } else if (isResulted) {
+                stateCls = "border-violet-400 bg-violet-50 text-violet-700 hover:bg-violet-100";
               } else {
                 stateCls = "border-transparent text-ap-tertiary opacity-50 hover:opacity-80";
               }
               const selectedRing = isSelected ? " ring-2 ring-violet-500 ring-offset-1 scale-110" : "";
 
-              const title = `รอบ ${r.round_no} · ปิด ${hhmm(r.bet_close_at)}`;
+              const title = `${t.yeekeeRoundShort.replace("{n}", String(r.round_no))} · ${t.yeekeeBetCloseShort.replace("{time}", hhmm(r.bet_close_at))}`;
 
               return (
                 <button
@@ -257,20 +246,20 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
           <div className="rounded-xl border border-ap-border bg-gradient-to-br from-violet-50 to-fuchsia-50 px-3 py-3 flex flex-col items-center gap-2">
             <div className="w-full flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-center gap-2">
-                <span className="text-[18px] font-bold text-ap-primary">รอบที่ {selectedRound.round_no}</span>
+                <span className="text-[18px] font-bold text-ap-primary">{t.yeekeeRoundFmt.replace("{n}", String(selectedRound.round_no))}</span>
                 <span className={`text-[13px] font-semibold rounded-full px-2 py-0.5 ${selectedInfo.badgeCls}`}>
                   {selectedInfo.label}
                 </span>
               </div>
-              <span className="text-[15px] font-semibold text-ap-secondary tabular-nums">
-                ปิดรับ {hhmm(selectedRound.bet_close_at)} น.
+              <span className="text-[18px] font-bold text-ap-primary tabular-nums">
+                {t.yeekeeBetCloseAt.replace("{time}", hhmm(selectedRound.bet_close_at))}
               </span>
             </div>
 
             {selectedRound.status !== "resulted" && (
               <div className="text-center">
                 <div className="text-[14px] font-semibold text-ap-tertiary leading-none">
-                  {selectedInfo.isLive ? "เหลือเวลา" : selectedInfo.isFinished ? "ปิดแล้ว" : "เปิดอีก"}
+                  {selectedInfo.isLive ? t.yeekeeRemaining : selectedInfo.isFinished ? t.yeekeeFinishedShort : t.yeekeeOpensIn}
                 </div>
                 <div className={`text-[28px] font-extrabold tabular-nums leading-none mt-1 ${
                   selectedInfo.isLive ? "text-emerald-600" : selectedInfo.isFinished ? "text-ap-tertiary" : "text-violet-600"
@@ -287,10 +276,11 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
             {selectedInfo.isFinished && selectedRound.status !== "voided" && (() => {
               const r = resultByRound[selectedRound.round_id];
               if (r === "loading") {
-                return <div className="text-[13px] text-ap-tertiary">กำลังโหลดผล…</div>;
+                return <div className="text-[13px] text-ap-tertiary">{t.yeekeeLoadingResult}</div>;
               }
-              if (r === "error" || !r) {
-                return r === "error" ? <div className="text-[13px] text-ap-red">โหลดผลไม่สำเร็จ</div> : null;
+              if (!r) return null;
+              if ("error" in r) {
+                return <div className="text-[13px] text-ap-red">{r.error}</div>;
               }
               return (
                 <div className="w-full space-y-2">
@@ -299,20 +289,20 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
                       <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
                         {r.top_3 || "—"}
                       </span>
-                      <span className="mt-1 text-[12px] font-semibold text-slate-500">3 ตัวบน</span>
+                      <span className="mt-1 text-[12px] font-semibold text-slate-500">{t.yeekeeTop3}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-ap-border px-3 py-2">
                       <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
                         {r.bottom_2 || "—"}
                       </span>
-                      <span className="mt-1 text-[12px] font-semibold text-slate-500">2 ตัวล่าง</span>
+                      <span className="mt-1 text-[12px] font-semibold text-slate-500">{t.yeekeeBottom2}</span>
                     </div>
                   </div>
                   <Link
                     href={`/${locale}/bet/yeekee/rounds/${selectedRound.round_id}/result`}
                     className="block w-full max-w-[240px] mx-auto text-center rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-[14px] font-bold px-6 py-2.5 shadow-sm hover:opacity-90 active:scale-[0.98] transition-all"
                   >
-                    เช็คผลรางวัล →
+                    {t.yeekeeCheckResult}
                   </Link>
                 </div>
               );
@@ -327,7 +317,7 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
                   roundId={selectedRound.round_id}
                   locale={locale}
                   closeAt={new Date(selectedInfo.closeMs).toISOString()}
-                  labelPlay="แทงรอบนี้ →"
+                  labelPlay={t.yeekeePlayThisRound}
                 />
               </div>
             ) : selectedRound.status !== "resulted" && (
@@ -336,7 +326,7 @@ export default function YeekeeRoundsBoard({ marketId, marketName, logo, locale, 
                 disabled
                 className="max-w-[200px] flex items-center justify-center gap-2 text-[14px] font-bold text-ap-tertiary border border-ap-border rounded-full px-6 py-2.5 cursor-not-allowed"
               >
-                {selectedInfo.isFinished ? "ปิดรับแทงแล้ว" : "ยังไม่ถึงเวลาเปิด"}
+                {selectedInfo.isFinished ? t.yeekeeAlreadyClosed : t.yeekeeNotYetOpen}
               </button>
             )}
           </div>

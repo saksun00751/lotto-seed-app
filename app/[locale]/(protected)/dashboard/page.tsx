@@ -41,7 +41,7 @@ async function DashboardLotterySection({ locale }: { locale: string }) {
   try {
     const res = await apiGet<MarketsLatestResponse>("/lotto/markets/latest", apiToken ?? undefined, lang);
     if (res?.data?.groups) {
-      categories = mapMarketsToCategories(res.data.groups);
+      categories = mapMarketsToCategories(res.data.groups, lang);
     }
   } catch {}
 

@@ -59,7 +59,7 @@ export default async function ReferralRoute({ params }: Props) {
   const proto = host.startsWith("localhost") ? "http" : "https";
   const [token, lang] = await Promise.all([getApiToken(), getLangCookie()]);
 
-  let referralCode: string = user.referralCode ?? "";
+  let referralCode = user.referralCode?.trim() ?? "";
   let referredCount = 0;
   let totalEarned = 0;
   let promotionBonusIncome = 0;
@@ -67,18 +67,27 @@ export default async function ReferralRoute({ params }: Props) {
   let rule: NonNullable<ReferralApiResponse["rule"]> | null = null;
   let referrals: ReferralItem[] = [];
 
-  try {
-    const data = await apiGet<ReferralApiResponse>("/member/contributor", token ?? undefined, lang);
-    const summary = data.summary ?? data.data?.summary;
-    const ruleData = data.rule ?? data.data?.rule;
-    const referralRows = data.referrals ?? data.data?.referrals ?? [];
-    referralCode = summary?.referral_code || referralCode;
+  const applyReferralData = (res: ReferralApiResponse) => {
+    const summary = res.summary ?? res.data?.summary;
+    const ruleData = res.rule ?? res.data?.rule;
+    const referralRows = res.referrals ?? res.data?.referrals ?? [];
+    referralCode = summary?.referral_code?.trim() || referralCode;
     referredCount = Number(summary?.referred_members ?? 0);
     totalEarned = Number(summary?.referral_income ?? 0);
     promotionBonusIncome = Number(summary?.promotion_bonus_income ?? 0);
     promotionBonusCount = Number(summary?.promotion_bonus_count ?? 0);
     rule = ruleData ?? null;
     referrals = referralRows;
+  };
+
+  try {
+    const data = await apiGet<ReferralApiResponse>("/member/contributor", token ?? undefined, lang);
+    applyReferralData(data);
+
+    if (!referralCode) {
+      const retryData = await apiGet<ReferralApiResponse>("/member/contributor", token ?? undefined, lang);
+      applyReferralData(retryData);
+    }
   } catch {}
 
   const registerPath = getRegisterPagePath(locale);

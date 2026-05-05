@@ -319,7 +319,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
       getAllGamesGroupedFromApi(token, lang),
       drawReq,
     ]);
-    if (marketsRes?.data?.groups) allCategories = mapMarketsToCategories(marketsRes.data.groups);
+    if (marketsRes?.data?.groups) allCategories = mapMarketsToCategories(marketsRes.data.groups, lang);
     gameGroups = groups;
     drawDetail = drawRes?.data ?? null;
   } catch {}
@@ -414,6 +414,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
           shootOpenAt: bkkToIso(drawDetail.shoot_open_at),
           shootCloseAt: bkkToIso(drawDetail.shoot_close_at),
           resultComputeAt: bkkToIso(drawDetail.result_compute_at),
+          statusLabel: drawDetail.status_label ?? drawDetail.status,
         }
       : undefined;
 
@@ -435,6 +436,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
           lotteryFlag={lotteryFlag}
           lotteryLogo={lotteryLogo}
           categoryName={categoryName}
+          categoryCode={categoryItem?.code ?? ""}
           closeAt={closeAt}
           numberLimits={mergedLimits}
           betRates={finalBetRates}
@@ -465,7 +467,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
             <div className="bg-gradient-to-r from-ap-blue to-sky-400 px-4 py-3 flex items-center justify-between">
               <h2 className="text-[15px] font-bold text-white tracking-tight">{t.lotto}</h2>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
              
 
               {lottoCategories.map((cat, idx) => (

@@ -50,14 +50,20 @@ function LoginContent({ logoUrl }: { logoUrl: string }) {
   );
 }
 
+function ExpiredSessionBanner() {
+  const t = useTranslation("login");
+
+  return (
+    <div className="w-full max-w-[400px] mb-4 bg-red-50 border border-red-200 text-red-700 text-[13.5px] font-medium rounded-2xl px-4 py-3 text-center">
+      {t.errSession}
+    </div>
+  );
+}
+
 export default function LoginPageClient({ initialLang, expired, logoUrl }: { initialLang: string; expired?: boolean; logoUrl: string }) {
   return (
     <LangProvider initialLang={initialLang}>
-      {expired && (
-        <div className="w-full max-w-[400px] mb-4 bg-red-50 border border-red-200 text-red-700 text-[13.5px] font-medium rounded-2xl px-4 py-3 text-center">
-          เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่
-        </div>
-      )}
+      {expired && <ExpiredSessionBanner />}
       <LoginContent logoUrl={logoUrl} />
     </LangProvider>
   );

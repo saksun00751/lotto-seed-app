@@ -66,6 +66,97 @@ input:-webkit-autofill:focus {
 .scrollbar-hide { scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
+.yeekee-shoot-new {
+  position: relative;
+  overflow: hidden;
+  transform-origin: top center;
+  animation: yeekee-scoreboard-in 820ms cubic-bezier(.18,.95,.22,1) both;
+}
+
+.yeekee-shoot-new::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(16,185,129,0.22), transparent 34%),
+    repeating-linear-gradient(180deg, rgba(15,23,42,0.06) 0 1px, transparent 1px 7px);
+  opacity: 0;
+  animation: yeekee-scoreboard-scan 760ms ease-out 70ms both;
+}
+
+.yeekee-shoot-new::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #22c55e, #38bdf8);
+  box-shadow: 0 0 16px rgba(34,197,94,0.7), 0 0 22px rgba(56,189,248,0.4);
+  animation: yeekee-scoreboard-rail 820ms ease-out both;
+}
+
+@keyframes yeekee-scoreboard-in {
+  0% {
+    opacity: 0;
+    transform: perspective(560px) rotateX(-64deg) translateY(-14px) scale(0.98);
+    filter: brightness(1.18) saturate(1.15);
+    background-color: rgba(15, 23, 42, 0.92);
+    color: white;
+    box-shadow: 0 14px 28px rgba(15,23,42,0.18), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  42% {
+    opacity: 1;
+    transform: perspective(560px) rotateX(8deg) translateY(0) scale(1.012);
+    filter: brightness(1.08) saturate(1.1);
+    background-color: rgba(16, 185, 129, 0.16);
+    box-shadow: 0 10px 22px rgba(16,185,129,0.14), inset 0 0 0 1px rgba(16,185,129,0.18);
+  }
+  64% {
+    transform: perspective(560px) rotateX(-3deg) translateY(0) scale(1);
+    background-color: rgba(56, 189, 248, 0.10);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(560px) rotateX(0) translateY(0) scale(1);
+    filter: brightness(1) saturate(1);
+    background-color: transparent;
+    color: inherit;
+    box-shadow: none;
+  }
+}
+
+@keyframes yeekee-scoreboard-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  24% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes yeekee-scoreboard-rail {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.2);
+  }
+  28% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+
 /* ── Spin Wheel ─────────────────────────────────────────────────────────────── */
 .rng-canvas-container {
   position: relative;
