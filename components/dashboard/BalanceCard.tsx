@@ -18,15 +18,35 @@ interface BalanceData {
 interface Props {
   phone:       string;
   displayName: string;
+  initialData?: Partial<BalanceData>;
 }
 
-export default function BalanceCard({ phone, displayName }: Props) {
+function requestIdle(callback: () => void) {
+  if (typeof window === "undefined") return;
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(callback, { timeout: 1500 });
+    return;
+  }
+  globalThis.setTimeout(callback, 500);
+}
+
+export default function BalanceCard({ phone, displayName, initialData }: Props) {
   const t = useTranslation("dashboard");
   const { lang } = useLang();
   const user = useUser();
   const realtime = useUserRealtime();
-  const [data, setData]       = useState<BalanceData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData]       = useState<BalanceData | null>(
+    initialData
+      ? {
+          balance: initialData.balance ?? 0,
+          diamond: initialData.diamond ?? 0,
+          cashback: initialData.cashback ?? 0,
+          downline: initialData.downline ?? 0,
+          winlost: initialData.winlost ?? 0,
+        }
+      : null,
+  );
+  const [loading, setLoading] = useState(!initialData);
   const [spinning, setSpinning] = useState(false);
 
   async function fetchBalance() {
@@ -47,7 +67,19 @@ export default function BalanceCard({ phone, displayName }: Props) {
     finally { setLoading(false); }
   }
 
-  useEffect(() => { void fetchBalance(); }, []);
+  useEffect(() => {
+    if (!initialData) {
+      void fetchBalance();
+      return;
+    }
+    let cancelled = false;
+    requestIdle(() => {
+      if (!cancelled) void fetchBalance();
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   useEffect(() => {
     if (!user) return;
     setData((prev) => ({

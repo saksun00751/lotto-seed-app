@@ -14,6 +14,7 @@ import { getAllGamesGroupedFromApi } from "@/lib/api/games";
 import type { Category } from "@/lib/categories";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
+import { getCurrentUser } from "@/lib/session/auth";
 
 type DashboardMode = "lotto" | "game";
 
@@ -126,6 +127,7 @@ function DashboardGamesFallback() {
 export default async function DashboardPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const mode = getDashboardMode();
+  const user = await getCurrentUser();
 
   return (
     <div className="relative min-h-screen bg-ap-bg pb-20 sm:pb-8 overflow-hidden">
@@ -134,7 +136,11 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
         <div className="absolute top-1/3 -right-24 w-[340px] h-[340px] rounded-full bg-blue-200/25 blur-3xl" />
       </div>
       <div className="relative max-w-5xl mx-auto px-5 pt-6 space-y-8">
-        <BalanceCard phone="" displayName="" />
+        <BalanceCard
+          phone={user?.phone ?? ""}
+          displayName={user?.displayName ?? ""}
+          initialData={user ? { balance: user.balance, diamond: user.diamond } : undefined}
+        />
         <PromoBanner />
         {mode === "game" ? (
           <>

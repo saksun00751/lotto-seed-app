@@ -38,6 +38,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
   const [loading, setLoading]       = useState(initialCategories.length === 0);
 
   useEffect(() => {
+    if (initialCategories.length > 0) return;
     let cancelled = false;
     fetch("/api/lotto/markets")
       .then((r) => r.json())

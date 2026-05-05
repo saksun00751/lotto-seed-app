@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 interface SiteMeta {
   logo: string;
   title: string;
@@ -22,13 +24,13 @@ function isSiteMeta(value: unknown): value is SiteMeta {
   );
 }
 
-export async function getSiteMeta(): Promise<SiteMeta | null> {
+export const getSiteMeta = cache(async function getSiteMeta(): Promise<SiteMeta | null> {
   try {
     const res = await fetch(`${API_BASE}/meta/site`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       redirect: "manual",
-      cache: "no-store",
+      next: { revalidate: 300, tags: ["site-meta"] },
     });
     if (!res.ok) return null;
 
@@ -44,7 +46,7 @@ export async function getSiteMeta(): Promise<SiteMeta | null> {
   } catch {
     return null;
   }
-}
+});
 
 export function getLogoUrl(logo: string): string {
   const base = process.env.NEXT_PUBLIC_STORAGE_URL ?? "";

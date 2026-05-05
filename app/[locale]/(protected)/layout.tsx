@@ -10,13 +10,12 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, apiToken, meta, lang] = await Promise.all([
+  const [apiToken, lang] = await Promise.all([getApiToken(), getLangCookie()]);
+  const [user, meta, mobileNavItems] = await Promise.all([
     requireAuth(),
-    getApiToken(),
     getSiteMeta(),
-    getLangCookie(),
+    getNavbarConfig(apiToken ?? undefined, lang),
   ]);
-  const mobileNavItems = await getNavbarConfig(apiToken ?? undefined, lang);
   const logoUrl = meta ? getLogoUrl(meta.logo) : "/logo.png";
   return (
     <UserProvider user={user} apiToken={apiToken ?? ""}>
