@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import RegisterPageClient from "@/components/auth/RegisterPageClient";
 import RegisterWithUsernamePageClient from "@/components/auth/RegisterWithUsernamePageClient";
 import type { BankOption } from "@/components/auth/RegisterForm";
@@ -6,6 +7,7 @@ import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 import { getBanks } from "@/lib/api/banks";
 import { getRegisterClientVariant } from "@/lib/config/register";
 import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
+import { getCurrentUser } from "@/lib/session/auth";
 
 interface Props {
   params?: Promise<{ locale: string }>;
@@ -19,6 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RegisterPage({ params, searchParams }: Props) {
   const { locale } = (await params) ?? { locale: "th" };
+  const user        = await getCurrentUser();
+  if (user) redirect(`/${locale}/dashboard`);
+
   const query      = await searchParams;
   const defaultRef = (query?.ref ?? "").toUpperCase();
   const registerClient = getRegisterClientVariant();
