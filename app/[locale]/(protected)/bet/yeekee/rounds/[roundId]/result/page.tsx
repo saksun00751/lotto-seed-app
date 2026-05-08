@@ -12,7 +12,10 @@ interface ResultProofResponse {
   success: boolean;
   data?: {
     round_id: number;
+    round_no?: number;
     draw_id: number;
+    draw_date?: string | null;
+    submitted_at?: string | null;
     status: string;
     is_revealed: boolean;
     proof?: {
@@ -33,6 +36,7 @@ interface ResultProofResponse {
 
 interface Props {
   params: Promise<{ locale: string; roundId: string }>;
+  searchParams: Promise<{ round_no?: string; market_name?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -40,8 +44,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: await getPageMetaTitle(locale, "checkResult") };
 }
 
-export default async function YeekeeRoundResultPage({ params }: Props) {
+export default async function YeekeeRoundResultPage({ params, searchParams }: Props) {
   const { locale, roundId } = await params;
+  const { round_no: roundNoParam, market_name: marketNameParam } = await searchParams;
+  const roundNoFromQuery = roundNoParam ? Number(roundNoParam) : undefined;
+  const marketName = marketNameParam ?? "";
   const [token, lang] = await Promise.all([getApiToken(), getLangCookie()]);
 
   let data: ResultProofResponse["data"] | undefined;
@@ -62,6 +69,26 @@ export default async function YeekeeRoundResultPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+      <div className="bg-white border-b border-ap-border px-4 py-2.5 flex items-center sticky top-0 z-20 shadow-sm">
+        <div className="flex items-center gap-2 text-[14px] min-w-0 w-full">
+          <Link href={`/${locale}/dashboard`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">หน้าหลัก</Link>
+          <span className="text-ap-tertiary shrink-0">›</span>
+          <Link href={`/${locale}/bet`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">แทงหวย</Link>
+          <span className="text-ap-tertiary shrink-0">›</span>
+          <Link href={`/${locale}/category/lotto-yeekee`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">ยี่กี</Link>
+          {marketName && (
+            <>
+              <span className="text-ap-tertiary shrink-0">›</span>
+              <span className="text-ap-secondary shrink-0 truncate">{marketName}</span>
+            </>
+          )}
+          <span className="text-ap-tertiary shrink-0">›</span>
+          <span className="font-bold text-ap-primary truncate min-w-0">
+            รอบที่ {data.round_no ?? roundNoFromQuery ?? "—"}
+          </span>
+        </div>
+      </div>
+
       <div className="max-w-2xl mx-auto px-4 pt-4 space-y-4">
         <div className="flex items-center gap-2">
           <BackButton fallbackHref={`/${locale}/dashboard`}>
@@ -74,8 +101,9 @@ export default async function YeekeeRoundResultPage({ params }: Props) {
 
         <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden">
           <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-3">
-            <h2 className="text-[15px] font-extrabold text-white">รอบ #{data.round_id}</h2>
-            <p className="text-[12px] text-white/80">งวด #{data.draw_id} · {data.server_time ?? "—"}</p>
+            {marketName && <p className="text-[13px] font-semibold text-white/90">{marketName}</p>}
+            <h2 className="text-[15px] font-extrabold text-white">รอบที่ {data.round_no ?? roundNoFromQuery ?? "—"}</h2>
+            <p className="text-[12px] text-white/80">งวดวันที่ {data.server_time ? data.server_time.slice(0, 10) : "—"}</p>
           </div>
 
           <div className="p-4 space-y-4">

@@ -467,7 +467,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
             <div className="bg-gradient-to-r from-ap-blue to-sky-400 px-4 py-3 flex items-center justify-between">
               <h2 className="text-[15px] font-bold text-white tracking-tight">{t.lotto}</h2>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
              
 
               {lottoCategories.map((cat, idx) => (

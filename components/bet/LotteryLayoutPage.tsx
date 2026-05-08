@@ -241,7 +241,7 @@ export default function LotteryLayoutPage({
       )}
 
       {/* ── Breadcrumb bar ─────────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-ap-border px-4 py-2.5 flex items-center justify-between sticky top-0 z-20 shadow-sm">
+      <div className="bg-white border-b border-ap-border px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-0 sticky top-0 z-20 shadow-sm">
         <div className="flex items-center gap-2 text-[14px] min-w-0">
           <Link href={`/${lang}/dashboard`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">{t.home}</Link>
           <span className="text-ap-tertiary shrink-0">›</span>
@@ -265,7 +265,7 @@ export default function LotteryLayoutPage({
           </span>
         </div>
         {closeAt && (
-          <div className="flex items-center gap-1.5 text-ap-red font-bold text-[15px] shrink-0 ml-3">
+          <div className="flex items-center justify-center gap-1.5 text-ap-red font-bold text-[15px] shrink-0 sm:ml-3">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" strokeLinecap="round" />
             </svg>
@@ -349,7 +349,6 @@ export default function LotteryLayoutPage({
           {([
             { id: "bet", label: t.tabBet },
             ...(yeekeeInfo ? [{ id: "shoot" as const, label: t.tabShoot }] : []),
-            { id: "rules", label: t.tabRules },
           ] as { id: LotteryTab; label: string }[]).map((tab) => {
             const active = activeTab === tab.id;
             return (
