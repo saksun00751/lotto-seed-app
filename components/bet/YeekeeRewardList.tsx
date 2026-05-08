@@ -1,92 +1,115 @@
 "use client";
 
-import { useEffect, useState } from "react";
+interface ShootInfo {
+  number_text?: string;
+  number_text_masked?: string;
+  number_text_revealed?: string;
+  is_number_revealed?: boolean;
+  submitted_at?: string;
+}
 
-interface RewardItem {
+export interface RewardWinner {
   position?: number;
+  label?: string;
   credit_amount?: number;
+  member_name_prefix_masked?: string;
+  member_name_masked?: string;
+  winner_credit_status?: string;
+  shoot?: ShootInfo;
 }
 
-interface RewardStatusResponse {
-  success?: boolean;
-  message?: string;
-  data?: {
-    round_id?: number;
-    member_id?: number;
-    reward_enabled?: boolean;
-    reward_count?: number;
-    rewarded?: boolean;
-    items?: RewardItem[];
-  } | null;
+function formatTime(value?: string) {
+  if (!value) return "-";
+  const iso = value.replace(" ", "T") + "+07:00";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return value;
+  return d.toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
 }
 
-export default function YeekeeRewardList({ roundId }: { roundId: number }) {
-  const [items, setItems] = useState<RewardItem[]>([]);
-  const [enabled, setEnabled] = useState<boolean>(true);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(`/api/v1/lotto/yeekee/rounds/${roundId}/reward-status`, { cache: "no-store" });
-        const json: RewardStatusResponse = await res.json().catch(() => ({}));
-        if (cancelled) return;
-        if (!res.ok || json?.success === false) {
-          setError(json?.message ?? `HTTP ${res.status}`);
-        } else {
-          setItems(json?.data?.items ?? []);
-          setEnabled(json?.data?.reward_enabled ?? true);
-        }
-      } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "โหลดข้อมูลไม่สำเร็จ");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [roundId]);
-
-  const total = items.reduce((s, it) => s + (Number(it.credit_amount) || 0), 0);
+export default function YeekeeRewardList({
+  winners = [],
+  rewardEnabled = true,
+  shootSum,
+  shootCount,
+}: {
+  winners?: RewardWinner[];
+  rewardEnabled?: boolean;
+  shootSum?: string;
+  shootCount?: number;
+}) {
+  const total = winners.reduce((s, it) => s + (Number(it.credit_amount) || 0), 0);
 
   return (
     <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden">
       <div className="px-4 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 border-b border-ap-border">
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ได้รับรางวัลทายเลข</h2>
         <p className="text-[12px] text-white/90 font-medium">
-          ทั้งหมด {items.length} รายการ · รวม {total.toLocaleString("th-TH")} เครดิต
+          ทั้งหมด {winners.length} รายการ · รวม {total.toLocaleString("th-TH")} เครดิต
         </p>
       </div>
 
+      {shootSum && (
+        <div className="px-4 py-3 bg-gradient-to-br from-violet-50 to-fuchsia-50 border-b border-ap-border">
+          <p className="text-center text-[12px] font-semibold text-ap-tertiary tracking-wide">
+            ผลรวมเลขยิง{typeof shootCount === "number" ? ` (${shootCount} รายการ)` : ""}
+          </p>
+          <div className="mt-2 flex items-center justify-center gap-1.5 flex-wrap">
+            {shootSum.split("").map((digit, i) => (
+              <div
+                key={i}
+                className="w-10 h-12 rounded-xl bg-white border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
+              >
+                {digit}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="max-h-[420px] overflow-auto">
-        {loading && (
-          <div className="p-6 text-center text-[14px] text-ap-tertiary">กำลังโหลด…</div>
-        )}
-        {!loading && error && (
-          <div className="p-4 text-[14px] text-ap-red font-semibold">{error}</div>
-        )}
-        {!loading && !error && !enabled && (
+        {!rewardEnabled && (
           <div className="p-6 text-center text-[14px] text-ap-tertiary">รอบนี้ไม่มีรางวัลทายเลข</div>
         )}
-        {!loading && !error && enabled && items.length === 0 && (
+        {rewardEnabled && winners.length === 0 && (
           <div className="p-6 text-center text-[14px] text-ap-secondary">ยังไม่มีผู้ได้รับรางวัล</div>
         )}
-        {!loading && !error && items.length > 0 && (
+        {rewardEnabled && winners.length > 0 && (
           <ul className="divide-y divide-ap-border">
-            {items.map((it, idx) => (
-              <li key={`${it.position ?? idx}`} className="px-4 py-2.5 flex items-center justify-between gap-3 hover:bg-amber-50/50">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="shrink-0 w-9 h-9 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center text-[12px] font-extrabold tabular-nums">
-                    #{it.position ?? "-"}
+            {winners.map((it, idx) => {
+              const shoot = it.shoot;
+              const isRevealed = shoot?.is_number_revealed ?? false;
+              const numberDisplay = isRevealed
+                ? (shoot?.number_text_revealed ?? shoot?.number_text ?? "-----")
+                : (shoot?.number_text_masked ?? shoot?.number_text ?? "-----");
+              const memberName = it.member_name_prefix_masked || it.member_name_masked || "ไม่ระบุชื่อ";
+              return (
+                <li key={`${it.position ?? idx}`} className="px-4 py-2.5 flex items-center justify-between gap-3 hover:bg-amber-50/50">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="shrink-0 w-9 h-9 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center text-[12px] font-extrabold tabular-nums">
+                      #{it.position ?? "-"}
+                    </div>
+                    <div className="min-w-0">
+                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-emerald-600" : "text-ap-primary"}`}>
+                        {numberDisplay}
+                      </p>
+                      <p className="text-[12px] text-ap-tertiary mt-0.5 truncate flex items-center gap-1">
+                        <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="8" r="4" />
+                          <path d="M4 21v-1a7 7 0 0114 0v1" strokeLinecap="round" />
+                        </svg>
+                        <span className="truncate">{memberName}</span>
+                        {shoot?.submitted_at && (
+                          <span className="shrink-0 tabular-nums">· {formatTime(shoot.submitted_at)}</span>
+                        )}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-[14px] font-semibold text-ap-primary">ลำดับยิงเลข</p>
-                </div>
-                <span className="text-[15px] font-extrabold tabular-nums text-emerald-600">
-                  +{(Number(it.credit_amount) || 0).toLocaleString("th-TH")}
-                </span>
-              </li>
-            ))}
+                  <span className="shrink-0 text-[15px] font-extrabold tabular-nums text-emerald-600">
+                    +{(Number(it.credit_amount) || 0).toLocaleString("th-TH")}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

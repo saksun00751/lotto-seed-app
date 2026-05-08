@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/ui/BackButton";
 import YeekeeShootsList from "@/components/bet/YeekeeShootsList";
-import YeekeeRewardList from "@/components/bet/YeekeeRewardList";
+import YeekeeRewardList, { type RewardWinner } from "@/components/bet/YeekeeRewardList";
+import YeekeeRewardPolicy, { type RewardPolicyItem } from "@/components/bet/YeekeeRewardPolicy";
 import { apiGet } from "@/lib/api/client";
 import { getApiToken, getLangCookie } from "@/lib/session/cookies";
 import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
@@ -18,6 +19,19 @@ interface ResultProofResponse {
     submitted_at?: string | null;
     status: string;
     is_revealed: boolean;
+    shoot_summary?: {
+      shoot_sum?: string;
+      shoot_count?: number;
+      shoot_source?: string;
+    };
+    shoot_rewards?: {
+      policy?: RewardPolicyItem[];
+      policy_meta?: {
+        reward_enabled?: boolean;
+        currency?: string;
+      };
+      winners?: RewardWinner[];
+    };
     proof?: {
       formula_label?: string;
       precommit_signature?: string;
@@ -147,9 +161,19 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
           </div>
         </section>
 
-        <YeekeeRewardList roundId={Number(roundId)} />
+        <YeekeeRewardList
+          winners={data.shoot_rewards?.winners ?? []}
+          rewardEnabled={data.shoot_rewards?.policy_meta?.reward_enabled ?? true}
+          shootSum={data.shoot_summary?.shoot_sum}
+          shootCount={data.shoot_summary?.shoot_count}
+        />
 
         <YeekeeShootsList roundId={Number(roundId)} autoRefresh={false} />
+
+        <YeekeeRewardPolicy
+          policy={data.shoot_rewards?.policy ?? []}
+          currency={data.shoot_rewards?.policy_meta?.currency}
+        />
 
         <Link
           href={`/${locale}/history`}

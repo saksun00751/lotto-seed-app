@@ -83,8 +83,6 @@ function ShootsListSkeleton() {
 export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roundId: number; autoRefresh?: boolean }) {
   const [items, setItems] = useState<ShootItem[]>([]);
   const [count, setCount] = useState(0);
-  const [shootSum, setShootSum] = useState<string>("");
-  const [revealed, setRevealed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -126,8 +124,6 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
           ? new Set([...itemKeysRef.current, ...nextKeys])
           : nextKeys;
         setCount(json?.data?.pagination?.total ?? json?.data?.shoot_count ?? json?.data?.count ?? next.length);
-        setShootSum(json?.data?.shoot_sum ?? "");
-        setRevealed(Boolean(json?.data?.is_number_revealed));
         setHasMore(Boolean(json?.data?.pagination?.has_more));
         setPage(json?.data?.pagination?.page ?? targetPage);
       }
@@ -165,22 +161,6 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ทายเลข</h2>
         <p className="text-[12px] text-white/80 font-medium">ทั้งหมด {count} รายการ</p>
       </div>
-
-      {revealed && shootSum && (
-        <div className="px-4 py-3 bg-gradient-to-br from-violet-50 to-fuchsia-50 border-b border-ap-border">
-          <p className="text-center text-[12px] font-semibold text-ap-tertiary tracking-wide">ผลรวมเลขยิง</p>
-          <div className="mt-2 flex items-center justify-center gap-1.5">
-            {shootSum.split("").map((digit, i) => (
-              <div
-                key={i}
-                className="w-10 h-12 rounded-xl bg-white border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
-              >
-                {digit}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       <div className="flex-1 min-h-0 max-h-[420px] overflow-auto">
         {error && (
