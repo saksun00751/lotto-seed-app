@@ -88,31 +88,31 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
   };
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden">
-      <div className="px-4 py-3 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border">
+    <section className="rounded-2xl border border-border-default bg-white shadow-card overflow-hidden">
+      <div className="px-4 py-3 bg-gradient-to-r from-brand-primary to-sky-400 border-b border-border-default">
         <h2 className="text-[15px] font-extrabold text-white">ส่งเลขยิง</h2>
       </div>
 
       <div className="p-4">
-        <div className="bg-ap-bg/70 rounded-2xl border-2 border-ap-blue p-4 mb-4">
+        <div className="bg-surface-subtle/70 rounded-2xl border-2 border-brand-primary p-4 mb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             {Array.from({ length: MAX_DIGITS }).map((_, i) => (
               <div
                 key={i}
                 className={[
-                  "w-12 h-16 sm:w-14 rounded-xl border-2 border-ap-blue flex items-center justify-center text-[28px] font-extrabold tabular-nums transition-all",
+                  "w-12 h-16 sm:w-14 rounded-xl border-2 border-brand-primary flex items-center justify-center text-[28px] font-extrabold tabular-nums transition-all",
                   inputBuf[i]
-                    ? "bg-white text-ap-blue shadow-md"
+                    ? "bg-white text-brand-primary shadow-md"
                     : i === inputBuf.length
-                      ? "bg-blue-50 text-ap-tertiary animate-pulse"
-                      : "bg-white text-ap-tertiary/30",
+                      ? "bg-blue-50 text-text-muted animate-pulse"
+                      : "bg-white text-text-muted/30",
                 ].join(" ")}
               >
                 {inputBuf[i] ?? "·"}
               </div>
             ))}
           </div>
-          <p className="text-center text-[14px] text-ap-secondary font-medium">
+          <p className="text-center text-[14px] text-text-default font-medium">
             ใส่เลขยิง 5 หลัก
           </p>
         </div>
@@ -151,7 +151,7 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                 type="button"
                 onClick={() => pressDigitGuarded(key)}
                 disabled={isLocked}
-                className="py-3.5 rounded-xl bg-white border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="py-3.5 rounded-xl bg-white border-2 border-brand-primary text-[20px] font-extrabold text-text-strong shadow-sm hover:bg-blue-50 active:scale-95 active:bg-brand-primary active:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {key}
               </button>
@@ -160,10 +160,10 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
         </div>
 
         {loading && (
-          <p className="mt-4 text-center text-[14px] font-bold text-ap-blue">กำลังยิงเลข...</p>
+          <p className="mt-4 text-center text-[14px] font-bold text-brand-primary">กำลังยิงเลข...</p>
         )}
         {!loading && cooldown > 0 && (
-          <p className="mt-4 text-center text-[14px] font-bold text-ap-tertiary tabular-nums">
+          <p className="mt-4 text-center text-[14px] font-bold text-text-muted tabular-nums">
             ยิงครั้งถัดไปใน {cooldown} วินาที
           </p>
         )}

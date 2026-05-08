@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --ap-bg: #edf1f6;
-  --ap-card: #ffffff;
-  --ap-blue: #0071e3;
-  --ap-blue-h: #0077ed;
-  --ap-primary: #0f172a;
-  --ap-secondary: #334155;
-  --ap-tertiary: #64748b;
-  --ap-border: rgba(15, 23, 42, 0.14);
-  --ap-red: #ff3b30;
-  --ap-green: #34c759;
-  --ap-orange: #ff9500;
-  --page-bg: #edf1f6;
-  --navbar-bg: rgba(255,255,255,0.96);
-  --balance-card-bg: #0071e3;
+  --surface-subtle: #edf1f6;
+  --surface-card: #ffffff;
+  --surface-page: #edf1f6;
+  --surface-navbar: rgba(255,255,255,0.96);
+  --surface-highlight: #0071e3;
+  --brand-primary: #0071e3;
+  --brand-primary-hover: #0077ed;
+  --text-strong: #0f172a;
+  --text-default: #334155;
+  --text-muted: #64748b;
+  --border-default: rgba(15, 23, 42, 0.14);
+  --status-error: #ff3b30;
+  --status-success: #34c759;
+  --status-warning: #ff9500;
 }
 
 * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }

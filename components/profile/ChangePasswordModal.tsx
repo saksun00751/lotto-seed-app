@@ -43,9 +43,9 @@ function PasswordField({
 }) {
   return (
     <div>
-      <label className="block text-[14px] font-bold text-ap-secondary mb-1.5">{label}</label>
+      <label className="block text-[14px] font-bold text-text-default mb-1.5">{label}</label>
       <div className="relative">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-ap-tertiary">
+        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">
           <LockIcon />
         </span>
         <input
@@ -55,21 +55,21 @@ function PasswordField({
           onChange={(e) => onChange(e.target.value)}
           autoComplete="off"
           className={[
-            "w-full border rounded-2xl pl-10 pr-11 py-3 text-[16px] font-semibold text-ap-primary outline-none transition-all",
-            "focus:ring-2 focus:ring-ap-blue/10",
-            error ? "border-ap-red bg-ap-red/5 focus:border-ap-red" : "border-ap-border bg-white focus:border-ap-blue",
+            "w-full border rounded-2xl pl-10 pr-11 py-3 text-[16px] font-semibold text-text-strong outline-none transition-all",
+            "focus:ring-2 focus:ring-brand-primary/10",
+            error ? "border-status-error bg-status-error/5 focus:border-status-error" : "border-border-default bg-white focus:border-brand-primary",
           ].join(" ")}
         />
         <button
           type="button"
           onClick={onToggle}
           aria-label={show ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน"}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-ap-tertiary hover:text-ap-secondary transition-colors"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-default transition-colors"
         >
           <EyeIcon open={show} />
         </button>
       </div>
-      {error && <p className="text-[12px] text-ap-red mt-1">{error}</p>}
+      {error && <p className="text-[12px] text-status-error mt-1">{error}</p>}
     </div>
   );
 }
@@ -81,7 +81,7 @@ function SubmitButton({ label, savingLabel }: { label: string; savingLabel: stri
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-ap-blue text-white rounded-full py-3 text-[16px] font-bold disabled:opacity-40 hover:bg-ap-blue-h transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+      className="w-full bg-brand-primary text-white rounded-full py-3 text-[16px] font-bold disabled:opacity-40 hover:bg-brand-primary-hover transition-all active:scale-[0.98] flex items-center justify-center gap-2"
     >
       {pending ? (
         <>
@@ -130,10 +130,10 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
           onClose={() => setToast(null)}
         />
       )}
-      <div className="bg-white rounded-3xl border border-ap-border shadow-card overflow-hidden">
+      <div className="bg-white rounded-3xl border border-border-default shadow-card overflow-hidden">
 
         {/* Header */}
-        <div className="bg-ap-blue px-6 pt-6 pb-5 text-white relative overflow-hidden">
+        <div className="bg-brand-primary px-6 pt-6 pb-5 text-white relative overflow-hidden">
           <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-white/5" />
           <div className="relative">
             <div className="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-[22px] mb-3 border border-white/20">
@@ -147,16 +147,16 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
         {/* Success */}
         {state.success ? (
           <div className="px-6 py-10 text-center animate-fade-up">
-            <div className="w-16 h-16 rounded-full bg-ap-green/10 flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 rounded-full bg-status-success/10 flex items-center justify-center mx-auto mb-4">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="2.5">
                 <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className="text-[19px] font-bold text-ap-primary">{t.successTitle}</p>
-            <p className="text-[15px] font-semibold text-ap-secondary mt-1">{t.successDesc}</p>
+            <p className="text-[19px] font-bold text-text-strong">{t.successTitle}</p>
+            <p className="text-[15px] font-semibold text-text-default mt-1">{t.successDesc}</p>
             <a
               href={`/${lang}/profile`}
-              className="mt-6 flex items-center justify-center w-full bg-ap-blue text-white rounded-full py-3 text-[16px] font-bold hover:bg-ap-blue-h transition-colors"
+              className="mt-6 flex items-center justify-center w-full bg-brand-primary text-white rounded-full py-3 text-[16px] font-bold hover:bg-brand-primary-hover transition-colors"
             >
               {t.backProfile}
             </a>
@@ -166,18 +166,18 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
 
             {/* Global error */}
             {state.error && (
-              <div className="flex items-start gap-2.5 bg-ap-red/5 border border-ap-red/20 rounded-2xl px-4 py-3">
-                <div className="w-5 h-5 rounded-full bg-ap-red flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="flex items-start gap-2.5 bg-status-error/5 border border-status-error/20 rounded-2xl px-4 py-3">
+                <div className="w-5 h-5 rounded-full bg-status-error flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-white text-[10px] font-bold">!</span>
                 </div>
-                <p className="text-[15px] font-semibold text-ap-red">{state.error}</p>
+                <p className="text-[15px] font-semibold text-status-error">{state.error}</p>
               </div>
             )}
 
             <div className="flex items-center gap-3 pt-1">
-              <div className="flex-1 h-px bg-ap-border" />
-              <span className="text-[13px] text-ap-tertiary font-bold uppercase tracking-wide">{t.sectionNew}</span>
-              <div className="flex-1 h-px bg-ap-border" />
+              <div className="flex-1 h-px bg-border-default" />
+              <span className="text-[13px] text-text-muted font-bold uppercase tracking-wide">{t.sectionNew}</span>
+              <div className="flex-1 h-px bg-border-default" />
             </div>
 
             <PasswordField
@@ -191,9 +191,9 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
             />
 
             <div>
-              <label className="block text-[12px] font-semibold text-ap-secondary mb-1.5">{t.labelConfirm}</label>
+              <label className="block text-[12px] font-semibold text-text-default mb-1.5">{t.labelConfirm}</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-ap-tertiary">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">
                   <LockIcon />
                 </span>
                 <input
@@ -203,18 +203,18 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
                   onChange={(e) => setConfirmPw(e.target.value)}
                   autoComplete="off"
                   className={[
-                    "w-full border rounded-2xl pl-10 pr-11 py-3 text-[16px] font-semibold text-ap-primary outline-none transition-all",
+                    "w-full border rounded-2xl pl-10 pr-11 py-3 text-[16px] font-semibold text-text-strong outline-none transition-all",
                     "focus:ring-2",
                     confirmMismatch || state.fieldErrors?.confirmPassword
-                      ? "border-ap-red bg-ap-red/5 focus:border-ap-red focus:ring-ap-red/10"
+                      ? "border-status-error bg-status-error/5 focus:border-status-error focus:ring-status-error/10"
                       : confirmMatch
-                        ? "border-ap-green bg-ap-green/5 focus:border-ap-green focus:ring-ap-green/10"
-                        : "border-ap-border bg-white focus:border-ap-blue focus:ring-ap-blue/10",
+                        ? "border-status-success bg-status-success/5 focus:border-status-success focus:ring-status-success/10"
+                        : "border-border-default bg-white focus:border-brand-primary focus:ring-brand-primary/10",
                   ].join(" ")}
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
                   {confirmMatch && (
-                    <div className="w-4 h-4 rounded-full bg-ap-green flex items-center justify-center">
+                    <div className="w-4 h-4 rounded-full bg-status-success flex items-center justify-center">
                       <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
                         <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
@@ -224,14 +224,14 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
                     type="button"
                     onClick={() => setShowConf((v) => !v)}
                     aria-label={showConf ? "ซ่อนรหัสผ่านยืนยัน" : "แสดงรหัสผ่านยืนยัน"}
-                    className="text-ap-tertiary hover:text-ap-secondary transition-colors"
+                    className="text-text-muted hover:text-text-default transition-colors"
                   >
                     <EyeIcon open={showConf} />
                   </button>
                 </div>
               </div>
               {(state.fieldErrors?.confirmPassword || confirmMismatch) && (
-                <p className="text-[14px] font-semibold text-ap-red mt-1">
+                <p className="text-[14px] font-semibold text-status-error mt-1">
                   {state.fieldErrors?.confirmPassword ?? t.mismatch}
                 </p>
               )}
@@ -241,8 +241,8 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
               <SubmitButton label={t.submit} savingLabel={t.saving} />
             </div>
 
-            <p className="text-center text-[14px] font-semibold text-ap-tertiary pb-1">
-              <a href={`/${lang}/profile`} className="hover:text-ap-secondary transition-colors">← {t.backProfile}</a>
+            <p className="text-center text-[14px] font-semibold text-text-muted pb-1">
+              <a href={`/${lang}/profile`} className="hover:text-text-default transition-colors">← {t.backProfile}</a>
             </p>
           </form>
         )}

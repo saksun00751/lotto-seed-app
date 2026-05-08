@@ -428,7 +428,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
       : undefined;
 
     return (
-      <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+      <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
         <LotteryLayoutPage
           lotteryTypeId={lottery}
           drawId={finalDrawId}
@@ -453,7 +453,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
   const lottoCategories = allCategories;
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <Suspense fallback={null}>
         <BetToastNotice />
       </Suspense>
@@ -463,8 +463,8 @@ export default async function BetRoute({ params, searchParams }: Props) {
 
         {/* หวย */}
         {lottoCategories.length > 0 && (
-          <section className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
-            <div className="bg-gradient-to-r from-ap-blue to-sky-400 px-4 py-3 flex items-center justify-between">
+          <section className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
+            <div className="bg-gradient-to-r from-brand-primary to-sky-400 px-4 py-3 flex items-center justify-between">
               <h2 className="text-[15px] font-bold text-white tracking-tight">{t.lotto}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
@@ -498,7 +498,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
           };
           const gradient = headerGradient[group.game_type] ?? "from-gray-500 to-gray-400";
           return (
-            <section key={group.game_type} className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+            <section key={group.game_type} className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
               <div className={`bg-gradient-to-r ${gradient} flex items-center justify-between px-4 py-3`}>
                 <h2 className="text-[15px] font-bold text-white tracking-tight">
                   {group.emoji} {(t as Record<string, string>)[group.game_type] ?? group.label}

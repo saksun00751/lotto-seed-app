@@ -59,26 +59,26 @@ export default async function GameProviderGamesPage({ params }: Props) {
   const activeGames = games.filter((g) => g.status === "ACTIVE");
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-4 pt-5">
 
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
           {/* Header */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-ap-border">
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-border-default">
             <Link
               href={`/${locale}/games/${type}`}
-              className="w-8 h-8 rounded-full bg-ap-bg border border-ap-border flex items-center justify-center text-ap-secondary hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 rounded-full bg-surface-subtle border border-border-default flex items-center justify-center text-text-default hover:bg-gray-200 transition-colors"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </Link>
             <div>
-              <p className="text-[11px] text-ap-secondary font-medium">{meta.emoji} {typeLabel}</p>
-              <h1 className="text-[16px] font-bold text-ap-primary leading-tight">
+              <p className="text-[11px] text-text-default font-medium">{meta.emoji} {typeLabel}</p>
+              <h1 className="text-[16px] font-bold text-text-strong leading-tight">
                 {id.toUpperCase()}
               </h1>
-              <p className="text-[12px] text-ap-secondary">
+              <p className="text-[12px] text-text-default">
                 {activeGames.length} {t.gameCount}
               </p>
             </div>

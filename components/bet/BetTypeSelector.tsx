@@ -72,8 +72,8 @@ export default function BetTypeSelector({ onChange, selected3, selected2, select
   };
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
-      <div className="px-4 py-2.5 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border flex items-center justify-between gap-3">
+    <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-border-default">
+      <div className="px-4 py-2.5 bg-gradient-to-r from-brand-primary to-sky-400 border-b border-border-default flex items-center justify-between gap-3">
         <p className="text-[14px] font-bold text-white uppercase tracking-wider">{t.betTypeTitle}</p>
         {!activeGroup && !disabled && (
           <p className="text-[12px] font-semibold text-white/85 truncate">เลือกอย่างน้อย 1 ประเภท</p>
@@ -94,15 +94,15 @@ export default function BetTypeSelector({ onChange, selected3, selected2, select
                 "relative px-3 py-3 rounded-xl border-2 text-left transition-all flex flex-col gap-0.5",
                 checked
                   ? "border-violet-500 bg-violet-50 shadow-sm"
-                  : "border-ap-border bg-white hover:border-violet-300",
+                  : "border-border-default bg-white hover:border-violet-300",
                 disabled ? "cursor-not-allowed" : "cursor-pointer active:scale-[0.98]",
               ].join(" ")}
             >
-              <span className={["text-[14px] font-bold", checked ? "text-violet-700" : "text-ap-primary"].join(" ")}>
+              <span className={["text-[14px] font-bold", checked ? "text-violet-700" : "text-text-strong"].join(" ")}>
                 {label}
               </span>
               {payout && (
-                <span className={["text-[13px] font-semibold", checked ? "text-violet-500" : "text-ap-green"].join(" ")}>
+                <span className={["text-[13px] font-semibold", checked ? "text-violet-500" : "text-status-success"].join(" ")}>
                   {payout}
                 </span>
               )}

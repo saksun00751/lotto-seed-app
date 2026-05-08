@@ -94,7 +94,7 @@ export default async function ReferralRoute({ params }: Props) {
   const referralLink = `${proto}://${host}${registerPath}?ref=${encodeURIComponent(referralCode)}`;
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <ReferralPage
         referralCode={referralCode}
         referralLink={referralLink}

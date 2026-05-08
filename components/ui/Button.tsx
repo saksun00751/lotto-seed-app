@@ -25,9 +25,9 @@ export default function Button({
   }[size];
 
   const variantClass = {
-    primary: "bg-ap-blue text-white hover:bg-ap-blue-h",
-    secondary: "bg-ap-bg text-ap-primary border border-ap-border hover:border-ap-blue/40",
-    ghost: "text-ap-blue hover:opacity-70",
+    primary: "bg-brand-primary text-white hover:bg-brand-primary-hover",
+    secondary: "bg-surface-subtle text-text-strong border border-border-default hover:border-brand-primary/40",
+    ghost: "text-brand-primary hover:opacity-70",
   }[variant];
 
   return (

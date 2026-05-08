@@ -128,7 +128,7 @@ export default function PackageModalButton({
 
   if (expired) {
     return (
-      <div className="block w-full text-center bg-ap-red/10 border border-ap-red/20 text-ap-red rounded-full py-2 text-[14px] font-semibold">
+      <div className="block w-full text-center bg-status-error/10 border border-status-error/20 text-status-error rounded-full py-2 text-[14px] font-semibold">
         {labelClosed}
       </div>
     );
@@ -163,10 +163,10 @@ export default function PackageModalButton({
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-4 flex-shrink-0">
-              <h2 className="text-[16px] font-bold text-ap-primary">{labelSelect}</h2>
+              <h2 className="text-[16px] font-bold text-text-strong">{labelSelect}</h2>
               <button
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-full bg-ap-bg flex items-center justify-center text-ap-secondary text-lg leading-none hover:bg-ap-border transition-colors"
+                className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-text-default text-lg leading-none hover:bg-border-default transition-colors"
               >
                 ×
               </button>
@@ -175,7 +175,7 @@ export default function PackageModalButton({
             {/* Body */}
             <div className="overflow-y-auto flex-1">
               {packages.length === 0 ? (
-                <div className="text-center py-12 text-ap-tertiary text-[14px]">
+                <div className="text-center py-12 text-text-muted text-[14px]">
                   {labelNoPackage}
                 </div>
               ) : (
@@ -185,7 +185,7 @@ export default function PackageModalButton({
                       key={pkg.id}
                       onClick={() => handlePick(pkg.id)}
                       disabled={selecting}
-                      className="group w-full rounded-2xl overflow-hidden border border-ap-border hover:border-ap-blue transition-all active:scale-[0.98] shadow-sm disabled:opacity-70"
+                      className="group w-full rounded-2xl overflow-hidden border border-border-default hover:border-brand-primary transition-all active:scale-[0.98] shadow-sm disabled:opacity-70"
                     >
                       {resolveImage(pkg.image) ? (
                         <img
@@ -194,7 +194,7 @@ export default function PackageModalButton({
                           className="w-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
-                        <div className="w-full aspect-[3/4] flex items-center justify-center bg-ap-bg text-[48px]">
+                        <div className="w-full aspect-[3/4] flex items-center justify-center bg-surface-subtle text-[48px]">
                           🎯
                         </div>
                       )}

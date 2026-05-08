@@ -56,7 +56,7 @@ export default function PromoBanner() {
         {items.map((s) => (
           <div
             key={s.code}
-            className="relative flex-shrink-0 w-full aspect-[16/6] bg-ap-bg"
+            className="relative flex-shrink-0 w-full aspect-[16/6] bg-surface-subtle"
           >
             <img
               src={s.filepic || s.image}

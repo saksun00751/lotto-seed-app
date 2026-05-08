@@ -245,7 +245,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
             <p className="text-[14px] font-bold text-violet-700">เลือกประเภทการแทงด้านบนก่อนเริ่มใส่เลข</p>
           </div>
         )}
-        <div className={["bg-ap-bg/70 rounded-2xl border-2 border-ap-blue p-4 mb-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
+        <div className={["bg-surface-subtle/70 rounded-2xl border-2 border-brand-primary p-4 mb-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
           <div className="flex items-center justify-center gap-2 mb-2">
             {Array.from({ length: maxDigits }).map((_, i) => (
               <div
@@ -253,17 +253,17 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
                 className={[
                   "w-14 h-16 rounded-xl border-2 flex items-center justify-center text-[28px] font-extrabold tabular-nums transition-all",
                   inputBuf[i]
-                    ? "border-ap-blue bg-white text-ap-blue shadow-md"
+                    ? "border-brand-primary bg-white text-brand-primary shadow-md"
                     : i === inputBuf.length
-                      ? "border-ap-blue bg-blue-50 text-ap-tertiary animate-pulse"
-                      : "border-ap-blue bg-white text-ap-tertiary/30",
+                      ? "border-brand-primary bg-blue-50 text-text-muted animate-pulse"
+                      : "border-brand-primary bg-white text-text-muted/30",
                 ].join(" ")}
               >
                 {inputBuf[i] ?? "·"}
               </div>
             ))}
           </div>
-          <p className="text-center text-[14px] text-ap-secondary font-medium">
+          <p className="text-center text-[14px] text-text-default font-medium">
             {t.inputNumberLabel?.replace("{digits}", String(maxDigits)) ?? `ใส่เลข (${maxDigits} หลัก)`}
           </p>
         </div>
@@ -275,7 +275,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
                 <button
                   key={key}
                   onClick={pressClear}
-                  className="py-3.5 rounded-xl bg-ap-red/10 border-2 border-ap-red text-ap-red text-[14px] font-bold shadow-sm hover:bg-ap-red hover:text-white active:scale-95 transition-all"
+                  className="py-3.5 rounded-xl bg-status-error/10 border-2 border-status-error text-status-error text-[14px] font-bold shadow-sm hover:bg-status-error hover:text-white active:scale-95 transition-all"
                 >
                   C
                 </button>
@@ -296,7 +296,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
               <button
                 key={key}
                 onClick={() => pressDigit(key)}
-                className="py-3.5 rounded-xl bg-white border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all"
+                className="py-3.5 rounded-xl bg-white border-2 border-brand-primary text-[20px] font-extrabold text-text-strong shadow-sm hover:border-brand-primary hover:bg-blue-50 active:scale-95 active:bg-brand-primary active:text-white transition-all"
               >
                 {key}
               </button>

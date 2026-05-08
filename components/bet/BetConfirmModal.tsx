@@ -79,13 +79,13 @@ export default function BetConfirmModal({
       <div className={"relative w-full max-w-md bg-white rounded-3xl shadow-card-xl overflow-hidden flex flex-col max-h-[90dvh]"}>
 
         {/* Header */}
-        <div className="px-5 py-4 border-b border-ap-border flex items-center justify-between shrink-0">
+        <div className="px-5 py-4 border-b border-border-default flex items-center justify-between shrink-0">
           <div>
-            <p className="text-[16px] font-bold text-ap-primary">{t.confirmTitle}</p>
-            <p className="text-[14px] text-ap-primary font-medium mt-0.5">{lotteryName} • {today}</p>
+            <p className="text-[16px] font-bold text-text-strong">{t.confirmTitle}</p>
+            <p className="text-[14px] text-text-strong font-medium mt-0.5">{lotteryName} • {today}</p>
           </div>
           <button onClick={onCancel}
-            className="w-8 h-8 flex items-center justify-center rounded-full bg-ap-bg hover:bg-ap-border text-ap-secondary transition-colors text-[18px]">
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-surface-subtle hover:bg-border-default text-text-default transition-colors text-[18px]">
             ×
           </button>
         </div>
@@ -96,29 +96,29 @@ export default function BetConfirmModal({
             const items = groupedBills[group.key];
             if (!items.length) return null;
             return (
-              <div key={group.key} className="border-b border-ap-border last:border-0">
-                <div className="px-5 py-2 bg-ap-bg/80 flex items-center justify-between">
-                  <span className="text-[14px] font-bold text-ap-primary uppercase tracking-wide">{group.label}</span>
-                  <span className="text-[14px] font-bold text-ap-secondary">{items.length} {t.items}</span>
+              <div key={group.key} className="border-b border-border-default last:border-0">
+                <div className="px-5 py-2 bg-surface-subtle/80 flex items-center justify-between">
+                  <span className="text-[14px] font-bold text-text-strong uppercase tracking-wide">{group.label}</span>
+                  <span className="text-[14px] font-bold text-text-default">{items.length} {t.items}</span>
                 </div>
                 {items.map((b) => {
                   const amt = b.top + b.bot;
                   return (
-                    <div key={b.id} className="px-5 py-2.5 flex items-center gap-3 border-t border-ap-border first:border-t-0">
-                      <div className="w-10 h-10 rounded-xl bg-ap-primary flex items-center justify-center shrink-0">
+                    <div key={b.id} className="px-5 py-2.5 flex items-center gap-3 border-t border-border-default first:border-t-0">
+                      <div className="w-10 h-10 rounded-xl bg-text-strong flex items-center justify-center shrink-0">
                         <span className="text-white font-extrabold text-[14px] tabular-nums">{b.number}</span>
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="text-[14px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-1.5 py-0.5 rounded-full">
                           {getBetTypeLabel(b.betType)}
                         </span>
-                        <p className="mt-0.5 text-[14px] font-bold tabular-nums text-ap-blue">
+                        <p className="mt-0.5 text-[14px] font-bold tabular-nums text-brand-primary">
                           <span className="font-semibold text-[14px]">{getAmountLabel(b.betType, "top", t as Record<string, string>)} </span>
                           {amt}
                         </p>
                       </div>
                       <div className="text-right shrink-0">
-                        <p className="text-[14px] font-bold text-ap-primary tabular-nums">฿{amt.toLocaleString(numberLocale)}</p>
+                        <p className="text-[14px] font-bold text-text-strong tabular-nums">฿{amt.toLocaleString(numberLocale)}</p>
                       </div>
                     </div>
                   );
@@ -140,28 +140,28 @@ export default function BetConfirmModal({
           const discountPct = subtotalAmount > 0 ? (discountAmount / subtotalAmount) * 100 : 0;
           const netAmount = Math.max(0, subtotalAmount - discountAmount);
           return (
-            <div className="shrink-0 border-t border-ap-border bg-ap-bg/70 px-5 py-3 space-y-1.5">
+            <div className="shrink-0 border-t border-border-default bg-surface-subtle/70 px-5 py-3 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[14px] font-semibold text-ap-primary">{t.totalItems}</span>
-                <span className="text-[14px] font-bold text-ap-primary">{bills.length} {t.items}</span>
+                <span className="text-[14px] font-semibold text-text-strong">{t.totalItems}</span>
+                <span className="text-[14px] font-bold text-text-strong">{bills.length} {t.items}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[14px] font-semibold text-ap-primary">ยอดก่อนหักส่วนลด</span>
-                <span className="text-[18px] font-bold text-ap-primary tabular-nums">
+                <span className="text-[14px] font-semibold text-text-strong">ยอดก่อนหักส่วนลด</span>
+                <span className="text-[18px] font-bold text-text-strong tabular-nums">
                   ฿{subtotalAmount.toLocaleString(numberLocale)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[14px] font-semibold text-ap-primary">
+                <span className="text-[14px] font-semibold text-text-strong">
                   ส่วนลด ({discountPct.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}%)
                 </span>
-                <span className="text-[14px] font-bold text-ap-green tabular-nums">
+                <span className="text-[14px] font-bold text-status-success tabular-nums">
                   -฿{discountAmount.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}
                 </span>
               </div>
-              <div className="flex items-center justify-between pt-1.5 border-t border-ap-border">
-                <span className="text-[15px] font-bold text-ap-primary">ยอดหลังหักส่วนลด</span>
-                <span className="text-[20px] font-bold text-ap-primary tabular-nums">
+              <div className="flex items-center justify-between pt-1.5 border-t border-border-default">
+                <span className="text-[15px] font-bold text-text-strong">ยอดหลังหักส่วนลด</span>
+                <span className="text-[20px] font-bold text-text-strong tabular-nums">
                   ฿{netAmount.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}
                 </span>
               </div>
@@ -172,11 +172,11 @@ export default function BetConfirmModal({
         {/* Actions */}
         <div className="shrink-0 px-5 pb-5 pt-3 flex gap-3">
           <button onClick={onCancel}
-            className="flex-1 py-3 rounded-2xl border-2 border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg active:scale-[0.98] transition-all">
+            className="flex-1 py-3 rounded-2xl border-2 border-border-default text-[14px] font-bold text-text-default hover:bg-surface-subtle active:scale-[0.98] transition-all">
             {t.cancel}
           </button>
           <button onClick={handleConfirm}
-            className="flex-[2] py-3 rounded-2xl bg-ap-blue hover:bg-ap-blue-h text-white text-[14px] font-bold active:scale-[0.98] transition-all shadow-md">
+            className="flex-[2] py-3 rounded-2xl bg-brand-primary hover:bg-brand-primary-hover text-white text-[14px] font-bold active:scale-[0.98] transition-all shadow-md">
             {t.save}
           </button>
         </div>

@@ -19,22 +19,30 @@ const config: Config = {
         ],
       },
       colors: {
-        ap: {
-          bg: "var(--ap-bg)",
-          card: "var(--ap-card)",
-          blue: "var(--ap-blue)",
-          "blue-h": "var(--ap-blue-h)",
-          primary: "var(--ap-primary)",
-          secondary: "var(--ap-secondary)",
-          tertiary: "var(--ap-tertiary)",
-          border: "var(--ap-border)",
-          red: "var(--ap-red)",
-          green: "var(--ap-green)",
-          orange: "var(--ap-orange)",
+        surface: {
+          subtle:    "var(--surface-subtle)",
+          card:      "var(--surface-card)",
+          page:      "var(--surface-page)",
+          navbar:    "var(--surface-navbar)",
+          highlight: "var(--surface-highlight)",
         },
-        "page-bg": "var(--page-bg)",
-        "navbar-bg": "var(--navbar-bg)",
-        "balance-card-bg": "var(--balance-card-bg)",
+        brand: {
+          primary:         "var(--brand-primary)",
+          "primary-hover": "var(--brand-primary-hover)",
+        },
+        text: {
+          strong:  "var(--text-strong)",
+          default: "var(--text-default)",
+          muted:   "var(--text-muted)",
+        },
+        border: {
+          default: "var(--border-default)",
+        },
+        status: {
+          error:   "var(--status-error)",
+          success: "var(--status-success)",
+          warning: "var(--status-warning)",
+        },
       },
       borderRadius: { "2xl": "18px", "3xl": "24px", "4xl": "32px" },
       boxShadow: {

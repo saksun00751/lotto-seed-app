@@ -213,25 +213,25 @@ export default function LotteryLayoutPage({
     router.replace(`/${lang}/bet`);
   };
   return (
-    <div className="min-h-screen bg-ap-bg">
+    <div className="min-h-screen bg-surface-subtle">
       {closedModalOpen && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-3xl bg-white shadow-card-xl border border-ap-border overflow-hidden animate-pop-in">
+          <div className="w-full max-w-sm rounded-3xl bg-white shadow-card-xl border border-border-default overflow-hidden animate-pop-in">
             <div className="px-5 py-5 text-center">
-              <div className="w-14 h-14 mx-auto rounded-2xl bg-ap-red/10 border border-ap-red/15 text-ap-red flex items-center justify-center mb-4">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-status-error/10 border border-status-error/15 text-status-error flex items-center justify-center mb-4">
                 <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
                   <circle cx="12" cy="12" r="9" />
                   <path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <h2 className="text-[18px] font-extrabold text-ap-primary">{t.closedModalTitle}</h2>
-              <p className="mt-2 text-[14px] font-medium text-ap-secondary leading-relaxed">
+              <h2 className="text-[18px] font-extrabold text-text-strong">{t.closedModalTitle}</h2>
+              <p className="mt-2 text-[14px] font-medium text-text-default leading-relaxed">
                 {t.closedModalMessage.replace("{n}", String(redirectCountdown))}
               </p>
               <button
                 type="button"
                 onClick={handleClosedRedirect}
-                className="mt-5 w-full rounded-2xl bg-ap-blue hover:bg-ap-blue-h text-white text-[15px] font-bold py-3 transition-colors active:scale-[0.98]"
+                className="mt-5 w-full rounded-2xl bg-brand-primary hover:bg-brand-primary-hover text-white text-[15px] font-bold py-3 transition-colors active:scale-[0.98]"
               >
                 {t.closedModalAction}
               </button>
@@ -241,22 +241,22 @@ export default function LotteryLayoutPage({
       )}
 
       {/* ── Breadcrumb bar ─────────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-ap-border px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-0 sticky top-0 z-20 shadow-sm">
+      <div className="bg-white border-b border-border-default px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-0 sticky top-0 z-20 shadow-sm">
         <div className="flex items-center gap-2 text-[14px] min-w-0">
-          <Link href={`/${lang}/dashboard`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">{t.home}</Link>
-          <span className="text-ap-tertiary shrink-0">›</span>
-          <Link href={`/${lang}/bet`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">{t.title}</Link>
+          <Link href={`/${lang}/dashboard`} className="text-text-default hover:text-text-strong transition-colors shrink-0">{t.home}</Link>
+          <span className="text-text-muted shrink-0">›</span>
+          <Link href={`/${lang}/bet`} className="text-text-default hover:text-text-strong transition-colors shrink-0">{t.title}</Link>
           {categoryName && <>
-            <span className="text-ap-tertiary shrink-0">›</span>
+            <span className="text-text-muted shrink-0">›</span>
             <Link
               href={categoryCode ? `/${lang}/category/${categoryCode}` : `/${lang}/bet`}
-              className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0"
+              className="text-text-default hover:text-text-strong transition-colors shrink-0"
             >
               {categoryName}
             </Link>
           </>}
-          <span className="text-ap-tertiary shrink-0">›</span>
-          <span className="font-bold text-ap-primary truncate flex items-center gap-1.5 min-w-0">
+          <span className="text-text-muted shrink-0">›</span>
+          <span className="font-bold text-text-strong truncate flex items-center gap-1.5 min-w-0">
             {lotteryLogo
               ? <img src={lotteryLogo} alt={lotteryName} className="w-6 h-6 rounded-full object-cover shrink-0" />
               : lotteryFlag ? <span className="shrink-0">{lotteryFlag}</span> : null
@@ -265,7 +265,7 @@ export default function LotteryLayoutPage({
           </span>
         </div>
         {closeAt && (
-          <div className="flex items-center justify-center gap-1.5 text-ap-red font-bold text-[15px] shrink-0 sm:ml-3">
+          <div className="flex items-center justify-center gap-1.5 text-status-error font-bold text-[15px] shrink-0 sm:ml-3">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" strokeLinecap="round" />
             </svg>
@@ -309,7 +309,7 @@ export default function LotteryLayoutPage({
 
       {/* ── Lottery (non-Yeekee) info banner ──────────────────────────────── */}
       {!yeekeeInfo && lotteryInfo && (lotteryInfo.drawDate || lotteryInfo.openAt || lotteryInfo.closeAt) && (
-        <div className="bg-gradient-to-r from-ap-blue to-sky-400 text-white px-4 py-3 overflow-x-auto">
+        <div className="bg-gradient-to-r from-brand-primary to-sky-400 text-white px-4 py-3 overflow-x-auto">
           <div className="max-w-[1280px] mx-auto flex items-center justify-center gap-x-5 whitespace-nowrap">
             {lotteryInfo.drawDate && (
               <div className="flex items-center gap-2 text-[16px] shrink-0">
@@ -345,7 +345,7 @@ export default function LotteryLayoutPage({
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
       <div className="max-w-[1280px] mx-auto px-3 py-4 pb-12 space-y-4">
         {/* Tabs */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card p-1 flex gap-1">
+        <div className="bg-white rounded-2xl border border-border-default shadow-card p-1 flex gap-1">
           {([
             { id: "bet", label: t.tabBet },
             ...(yeekeeInfo ? [{ id: "shoot" as const, label: t.tabShoot }] : []),
@@ -359,8 +359,8 @@ export default function LotteryLayoutPage({
                 className={[
                   "flex-1 py-2 rounded-xl text-[14px] font-bold transition-all",
                   active
-                    ? "bg-ap-blue text-white shadow-sm"
-                    : "text-ap-secondary hover:bg-slate-50",
+                    ? "bg-brand-primary text-white shadow-sm"
+                    : "text-text-default hover:bg-slate-50",
                 ].join(" ")}
               >
                 {tab.label}
@@ -399,8 +399,8 @@ export default function LotteryLayoutPage({
               const show2Double = betType === "2top" || betType === "2bot";
               if ((!visible.length && !show3Tong && !show2Double) || isClassic) return null;
               return (
-                <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
-                  <div className="px-4 py-2.5 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border">
+                <div className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
+                  <div className="px-4 py-2.5 bg-gradient-to-r from-brand-primary to-sky-400 border-b border-border-default">
                     <p className="text-[14px] text-white font-bold uppercase tracking-wide">{t.specialModeTitle}</p>
                   </div>
                   <div className="grid grid-cols-3 gap-2 p-3">
@@ -415,7 +415,7 @@ export default function LotteryLayoutPage({
                             "py-2 rounded-xl text-[14px] font-bold border transition-all",
                             active
                               ? "bg-violet-50 border-violet-300 text-violet-700"
-                              : "bg-white border-ap-border text-ap-primary hover:border-ap-blue/30",
+                              : "bg-white border-border-default text-text-strong hover:border-brand-primary/30",
                           ].join(" ")}
                         >
                           {mode.label}
@@ -426,7 +426,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setTripleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-border-default text-text-strong hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
                       >
                         {t.tripleNumbers}
                       </button>
@@ -435,7 +435,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setDoubleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-border-default text-text-strong hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
                       >
                         {t.doubleNumbers}
                       </button>
@@ -490,7 +490,7 @@ export default function LotteryLayoutPage({
 
         {activeTab === "shoot" && yeekeeInfo?.roundId != null && (
           <div className="space-y-5">
-            <section className="overflow-hidden rounded-2xl border border-ap-border bg-white shadow-card">
+            <section className="overflow-hidden rounded-2xl border border-border-default bg-white shadow-card">
               <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-white">
                 <div className="flex items-center gap-3">
                   {lotteryLogo ? (
@@ -508,8 +508,8 @@ export default function LotteryLayoutPage({
                       <p className="text-[14px] text-white/70 font-semibold">{t.shootCloseIn}</p>
                       <CountdownTimer
                         closeAt={yeekeeInfo.shootCloseAt}
-                        className="text-[15px] font-extrabold tabular-nums text-ap-red"
-                        expiredClassName="text-[15px] font-extrabold text-ap-red"
+                        className="text-[15px] font-extrabold tabular-nums text-status-error"
+                        expiredClassName="text-[15px] font-extrabold text-status-error"
                       />
                     </div>
                   )}
@@ -523,8 +523,8 @@ export default function LotteryLayoutPage({
                   { label: t.shootDetailCloseTime, value: (yeekeeInfo.shootCloseAt ?? yeekeeInfo.betCloseAt) ? new Date((yeekeeInfo.shootCloseAt ?? yeekeeInfo.betCloseAt) as string).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", hour12: false }) : "-" },
                 ].map((row) => (
                   <div key={row.label} className="rounded-xl border border-slate-200 bg-white px-3 py-2.5">
-                    <p className="text-[14px] font-semibold text-ap-tertiary">{row.label}</p>
-                    <p className="mt-1 text-[14px] font-bold text-ap-primary truncate">{row.value}</p>
+                    <p className="text-[14px] font-semibold text-text-muted">{row.label}</p>
+                    <p className="mt-1 text-[14px] font-bold text-text-strong truncate">{row.value}</p>
                   </div>
                 ))}
               </div>
@@ -542,8 +542,8 @@ export default function LotteryLayoutPage({
         )}
 
         {activeTab === "rules" && (
-          <div className="bg-white rounded-2xl border border-ap-border shadow-card p-5 space-y-3 text-[14px] text-ap-secondary leading-relaxed">
-            <h3 className="text-[16px] font-extrabold text-ap-primary">{t.rulesTitle}</h3>
+          <div className="bg-white rounded-2xl border border-border-default shadow-card p-5 space-y-3 text-[14px] text-text-default leading-relaxed">
+            <h3 className="text-[16px] font-extrabold text-text-strong">{t.rulesTitle}</h3>
             <ul className="list-disc pl-5 space-y-1.5">
               <li>{t.ruleCheckBeforeConfirm}</li>
               <li>{t.ruleCannotCancel}</li>

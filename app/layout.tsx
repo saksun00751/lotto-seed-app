@@ -18,7 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="th" className={prompt.variable} style={cssVars}>
-      <body className="font-sans bg-page-bg">
+      <body className="font-sans bg-surface-page">
         {headerCode ? <SiteHeaderCode html={headerCode} /> : null}
         {children}
       </body>

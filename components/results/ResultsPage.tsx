@@ -31,7 +31,7 @@ interface ApiGroup {
 }
 
 const TAB_GRADIENTS = [
-  "from-ap-blue to-sky-400",
+  "from-brand-primary to-sky-400",
   "from-emerald-500 to-teal-400",
   "from-yellow-500 to-orange-400",
   "from-violet-600 to-indigo-400",
@@ -72,26 +72,26 @@ export default function ResultsPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-[20px] font-bold text-ap-primary tracking-tight">🏆 ลิ้งค์ดูผลหวย</h1>
-        <p className="text-[13px] text-ap-secondary mt-0.5">รวมลิ้งค์ตรวจผลหวยทุกประเภท</p>
+        <h1 className="text-[20px] font-bold text-text-strong tracking-tight">🏆 ลิ้งค์ดูผลหวย</h1>
+        <p className="text-[13px] text-text-default mt-0.5">รวมลิ้งค์ตรวจผลหวยทุกประเภท</p>
       </div>
 
       {/* Loading */}
       {loading && (
         <div className="flex items-center gap-2 py-8 justify-center">
-          <div className="w-5 h-5 rounded-full border-2 border-ap-blue border-t-transparent animate-spin" />
-          <p className="text-[13px] text-ap-secondary">กำลังโหลด...</p>
+          <div className="w-5 h-5 rounded-full border-2 border-brand-primary border-t-transparent animate-spin" />
+          <p className="text-[13px] text-text-default">กำลังโหลด...</p>
         </div>
       )}
 
       {/* Error */}
       {error && !loading && (
-        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-ap-red">{error}</div>
+        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-status-error">{error}</div>
       )}
 
       {/* Card */}
       {!loading && !error && groups.length > 0 && (
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
 
           {/* Tab bar */}
           <div className={`bg-gradient-to-r ${gradient} p-1 flex gap-1 overflow-x-auto`}>
@@ -102,7 +102,7 @@ export default function ResultsPage() {
                 className={[
                   "flex-shrink-0 flex-1 min-w-[72px] py-2 rounded-xl text-[13px] font-semibold transition-all whitespace-nowrap px-2",
                   activeId === g.group_code
-                    ? "bg-white text-ap-primary shadow-sm"
+                    ? "bg-white text-text-strong shadow-sm"
                     : "text-white/80 hover:text-white hover:bg-white/10",
                 ].join(" ")}
               >
@@ -122,7 +122,7 @@ export default function ResultsPage() {
           )}
 
           {/* Items */}
-          <div className="divide-y divide-ap-border">
+          <div className="divide-y divide-border-default">
             {activeGroup?.markets.filter((m) => m.is_enabled).map((market) => {
               const draw      = market.latest_draw;
               const hasResult = !!(draw.result_top_3 && draw.result_bottom_2);
@@ -130,12 +130,12 @@ export default function ResultsPage() {
               const resultTime = timeOnly(draw.result_at ?? draw.draw_date);
 
               return (
-                <div key={market.market_id} className="flex items-center gap-3 px-4 py-3 hover:bg-ap-bg transition-colors">
+                <div key={market.market_id} className="flex items-center gap-3 px-4 py-3 hover:bg-surface-subtle transition-colors">
 
                   {/* Logo / icon */}
                   <div className="w-9 flex-shrink-0">
                     {market.market_logo ? (
-                      <img src={market.market_logo} alt={market.market_name} className="w-9 h-9 rounded-full object-cover border border-ap-border" />
+                      <img src={market.market_logo} alt={market.market_name} className="w-9 h-9 rounded-full object-cover border border-border-default" />
                     ) : (
                       <span className="text-[26px]">{market.market_icon || "🎯"}</span>
                     )}
@@ -143,10 +143,10 @@ export default function ResultsPage() {
 
                   {/* Name + times */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-ap-primary truncate">{market.market_name}</p>
+                    <p className="text-[13px] font-semibold text-text-strong truncate">{market.market_name}</p>
                     <div className="flex flex-wrap gap-x-3 mt-0.5">
-                      <span className="text-[11px] text-ap-secondary"><span className="text-ap-red">⊗</span> ปิดรับ {closeTime}</span>
-                      <span className="text-[11px] text-ap-secondary"><span className="text-ap-green">⊙</span> ผลออก {resultTime}</span>
+                      <span className="text-[11px] text-text-default"><span className="text-status-error">⊗</span> ปิดรับ {closeTime}</span>
+                      <span className="text-[11px] text-text-default"><span className="text-status-success">⊙</span> ผลออก {resultTime}</span>
                     </div>
                   </div>
 
@@ -164,7 +164,7 @@ export default function ResultsPage() {
                     ) : (
                       <a
                         href={`/${lang}/category/${activeGroup.group_code}`}
-                        className="flex items-center gap-1 text-[12px] font-semibold text-ap-blue bg-ap-blue/10 px-3 py-1.5 rounded-full hover:bg-ap-blue hover:text-white transition-all"
+                        className="flex items-center gap-1 text-[12px] font-semibold text-brand-primary bg-brand-primary/10 px-3 py-1.5 rounded-full hover:bg-brand-primary hover:text-white transition-all"
                       >
                         ดูผล
                         <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

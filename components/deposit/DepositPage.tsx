@@ -377,9 +377,9 @@ interface DepositChannels {
 type ChannelKey = "bank" | "payment" | "tw" | "slip";
 
 const CHANNEL_ICONS: Record<ChannelKey, { icon: string; color: string }> = {
-  bank:    { icon: "🏦", color: "ap-blue"  },
+  bank:    { icon: "🏦", color: "brand-primary"  },
   tw:      { icon: "💚", color: "green"    },
-  slip:    { icon: "📎", color: "ap-blue"  },
+  slip:    { icon: "📎", color: "brand-primary"  },
   payment: { icon: "💳", color: "purple"   },
 };
 
@@ -421,33 +421,33 @@ function BankCard({
       className={[
         "w-full text-left rounded-2xl border-2 p-4 transition-all cursor-pointer",
         selected
-          ? "border-ap-blue bg-ap-blue/5 shadow-sm"
-          : "border-ap-border hover:border-ap-blue/40 hover:bg-ap-bg",
+          ? "border-brand-primary bg-brand-primary/5 shadow-sm"
+          : "border-border-default hover:border-brand-primary/40 hover:bg-surface-subtle",
       ].join(" ")}
     >
       {/* Header: bank logo + name */}
       <div className="flex items-center gap-3">
         {account.bank_pic ? (
-          <img src={account.bank_pic} alt={account.bank_name} className="w-10 h-10 rounded-xl object-contain bg-white border border-ap-border flex-shrink-0" />
+          <img src={account.bank_pic} alt={account.bank_name} className="w-10 h-10 rounded-xl object-contain bg-white border border-border-default flex-shrink-0" />
         ) : (
-          <div className="w-10 h-10 rounded-xl bg-ap-bg border border-ap-border flex items-center justify-center text-[20px] flex-shrink-0">🏦</div>
+          <div className="w-10 h-10 rounded-xl bg-surface-subtle border border-border-default flex items-center justify-center text-[20px] flex-shrink-0">🏦</div>
         )}
         <div className="flex-1 min-w-0">
-          <p className="text-[15px] font-bold text-ap-primary truncate">{account.bank_name}</p>
-          <p className="text-[13px] text-ap-secondary mt-0.5 truncate">{account.acc_name}</p>
+          <p className="text-[15px] font-bold text-text-strong truncate">{account.bank_name}</p>
+          <p className="text-[13px] text-text-default mt-0.5 truncate">{account.acc_name}</p>
         </div>
         {minAmt > 0 && (
-          <span className="hidden sm:inline-block text-[13px] text-ap-tertiary flex-shrink-0">
+          <span className="hidden sm:inline-block text-[13px] text-text-muted flex-shrink-0">
             {t.min} ฿{minAmt.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
         )}
       </div>
 
       {/* Account number + copy button */}
-      <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-ap-bg/70 border border-ap-border/70 px-3 py-2">
+      <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-surface-subtle/70 border border-border-default/70 px-3 py-2">
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] text-ap-tertiary uppercase tracking-wide leading-none">{t.accountNo}</p>
-          <p className="mt-1 text-[17px] sm:text-[18px] font-mono font-bold text-ap-primary tracking-wider leading-none break-all">
+          <p className="text-[11px] text-text-muted uppercase tracking-wide leading-none">{t.accountNo}</p>
+          <p className="mt-1 text-[17px] sm:text-[18px] font-mono font-bold text-text-strong tracking-wider leading-none break-all">
             {account.acc_no}
           </p>
         </div>
@@ -458,7 +458,7 @@ function BankCard({
             e.stopPropagation();
             onCopy(account.acc_no);
           }}
-          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-ap-blue text-white text-[12px] font-bold shadow-sm hover:bg-ap-blue-h active:scale-95 transition-all flex-shrink-0"
+          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-brand-primary text-white text-[12px] font-bold shadow-sm hover:bg-brand-primary-hover active:scale-95 transition-all flex-shrink-0"
           aria-label={t.copyAria}
         >
           <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -471,7 +471,7 @@ function BankCard({
 
       {/* Mobile-only: minimum amount row */}
       {minAmt > 0 && (
-        <p className="sm:hidden mt-2 text-[13px] text-ap-tertiary">
+        <p className="sm:hidden mt-2 text-[13px] text-text-muted">
           {t.min} ฿{minAmt.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
       )}
@@ -1113,7 +1113,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
             </p>
           </div>
         ) : (
-          <p className="text-[13px] text-ap-tertiary">{t.noBank}</p>
+          <p className="text-[13px] text-text-muted">{t.noBank}</p>
         )}
       </div>
 
@@ -1121,16 +1121,16 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
         <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-center justify-between mb-2.5">
-            <p className="text-[14px] text-ap-tertiary uppercase tracking-wide font-medium">{t.promoTitle}</p>
-            <Link href={`/${lang}/promotion`} className="text-[12px] font-semibold text-ap-blue hover:text-ap-blue-h transition-colors">
+            <p className="text-[14px] text-text-muted uppercase tracking-wide font-medium">{t.promoTitle}</p>
+            <Link href={`/${lang}/promotion`} className="text-[12px] font-semibold text-brand-primary hover:text-brand-primary-hover transition-colors">
               {t.viewAll}
             </Link>
           </div>
 
           {promotionLoading ? (
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-ap-bg animate-pulse" />
-              <div className="h-16 rounded-xl bg-ap-bg animate-pulse" />
+              <div className="h-16 rounded-xl bg-surface-subtle animate-pulse" />
+              <div className="h-16 rounded-xl bg-surface-subtle animate-pulse" />
             </div>
           ) : (
             <HScrollRow itemWidth={248} scrollBy={1}>
@@ -1151,20 +1151,20 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                         className="w-full h-32 sm:h-36 object-cover"
                       />
                     ) : (
-                      <div className="w-full h-32 sm:h-36 bg-ap-bg flex items-center justify-center text-[36px]">
+                      <div className="w-full h-32 sm:h-36 bg-surface-subtle flex items-center justify-center text-[36px]">
                         🎁
                       </div>
                     )}
                     <div className="p-3 flex flex-col">
-                      <p className="text-[14px] font-semibold text-ap-primary leading-snug">{title}</p>
+                      <p className="text-[14px] font-semibold text-text-strong leading-snug">{title}</p>
                       <div className="flex items-center gap-2 mt-2 flex-wrap">
                         {bonusPercent > 0 && (
-                          <span className="text-[11px] font-bold text-ap-blue bg-ap-blue/10 rounded-full px-2 py-0.5">
+                          <span className="text-[11px] font-bold text-brand-primary bg-brand-primary/10 rounded-full px-2 py-0.5">
                             {t.bonus} {bonusPercent}%
                           </span>
                         )}
                         {minDeposit > 0 && (
-                          <span className="text-[11px] text-ap-tertiary">
+                          <span className="text-[11px] text-text-muted">
                             {t.min} ฿{minDeposit.toLocaleString("en-US")}
                           </span>
                         )}
@@ -1174,7 +1174,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                           type="button"
                           onClick={() => { void handleSelectPromotion(promoCode); }}
                           disabled={!promoCode || promoSubmittingId === promoCode || promoDeselecting}
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-full bg-ap-blue text-white text-[12px] font-semibold hover:bg-ap-blue-h transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-full bg-brand-primary text-white text-[12px] font-semibold hover:bg-brand-primary-hover transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {promoSubmittingId === promoCode ? t.receivingPromo : t.receivePromo}
                         </button>
@@ -1193,9 +1193,9 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[12px] text-ap-tertiary uppercase tracking-wide font-medium mb-1">{t.activePromo}</p>
-              <p className="text-[15px] font-semibold text-ap-primary leading-snug">{activePromotion.name}</p>
-              <p className="text-[13px] text-ap-secondary mt-1">
+              <p className="text-[12px] text-text-muted uppercase tracking-wide font-medium mb-1">{t.activePromo}</p>
+              <p className="text-[15px] font-semibold text-text-strong leading-snug">{activePromotion.name}</p>
+              <p className="text-[13px] text-text-default mt-1">
                 {t.minTotal} ฿{(Number(activePromotion.min) || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
@@ -1203,7 +1203,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
               type="button"
               onClick={() => { void handleDeselectPromotion(); }}
               disabled={promoDeselecting || !!promoSubmittingId}
-              className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-red-600 text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-2 rounded-full border border-status-error/30 bg-red-50 text-red-600 text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {promoDeselecting ? t.cancelling : t.cancelPromo}
             </button>
@@ -1219,17 +1219,17 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
           {channelsLoading && (
             <div className="flex items-center gap-2 py-2">
-              <div className="w-4 h-4 rounded-full border-2 border-ap-blue border-t-transparent animate-spin" />
-              <p className="text-[13px] text-ap-secondary">{t.loadingChannels}</p>
+              <div className="w-4 h-4 rounded-full border-2 border-brand-primary border-t-transparent animate-spin" />
+              <p className="text-[13px] text-text-default">{t.loadingChannels}</p>
             </div>
           )}
           {channelsError && !channelsLoading && (
-            <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-ap-red">
+            <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-status-error">
               {channelsError}
             </div>
           )}
           {!channelsLoading && !channelsError && enabledChannels.length === 0 && (
-            <p className="text-[13px] text-ap-tertiary py-2 text-center">{t.noChannels}</p>
+            <p className="text-[13px] text-text-muted py-2 text-center">{t.noChannels}</p>
           )}
 
           {!channelsLoading && !channelsError && enabledChannels.length > 0 && (
@@ -1281,25 +1281,25 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
           <div className="mt-5 pt-4 border-t border-slate-200 space-y-4 animate-fade-up">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[20px]">{CHANNEL_META[method].icon}</span>
-              <h2 className="text-[16px] font-bold text-ap-primary">{t.channelInfo}</h2>
+              <h2 className="text-[16px] font-bold text-text-strong">{t.channelInfo}</h2>
             </div>
 
             {bankLoading && (
               <div className="flex items-center gap-2 py-3">
-                <div className="w-4 h-4 rounded-full border-2 border-ap-blue border-t-transparent animate-spin" />
-                <p className="text-[13px] text-ap-secondary">{t.loadingInfo}</p>
+                <div className="w-4 h-4 rounded-full border-2 border-brand-primary border-t-transparent animate-spin" />
+                <p className="text-[13px] text-text-default">{t.loadingInfo}</p>
               </div>
             )}
 
             {bankError && !bankLoading && (
-              <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-ap-red">
+              <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-status-error">
                 {bankError}
               </div>
             )}
 
             {!bankLoading && method !== "payment" && bankAccounts.length > 0 && (
               <div className="space-y-2">
-                <p className="text-[14px] font-bold text-ap-secondary uppercase tracking-wide">
+                <p className="text-[14px] font-bold text-text-default uppercase tracking-wide">
                   {method === "tw" ? t.transferToNumber : t.transferTo}
                 </p>
                 {bankAccounts.map((acc) => (
@@ -1317,16 +1317,16 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
             {!bankLoading && method === "slip" && (
               <div className="space-y-3 pt-2 border-t border-slate-200">
-                <p className="text-[14px] font-bold text-ap-secondary uppercase tracking-wide">
+                <p className="text-[14px] font-bold text-text-default uppercase tracking-wide">
                   {t.uploadSlipTitle}
                 </p>
 
                 <div>
-                  <label className="block text-[13px] font-semibold text-ap-secondary mb-1.5">
+                  <label className="block text-[13px] font-semibold text-text-default mb-1.5">
                     {t.transferAmount}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] text-ap-tertiary pointer-events-none">฿</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] text-text-muted pointer-events-none">฿</span>
                     <input
                       type="number"
                       inputMode="decimal"
@@ -1334,17 +1334,17 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                       value={slipAmount}
                       onChange={(e) => setSlipAmount(e.target.value)}
                       placeholder="0.00"
-                      className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-white transition-colors"
+                      className="w-full rounded-2xl border-2 border-border-default focus:border-brand-primary outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-text-strong bg-white transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[13px] font-semibold text-ap-secondary mb-1.5">
+                  <label className="block text-[13px] font-semibold text-text-default mb-1.5">
                     {t.slipImage}
                   </label>
                   {slipPreview ? (
-                    <div className="relative rounded-2xl border-2 border-ap-border overflow-hidden bg-white">
+                    <div className="relative rounded-2xl border-2 border-border-default overflow-hidden bg-white">
                       <img
                         src={slipPreview}
                         alt={t.slipAlt}
@@ -1361,20 +1361,20 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                         </svg>
                         {t.remove}
                       </button>
-                      <div className="px-3 py-2 bg-white border-t border-ap-border">
-                        <p className="text-[12px] text-ap-tertiary truncate">
+                      <div className="px-3 py-2 bg-white border-t border-border-default">
+                        <p className="text-[12px] text-text-muted truncate">
                           {slipFile?.name}
                           {slipFile && ` • ${(slipFile.size / 1024).toFixed(0)} KB`}
                         </p>
                       </div>
                     </div>
                   ) : (
-                    <label className="flex flex-col items-center justify-center gap-2 w-full rounded-2xl border-2 border-dashed border-ap-border bg-ap-bg/50 hover:border-ap-blue hover:bg-ap-blue/5 transition-colors py-8 cursor-pointer">
-                      <div className="w-12 h-12 rounded-full bg-ap-blue/10 flex items-center justify-center text-[22px]">
+                    <label className="flex flex-col items-center justify-center gap-2 w-full rounded-2xl border-2 border-dashed border-border-default bg-surface-subtle/50 hover:border-brand-primary hover:bg-brand-primary/5 transition-colors py-8 cursor-pointer">
+                      <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center text-[22px]">
                         📎
                       </div>
-                      <p className="text-[14px] font-semibold text-ap-primary">{t.tapUpload}</p>
-                      <p className="text-[12px] text-ap-tertiary">{t.uploadHint}</p>
+                      <p className="text-[14px] font-semibold text-text-strong">{t.tapUpload}</p>
+                      <p className="text-[12px] text-text-muted">{t.uploadHint}</p>
                       <input
                         type="file"
                         accept="image/*"
@@ -1403,7 +1403,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
             {!bankLoading && method === "payment" && payments.length > 0 && (
               <div className="space-y-3">
-                <p className="text-[14px] font-bold text-ap-secondary uppercase tracking-wide">
+                <p className="text-[14px] font-bold text-text-default uppercase tracking-wide">
                   {t.selectPayment}
                 </p>
                 <div className="space-y-2">
@@ -1442,11 +1442,11 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
                 {selectedPayment && (
                   <div className="pt-1 space-y-2">
-                    <label className="block text-[14px] font-bold text-ap-secondary uppercase tracking-wide">
+                    <label className="block text-[14px] font-bold text-text-default uppercase tracking-wide">
                       {t.amount} ({selectedPayment.name})
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] text-ap-tertiary pointer-events-none">฿</span>
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] text-text-muted pointer-events-none">฿</span>
                       <input
                         type="number"
                         inputMode="decimal"
@@ -1454,11 +1454,11 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                         value={paymentAmount}
                         onChange={(e) => setPaymentAmount(e.target.value)}
                         placeholder={String(selectedPayment.min_deposit || 0)}
-                        className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-white transition-colors"
+                        className="w-full rounded-2xl border-2 border-border-default focus:border-brand-primary outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-text-strong bg-white transition-colors"
                       />
                     </div>
                     {selectedPayment.min_deposit > 0 && (
-                      <p className="text-[12px] text-ap-tertiary">
+                      <p className="text-[12px] text-text-muted">
                         {t.minDepositLabel} ฿{selectedPayment.min_deposit.toLocaleString("en-US")}
                       </p>
                     )}
@@ -1485,19 +1485,19 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
           <div className="mt-5 pt-4 border-t border-slate-200 space-y-4 animate-fade-up">
             {method === "payment" && qrCodeData && qrImageSrc ? (
               <div className="space-y-3">
-                <div className="rounded-2xl border border-ap-blue/20 bg-ap-blue/[0.03] p-4">
-                  <p className="text-[16px] font-bold text-ap-primary">{t.scanQr}</p>
-                  <p className="text-[13px] text-ap-secondary mt-1">
+                <div className="rounded-2xl border border-brand-primary/20 bg-brand-primary/[0.03] p-4">
+                  <p className="text-[16px] font-bold text-text-strong">{t.scanQr}</p>
+                  <p className="text-[13px] text-text-default mt-1">
                     {t.scanQrDesc}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-ap-border bg-white p-4">
+                <div className="rounded-2xl border border-border-default bg-white p-4">
                   <div className="flex justify-center">
                     <img
                       src={qrImageSrc}
                       alt="Deposit QR Code"
-                      className="w-full max-w-[320px] rounded-xl border border-ap-border bg-white p-2"
+                      className="w-full max-w-[320px] rounded-xl border border-border-default bg-white p-2"
                     />
                   </div>
                   <p className="mt-2 text-center text-[13px] font-semibold text-red-600">
@@ -1509,23 +1509,23 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                   </p>
 
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px]">
-                    <div className="rounded-xl bg-ap-bg px-3 py-2">
-                      <p className="text-ap-tertiary">{t.amountLabel}</p>
-                      <p className="font-bold text-ap-primary">
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2">
+                      <p className="text-text-muted">{t.amountLabel}</p>
+                      <p className="font-bold text-text-strong">
                         ฿{Number(qrCodeData.amount || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </p>
                     </div>
-                    <div className="rounded-xl bg-ap-bg px-3 py-2">
-                      <p className="text-ap-tertiary">{t.expiresAt}</p>
-                      <p className="font-semibold text-ap-primary">{qrCodeData.expired_date || "-"}</p>
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2">
+                      <p className="text-text-muted">{t.expiresAt}</p>
+                      <p className="font-semibold text-text-strong">{qrCodeData.expired_date || "-"}</p>
                     </div>
-                    <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
-                      <p className="text-ap-tertiary">TXID</p>
-                      <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.txid || "-"}</p>
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
+                      <p className="text-text-muted">TXID</p>
+                      <p className="font-mono text-[12px] text-text-strong break-all">{qrCodeData.txid || "-"}</p>
                     </div>
-                    <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
-                      <p className="text-ap-tertiary">Request ID</p>
-                      <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.request_id}</p>
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
+                      <p className="text-text-muted">Request ID</p>
+                      <p className="font-mono text-[12px] text-text-strong break-all">{qrCodeData.request_id}</p>
                     </div>
                   </div>
                 </div>
@@ -1540,13 +1540,13 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                   setQrCodeData(null);
                   setStatusModal(null);
                 }}
-                className="flex-1 py-3 rounded-full border-2 border-ap-border text-[14px] font-semibold text-ap-secondary hover:border-ap-blue/30 transition-colors"
+                className="flex-1 py-3 rounded-full border-2 border-border-default text-[14px] font-semibold text-text-default hover:border-brand-primary/30 transition-colors"
               >
                 {t.selectAgain}
               </button>
               <a
                 href={`/${lang}/transactions`}
-                className="flex-1 flex items-center justify-center py-3 rounded-2xl bg-ap-blue text-white text-[14px] font-semibold hover:bg-ap-blue-h transition-colors"
+                className="flex-1 flex items-center justify-center py-3 rounded-2xl bg-brand-primary text-white text-[14px] font-semibold hover:bg-brand-primary-hover transition-colors"
               >
                 {t.goFinance}
               </a>
@@ -1559,17 +1559,17 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
       {statusModal && (
         <div className="fixed inset-0 z-[60] bg-black/40 flex items-center justify-center px-5">
-          <div className="w-full max-w-sm bg-white rounded-2xl border border-ap-border shadow-card p-5">
-            <p className="text-[17px] font-bold text-ap-primary">
+          <div className="w-full max-w-sm bg-white rounded-2xl border border-border-default shadow-card p-5">
+            <p className="text-[17px] font-bold text-text-strong">
               {statusModal.kind === "success" ? t.depositSuccess : t.txExpired}
             </p>
-            <p className="text-[14px] text-ap-secondary mt-2">
+            <p className="text-[14px] text-text-default mt-2">
               {statusModal.message}
             </p>
             <button
               type="button"
               onClick={() => { window.location.href = `/${lang}`; }}
-              className="mt-4 w-full py-3 rounded-2xl bg-ap-blue text-white text-[14px] font-semibold hover:bg-ap-blue-h transition-colors"
+              className="mt-4 w-full py-3 rounded-2xl bg-brand-primary text-white text-[14px] font-semibold hover:bg-brand-primary-hover transition-colors"
             >
               {t.goHome}
             </button>

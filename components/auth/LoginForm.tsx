@@ -15,7 +15,7 @@ function SubmitButton({ children, disabled }: { children: React.ReactNode; disab
     <button
       type="submit"
       disabled={disabled || pending}
-      className="w-full bg-ap-blue text-white rounded-full py-3.5 text-[15px] font-semibold disabled:opacity-40 hover:bg-ap-blue-h transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+      className="w-full bg-brand-primary text-white rounded-full py-3.5 text-[15px] font-semibold disabled:opacity-40 hover:bg-brand-primary-hover transition-all active:scale-[0.98] flex items-center justify-center gap-2"
     >
       {pending ? (
         <>
@@ -58,11 +58,11 @@ const EyeIcon = ({ open }: { open: boolean }) =>
 
 function ErrorBanner({ msg }: { msg: string }) {
   return (
-    <div className="flex items-start gap-2.5 bg-ap-red/5 border border-ap-red/20 rounded-2xl px-4 py-3 animate-fade-in">
-      <div className="w-5 h-5 rounded-full bg-ap-red flex items-center justify-center flex-shrink-0 mt-0.5">
+    <div className="flex items-start gap-2.5 bg-status-error/5 border border-status-error/20 rounded-2xl px-4 py-3 animate-fade-in">
+      <div className="w-5 h-5 rounded-full bg-status-error flex items-center justify-center flex-shrink-0 mt-0.5">
         <span className="text-white text-[10px] font-bold leading-none">!</span>
       </div>
-      <p className="text-[13px] text-ap-red">{msg}</p>
+      <p className="text-[13px] text-status-error">{msg}</p>
     </div>
   );
 }
@@ -118,7 +118,7 @@ export default function LoginForm() {
 
   const usernameComplete = username.trim().length > 0;
   const usernameGreenCheck = usernameComplete ? (
-    <div className="w-5 h-5 rounded-full bg-ap-green flex items-center justify-center animate-pop-in">
+    <div className="w-5 h-5 rounded-full bg-status-success flex items-center justify-center animate-pop-in">
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
         <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -129,24 +129,24 @@ export default function LoginForm() {
   if (success) {
     return (
       <div className="text-center py-4 animate-fade-up">
-        <div className="w-20 h-20 rounded-full bg-ap-green/10 flex items-center justify-center mx-auto mb-5">
+        <div className="w-20 h-20 rounded-full bg-status-success/10 flex items-center justify-center mx-auto mb-5">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="2.5">
             <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h2 className="text-[22px] font-bold text-ap-primary">{t.successTitle}</h2>
-        <p className="text-[14px] text-ap-secondary mt-1.5">
+        <h2 className="text-[22px] font-bold text-text-strong">{t.successTitle}</h2>
+        <p className="text-[14px] text-text-default mt-1.5">
           {t.successBack}{" "}
-          <span className="font-semibold text-ap-primary">{username || "-"}</span>
+          <span className="font-semibold text-text-strong">{username || "-"}</span>
         </p>
-        <div className="mt-5 flex items-center justify-center gap-2 text-[13px] text-ap-tertiary">
+        <div className="mt-5 flex items-center justify-center gap-2 text-[13px] text-text-muted">
           <svg className="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
             <path fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
           </svg>
           {t.successRedirect}
         </div>
-        <a href={`/${lang}/dashboard`} className="mt-2 block text-[13px] text-ap-blue font-medium hover:opacity-70">{t.goNow}</a>
+        <a href={`/${lang}/dashboard`} className="mt-2 block text-[13px] text-brand-primary font-medium hover:opacity-70">{t.goNow}</a>
       </div>
     );
   }
@@ -179,7 +179,7 @@ export default function LoginForm() {
           rightEl={
             <button type="button" onClick={() => setShowPw(!showPw)}
               aria-label={showPw ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน"}
-              className="text-ap-tertiary hover:text-ap-secondary transition-colors">
+              className="text-text-muted hover:text-text-default transition-colors">
               <EyeIcon open={showPw} />
             </button>
           }
@@ -188,20 +188,20 @@ export default function LoginForm() {
           <label className="flex items-center gap-2 cursor-pointer group">
             <button type="button" onClick={() => setRemember(!remember)}
               className={["w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200",
-                remember ? "bg-ap-blue border-ap-blue" : "bg-white border-ap-border group-hover:border-ap-blue/40"].join(" ")}>
+                remember ? "bg-brand-primary border-brand-primary" : "bg-white border-border-default group-hover:border-brand-primary/40"].join(" ")}>
               {remember && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
             </button>
-            <span className="text-[13px] text-ap-secondary select-none">{t.remember}</span>
+            <span className="text-[13px] text-text-default select-none">{t.remember}</span>
           </label>
-          <a href={`/${lang}/contact-public`} className="text-[13px] text-ap-blue font-medium hover:opacity-70">{t.forgot}</a>
+          <a href={`/${lang}/contact-public`} className="text-[13px] text-brand-primary font-medium hover:opacity-70">{t.forgot}</a>
         </div>
         {pwState.error && <ErrorBanner msg={pwState.error} />}
         <SubmitButton>{t.submitLogin}</SubmitButton>
       </form>
 
-      <p className="text-center text-[13px] text-ap-secondary mt-6">
+      <p className="text-center text-[13px] text-text-default mt-6">
         {t.noAccount}{" "}
-        <a href={registerPath} className="text-ap-blue font-semibold hover:opacity-70">{t.register}</a>
+        <a href={registerPath} className="text-brand-primary font-semibold hover:opacity-70">{t.register}</a>
       </p>
     </div>
   );

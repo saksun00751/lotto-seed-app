@@ -610,7 +610,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
             </p>
           </div>
         ) : (
-          <p className="text-[13px] text-ap-tertiary">{t.noBank}</p>
+          <p className="text-[13px] text-text-muted">{t.noBank}</p>
         )}
       </div>
 
@@ -621,8 +621,8 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
         onActiveChange={(next) => setActivePromotion(next)}
       />
 
-      <div className="bg-white rounded-2xl border border-ap-border p-5 shadow-sm">
-        <h1 className="text-[18px] font-extrabold text-ap-primary">{t.selectMethod}</h1>
+      <div className="bg-white rounded-2xl border border-border-default p-5 shadow-sm">
+        <h1 className="text-[18px] font-extrabold text-text-strong">{t.selectMethod}</h1>
 
         {/* Stepper */}
         <div className="mt-4 flex items-center w-full">
@@ -638,18 +638,18 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                 <div className="flex flex-col items-center gap-1 flex-shrink-0">
                   <div className={[
                     "w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold transition-all",
-                    active ? "bg-ap-blue text-white" : done ? "bg-ap-blue/15 text-ap-blue" : "bg-ap-bg text-ap-tertiary",
+                    active ? "bg-brand-primary text-white" : done ? "bg-brand-primary/15 text-brand-primary" : "bg-surface-subtle text-text-muted",
                   ].join(" ")}>
                     {i + 1}
                   </div>
                   <span className={[
                     "text-[11px] font-semibold whitespace-nowrap",
-                    active ? "text-ap-blue" : done ? "text-ap-secondary" : "text-ap-tertiary",
+                    active ? "text-brand-primary" : done ? "text-text-default" : "text-text-muted",
                   ].join(" ")}>
                     {labels[i]}
                   </span>
                 </div>
-                {i < 2 && <div className={["flex-1 h-0.5 mx-2 -mt-4 rounded-full", done ? "bg-ap-blue" : "bg-slate-300"].join(" ")} />}
+                {i < 2 && <div className={["flex-1 h-0.5 mx-2 -mt-4 rounded-full", done ? "bg-brand-primary" : "bg-slate-300"].join(" ")} />}
               </div>
             );
           })}
@@ -659,19 +659,19 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
         {step === "method" && (
           <div className="mt-5">
             {selectedPromotion?.select && (
-              <div className="mb-3 rounded-xl bg-ap-blue/5 border border-ap-blue/20 px-3 py-2">
-                <p className="text-[12px] text-ap-tertiary">{t.activePromo}</p>
-                <p className="text-[14px] font-bold text-ap-blue">{selectedPromotion.name}</p>
-                <p className="text-[12px] text-ap-secondary">
+              <div className="mb-3 rounded-xl bg-brand-primary/5 border border-brand-primary/20 px-3 py-2">
+                <p className="text-[12px] text-text-muted">{t.activePromo}</p>
+                <p className="text-[14px] font-bold text-brand-primary">{selectedPromotion.name}</p>
+                <p className="text-[12px] text-text-default">
                   {t.min} ฿{(parseFloat(selectedPromotion.min) || 0).toLocaleString("en-US")}
                 </p>
               </div>
             )}
-            <p className="text-[14px] font-bold text-ap-primary mb-3">{t.selectMethod}</p>
+            <p className="text-[14px] font-bold text-text-strong mb-3">{t.selectMethod}</p>
             {channelsLoading ? (
-              <p className="text-[13px] text-ap-tertiary">{t.loadingChannels}</p>
+              <p className="text-[13px] text-text-muted">{t.loadingChannels}</p>
             ) : methods.length === 0 ? (
-              <p className="text-[13px] text-ap-red">{t.noChannels}</p>
+              <p className="text-[13px] text-status-error">{t.noChannels}</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {methods.map((m) => {
@@ -681,12 +681,12 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                       key={m}
                       type="button"
                       onClick={() => selectMethod(m)}
-                      className="flex items-center gap-3 p-4 rounded-2xl border-2 border-ap-border hover:border-ap-blue hover:bg-ap-blue/5 active:scale-[0.98] transition-all text-left"
+                      className="flex items-center gap-3 p-4 rounded-2xl border-2 border-border-default hover:border-brand-primary hover:bg-brand-primary/5 active:scale-[0.98] transition-all text-left"
                     >
                       <span className="text-[28px] leading-none">{meta.icon}</span>
                       <div>
-                        <p className="text-[15px] font-bold text-ap-primary">{meta.title}</p>
-                        <p className="text-[12px] text-ap-tertiary">{meta.desc}</p>
+                        <p className="text-[15px] font-bold text-text-strong">{meta.title}</p>
+                        <p className="text-[12px] text-text-muted">{meta.desc}</p>
                       </div>
                     </button>
                   );
@@ -701,12 +701,12 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
           <div className="mt-5">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-[22px] leading-none">{METHOD_META[method].icon}</span>
-              <p className="text-[15px] font-bold text-ap-primary">{METHOD_META[method].title}</p>
+              <p className="text-[15px] font-bold text-text-strong">{METHOD_META[method].title}</p>
             </div>
 
-            <label className="block text-[13px] font-semibold text-ap-secondary mb-1.5">{t.amountLabel}</label>
+            <label className="block text-[13px] font-semibold text-text-default mb-1.5">{t.amountLabel}</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] font-bold text-ap-tertiary">฿</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] font-bold text-text-muted">฿</span>
               <input
                 type="text"
                 inputMode="numeric"
@@ -714,17 +714,17 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                 value={amount}
                 onChange={(e) => setAmount(e.target.value.replace(/\D/g, ""))}
                 placeholder="0"
-                className="w-full h-12 pl-9 pr-3 rounded-xl border-2 border-ap-border focus:border-ap-blue focus:outline-none text-[16px] font-bold tabular-nums"
+                className="w-full h-12 pl-9 pr-3 rounded-xl border-2 border-border-default focus:border-brand-primary focus:outline-none text-[16px] font-bold tabular-nums"
               />
             </div>
 
-            {error && <p className="mt-2 text-[13px] text-ap-red">{error}</p>}
+            {error && <p className="mt-2 text-[13px] text-status-error">{error}</p>}
 
             <div className="mt-4 flex items-center gap-2">
               <button
                 type="button"
                 onClick={reset}
-                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg transition-colors"
+                className="flex-1 h-12 rounded-xl border border-border-default text-[14px] font-bold text-text-default hover:bg-surface-subtle transition-colors"
               >
                 {"ย้อนกลับ"}
               </button>
@@ -732,7 +732,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                 type="button"
                 onClick={handleNext}
                 disabled={submitting}
-                className="flex-1 h-12 rounded-xl bg-ap-blue text-white text-[14px] font-bold shadow-sm hover:bg-ap-blue-h active:scale-[0.98] transition-all disabled:opacity-60"
+                className="flex-1 h-12 rounded-xl bg-brand-primary text-white text-[14px] font-bold shadow-sm hover:bg-brand-primary-hover active:scale-[0.98] transition-all disabled:opacity-60"
               >
                 {submitting ? "กำลังสุ่มบัญชี..." : "ถัดไป"}
               </button>
@@ -745,16 +745,16 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
           <div className="mt-5">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-[22px] leading-none">{METHOD_META.payment.icon}</span>
-              <p className="text-[15px] font-bold text-ap-primary">{METHOD_META.payment.title}</p>
+              <p className="text-[15px] font-bold text-text-strong">{METHOD_META.payment.title}</p>
             </div>
 
             {submitting ? (
-              <p className="text-[13px] text-ap-tertiary">{t.loadingChannels}</p>
+              <p className="text-[13px] text-text-muted">{t.loadingChannels}</p>
             ) : payments.length === 0 ? (
-              <p className="text-[13px] text-ap-red">{error ?? t.eLoadPayment}</p>
+              <p className="text-[13px] text-status-error">{error ?? t.eLoadPayment}</p>
             ) : (
               <div className="space-y-3">
-                <p className="text-[13px] font-bold text-ap-secondary uppercase tracking-wide">{t.selectPayment}</p>
+                <p className="text-[13px] font-bold text-text-default uppercase tracking-wide">{t.selectPayment}</p>
                 <div className="space-y-2">
                   {payments.map((p) => {
                     const active = selectedPayment?.id === p.id;
@@ -791,11 +791,11 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
 
                 {selectedPayment && (
                   <div className="pt-1 space-y-2">
-                    <label className="block text-[13px] font-bold text-ap-secondary uppercase tracking-wide">
+                    <label className="block text-[13px] font-bold text-text-default uppercase tracking-wide">
                       {t.amount} ({selectedPayment.name})
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] text-ap-tertiary pointer-events-none">฿</span>
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] text-text-muted pointer-events-none">฿</span>
                       <input
                         type="number"
                         inputMode="decimal"
@@ -803,11 +803,11 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder={String(selectedPayment.min_deposit || 0)}
-                        className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-white transition-colors"
+                        className="w-full rounded-2xl border-2 border-border-default focus:border-brand-primary outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-text-strong bg-white transition-colors"
                       />
                     </div>
                     {selectedPayment.min_deposit > 0 && (
-                      <p className="text-[12px] text-ap-tertiary">
+                      <p className="text-[12px] text-text-muted">
                         {`${t.minDepositLabel} ฿${selectedPayment.min_deposit.toLocaleString("en-US")}`}
                       </p>
                     )}
@@ -816,13 +816,13 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               </div>
             )}
 
-            {error && payments.length > 0 && <p className="mt-2 text-[13px] text-ap-red">{error}</p>}
+            {error && payments.length > 0 && <p className="mt-2 text-[13px] text-status-error">{error}</p>}
 
             <div className="mt-4 flex items-center gap-2">
               <button
                 type="button"
                 onClick={reset}
-                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg transition-colors"
+                className="flex-1 h-12 rounded-xl border border-border-default text-[14px] font-bold text-text-default hover:bg-surface-subtle transition-colors"
               >
                 {"ย้อนกลับ"}
               </button>
@@ -835,7 +835,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                   !amount ||
                   Number(amount) < (selectedPayment?.min_deposit ?? 0)
                 }
-                className="flex-1 h-12 rounded-xl bg-ap-blue text-white text-[14px] font-bold shadow-sm hover:bg-ap-blue-h active:scale-[0.98] transition-all disabled:opacity-60"
+                className="flex-1 h-12 rounded-xl bg-brand-primary text-white text-[14px] font-bold shadow-sm hover:bg-brand-primary-hover active:scale-[0.98] transition-all disabled:opacity-60"
               >
                 {paymentSubmitting ? t.creatingQr : t.createQr}
               </button>
@@ -846,17 +846,17 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
         {/* Step 3: Result (payment QR) */}
         {step === "result" && method === "payment" && qrCodeData && qrImageSrc && (
           <div className="mt-5 space-y-4">
-            <div className="rounded-2xl border border-ap-blue/20 bg-ap-blue/[0.03] p-4">
-              <p className="text-[16px] font-bold text-ap-primary">{t.scanQr}</p>
-              <p className="text-[13px] text-ap-secondary mt-1">{t.scanQrDesc}</p>
+            <div className="rounded-2xl border border-brand-primary/20 bg-brand-primary/[0.03] p-4">
+              <p className="text-[16px] font-bold text-text-strong">{t.scanQr}</p>
+              <p className="text-[13px] text-text-default mt-1">{t.scanQrDesc}</p>
             </div>
 
-            <div className="rounded-2xl border border-ap-border bg-white p-4">
+            <div className="rounded-2xl border border-border-default bg-white p-4">
               <div className="flex justify-center">
                 <img
                   src={qrImageSrc}
                   alt="Deposit QR Code"
-                  className="w-full max-w-[320px] rounded-xl border border-ap-border bg-white p-2"
+                  className="w-full max-w-[320px] rounded-xl border border-border-default bg-white p-2"
                 />
               </div>
               <p className="mt-2 text-center text-[13px] font-semibold text-red-600">
@@ -868,23 +868,23 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               </p>
 
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px]">
-                <div className="rounded-xl bg-ap-bg px-3 py-2">
-                  <p className="text-ap-tertiary">Amount</p>
-                  <p className="font-bold text-ap-primary">
+                <div className="rounded-xl bg-surface-subtle px-3 py-2">
+                  <p className="text-text-muted">Amount</p>
+                  <p className="font-bold text-text-strong">
                     ฿{Number(qrCodeData.amount || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                 </div>
-                <div className="rounded-xl bg-ap-bg px-3 py-2">
-                  <p className="text-ap-tertiary">{t.expiresAt}</p>
-                  <p className="font-semibold text-ap-primary">{qrCodeData.expired_date || "-"}</p>
+                <div className="rounded-xl bg-surface-subtle px-3 py-2">
+                  <p className="text-text-muted">{t.expiresAt}</p>
+                  <p className="font-semibold text-text-strong">{qrCodeData.expired_date || "-"}</p>
                 </div>
-                <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
-                  <p className="text-ap-tertiary">TXID</p>
-                  <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.txid || "-"}</p>
+                <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
+                  <p className="text-text-muted">TXID</p>
+                  <p className="font-mono text-[12px] text-text-strong break-all">{qrCodeData.txid || "-"}</p>
                 </div>
-                <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
-                  <p className="text-ap-tertiary">Request ID</p>
-                  <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.request_id}</p>
+                <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
+                  <p className="text-text-muted">Request ID</p>
+                  <p className="font-mono text-[12px] text-text-strong break-all">{qrCodeData.request_id}</p>
                 </div>
               </div>
             </div>
@@ -893,13 +893,13 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               <button
                 type="button"
                 onClick={reset}
-                className="flex-1 py-3 rounded-full border-2 border-ap-border text-[14px] font-semibold text-ap-secondary hover:border-ap-blue/30 transition-colors"
+                className="flex-1 py-3 rounded-full border-2 border-border-default text-[14px] font-semibold text-text-default hover:border-brand-primary/30 transition-colors"
               >
                 {t.selectAgain}
               </button>
               <a
                 href={`/${lang}/transactions`}
-                className="flex-1 flex items-center justify-center py-3 rounded-2xl bg-ap-blue text-white text-[14px] font-semibold hover:bg-ap-blue-h transition-colors"
+                className="flex-1 flex items-center justify-center py-3 rounded-2xl bg-brand-primary text-white text-[14px] font-semibold hover:bg-brand-primary-hover transition-colors"
               >
                 {t.goFinance}
               </a>
@@ -910,37 +910,37 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
         {/* Step 3: Result (bank/tw) */}
         {step === "result" && method !== "payment" && pickedAccount && (
           <div className="mt-5">
-            <div className="rounded-2xl bg-ap-blue/5 border border-ap-blue/20 px-3 py-2 mb-3">
-              <p className="text-[12px] text-ap-tertiary">{t.transferAmount}</p>
-              <p className="text-[20px] font-extrabold text-ap-blue tabular-nums">
+            <div className="rounded-2xl bg-brand-primary/5 border border-brand-primary/20 px-3 py-2 mb-3">
+              <p className="text-[12px] text-text-muted">{t.transferAmount}</p>
+              <p className="text-[20px] font-extrabold text-brand-primary tabular-nums">
                 ฿{Number(amount).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
 
-            <div className="rounded-2xl border-2 border-ap-blue bg-ap-blue/5 p-4">
+            <div className="rounded-2xl border-2 border-brand-primary bg-brand-primary/5 p-4">
               <div className="flex items-center gap-3">
                 {pickedAccount.bank_pic ? (
-                  <img src={pickedAccount.bank_pic} alt={pickedAccount.bank_name} className="w-12 h-12 rounded-xl object-contain bg-white border border-ap-border" />
+                  <img src={pickedAccount.bank_pic} alt={pickedAccount.bank_name} className="w-12 h-12 rounded-xl object-contain bg-white border border-border-default" />
                 ) : (
-                  <div className="w-12 h-12 rounded-xl bg-white border border-ap-border flex items-center justify-center text-[22px]">🏦</div>
+                  <div className="w-12 h-12 rounded-xl bg-white border border-border-default flex items-center justify-center text-[22px]">🏦</div>
                 )}
                 <div className="min-w-0">
-                  <p className="text-[15px] font-bold text-ap-primary truncate">{pickedAccount.bank_name}</p>
-                  <p className="text-[13px] text-ap-secondary truncate">{pickedAccount.acc_name}</p>
+                  <p className="text-[15px] font-bold text-text-strong truncate">{pickedAccount.bank_name}</p>
+                  <p className="text-[13px] text-text-default truncate">{pickedAccount.acc_name}</p>
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-white border border-ap-border px-3 py-2">
+              <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-white border border-border-default px-3 py-2">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] text-ap-tertiary uppercase tracking-wide leading-none">{t.accountNo}</p>
-                  <p className="mt-1 text-[18px] font-mono font-bold text-ap-primary tracking-wider leading-none break-all">
+                  <p className="text-[11px] text-text-muted uppercase tracking-wide leading-none">{t.accountNo}</p>
+                  <p className="mt-1 text-[18px] font-mono font-bold text-text-strong tracking-wider leading-none break-all">
                     {pickedAccount.acc_no}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleCopy(pickedAccount.acc_no, t.accountNo)}
-                  className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-ap-blue text-white text-[12px] font-bold shadow-sm hover:bg-ap-blue-h active:scale-95 transition-all flex-shrink-0"
+                  className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-brand-primary text-white text-[12px] font-bold shadow-sm hover:bg-brand-primary-hover active:scale-95 transition-all flex-shrink-0"
                 >
                   {t.copy}
                 </button>
@@ -953,8 +953,8 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               )}
 
               {pickedAccount.qrcode && pickedAccount.qr_pic && (
-                <div className="mt-3 flex flex-col items-center gap-2 rounded-xl bg-white border border-ap-border p-3">
-                  <p className="text-[12px] font-bold text-ap-tertiary uppercase tracking-wide">{t.scanQr}</p>
+                <div className="mt-3 flex flex-col items-center gap-2 rounded-xl bg-white border border-border-default p-3">
+                  <p className="text-[12px] font-bold text-text-muted uppercase tracking-wide">{t.scanQr}</p>
                   <img
                     src={pickedAccount.qr_pic}
                     alt="QR Code"
@@ -975,14 +975,14 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               <button
                 type="button"
                 onClick={() => setStep("amount")}
-                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg transition-colors"
+                className="flex-1 h-12 rounded-xl border border-border-default text-[14px] font-bold text-text-default hover:bg-surface-subtle transition-colors"
               >
                 {"ย้อนกลับ"}
               </button>
               <button
                 type="button"
                 onClick={reset}
-                className="flex-1 h-12 rounded-xl bg-ap-blue text-white text-[14px] font-bold shadow-sm hover:bg-ap-blue-h active:scale-[0.98] transition-all"
+                className="flex-1 h-12 rounded-xl bg-brand-primary text-white text-[14px] font-bold shadow-sm hover:bg-brand-primary-hover active:scale-[0.98] transition-all"
               >
                 {"โอนเงินสำเร็จ"}
               </button>
@@ -993,15 +993,15 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
 
       {statusModal && (
         <div className="fixed inset-0 z-[60] bg-black/40 flex items-center justify-center px-5">
-          <div className="w-full max-w-sm bg-white rounded-2xl border border-ap-border shadow-card p-5">
-            <p className="text-[17px] font-bold text-ap-primary">
+          <div className="w-full max-w-sm bg-white rounded-2xl border border-border-default shadow-card p-5">
+            <p className="text-[17px] font-bold text-text-strong">
               {statusModal.kind === "success" ? t.depositSuccess : t.txExpired}
             </p>
-            <p className="text-[14px] text-ap-secondary mt-2">{statusModal.message}</p>
+            <p className="text-[14px] text-text-default mt-2">{statusModal.message}</p>
             <button
               type="button"
               onClick={() => { window.location.href = `/${lang}`; }}
-              className="mt-4 w-full py-3 rounded-2xl bg-ap-blue text-white text-[14px] font-semibold hover:bg-ap-blue-h transition-colors"
+              className="mt-4 w-full py-3 rounded-2xl bg-brand-primary text-white text-[14px] font-semibold hover:bg-brand-primary-hover transition-colors"
             >
               {t.goHome}
             </button>

@@ -105,24 +105,24 @@ export default async function YeekeeShootPage({ params }: Props) {
   ];
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-6xl mx-auto px-5 pt-6 space-y-5">
         <div className="flex items-center gap-3">
           <BackButton
             fallbackHref={`/${locale}/bet`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
+            className="w-8 h-8 rounded-xl bg-white border border-border-default flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
           >
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-4 h-4 text-text-default" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </BackButton>
           <div className="min-w-0">
-            <h1 className="text-[18px] font-extrabold text-ap-primary leading-tight">ยิงเลขยี่กี</h1>
-            <p className="text-[14px] text-ap-secondary font-medium mt-0.5">รายละเอียดรอบก่อนส่งเลข</p>
+            <h1 className="text-[18px] font-extrabold text-text-strong leading-tight">ยิงเลขยี่กี</h1>
+            <p className="text-[14px] text-text-default font-medium mt-0.5">รายละเอียดรอบก่อนส่งเลข</p>
           </div>
         </div>
 
-        <section className="overflow-hidden rounded-2xl border border-ap-border bg-white shadow-card">
+        <section className="overflow-hidden rounded-2xl border border-border-default bg-white shadow-card">
           <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-white">
             <div className="flex items-center gap-3">
               {marketLogo ? (
@@ -139,8 +139,8 @@ export default async function YeekeeShootPage({ params }: Props) {
                   <p className="text-[14px] text-white/70 font-semibold">ปิดยิงเลขใน</p>
                   <CountdownTimer
                     closeAt={shootCloseAt}
-                    className="text-[15px] font-extrabold tabular-nums text-ap-red"
-                    expiredClassName="text-[15px] font-extrabold text-ap-red"
+                    className="text-[15px] font-extrabold tabular-nums text-status-error"
+                    expiredClassName="text-[15px] font-extrabold text-status-error"
                   />
                 </div>
               )}
@@ -150,8 +150,8 @@ export default async function YeekeeShootPage({ params }: Props) {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 bg-slate-50/60">
             {detailRows.map((row) => (
               <div key={row.label} className="rounded-xl border border-slate-200 bg-white px-3 py-2.5">
-                <p className="text-[14px] font-semibold text-ap-tertiary">{row.label}</p>
-                <p className="mt-1 text-[14px] font-bold text-ap-primary truncate">{row.value}</p>
+                <p className="text-[14px] font-semibold text-text-muted">{row.label}</p>
+                <p className="mt-1 text-[14px] font-bold text-text-strong truncate">{row.value}</p>
               </div>
             ))}
           </div>

@@ -51,10 +51,10 @@ export default function CountdownTimer({ closeAt, className = "", showCurrentTim
     <div className="inline-flex items-center gap-1 text-[18px]">
       {[parts.hh, parts.mm, parts.ss].map((v, i) => (
         <span key={i} className="flex items-center gap-1">
-          <span className="inline-flex items-center justify-center min-w-[30px] px-1.5 py-0.5 rounded-md bg-ap-bg border border-ap-border tabular-nums">
+          <span className="inline-flex items-center justify-center min-w-[30px] px-1.5 py-0.5 rounded-md bg-surface-subtle border border-border-default tabular-nums">
             {v}
           </span>
-          {i < 2 && <span className="text-ap-tertiary">:</span>}
+          {i < 2 && <span className="text-text-muted">:</span>}
         </span>
       ))}
     </div>
@@ -74,7 +74,7 @@ export default function CountdownTimer({ closeAt, className = "", showCurrentTim
     return (
       <div className="text-center">
         <span className={activeClass}>{plain ? renderPlain() : renderBlocks()}</span>
-        <div className="text-[14px] text-ap-tertiary mt-1">{tc.hms}</div>
+        <div className="text-[14px] text-text-muted mt-1">{tc.hms}</div>
       </div>
     );
   }

@@ -227,7 +227,7 @@ function rewardTypeMarker(type: string | null | undefined): { emoji: string; cla
   if (value === "wallet_gem") return { emoji: "💎", className: "bg-cyan-50 border-cyan-300 text-cyan-600" };
   if (value === "wallet_credit") return { emoji: "💰", className: "bg-emerald-50 border-emerald-300 text-emerald-600" };
   if (value === "external") return { emoji: "🎁", className: "bg-amber-50 border-amber-300 text-amber-600" };
-  return { emoji: "🎁", className: "bg-ap-bg border-ap-border text-ap-secondary" };
+  return { emoji: "🎁", className: "bg-surface-subtle border-border-default text-text-default" };
 }
 
 function formatDecimal(value: number): string {
@@ -301,7 +301,7 @@ function historyReceivedValue(item: RewardHistoryItem): { value: string; classNa
       className: "text-cyan-600",
     };
   }
-  return { value: "-", className: "text-ap-tertiary" };
+  return { value: "-", className: "text-text-muted" };
 }
 
 function getRewardStatus(item: RewardItem, userPoint: number): RewardStatus {
@@ -333,7 +333,7 @@ function statusLabel(status: RewardStatus, t: RewardT): string {
 function statusClass(status: RewardStatus): string {
   if (status === "ready") return "bg-emerald-500/12 text-emerald-600 border-emerald-500/35";
   if (status === "point_not_enough") return "bg-amber-500/14 text-amber-600 border-amber-500/35";
-  return "bg-ap-bg text-ap-tertiary border-ap-border";
+  return "bg-surface-subtle text-text-muted border-border-default";
 }
 
 function historyStatusClass(status: string): string {
@@ -343,7 +343,7 @@ function historyStatusClass(status: string): string {
   if (normalized === "failed" || normalized === "cancelled" || normalized === "rejected") {
     return "bg-red-500/10 text-red-500 border-red-500/30";
   }
-  return "bg-ap-bg text-ap-tertiary border-ap-border";
+  return "bg-surface-subtle text-text-muted border-border-default";
 }
 
 function historyStatusLabel(status: string, t: RewardT): string {
@@ -359,13 +359,13 @@ function historyStatusLabel(status: string, t: RewardT): string {
 
 function RewardCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden animate-pulse">
-      <div className="h-28 bg-ap-bg" />
+    <div className="rounded-2xl border border-border-default bg-white shadow-card overflow-hidden animate-pulse">
+      <div className="h-28 bg-surface-subtle" />
       <div className="p-4 space-y-3">
-        <div className="h-4 rounded bg-ap-bg w-3/4" />
-        <div className="h-3 rounded bg-ap-bg w-full" />
-        <div className="h-3 rounded bg-ap-bg w-5/6" />
-        <div className="h-9 rounded-xl bg-ap-bg w-full" />
+        <div className="h-4 rounded bg-surface-subtle w-3/4" />
+        <div className="h-3 rounded bg-surface-subtle w-full" />
+        <div className="h-3 rounded bg-surface-subtle w-5/6" />
+        <div className="h-9 rounded-xl bg-surface-subtle w-full" />
       </div>
     </div>
   );
@@ -390,12 +390,12 @@ function EmptyState({ t }: { t: RewardT }) {
 
 function SystemDisabledCard({ t }: { t: RewardT }) {
   return (
-    <div className="rounded-2xl border border-ap-border bg-white shadow-card px-5 py-8 text-center">
+    <div className="rounded-2xl border border-border-default bg-white shadow-card px-5 py-8 text-center">
       <div className="w-12 h-12 mx-auto rounded-xl bg-red-50 text-red-600 border border-red-100 flex items-center justify-center text-[22px]">
         ⛔
       </div>
-      <p className="mt-3 text-[16px] font-bold text-ap-primary">{t.systemDisabledTitle}</p>
-      <p className="mt-1 text-[12px] text-ap-tertiary">{t.systemDisabledDesc}</p>
+      <p className="mt-3 text-[16px] font-bold text-text-strong">{t.systemDisabledTitle}</p>
+      <p className="mt-1 text-[12px] text-text-muted">{t.systemDisabledDesc}</p>
     </div>
   );
 }
@@ -430,12 +430,12 @@ function RedeemConfirmModal({
         </div>
 
         <div className="p-4 space-y-3">
-          <div className="rounded-2xl border border-ap-border bg-ap-bg px-3 py-3">
-            <p className="text-[12px] text-ap-tertiary">{target.name}</p>
-            <p className="text-[22px] font-extrabold text-ap-blue tabular-nums mt-1">
+          <div className="rounded-2xl border border-border-default bg-surface-subtle px-3 py-3">
+            <p className="text-[12px] text-text-muted">{target.name}</p>
+            <p className="text-[22px] font-extrabold text-brand-primary tabular-nums mt-1">
               {target.pointCost.toLocaleString("en-US")} {t.pointSuffix}
             </p>
-            <p className="text-[11px] text-ap-tertiary mt-1">{t.confirmModalPointLabel}</p>
+            <p className="text-[11px] text-text-muted mt-1">{t.confirmModalPointLabel}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
@@ -443,7 +443,7 @@ function RedeemConfirmModal({
               type="button"
               onClick={onCancel}
               disabled={pending}
-              className="h-10 rounded-xl border border-ap-border bg-white text-ap-secondary text-[13px] font-semibold hover:bg-ap-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl border border-border-default bg-white text-text-default text-[13px] font-semibold hover:bg-surface-subtle transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t.confirmModalCancel}
             </button>
@@ -451,7 +451,7 @@ function RedeemConfirmModal({
               type="button"
               onClick={onConfirm}
               disabled={pending}
-              className="h-10 rounded-xl bg-ap-blue text-white text-[13px] font-bold hover:bg-ap-blue-h transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl bg-brand-primary text-white text-[13px] font-bold hover:bg-brand-primary-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {pending ? t.buttonRedeeming : t.confirmModalConfirm}
             </button>
@@ -683,20 +683,20 @@ export default function RewardPage({ locale }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-4 pt-5 space-y-4">
         <div className="flex items-center gap-3">
           <Link
             href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
+            className="w-8 h-8 rounded-xl bg-white border border-border-default flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
           >
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-4 h-4 text-text-default" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
           <div>
-            <h1 className="text-[20px] font-bold text-ap-primary leading-tight">{t.title}</h1>
-            <p className="text-[12px] text-ap-tertiary">{t.subtitle}</p>
+            <h1 className="text-[20px] font-bold text-text-strong leading-tight">{t.title}</h1>
+            <p className="text-[12px] text-text-muted">{t.subtitle}</p>
           </div>
         </div>
 
@@ -850,7 +850,7 @@ export default function RewardPage({ locale }: Props) {
               <div className="space-y-3">
                 {loading ? (
                   <>
-                    <p className="text-[12px] text-ap-tertiary">{t.loadingList}</p>
+                    <p className="text-[12px] text-text-muted">{t.loadingList}</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       <RewardCardSkeleton />
                       <RewardCardSkeleton />
@@ -881,11 +881,11 @@ export default function RewardPage({ locale }: Props) {
                               "hover:shadow-card-hover hover:-translate-y-[2px]",
                               isFeatured
                                 ? "border border-amber-300/80 shadow-[0_14px_36px_rgba(236,153,28,0.22)]"
-                                : "border border-ap-border",
+                                : "border border-border-default",
                             ].join(" ")}
                           >
                             {image ? (
-                              <div className="relative h-28 w-full bg-ap-bg">
+                              <div className="relative h-28 w-full bg-surface-subtle">
                                 <img src={image} alt={reward.name} className="w-full h-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
                                 {isFeatured && (
@@ -911,7 +911,7 @@ export default function RewardPage({ locale }: Props) {
 
                             <div className="p-4 space-y-3">
                               <div className="flex items-start justify-between gap-2">
-                                <h2 className="text-[17px] sm:text-[18px] font-extrabold text-ap-primary leading-tight line-clamp-2">
+                                <h2 className="text-[17px] sm:text-[18px] font-extrabold text-text-strong leading-tight line-clamp-2">
                                   {reward.name || reward.code}
                                 </h2>
                                 <span className={`shrink-0 text-[10px] font-bold px-2 py-1 rounded-full border ${statusClass(status)}`}>
@@ -919,12 +919,12 @@ export default function RewardPage({ locale }: Props) {
                                 </span>
                               </div>
 
-                              <div className="relative rounded-xl border border-ap-border bg-ap-bg/60 px-3 py-2">
+                              <div className="relative rounded-xl border border-border-default bg-surface-subtle/60 px-3 py-2">
                                 <span
                                   aria-hidden
                                   className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-[linear-gradient(180deg,#f6b737_0%,#e19a1f_100%)]"
                                 />
-                                <p className="text-[12px] text-ap-secondary leading-relaxed min-h-9 line-clamp-2 pl-2">
+                                <p className="text-[12px] text-text-default leading-relaxed min-h-9 line-clamp-2 pl-2">
                                   {reward.description?.trim() || "-"}
                                 </p>
                               </div>
@@ -1013,7 +1013,7 @@ export default function RewardPage({ locale }: Props) {
                                   "w-full h-10 rounded-xl text-[12px] font-extrabold transition-all active:scale-[0.98]",
                                   isReady && redeemingId === null
                                     ? "bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] text-[#2e2003] border border-amber-200 shadow-[0_8px_18px_rgba(245,182,42,0.35)] hover:brightness-105"
-                                    : "bg-ap-bg text-ap-tertiary border border-ap-border cursor-not-allowed",
+                                    : "bg-surface-subtle text-text-muted border border-border-default cursor-not-allowed",
                                 ].join(" ")}
                               >
                                 {isRedeeming ? t.buttonRedeeming : isReady ? t.buttonRedeem : t.buttonUnavailable}
@@ -1025,16 +1025,16 @@ export default function RewardPage({ locale }: Props) {
                     </div>
 
                     {meta.total > meta.per_page && (
-                      <div className="bg-white rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
+                      <div className="bg-white rounded-2xl border border-border-default shadow-card px-4 py-3 flex items-center justify-center gap-2">
                         <button
                           type="button"
                           onClick={() => setPage((prev) => Math.max(1, prev - 1))}
                           disabled={page <= 1}
-                          className="h-9 px-3 rounded-xl border border-ap-border bg-white text-[12px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors disabled:opacity-40 disabled:hover:bg-white"
+                          className="h-9 px-3 rounded-xl border border-border-default bg-white text-[12px] font-semibold text-text-default hover:bg-surface-subtle transition-colors disabled:opacity-40 disabled:hover:bg-white"
                         >
                           {t.pagePrev}
                         </button>
-                        <span className="text-[12px] text-ap-secondary tabular-nums px-2">
+                        <span className="text-[12px] text-text-default tabular-nums px-2">
                           {t.pageOf.replace("{cur}", String(page)).replace("{total}", String(totalPages))}
                         </span>
                         <button
@@ -1055,10 +1055,10 @@ export default function RewardPage({ locale }: Props) {
         ) : (
           <div className="space-y-3">
             {historyLoading ? (
-              <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4 space-y-3 animate-pulse">
-                <div className="h-4 rounded bg-ap-bg w-48" />
-                <div className="h-14 rounded-xl bg-ap-bg" />
-                <div className="h-14 rounded-xl bg-ap-bg" />
+              <div className="bg-white rounded-2xl border border-border-default shadow-card p-4 space-y-3 animate-pulse">
+                <div className="h-4 rounded bg-surface-subtle w-48" />
+                <div className="h-14 rounded-xl bg-surface-subtle" />
+                <div className="h-14 rounded-xl bg-surface-subtle" />
               </div>
             ) : historyError ? (
               <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-600">
@@ -1081,11 +1081,11 @@ export default function RewardPage({ locale }: Props) {
                   const groups = groupHistoryByDate(historyItems);
                   const timelineCounts = new Map(historyTimeline.map((entry) => [entry.date, entry.count]));
                   return (
-                    <div className="rounded-2xl border border-ap-border bg-white shadow-card px-4 sm:px-5 py-4">
+                    <div className="rounded-2xl border border-border-default bg-white shadow-card px-4 sm:px-5 py-4">
                       <div className="relative">
                         <div
                           aria-hidden
-                          className="absolute left-[11px] top-1 bottom-1 w-px bg-gradient-to-b from-amber-400/60 via-ap-border to-transparent"
+                          className="absolute left-[11px] top-1 bottom-1 w-px bg-gradient-to-b from-amber-400/60 via-border-default to-transparent"
                         />
 
                         <ol className="space-y-5">
@@ -1098,7 +1098,7 @@ export default function RewardPage({ locale }: Props) {
                                     <span className="w-3 h-3 rounded-full bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] ring-4 ring-white shadow-[0_0_0_1px_rgba(194,130,16,0.30)]" />
                                   </div>
                                   <div className="flex items-baseline gap-2 flex-wrap">
-                                    <span className="text-[14px] font-bold text-ap-primary">
+                                    <span className="text-[14px] font-bold text-text-strong">
                                       {formatDateOnly(group.key, locale)}
                                     </span>
                                     <span className="text-[14px] font-bold text-[#5a3b05] tabular-nums bg-[linear-gradient(180deg,#fff6de_0%,#ffe7a8_100%)] border border-amber-200 rounded-full px-2.5 py-0.5">
@@ -1116,7 +1116,7 @@ export default function RewardPage({ locale }: Props) {
                                       <li key={item.id} className="relative">
                                         <span
                                           aria-hidden
-                                          className="absolute -left-[22px] top-4 h-px w-5 bg-ap-border"
+                                          className="absolute -left-[22px] top-4 h-px w-5 bg-border-default"
                                         />
                                         <span
                                           aria-hidden
@@ -1125,10 +1125,10 @@ export default function RewardPage({ locale }: Props) {
                                           <span className="emoji-font leading-none">{marker.emoji}</span>
                                         </span>
 
-                                        <div className="rounded-2xl border border-ap-border bg-white hover:border-amber-300/70 hover:shadow-card transition-all px-3.5 py-3">
+                                        <div className="rounded-2xl border border-border-default bg-white hover:border-amber-300/70 hover:shadow-card transition-all px-3.5 py-3">
                                           <div className="flex items-start justify-between gap-3">
                                             <div className="min-w-0">
-                                              <p className="text-[16px] font-bold text-ap-primary leading-snug truncate">
+                                              <p className="text-[16px] font-bold text-text-strong leading-snug truncate">
                                                 {item.reward_name_snapshot}
                                               </p>
                                             </div>
@@ -1142,21 +1142,21 @@ export default function RewardPage({ locale }: Props) {
                                               <span aria-hidden className="emoji-font leading-none text-[14px]">🎯</span>
                                               {historyActionLabel(item.reward_type_snapshot, t)}
                                             </span>
-                                            <span className="inline-flex items-center gap-1 text-[14px] text-ap-tertiary">
+                                            <span className="inline-flex items-center gap-1 text-[14px] text-text-muted">
                                               <span aria-hidden className="emoji-font leading-none">🕒</span>
                                               {formatTimeOnly(item.redeemed_at, locale)}
                                             </span>
                                           </div>
 
                                           <div className="mt-2.5 grid grid-cols-2 gap-2">
-                                            <div className="rounded-xl bg-ap-bg border border-ap-border px-3 py-2">
-                                              <p className="text-[14px] text-ap-tertiary">{t.historyPointUsed ?? "แต้มที่ใช้"}</p>
-                                              <p className="text-[16px] font-bold text-ap-primary mt-0.5 tabular-nums">
+                                            <div className="rounded-xl bg-surface-subtle border border-border-default px-3 py-2">
+                                              <p className="text-[14px] text-text-muted">{t.historyPointUsed ?? "แต้มที่ใช้"}</p>
+                                              <p className="text-[16px] font-bold text-text-strong mt-0.5 tabular-nums">
                                                 {pointUsedText}
                                               </p>
                                             </div>
-                                            <div className="rounded-xl bg-ap-bg border border-ap-border px-3 py-2">
-                                              <p className="text-[14px] text-ap-tertiary">{t.historyReceivedLabel ?? "จำนวนที่ได้รับ"}</p>
+                                            <div className="rounded-xl bg-surface-subtle border border-border-default px-3 py-2">
+                                              <p className="text-[14px] text-text-muted">{t.historyReceivedLabel ?? "จำนวนที่ได้รับ"}</p>
                                               <p className={`text-[16px] font-bold mt-0.5 tabular-nums ${received.className}`}>
                                                 {received.value}
                                               </p>
@@ -1177,16 +1177,16 @@ export default function RewardPage({ locale }: Props) {
                 })()}
 
                 {historyMeta.total > historyMeta.per_page && (
-                  <div className="bg-white rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
+                  <div className="bg-white rounded-2xl border border-border-default shadow-card px-4 py-3 flex items-center justify-center gap-2">
                     <button
                       type="button"
                       onClick={() => setHistoryPage((prev) => Math.max(1, prev - 1))}
                       disabled={historyPage <= 1}
-                      className="h-9 px-3 rounded-xl border border-ap-border bg-white text-[12px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors disabled:opacity-40 disabled:hover:bg-white"
+                      className="h-9 px-3 rounded-xl border border-border-default bg-white text-[12px] font-semibold text-text-default hover:bg-surface-subtle transition-colors disabled:opacity-40 disabled:hover:bg-white"
                     >
                       {t.pagePrev}
                     </button>
-                    <span className="text-[12px] text-ap-secondary tabular-nums px-2">
+                    <span className="text-[12px] text-text-default tabular-nums px-2">
                       {t.pageOf.replace("{cur}", String(historyPage)).replace("{total}", String(historyTotalPages))}
                     </span>
                     <button

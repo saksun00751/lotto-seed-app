@@ -232,7 +232,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
   }, [canSubmit, rows, bills, note, onAddBills, dateLocale, ctx2top, ctx2bot, ctx3top, ctx3tod, t]);
 
   // ── Render ─────────────────────────────────────────────────────────────────
-  const inputCls = "w-full text-center text-[14px] font-extrabold text-ap-blue outline-none bg-white tabular-nums py-2 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-ap-blue/20 transition-all placeholder:text-ap-tertiary/50 placeholder:font-normal";
+  const inputCls = "w-full text-center text-[14px] font-extrabold text-brand-primary outline-none bg-white tabular-nums py-2 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-brand-primary/20 transition-all placeholder:text-text-muted/50 placeholder:font-normal";
 
   return (
     <div className="p-0">
@@ -248,8 +248,8 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
       <div className="px-3 pb-2 pt-3 overflow-x-auto">
         <table className="w-full border-collapse text-[14px] rounded-xl overflow-hidden" style={{ minWidth: 340 }}>
           <thead>
-            <tr className="bg-ap-blue text-white">
-              <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[28%]">
+            <tr className="bg-brand-primary text-white">
+              <th className="border border-brand-primary/40 px-2 py-2.5 text-center font-bold w-[28%]">
                 <div className="text-[14px]">{t.numberLabel}</div>
                 <button
                   onClick={handleReverse}
@@ -259,10 +259,10 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
                   ({t.reverseNumbers})
                 </button>
               </th>
-              <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[21%]">
+              <th className="border border-brand-primary/40 px-2 py-2.5 text-center font-bold w-[21%]">
                 <div className="text-[14px]">{t.top}</div>
                 {(ctx3top?.payout || ctx2top?.payout) && (
-                  <div className="text-[14px] text-ap-green font-bold mt-0.5">
+                  <div className="text-[14px] text-status-success font-bold mt-0.5">
                     {ctx3top?.payout ? `×${ctx3top.payout}` : ""}{ctx3top?.payout && ctx2top?.payout ? "/" : ""}{ctx2top?.payout ? `×${ctx2top.payout}` : ""}
                   </div>
                 )}
@@ -270,33 +270,33 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
                   ({t.copy})
                 </button>
               </th>
-              <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[21%]">
+              <th className="border border-brand-primary/40 px-2 py-2.5 text-center font-bold w-[21%]">
                 <div className="text-[14px]">{t.bottom}</div>
-                {ctx2bot?.payout ? <div className="text-[14px] text-ap-green font-bold mt-0.5">×{ctx2bot.payout}</div> : null}
+                {ctx2bot?.payout ? <div className="text-[14px] text-status-success font-bold mt-0.5">×{ctx2bot.payout}</div> : null}
                 <button onClick={() => handleCopyCol("bot")} tabIndex={-1} className="text-[14px] text-blue-200 underline mt-0.5 hover:text-white transition-colors">
                   ({t.copy})
                 </button>
               </th>
-              <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[21%]">
+              <th className="border border-brand-primary/40 px-2 py-2.5 text-center font-bold w-[21%]">
                 <div className="text-[14px]">{t.tod}</div>
-                {ctx3tod?.payout ? <div className="text-[14px] text-ap-green font-bold mt-0.5">×{ctx3tod.payout}</div> : null}
+                {ctx3tod?.payout ? <div className="text-[14px] text-status-success font-bold mt-0.5">×{ctx3tod.payout}</div> : null}
                 <button onClick={() => handleCopyCol("tod")} tabIndex={-1} className="text-[14px] text-blue-200 underline mt-0.5 hover:text-white transition-colors">
                   ({t.copy})
                 </button>
               </th>
-              <th className="border border-ap-blue/40 px-2 py-2.5 text-center font-bold w-[9%] text-[14px]">{t.delete}</th>
+              <th className="border border-brand-primary/40 px-2 py-2.5 text-center font-bold w-[9%] text-[14px]">{t.delete}</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((row, i) => {
               const is2 = row.digits === 2;
               return (
-                <tr key={row.id} className={i % 2 === 0 ? "bg-white hover:bg-gray-200" : "bg-ap-bg/40 hover:bg-ap-bg"} style={{ transition: "background 0.1s" }}>
-                  <td className="border border-ap-border px-2 py-1 text-center font-extrabold text-ap-blue tabular-nums text-[14px]">
+                <tr key={row.id} className={i % 2 === 0 ? "bg-white hover:bg-gray-200" : "bg-surface-subtle/40 hover:bg-surface-subtle"} style={{ transition: "background 0.1s" }}>
+                  <td className="border border-border-default px-2 py-1 text-center font-extrabold text-brand-primary tabular-nums text-[14px]">
                     {row.number}
                   </td>
                   {/* บน */}
-                  <td className="border border-ap-border p-0">
+                  <td className="border border-border-default p-0">
                     <input
                       type="text" inputMode="numeric" value={row.top}
                       ref={(el) => { if (el) inputRefs.current.set(`${row.id}-top`, el); else inputRefs.current.delete(`${row.id}-top`); }}
@@ -308,7 +308,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
                     />
                   </td>
                   {/* ล่าง */}
-                  <td className={`border border-ap-border p-0 ${!is2 ? "bg-gray-200" : ""}`}>
+                  <td className={`border border-border-default p-0 ${!is2 ? "bg-gray-200" : ""}`}>
                     {is2
                       ? <input type="text" inputMode="numeric" value={row.bot}
                           ref={(el) => { if (el) inputRefs.current.set(`${row.id}-bot`, el); else inputRefs.current.delete(`${row.id}-bot`); }}
@@ -317,11 +317,11 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
                           onBlur={(e) => { const err = validateCell(e.target.value, ctx2bot); if (err) showToast(err); }}
                           placeholder={ctx2bot ? `${ctx2bot.minBet}-${ctx2bot.maxBet}` : ""}
                           className={inputCls} />
-                      : <div className="py-1.5 text-center text-ap-tertiary text-[14px]">—</div>
+                      : <div className="py-1.5 text-center text-text-muted text-[14px]">—</div>
                     }
                   </td>
                   {/* โต๊ด */}
-                  <td className={`border border-ap-border p-0 ${is2 ? "bg-gray-200" : ""}`}>
+                  <td className={`border border-border-default p-0 ${is2 ? "bg-gray-200" : ""}`}>
                     {!is2
                       ? <input type="text" inputMode="numeric" value={row.tod}
                           ref={(el) => { if (el) inputRefs.current.set(`${row.id}-tod`, el); else inputRefs.current.delete(`${row.id}-tod`); }}
@@ -330,14 +330,14 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
                           onBlur={(e) => { const err = validateCell(e.target.value, ctx3tod); if (err) showToast(err); }}
                           placeholder={ctx3tod ? `${ctx3tod.minBet}-${ctx3tod.maxBet}` : ""}
                           className={inputCls} />
-                      : <div className="py-1.5 text-center text-ap-tertiary text-[14px]">—</div>
+                      : <div className="py-1.5 text-center text-text-muted text-[14px]">—</div>
                     }
                   </td>
-                  <td className="border border-ap-border px-1 py-1 text-center">
+                  <td className="border border-border-default px-1 py-1 text-center">
                     <button
                       tabIndex={-1}
                       onClick={() => deleteRow(row.id)}
-                      className="w-6 h-6 rounded-lg bg-ap-red/10 hover:bg-ap-red text-ap-red hover:text-white transition-colors flex items-center justify-center mx-auto text-[14px]"
+                      className="w-6 h-6 rounded-lg bg-status-error/10 hover:bg-status-error text-status-error hover:text-white transition-colors flex items-center justify-center mx-auto text-[14px]"
                     >
                       ✕
                     </button>
@@ -347,8 +347,8 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
             })}
 
             {/* Input row */}
-            <tr className="bg-ap-blue/5 border-t-2 border-ap-blue/20">
-              <td className="border border-ap-border p-0">
+            <tr className="bg-brand-primary/5 border-t-2 border-brand-primary/20">
+              <td className="border border-border-default p-0">
                 <input
                   ref={inputRef}
                   type="text" inputMode="numeric"
@@ -357,13 +357,13 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
                   onKeyDown={handleNumKeyDown}
                   placeholder={t.inputNumberPlaceholder}
                   maxLength={3}
-                  className="w-full text-center text-[15px] font-extrabold text-ap-blue outline-none bg-white tabular-nums py-2.5 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-ap-blue/20 transition-all placeholder:text-ap-tertiary placeholder:font-normal placeholder:text-[14px]"
+                  className="w-full text-center text-[15px] font-extrabold text-brand-primary outline-none bg-white tabular-nums py-2.5 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-brand-primary/20 transition-all placeholder:text-text-muted placeholder:font-normal placeholder:text-[14px]"
                 />
               </td>
-              <td className="border border-ap-border bg-ap-bg/40" />
-              <td className="border border-ap-border bg-ap-bg/40" />
-              <td className="border border-ap-border bg-ap-bg/40" />
-              <td className="border border-ap-border bg-ap-bg/40" />
+              <td className="border border-border-default bg-surface-subtle/40" />
+              <td className="border border-border-default bg-surface-subtle/40" />
+              <td className="border border-border-default bg-surface-subtle/40" />
+              <td className="border border-border-default bg-surface-subtle/40" />
             </tr>
           </tbody>
         </table>
@@ -371,11 +371,11 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
 
       {/* หมายเหตุ */}
       <div className="px-4 pb-3 pt-1 flex items-center gap-2">
-        <label className="text-[14px] text-ap-secondary font-semibold whitespace-nowrap">{t.note}:</label>
+        <label className="text-[14px] text-text-default font-semibold whitespace-nowrap">{t.note}:</label>
         <input
           type="text" value={note} onChange={(e) => setNote(e.target.value)}
           placeholder={t.notePlaceholder}
-          className="flex-1 border-2 border-ap-blue rounded-xl px-3 py-1.5 text-[14px] outline-none focus:ring-2 focus:ring-ap-blue/10 bg-white transition-all"
+          className="flex-1 border-2 border-brand-primary rounded-xl px-3 py-1.5 text-[14px] outline-none focus:ring-2 focus:ring-brand-primary/10 bg-white transition-all"
         />
         {lotteryLogo
           ? <img src={lotteryLogo} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
@@ -387,7 +387,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
       <div className="px-4 pb-4 flex gap-2">
         <button
           onClick={clearAll}
-          className="flex-1 py-2.5 rounded-xl border border-ap-border text-[14px] font-semibold text-ap-secondary hover:bg-ap-bg active:scale-95 transition-all"
+          className="flex-1 py-2.5 rounded-xl border border-border-default text-[14px] font-semibold text-text-default hover:bg-surface-subtle active:scale-95 transition-all"
         >
           {t.clearAll}
         </button>
@@ -396,8 +396,8 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
           className={[
             "flex-[2] py-2.5 rounded-xl text-[14px] font-bold transition-all active:scale-95",
             canSubmit
-              ? "bg-ap-blue text-white hover:bg-ap-blue-h shadow-md"
-              : "bg-ap-bg border border-dashed border-ap-border text-ap-tertiary cursor-not-allowed",
+              ? "bg-brand-primary text-white hover:bg-brand-primary-hover shadow-md"
+              : "bg-surface-subtle border border-dashed border-border-default text-text-muted cursor-not-allowed",
           ].join(" ")}
         >
           + {t.addBill}

@@ -69,7 +69,7 @@ function checkWin(number: string, betType: string, top3: string, bot2: string): 
 }
 
 const TAB_GRADIENTS = [
-  "from-ap-blue to-sky-400",
+  "from-brand-primary to-sky-400",
   "from-emerald-500 to-teal-400",
   "from-yellow-500 to-orange-400",
   "from-violet-600 to-indigo-400",
@@ -78,12 +78,12 @@ const TAB_GRADIENTS = [
 ];
 
 const STATUS_STYLE: Record<string, string> = {
-  active:    "bg-ap-blue/10 text-ap-blue",
-  confirmed: "bg-ap-blue/10 text-ap-blue",
-  won:       "bg-ap-green/10 text-ap-green",
-  lost:      "bg-ap-red/10 text-ap-red",
+  active:    "bg-brand-primary/10 text-brand-primary",
+  confirmed: "bg-brand-primary/10 text-brand-primary",
+  won:       "bg-status-success/10 text-status-success",
+  lost:      "bg-status-error/10 text-status-error",
   pending:   "bg-yellow-50 text-yellow-700",
-  cancelled: "bg-ap-bg text-ap-tertiary",
+  cancelled: "bg-surface-subtle text-text-muted",
 };
 type TCR = ReturnType<typeof useTranslation<"checkResult">>;
 
@@ -298,16 +298,16 @@ function CheckResultModal({
       <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
 
         {/* Header */}
-        <div className="px-5 pt-5 pb-4 border-b border-ap-border flex-shrink-0">
-          <div className="w-10 h-1 bg-ap-border rounded-full mx-auto mb-4 sm:hidden" />
+        <div className="px-5 pt-5 pb-4 border-b border-border-default flex-shrink-0">
+          <div className="w-10 h-1 bg-border-default rounded-full mx-auto mb-4 sm:hidden" />
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-[18px] font-bold text-ap-primary">{draw.market_name}</h2>
-              <p className="text-[14px] font-semibold text-ap-tertiary mt-0.5">{t.modalSubtitle}</p>
+              <h2 className="text-[18px] font-bold text-text-strong">{draw.market_name}</h2>
+              <p className="text-[14px] font-semibold text-text-muted mt-0.5">{t.modalSubtitle}</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-ap-bg flex items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors flex-shrink-0"
+              className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-text-default hover:bg-border-default/40 transition-colors flex-shrink-0"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
@@ -318,7 +318,7 @@ function CheckResultModal({
           {/* Result numbers */}
           <div className="mt-4 grid grid-cols-3 gap-2">
             {[
-              { label: t.col3top,  value: draw.result_top_3,    bg: "bg-ap-blue text-white" },
+              { label: t.col3top,  value: draw.result_top_3,    bg: "bg-brand-primary text-white" },
               { label: t.col2top,  value: top2,                 bg: "bg-teal-500 text-white" },
               { label: t.col2bot,  value: draw.result_bottom_2, bg: "bg-emerald-500 text-white" },
             ].map((r) => (
@@ -335,11 +335,11 @@ function CheckResultModal({
           {matching.length === 0 ? (
             <div className="py-12 text-center">
               <p className="text-[32px] mb-3">📋</p>
-              <p className="text-[16px] font-bold text-ap-primary">{t.noSlip}</p>
-              <p className="text-[14px] font-semibold text-ap-tertiary mt-1">{t.noSlipDesc}</p>
+              <p className="text-[16px] font-bold text-text-strong">{t.noSlip}</p>
+              <p className="text-[14px] font-semibold text-text-muted mt-1">{t.noSlipDesc}</p>
             </div>
           ) : (
-            <div className="divide-y divide-ap-border">
+            <div className="divide-y divide-border-default">
               {matching.map((ticket) => {
                 const id      = String(ticket.id);
                 const detail  = details[id];
@@ -352,27 +352,27 @@ function CheckResultModal({
                     <button
                       type="button"
                       onClick={() => toggleSlip(ticket.id)}
-                      className="w-full text-left px-5 py-3.5 hover:bg-ap-bg/60 transition-colors flex items-center gap-3"
+                      className="w-full text-left px-5 py-3.5 hover:bg-surface-subtle/60 transition-colors flex items-center gap-3"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-ap-bg text-ap-secondary"}`}>
+                          <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-surface-subtle text-text-default"}`}>
                             {statusLabel(ticket.status, t)}
                           </span>
-                          <span className="text-[13px] font-bold text-ap-tertiary font-mono">#{ticket.id}</span>
+                          <span className="text-[13px] font-bold text-text-muted font-mono">#{ticket.id}</span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-[14px] font-semibold text-ap-secondary">{t.betAmount}</span>
-                          <span className="text-[15px] font-bold text-ap-primary tabular-nums">
+                          <span className="text-[14px] font-semibold text-text-default">{t.betAmount}</span>
+                          <span className="text-[15px] font-bold text-text-strong tabular-nums">
                             ฿{ticket.total_amount.toLocaleString("th-TH")}
                           </span>
                         </div>
                       </div>
                       <div className="flex-shrink-0">
                         {isLoading ? (
-                          <div className="w-4 h-4 rounded-full border-2 border-ap-blue border-t-transparent animate-spin" />
+                          <div className="w-4 h-4 rounded-full border-2 border-brand-primary border-t-transparent animate-spin" />
                         ) : (
-                          <svg className={`w-4 h-4 text-ap-tertiary transition-transform ${isOpen ? "rotate-90" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <svg className={`w-4 h-4 text-text-muted transition-transform ${isOpen ? "rotate-90" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                             <path d="M9 18l6-6-6-6" strokeLinecap="round" />
                           </svg>
                         )}
@@ -381,9 +381,9 @@ function CheckResultModal({
 
                     {/* Expanded items */}
                     {isOpen && detail && (
-                      <div className="bg-ap-bg/60 border-t border-ap-border">
+                      <div className="bg-surface-subtle/60 border-t border-border-default">
                         {/* Column headers */}
-                        <div className="grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2 text-[12px] font-bold text-ap-tertiary uppercase tracking-wide">
+                        <div className="grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2 text-[12px] font-bold text-text-muted uppercase tracking-wide">
                           <span>{t.colNumber}</span>
                           <span className="text-right">{t.colAmount}</span>
                           <span className="text-right">{t.colResult}</span>
@@ -397,29 +397,29 @@ function CheckResultModal({
                             <div
                               key={item.id}
                               className={[
-                                "grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2.5 border-t border-ap-border items-center",
-                                won === true  ? "bg-ap-green/5"  : "",
-                                won === false ? "bg-ap-red/5"    : "",
+                                "grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2.5 border-t border-border-default items-center",
+                                won === true  ? "bg-status-success/5"  : "",
+                                won === false ? "bg-status-error/5"    : "",
                               ].join(" ")}
                             >
                               <div>
-                                <span className="text-[18px] font-bold text-ap-primary tabular-nums tracking-widest">
+                                <span className="text-[18px] font-bold text-text-strong tabular-nums tracking-widest">
                                   {item.number}
                                 </span>
-                                <span className="text-[12px] font-semibold text-ap-tertiary ml-1.5">{item.betTypeLabel}</span>
+                                <span className="text-[12px] font-semibold text-text-muted ml-1.5">{item.betTypeLabel}</span>
                               </div>
-                              <span className="text-[14px] font-semibold text-ap-secondary text-right tabular-nums">
+                              <span className="text-[14px] font-semibold text-text-default text-right tabular-nums">
                                 ฿{item.amount.toLocaleString("th-TH")}
                               </span>
                               <div className="flex justify-end">
                                 {won === true && (
-                                  <span className="text-[12px] font-bold bg-ap-green text-white px-2 py-0.5 rounded-full">{t.won}</span>
+                                  <span className="text-[12px] font-bold bg-status-success text-white px-2 py-0.5 rounded-full">{t.won}</span>
                                 )}
                                 {won === false && (
-                                  <span className="text-[12px] font-bold bg-ap-red/10 text-ap-red px-2 py-0.5 rounded-full">{t.lost}</span>
+                                  <span className="text-[12px] font-bold bg-status-error/10 text-status-error px-2 py-0.5 rounded-full">{t.lost}</span>
                                 )}
                                 {won === null && (
-                                  <span className="text-[14px] font-semibold text-ap-tertiary">—</span>
+                                  <span className="text-[14px] font-semibold text-text-muted">—</span>
                                 )}
                               </div>
                             </div>
@@ -479,40 +479,40 @@ export default function CheckResultPage({ groups, tickets }: Props) {
 
       {/* Header */}
       <div>
-        <h1 className="text-[24px] font-bold text-ap-primary tracking-tight">🏆 {t.title}</h1>
-        <p className="text-[15px] font-semibold text-ap-secondary mt-0.5">{t.subtitle}</p>
+        <h1 className="text-[24px] font-bold text-text-strong tracking-tight">🏆 {t.title}</h1>
+        <p className="text-[15px] font-semibold text-text-default mt-0.5">{t.subtitle}</p>
       </div>
 
       {/* Search by draw_date */}
-      <form onSubmit={handleSearchByDate} className="bg-white rounded-2xl border border-ap-border shadow-card p-3">
+      <form onSubmit={handleSearchByDate} className="bg-white rounded-2xl border border-border-default shadow-card p-3">
         <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="date"
             value={drawDate}
             onChange={(e) => setDrawDate(e.target.value)}
-            className="flex-1 border border-ap-border rounded-xl px-3 py-2 text-[15px] font-semibold text-ap-primary outline-none focus:border-ap-blue"
+            className="flex-1 border border-border-default rounded-xl px-3 py-2 text-[15px] font-semibold text-text-strong outline-none focus:border-brand-primary"
             placeholder="draw_date"
           />
           <button
             type="submit"
             disabled={!drawDate || searching}
-            className="px-4 py-2 rounded-xl bg-ap-blue text-white text-[15px] font-bold hover:bg-ap-blue-h transition-colors disabled:opacity-50"
+            className="px-4 py-2 rounded-xl bg-brand-primary text-white text-[15px] font-bold hover:bg-brand-primary-hover transition-colors disabled:opacity-50"
           >
             {searching ? t.searching : t.searchBtn}
           </button>
         </div>
-        {searchError && <p className="mt-2 text-[14px] font-semibold text-ap-red">{searchError}</p>}
+        {searchError && <p className="mt-2 text-[14px] font-semibold text-status-error">{searchError}</p>}
       </form>
 
       {displayGroups.length === 0 && (
-        <div className="py-16 text-center bg-white rounded-2xl border border-ap-border shadow-card">
+        <div className="py-16 text-center bg-white rounded-2xl border border-border-default shadow-card">
           <p className="text-[32px] mb-3">🏆</p>
-          <p className="text-[16px] font-bold text-ap-primary">{t.emptyResult}</p>
+          <p className="text-[16px] font-bold text-text-strong">{t.emptyResult}</p>
         </div>
       )}
 
       {displayGroups.length > 0 && (
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
 
           {/* Tab bar - segmented switcher (iOS-like) */}
           <div className="p-3 bg-white">
@@ -527,8 +527,8 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                       className={[
                         "flex-shrink-0 px-4 py-2 rounded-xl text-[14px] font-bold transition-all whitespace-nowrap",
                         active
-                          ? "bg-white text-ap-primary shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
-                          : "text-ap-tertiary hover:text-ap-primary",
+                          ? "bg-white text-text-strong shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
+                          : "text-text-muted hover:text-text-strong",
                       ].join(" ")}
                     >
                       {g.group_name}
@@ -556,7 +556,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
           )}
 
           {/* Column headers (desktop) */}
-          <div className="hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-2 bg-gray-50 border-b border-ap-border text-[13px] font-bold text-ap-tertiary uppercase tracking-wide">
+          <div className="hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-2 bg-gray-50 border-b border-border-default text-[13px] font-bold text-text-muted uppercase tracking-wide">
             <span>{t.colType}</span>
             <span className="text-center">{t.col3top}</span>
             <span className="text-center">{t.col2top}</span>
@@ -565,7 +565,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
           </div>
 
           {/* Rows */}
-          <div className="divide-y divide-ap-border">
+          <div className="divide-y divide-border-default">
             {activeGroup?.markets.filter((m) => m.is_enabled).map((market) => {
               const draw       = market.latest_draw;
               const top3       = draw.result_top_3 || "";
@@ -591,7 +591,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     onClick={() => canOpen && setModalDraw(drawInfo)}
                     className={[
                       "md:hidden px-4 py-3 transition-colors",
-                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-ap-bg/40",
+                      canOpen ? "cursor-pointer hover:bg-brand-primary/5" : "hover:bg-surface-subtle/40",
                     ].join(" ")}
                   >
                     <div className="flex items-start justify-between gap-2">
@@ -602,33 +602,33 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                           <span className="text-[22px] flex-shrink-0">{market.market_icon || "🎯"}</span>
                         )}
                         <div className="min-w-0">
-                          <p className="text-[15px] font-bold text-ap-primary truncate">{market.market_name}</p>
-                          <p className="text-[13px] font-semibold text-ap-secondary tabular-nums">{drawDate}</p>
+                          <p className="text-[15px] font-bold text-text-strong truncate">{market.market_name}</p>
+                          <p className="text-[13px] font-semibold text-text-default tabular-nums">{drawDate}</p>
                         </div>
                       </div>
                       {myTickets.length > 0 && (
-                        <span className="text-[12px] text-ap-blue font-bold flex-shrink-0">{t.slips.replace("{n}", String(myTickets.length))}</span>
+                        <span className="text-[12px] text-brand-primary font-bold flex-shrink-0">{t.slips.replace("{n}", String(myTickets.length))}</span>
                       )}
                     </div>
 
-                    <div className="mt-2 grid grid-cols-3 gap-2 sm:rounded-xl sm:border sm:border-ap-border sm:bg-slate-50/70 sm:p-2">
-                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
-                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col3top}</p>
+                    <div className="mt-2 grid grid-cols-3 gap-2 sm:rounded-xl sm:border sm:border-border-default sm:bg-slate-50/70 sm:p-2">
+                      <div className="text-center rounded-lg bg-white border border-border-default py-2 px-1">
+                        <p className="text-[12px] font-bold text-text-muted mb-1">{t.col3top}</p>
                         {top3
-                          ? <span className="inline-block bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
-                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                          ? <span className="inline-block bg-brand-primary text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
+                          : <span className="inline-block bg-slate-100 text-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                       </div>
-                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
-                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2top}</p>
+                      <div className="text-center rounded-lg bg-white border border-border-default py-2 px-1">
+                        <p className="text-[12px] font-bold text-text-muted mb-1">{t.col2top}</p>
                         {top3
                           ? <span className="inline-block bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
-                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                          : <span className="inline-block bg-slate-100 text-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                       </div>
-                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
-                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2bot}</p>
+                      <div className="text-center rounded-lg bg-white border border-border-default py-2 px-1">
+                        <p className="text-[12px] font-bold text-text-muted mb-1">{t.col2bot}</p>
                         {bot2
                           ? <span className="inline-block bg-emerald-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
-                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                          : <span className="inline-block bg-slate-100 text-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                       </div>
                     </div>
 
@@ -640,7 +640,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                         className={[
                           "px-4 py-2 text-[13px] font-bold rounded-full whitespace-nowrap transition-colors",
                           canOpen
-                            ? "bg-ap-blue text-white hover:bg-ap-blue-h cursor-pointer"
+                            ? "bg-brand-primary text-white hover:bg-brand-primary-hover cursor-pointer"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed",
                         ].join(" ")}
                       >
@@ -654,40 +654,40 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     onClick={() => canOpen && setModalDraw(drawInfo)}
                     className={[
                       "hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-3 items-center transition-colors",
-                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-ap-bg/40",
+                      canOpen ? "cursor-pointer hover:bg-brand-primary/5" : "hover:bg-surface-subtle/40",
                     ].join(" ")}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       {market.market_logo ? (
-                        <img src={market.market_logo} alt={market.market_name} className="w-8 h-8 rounded-full object-cover border border-ap-border flex-shrink-0" />
+                        <img src={market.market_logo} alt={market.market_name} className="w-8 h-8 rounded-full object-cover border border-border-default flex-shrink-0" />
                       ) : (
                         <span className="text-[22px] flex-shrink-0">{market.market_icon || "🎯"}</span>
                       )}
                       <div className="min-w-0">
-                        <p className="text-[15px] font-bold text-ap-primary truncate">{market.market_name}</p>
-                        <p className="text-[12px] font-semibold text-ap-secondary tabular-nums">{drawDate}</p>
+                        <p className="text-[15px] font-bold text-text-strong truncate">{market.market_name}</p>
+                        <p className="text-[12px] font-semibold text-text-default tabular-nums">{drawDate}</p>
                         {myTickets.length > 0 && (
-                          <span className="text-[12px] text-ap-blue font-bold">{t.slips.replace("{n}", String(myTickets.length))}</span>
+                          <span className="text-[12px] text-brand-primary font-bold">{t.slips.replace("{n}", String(myTickets.length))}</span>
                         )}
                       </div>
                     </div>
 
                     <div className="flex justify-center">
                       {top3
-                        ? <span className="bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
-                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                        ? <span className="bg-brand-primary text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
+                        : <span className="inline-block bg-slate-100 text-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {top3
                         ? <span className="bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
-                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                        : <span className="inline-block bg-slate-100 text-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {bot2
                         ? <span className="bg-emerald-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
-                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                        : <span className="inline-block bg-slate-100 text-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
                     </div>
 
                     <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
@@ -698,7 +698,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                         className={[
                           "px-4 py-2 text-[13px] font-bold rounded-full whitespace-nowrap transition-colors",
                           canOpen
-                            ? "bg-ap-blue text-white hover:bg-ap-blue-h cursor-pointer"
+                            ? "bg-brand-primary text-white hover:bg-brand-primary-hover cursor-pointer"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed",
                         ].join(" ")}
                       >

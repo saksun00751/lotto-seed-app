@@ -48,18 +48,18 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
   }
 
   return (
-    <main className="min-h-screen bg-ap-bg flex flex-col items-center p-5 pt-6 pb-24 sm:pb-8">
+    <main className="min-h-screen bg-surface-subtle flex flex-col items-center p-5 pt-6 pb-24 sm:pb-8">
       <div className="w-full max-w-md">
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <Link href={`/${lang}/spin`}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-ap-border text-ap-secondary text-[13px] hover:bg-ap-bg transition-colors">
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-border-default text-text-default text-[13px] hover:bg-surface-subtle transition-colors">
             ← {t.back.replace("← ", "")}
           </Link>
-          <h1 className="text-[20px] font-bold text-ap-primary">{t.history}</h1>
+          <h1 className="text-[20px] font-bold text-text-strong">{t.history}</h1>
           {flat.length > 0 && (
-            <span className="ml-auto text-[12px] text-ap-secondary">{flat.length} {t.historyItems}</span>
+            <span className="ml-auto text-[12px] text-text-default">{flat.length} {t.historyItems}</span>
           )}
         </div>
 
@@ -69,25 +69,25 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
             type="date"
             value={dateFilter}
             onChange={(e) => handleDateChange(e.target.value)}
-            className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-primary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
+            className="flex-1 px-3 py-2 rounded-xl border border-border-default bg-white text-[13px] text-text-strong focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
           />
           {dateFilter && (
             <button
               onClick={() => handleDateChange("")}
-              className="px-3 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-secondary hover:bg-ap-bg transition-colors"
+              className="px-3 py-2 rounded-xl border border-border-default bg-white text-[13px] text-text-default hover:bg-surface-subtle transition-colors"
             >
               {t.filterClear}
             </button>
           )}
-          <div className="flex rounded-xl border border-ap-border bg-white overflow-hidden text-[13px]">
+          <div className="flex rounded-xl border border-border-default bg-white overflow-hidden text-[13px]">
             {[10, 50, 100].map((n) => (
               <button
                 key={n}
                 onClick={() => handlePageSizeChange(n)}
                 className={`px-3 py-2 transition-colors ${
                   pageSize === n
-                    ? "bg-ap-blue text-white font-semibold"
-                    : "text-ap-secondary hover:bg-ap-bg"
+                    ? "bg-brand-primary text-white font-semibold"
+                    : "text-text-default hover:bg-surface-subtle"
                 }`}
               >
                 {n}
@@ -98,7 +98,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
 
         {/* Empty */}
         {filtered.length === 0 && (
-          <div className="bg-white rounded-2xl border border-ap-border p-8 text-center text-ap-secondary text-[14px]">
+          <div className="bg-white rounded-2xl border border-border-default p-8 text-center text-text-default text-[14px]">
             {dateFilter ? t.historyNoResult : t.historyEmpty}
           </div>
         )}
@@ -112,7 +112,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
               lastDate = item.date;
               rendered.push(
                 <div key={`date-${item.date}-${idx}`} className="flex items-center gap-2 mt-4 mb-2 first:mt-0">
-                  <span className="text-[12px] font-semibold text-ap-secondary bg-ap-bg border border-ap-border rounded-full px-3 py-1">
+                  <span className="text-[12px] font-semibold text-text-default bg-surface-subtle border border-border-default rounded-full px-3 py-1">
                     {item.date}
                   </span>
                 </div>
@@ -122,7 +122,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
             rendered.push(
               <div
                 key={`item-${idx}`}
-                className={`bg-white flex items-center justify-between px-4 py-3 border-x border-ap-border ${
+                className={`bg-white flex items-center justify-between px-4 py-3 border-x border-border-default ${
                   idx === 0 || pageItems[idx - 1]?.date !== item.date ? "border-t rounded-t-2xl" : "border-t"
                 } ${isLast ? "border-b rounded-b-2xl" : ""}`}
               >
@@ -130,9 +130,9 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
                   <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center flex-shrink-0">
                     <span className="text-[14px]">🎰</span>
                   </div>
-                  <span className="text-[13px] text-ap-primary">{item.credit}</span>
+                  <span className="text-[13px] text-text-strong">{item.credit}</span>
                 </div>
-                <span className="text-[12px] text-ap-secondary tabular-nums flex-shrink-0 ml-2">
+                <span className="text-[12px] text-text-default tabular-nums flex-shrink-0 ml-2">
                   {item.time}
                 </span>
               </div>
@@ -147,17 +147,17 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
             <button
               onClick={() => { setPage((p) => Math.max(1, p - 1)); window.scrollTo(0, 0); }}
               disabled={page === 1}
-              className="px-4 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-secondary disabled:opacity-40 hover:bg-ap-bg transition-colors"
+              className="px-4 py-2 rounded-xl border border-border-default bg-white text-[13px] text-text-default disabled:opacity-40 hover:bg-surface-subtle transition-colors"
             >
               {t.pagePrev}
             </button>
-            <span className="text-[13px] text-ap-secondary">
+            <span className="text-[13px] text-text-default">
               {page} / {totalPages}
             </span>
             <button
               onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); window.scrollTo(0, 0); }}
               disabled={page === totalPages}
-              className="px-4 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-secondary disabled:opacity-40 hover:bg-ap-bg transition-colors"
+              className="px-4 py-2 rounded-xl border border-border-default bg-white text-[13px] text-text-default disabled:opacity-40 hover:bg-surface-subtle transition-colors"
             >
               {t.pageNext}
             </button>

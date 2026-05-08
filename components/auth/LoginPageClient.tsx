@@ -19,10 +19,10 @@ function LoginContent({ logoUrl }: { logoUrl: string }) {
         <div className="flex justify-center mb-4">
           <Image src={logoUrl} alt="Logo" width={200} height={200} className="h-40 w-auto object-contain" priority />
         </div>
-        <h1 className="text-[30px] font-bold text-ap-primary tracking-tight leading-none">
+        <h1 className="text-[30px] font-bold text-text-strong tracking-tight leading-none">
           {t.heading}
         </h1>
-        {/* <p className="text-[15px] text-ap-secondary mt-2">
+        {/* <p className="text-[15px] text-text-default mt-2">
           {t.subtitle}
         </p> */}
         <div className="mt-4">
@@ -31,18 +31,18 @@ function LoginContent({ logoUrl }: { logoUrl: string }) {
       </div>
 
       {/* Card */}
-      <div className="bg-white rounded-[28px] shadow-card-xl border border-ap-border p-8">
+      <div className="bg-white rounded-[28px] shadow-card-xl border border-border-default p-8">
         <LoginForm />
       </div>
 
       {/* Footer */}
-      <p className="text-center text-[11.5px] text-ap-tertiary mt-5 leading-relaxed">
+      <p className="text-center text-[11.5px] text-text-muted mt-5 leading-relaxed">
         {t.terms}{" "}
-        <Link href={`/${lang}/contact-public`} className="underline hover:text-ap-secondary transition-colors">
+        <Link href={`/${lang}/contact-public`} className="underline hover:text-text-default transition-colors">
           {t.termsLink}
         </Link>{" "}
         {t.and}{" "}
-        <Link href={`/${lang}/contact-public`} className="underline hover:text-ap-secondary transition-colors">
+        <Link href={`/${lang}/contact-public`} className="underline hover:text-text-default transition-colors">
           {t.privacyLink}
         </Link>
       </p>

@@ -152,10 +152,10 @@ function ClaimConfirmModal({
         </div>
 
         <div className="p-4 space-y-3">
-          <div className="rounded-2xl border border-ap-border bg-ap-bg px-3 py-3">
-            <p className="text-[12px] text-ap-tertiary">{t.claimModalSourceLabel ?? "ประเภทโบนัส"}</p>
-            <p className="text-[20px] font-extrabold text-ap-primary mt-1">{target.label}</p>
-            <p className="text-[11px] text-ap-tertiary mt-2">{t.claimModalAmountLabel ?? "จำนวนที่รับ"}</p>
+          <div className="rounded-2xl border border-border-default bg-surface-subtle px-3 py-3">
+            <p className="text-[12px] text-text-muted">{t.claimModalSourceLabel ?? "ประเภทโบนัส"}</p>
+            <p className="text-[20px] font-extrabold text-text-strong mt-1">{target.label}</p>
+            <p className="text-[11px] text-text-muted mt-2">{t.claimModalAmountLabel ?? "จำนวนที่รับ"}</p>
             <p className="text-[20px] font-extrabold text-emerald-600 tabular-nums mt-1">฿{fmtMoney(target.amount)}</p>
           </div>
 
@@ -164,7 +164,7 @@ function ClaimConfirmModal({
               type="button"
               onClick={onCancel}
               disabled={pending}
-              className="h-10 rounded-xl border border-ap-border bg-white text-ap-secondary text-[13px] font-semibold hover:bg-ap-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl border border-border-default bg-white text-text-default text-[13px] font-semibold hover:bg-surface-subtle transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t.claimModalCancel ?? "ยกเลิก"}
             </button>
@@ -172,7 +172,7 @@ function ClaimConfirmModal({
               type="button"
               onClick={onConfirm}
               disabled={pending}
-              className="h-10 rounded-xl bg-ap-blue text-white text-[13px] font-bold hover:bg-ap-blue-h transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl bg-brand-primary text-white text-[13px] font-bold hover:bg-brand-primary-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {pending ? (t.claiming ?? "กำลังรับ...") : (t.claimModalConfirm ?? "ยืนยันรับโบนัส")}
             </button>
@@ -317,20 +317,20 @@ export default function BonusPage({
   ];
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-3xl mx-auto px-4 pt-5 space-y-4">
 
         {/* Top bar */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            className="w-8 h-8 rounded-xl bg-white border border-border-default flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors">
+            <svg className="w-4 h-4 text-text-default" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
           <div>
-            <h1 className="text-[20px] font-extrabold text-ap-primary leading-tight">🎁 {t.title}</h1>
-            <p className="text-[14px] font-medium text-ap-tertiary">{t.subtitle}</p>
+            <h1 className="text-[20px] font-extrabold text-text-strong leading-tight">🎁 {t.title}</h1>
+            <p className="text-[14px] font-medium text-text-muted">{t.subtitle}</p>
           </div>
         </div>
 
@@ -349,7 +349,7 @@ export default function BonusPage({
                 });
               }}
               className={[
-                "group relative overflow-hidden rounded-2xl border border-ap-border shadow-card p-4 sm:p-5",
+                "group relative overflow-hidden rounded-2xl border border-border-default shadow-card p-4 sm:p-5",
                 "hover:shadow-card-hover hover:-translate-y-[2px] transition-all duration-200",
                 "ring-1 ring-transparent",
                 "text-left",
@@ -361,22 +361,22 @@ export default function BonusPage({
                   <div className={`w-11 h-11 rounded-2xl ${item.iconBg} flex items-center justify-center shadow-sm`}>
                     {item.icon}
                   </div>
-                  <svg className="w-4 h-4 text-ap-tertiary group-hover:text-ap-primary transition-all"
+                  <svg className="w-4 h-4 text-text-muted group-hover:text-text-strong transition-all"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                     <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
 
                 <div>
-                  <p className="text-[15px] font-bold text-ap-secondary leading-tight">{item.label}</p>
-                  <p className="text-[13px] font-medium text-ap-tertiary mt-0.5 leading-snug line-clamp-1">{item.desc}</p>
+                  <p className="text-[15px] font-bold text-text-default leading-tight">{item.label}</p>
+                  <p className="text-[13px] font-medium text-text-muted mt-0.5 leading-snug line-clamp-1">{item.desc}</p>
                 </div>
 
                 <div className="flex items-baseline gap-1.5 mt-1">
-                  <span className="text-[26px] sm:text-[28px] font-extrabold text-ap-primary tabular-nums leading-none tracking-tight">
+                  <span className="text-[26px] sm:text-[28px] font-extrabold text-text-strong tabular-nums leading-none tracking-tight">
                     {item.value}
                   </span>
-                  <span className="text-[13px] font-bold text-ap-tertiary">{item.unit}</span>
+                  <span className="text-[13px] font-bold text-text-muted">{item.unit}</span>
                 </div>
               </div>
             </button>
@@ -384,11 +384,11 @@ export default function BonusPage({
         </div>
 
         {/* How it works */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
-          <div className="px-5 py-3 border-b border-ap-border">
-            <p className="text-[14px] font-bold text-ap-tertiary uppercase tracking-wide">{t.howTitle}</p>
+        <div className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
+          <div className="px-5 py-3 border-b border-border-default">
+            <p className="text-[14px] font-bold text-text-muted uppercase tracking-wide">{t.howTitle}</p>
           </div>
-          <ul className="divide-y divide-ap-border">
+          <ul className="divide-y divide-border-default">
             {[
               { icon: "🎡", label: t.stepSpinTitle,     desc: t.stepSpinDesc },
               { icon: "💸", label: t.stepCashbackTitle, desc: t.stepCashbackDesc },
@@ -396,12 +396,12 @@ export default function BonusPage({
               { icon: "🤝", label: t.stepReferTitle,    desc: t.stepReferDesc },
             ].map((step, idx) => (
               <li key={idx} className="flex items-center gap-4 px-5 py-3.5">
-                <div className="w-10 h-10 rounded-xl bg-ap-bg flex items-center justify-center text-[20px] flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-surface-subtle flex items-center justify-center text-[20px] flex-shrink-0">
                   {step.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[15px] font-bold text-ap-primary leading-tight">{step.label}</p>
-                  <p className="text-[13px] font-medium text-ap-secondary mt-0.5 leading-snug">{step.desc}</p>
+                  <p className="text-[15px] font-bold text-text-strong leading-tight">{step.label}</p>
+                  <p className="text-[13px] font-medium text-text-default mt-0.5 leading-snug">{step.desc}</p>
                 </div>
               </li>
             ))}

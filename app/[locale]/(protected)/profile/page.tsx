@@ -82,7 +82,7 @@ export default async function ProfilePage({ params }: Props) {
   ];
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-5 pt-6 space-y-5">
 
         {/* Balance Card */}
@@ -109,22 +109,22 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Menu sections */}
         {menuSections.map((section) => (
-          <div key={section.title} className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
-            <div className="px-5 py-3 border-b border-ap-border">
-              <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">{section.title}</p>
+          <div key={section.title} className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
+            <div className="px-5 py-3 border-b border-border-default">
+              <p className="text-[12px] font-semibold text-text-muted uppercase tracking-wide">{section.title}</p>
             </div>
-            <div className="divide-y divide-ap-border">
+            <div className="divide-y divide-border-default">
               {section.items.map((item) => (
                 <a key={item.href} href={`/${locale}${item.href}`}
-                  className="flex items-center gap-4 px-5 py-3.5 hover:bg-ap-bg/60 transition-colors group">
-                  <div className="w-9 h-9 rounded-xl bg-ap-bg flex items-center justify-center text-[18px] flex-shrink-0 group-hover:bg-ap-blue/5 transition-colors">
+                  className="flex items-center gap-4 px-5 py-3.5 hover:bg-surface-subtle/60 transition-colors group">
+                  <div className="w-9 h-9 rounded-xl bg-surface-subtle flex items-center justify-center text-[18px] flex-shrink-0 group-hover:bg-brand-primary/5 transition-colors">
                     {item.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[14px] font-medium text-ap-primary">{item.label}</p>
-                    <p className="text-[12px] text-ap-tertiary mt-0.5">{item.desc}</p>
+                    <p className="text-[14px] font-medium text-text-strong">{item.label}</p>
+                    <p className="text-[12px] text-text-muted mt-0.5">{item.desc}</p>
                   </div>
-                  <svg className="w-4 h-4 text-ap-tertiary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="w-4 h-4 text-text-muted flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M9 18l6-6-6-6" />
                   </svg>
                 </a>
@@ -134,19 +134,19 @@ export default async function ProfilePage({ params }: Props) {
         ))}
 
         {/* Logout */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
           <form action={logoutAction}>
             <button type="submit"
-              className="w-full flex items-center gap-4 px-5 py-4 hover:bg-ap-red/5 transition-colors text-left">
-              <div className="w-9 h-9 rounded-xl bg-ap-red/8 flex items-center justify-center text-[18px] flex-shrink-0">
+              className="w-full flex items-center gap-4 px-5 py-4 hover:bg-status-error/5 transition-colors text-left">
+              <div className="w-9 h-9 rounded-xl bg-status-error/8 flex items-center justify-center text-[18px] flex-shrink-0">
                 🚪
               </div>
-              <span className="text-[14px] font-semibold text-ap-red">{t.logout}</span>
+              <span className="text-[14px] font-semibold text-status-error">{t.logout}</span>
             </button>
           </form>
         </div>
 
-        <p className="text-center text-[11px] text-ap-tertiary pb-2">
+        <p className="text-center text-[11px] text-text-muted pb-2">
           {t.version}
         </p>
       </div>

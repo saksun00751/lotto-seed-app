@@ -63,7 +63,7 @@ function getShootKey(item: ShootItem, idx: number): string {
 
 function ShootsListSkeleton() {
   return (
-    <div className="divide-y divide-ap-border" aria-label="กำลังโหลดรายการผู้ทายเลข">
+    <div className="divide-y divide-border-default" aria-label="กำลังโหลดรายการผู้ทายเลข">
       {Array.from({ length: 6 }).map((_, idx) => (
         <div key={idx} className="px-4 py-2.5 flex items-center justify-between gap-3 animate-pulse">
           <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -156,24 +156,24 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
   }, [refresh, autoRefresh]);
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden flex flex-col">
-      <div className="px-4 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 border-b border-ap-border">
+    <section className="rounded-2xl border border-border-default bg-white shadow-card overflow-hidden flex flex-col">
+      <div className="px-4 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 border-b border-border-default">
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ทายเลข</h2>
         <p className="text-[12px] text-white/80 font-medium">ทั้งหมด {count} รายการ</p>
       </div>
 
       <div className="flex-1 min-h-0 max-h-[420px] overflow-auto">
         {error && (
-          <div className="p-4 text-[14px] text-ap-red font-semibold">{error}</div>
+          <div className="p-4 text-[14px] text-status-error font-semibold">{error}</div>
         )}
         {!error && loading && items.length === 0 && (
           <ShootsListSkeleton />
         )}
         {!error && items.length === 0 && !loading && (
-          <div className="p-6 text-center text-[14px] text-ap-secondary">ยังไม่มีรายการยิงเลข</div>
+          <div className="p-6 text-center text-[14px] text-text-default">ยังไม่มีรายการยิงเลข</div>
         )}
         {!error && items.length > 0 && (
-          <ul className="divide-y divide-ap-border">
+          <ul className="divide-y divide-border-default">
             {items.map((it, idx) => {
               const isRevealed = it.is_number_revealed ?? false;
               const numberDisplay = isRevealed
@@ -195,10 +195,10 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
                       #{it.position ?? "-"}
                     </div>
                     <div className="min-w-0">
-                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-emerald-600" : "text-ap-primary"}`}>
+                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-emerald-600" : "text-text-strong"}`}>
                         {numberDisplay}
                       </p>
-                      <p className="text-[12px] text-ap-tertiary mt-0.5 truncate flex items-center gap-1">
+                      <p className="text-[12px] text-text-muted mt-0.5 truncate flex items-center gap-1">
                         <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <circle cx="12" cy="8" r="4" />
                           <path d="M4 21v-1a7 7 0 0114 0v1" strokeLinecap="round" />
@@ -207,7 +207,7 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
                       </p>
                     </div>
                   </div>
-                  <span className="shrink-0 text-[12px] text-ap-tertiary tabular-nums">
+                  <span className="shrink-0 text-[12px] text-text-muted tabular-nums">
                     {formatTime(it.submitted_at)}
                   </span>
                 </li>
@@ -217,7 +217,7 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
         )}
       </div>
       {!error && hasMore && (
-        <div className="p-3 border-t border-ap-border bg-slate-50/60">
+        <div className="p-3 border-t border-border-default bg-slate-50/60">
           <button
             type="button"
             onClick={loadMore}

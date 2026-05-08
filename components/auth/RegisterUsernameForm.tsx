@@ -88,7 +88,7 @@ function BankLogo({ bank, size }: { bank: BankOption; size: number }) {
     );
   }
   return (
-    <div className="rounded-lg bg-ap-blue flex items-center justify-center flex-shrink-0" style={{ width: size, height: size }}>
+    <div className="rounded-lg bg-brand-primary flex items-center justify-center flex-shrink-0" style={{ width: size, height: size }}>
       <span className="text-white font-bold" style={{ fontSize: size * 0.35 }}>
         {(bank.shortcode ?? bank.name_th).slice(0, 3).toUpperCase()}
       </span>
@@ -123,34 +123,34 @@ function BankSelect({ banks, value, onChange, placeholder, hasError }: {
         onClick={() => setOpen((v) => !v)}
         className={[
           "w-full flex items-center gap-3 border rounded-2xl px-4 py-2.5 text-[14px] outline-none transition-all text-left bg-white",
-          open ? "border-ap-blue ring-2 ring-ap-blue/10" : "",
-          hasError && !open ? "border-ap-red bg-ap-red/5" : !open ? "border-ap-border" : "",
+          open ? "border-brand-primary ring-2 ring-brand-primary/10" : "",
+          hasError && !open ? "border-status-error bg-status-error/5" : !open ? "border-border-default" : "",
         ].join(" ")}
       >
         {selected ? (
           <>
             <BankLogo bank={selected} size={28} />
-            <span className="text-ap-primary font-medium flex-1">{selected.name_th}</span>
+            <span className="text-text-strong font-medium flex-1">{selected.name_th}</span>
           </>
         ) : (
-          <span className="text-ap-tertiary flex-1">{placeholder}</span>
+          <span className="text-text-muted flex-1">{placeholder}</span>
         )}
-        <svg className={`w-4 h-4 text-ap-tertiary transition-transform flex-shrink-0 ${open ? "rotate-180" : ""}`}
+        <svg className={`w-4 h-4 text-text-muted transition-transform flex-shrink-0 ${open ? "rotate-180" : ""}`}
           viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-ap-border rounded-2xl shadow-lg overflow-hidden max-h-56 overflow-y-auto">
+        <div className="absolute z-50 mt-1 w-full bg-white border border-border-default rounded-2xl shadow-lg overflow-hidden max-h-56 overflow-y-auto">
           {banks.map((b) => (
             <button key={b.code} type="button"
               onClick={() => { onChange(b.code); setOpen(false); }}
-              className={["w-full flex items-center gap-3 px-4 py-2.5 hover:bg-ap-bg transition-colors text-left",
-                b.code === value ? "bg-ap-blue/5" : ""].join(" ")}>
+              className={["w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-subtle transition-colors text-left",
+                b.code === value ? "bg-brand-primary/5" : ""].join(" ")}>
               <BankLogo bank={b} size={28} />
-              <span className="text-[14px] text-ap-primary">{b.name_th}</span>
+              <span className="text-[14px] text-text-strong">{b.name_th}</span>
               {b.code === value && (
-                <svg className="w-4 h-4 text-ap-blue ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <svg className="w-4 h-4 text-brand-primary ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M20 6L9 17l-5-5" />
                 </svg>
               )}
@@ -171,8 +171,8 @@ function PasswordStrength({ password, labels }: {
   const valid = password.length >= 6 && password.length <= 10;
   return (
     <div className="flex flex-col gap-1.5 animate-fade-in">
-      <div className="h-1 rounded-full transition-all duration-300 w-full" style={{ background: valid ? "var(--color-ap-green, #22c55e)" : "var(--color-ap-border, #e5e7eb)" }} />
-      <span className={`text-[11px] flex items-center gap-1 ${valid ? "text-ap-green" : "text-ap-tertiary"}`}>
+      <div className="h-1 rounded-full transition-all duration-300 w-full" style={{ background: valid ? "var(--color-status-success, #22c55e)" : "var(--color-border-default, #e5e7eb)" }} />
+      <span className={`text-[11px] flex items-center gap-1 ${valid ? "text-status-success" : "text-text-muted"}`}>
         <span className="text-[10px]">{valid ? "✓" : "○"}</span>{labels.checkLen}
       </span>
     </div>
@@ -302,7 +302,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
   const telComplete     = telDisplay.replace(/\D/g, "").length === 10;
   const confirmMatch    = confirmPassword.length > 0 && confirmPassword === password;
   const confirmMismatch = confirmPassword.length > 0 && confirmPassword !== password;
-  const reqText = <span className="text-ap-red ml-1 text-[11px] font-semibold">(จำเป็น)</span>;
+  const reqText = <span className="text-status-error ml-1 text-[11px] font-semibold">(จำเป็น)</span>;
 
   // ── Success ──────────────────────────────────────────────────────────────────
   if (state.success && state.phone) {
@@ -312,13 +312,13 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
     }
     return (
       <div className="text-center py-8 animate-fade-up">
-        <div className="w-20 h-20 rounded-full bg-ap-green/10 flex items-center justify-center mx-auto mb-5">
+        <div className="w-20 h-20 rounded-full bg-status-success/10 flex items-center justify-center mx-auto mb-5">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="2.2">
             <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h2 className="text-[22px] font-bold text-ap-primary tracking-tight">{t.successTitle}</h2>
-        <p className="text-[14px] text-ap-secondary mt-2">{t.successRedirect}</p>
+        <h2 className="text-[22px] font-bold text-text-strong tracking-tight">{t.successTitle}</h2>
+        <p className="text-[14px] text-text-default mt-2">{t.successRedirect}</p>
       </div>
     );
   }
@@ -340,7 +340,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
 
         {/* Bank */}
         <div className="flex flex-col gap-1">
-          <label className="text-[13px] font-medium text-ap-primary">{t.bank}<span className="text-ap-red ml-1 text-[11px] font-semibold">(จำเป็น)</span></label>
+          <label className="text-[13px] font-medium text-text-strong">{t.bank}<span className="text-status-error ml-1 text-[11px] font-semibold">(จำเป็น)</span></label>
           <input type="hidden" name="bank" value={bankCode ?? ""} />
           <BankSelect
             banks={banks} value={bankCode} onChange={setBankCode}
@@ -348,7 +348,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
             hasError={!!state.fieldErrors?.bank}
           />
           {state.fieldErrors?.bank && (
-            <p className="text-[12px] text-ap-red mt-0.5">{state.fieldErrors.bank}</p>
+            <p className="text-[12px] text-status-error mt-0.5">{state.fieldErrors.bank}</p>
           )}
         </div>
 
@@ -362,7 +362,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
             leftEl={<CardIcon />}
           />
           {accNameLoading && (
-            <p className="text-[12px] text-ap-tertiary">กำลังตรวจสอบชื่อบัญชี...</p>
+            <p className="text-[12px] text-text-muted">กำลังตรวจสอบชื่อบัญชี...</p>
           )}
         </div>
 
@@ -393,7 +393,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
           error={state.fieldErrors?.user_name}
           leftEl={<UserIcon />}
           rightEl={usernameValid ? (
-            <div className="w-5 h-5 rounded-full bg-ap-green flex items-center justify-center animate-pop-in">
+            <div className="w-5 h-5 rounded-full bg-status-success flex items-center justify-center animate-pop-in">
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                 <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -413,7 +413,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
             rightEl={
               <button type="button" onClick={() => setShowPw(!showPw)}
                 aria-label={showPw ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน"}
-                className="text-ap-tertiary hover:text-ap-secondary transition-colors">
+                className="text-text-muted hover:text-text-default transition-colors">
                 <EyeIcon open={showPw} />
               </button>
             }
@@ -431,7 +431,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
           rightEl={
             <div className="flex items-center gap-1.5">
               {confirmMatch && (
-                <div className="w-4 h-4 rounded-full bg-ap-green flex items-center justify-center animate-pop-in">
+                <div className="w-4 h-4 rounded-full bg-status-success flex items-center justify-center animate-pop-in">
                   <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
                     <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -439,7 +439,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
               )}
               <button type="button" onClick={() => setShowConfirm(!showConfirm)}
                 aria-label={showConfirm ? "ซ่อนรหัสผ่านยืนยัน" : "แสดงรหัสผ่านยืนยัน"}
-                className="text-ap-tertiary hover:text-ap-secondary transition-colors">
+                className="text-text-muted hover:text-text-default transition-colors">
                 <EyeIcon open={showConfirm} />
               </button>
             </div>
@@ -455,7 +455,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
           error={state.fieldErrors?.tel}
           leftEl={<PhoneIcon />}
           rightEl={telComplete ? (
-            <div className="w-5 h-5 rounded-full bg-ap-green flex items-center justify-center animate-pop-in">
+            <div className="w-5 h-5 rounded-full bg-status-success flex items-center justify-center animate-pop-in">
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                 <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -473,7 +473,7 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
             leftEl={<GiftIcon />}
             rightEl={refCode ? (
               <button type="button" onClick={() => setRefCode("")}
-                className="text-ap-tertiary hover:text-ap-secondary transition-colors text-[12px]">✕</button>
+                className="text-text-muted hover:text-text-default transition-colors text-[12px]">✕</button>
             ) : null}
             hint={refCode ? undefined : t.referralHint}
           />
@@ -490,24 +490,24 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
         <label className="flex items-start gap-3 cursor-pointer group">
           <button type="button" onClick={() => setAgreed(!agreed)}
             className={["w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-200",
-              agreed ? "bg-ap-blue border-ap-blue" : "bg-white border-ap-border group-hover:border-ap-blue/40"].join(" ")}>
+              agreed ? "bg-brand-primary border-brand-primary" : "bg-white border-border-default group-hover:border-brand-primary/40"].join(" ")}>
             {agreed && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
           </button>
-          <span className="text-[13px] text-ap-secondary leading-relaxed select-none">
+          <span className="text-[13px] text-text-default leading-relaxed select-none">
             {t.agreePrefix}{" "}
-            <a href={`/${lang}/contact-public`} className="text-ap-blue font-medium hover:opacity-70" onClick={(e) => e.stopPropagation()}>{t.termsLink}</a>
+            <a href={`/${lang}/contact-public`} className="text-brand-primary font-medium hover:opacity-70" onClick={(e) => e.stopPropagation()}>{t.termsLink}</a>
             {" "}{t.and}{" "}
-            <a href={`/${lang}/contact-public`} className="text-ap-blue font-medium hover:opacity-70" onClick={(e) => e.stopPropagation()}>{t.privacyLink}</a>
+            <a href={`/${lang}/contact-public`} className="text-brand-primary font-medium hover:opacity-70" onClick={(e) => e.stopPropagation()}>{t.privacyLink}</a>
           </span>
         </label>
 
         {/* Global error */}
         {state.error && (
-          <div className="flex items-start gap-2.5 bg-ap-red/5 border border-ap-red/20 rounded-2xl px-4 py-3 animate-fade-in">
-            <div className="w-5 h-5 rounded-full bg-ap-red flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="flex items-start gap-2.5 bg-status-error/5 border border-status-error/20 rounded-2xl px-4 py-3 animate-fade-in">
+            <div className="w-5 h-5 rounded-full bg-status-error flex items-center justify-center flex-shrink-0 mt-0.5">
               <span className="text-white text-[10px] font-bold leading-none">!</span>
             </div>
-            <p className="text-[13px] text-ap-red">{state.error}</p>
+            <p className="text-[13px] text-status-error">{state.error}</p>
           </div>
         )}
 
@@ -517,9 +517,9 @@ export default function RegisterUsernameForm({ defaultRef = "", banks = [] }: { 
         </div>
       </form>
 
-      <p className="text-center text-[13px] text-ap-secondary mt-6">
+      <p className="text-center text-[13px] text-text-default mt-6">
         {t.hasAccount}{" "}
-        <a href={`/${lang}/login`} className="text-ap-blue font-semibold hover:opacity-70 transition-opacity">{t.loginLink}</a>
+        <a href={`/${lang}/login`} className="text-brand-primary font-semibold hover:opacity-70 transition-opacity">{t.loginLink}</a>
       </p>
     </div>
   );

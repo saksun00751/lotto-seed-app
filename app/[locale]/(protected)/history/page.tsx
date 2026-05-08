@@ -133,20 +133,20 @@ export default async function HistoryPage({ params, searchParams }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-4xl mx-auto px-4 pt-5 space-y-4">
 
         {/* Header */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            className="w-8 h-8 rounded-xl bg-white border border-border-default flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors">
+            <svg className="w-4 h-4 text-text-default" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
           <div>
-            <h1 className="text-[18px] font-bold text-ap-primary leading-tight">{t.title}</h1>
-            <p className="text-[12px] text-ap-secondary">{t.found} {total.toLocaleString()} {t.items}</p>
+            <h1 className="text-[18px] font-bold text-text-strong leading-tight">{t.title}</h1>
+            <p className="text-[12px] text-text-default">{t.found} {total.toLocaleString()} {t.items}</p>
           </div>
         </div>
 
@@ -160,8 +160,8 @@ export default async function HistoryPage({ params, searchParams }: Props) {
               className={[
                 "flex-shrink-0 px-4 py-2 rounded-full text-[13px] font-semibold transition-colors",
                 status === tab.id
-                  ? "bg-ap-blue text-white"
-                  : "bg-white border border-ap-border text-ap-secondary hover:bg-ap-bg",
+                  ? "bg-brand-primary text-white"
+                  : "bg-white border border-border-default text-text-default hover:bg-surface-subtle",
               ].join(" ")}>
               {tab.label}
             </Link>
@@ -169,14 +169,14 @@ export default async function HistoryPage({ params, searchParams }: Props) {
         </div>
 
         {/* List */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
           {pageItems.length === 0 ? (
             <div className="py-16 text-center">
               <p className="text-[32px] mb-3">📋</p>
-              <p className="text-[14px] font-semibold text-ap-primary mb-1">{t.emptyTitle}</p>
-              <p className="text-[12px] text-ap-secondary">{t.emptyDesc}</p>
+              <p className="text-[14px] font-semibold text-text-strong mb-1">{t.emptyTitle}</p>
+              <p className="text-[12px] text-text-default">{t.emptyDesc}</p>
               <Link href={`/${locale}/bet`}
-                className="inline-block mt-4 px-6 py-2.5 bg-ap-blue text-white rounded-full text-[13px] font-semibold hover:bg-ap-blue-h transition-colors">
+                className="inline-block mt-4 px-6 py-2.5 bg-brand-primary text-white rounded-full text-[13px] font-semibold hover:bg-brand-primary-hover transition-colors">
                 {t.gobet}
               </Link>
             </div>
@@ -190,18 +190,18 @@ export default async function HistoryPage({ params, searchParams }: Props) {
           <div className="flex items-center justify-center gap-1 py-2 flex-wrap">
             {serverPage > 1 ? (
               <Link href={buildHref({ page: serverPage - 1 })}
-                className="px-3 py-2 bg-white border border-ap-border rounded-xl text-[13px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors">←</Link>
+                className="px-3 py-2 bg-white border border-border-default rounded-xl text-[13px] font-semibold text-text-default hover:bg-surface-subtle transition-colors">←</Link>
             ) : (
-              <span className="px-3 py-2 rounded-xl text-[13px] text-ap-border select-none">←</span>
+              <span className="px-3 py-2 rounded-xl text-[13px] text-border-default select-none">←</span>
             )}
             {pageNums.map((n, i) =>
               n === "..." ? (
-                <span key={`dots-${i}`} className="px-2 py-2 text-[13px] text-ap-secondary">…</span>
+                <span key={`dots-${i}`} className="px-2 py-2 text-[13px] text-text-default">…</span>
               ) : (
                 <Link key={n} href={buildHref({ page: n })}
                   className={[
                     "min-w-[36px] h-9 flex items-center justify-center rounded-xl text-[13px] font-semibold transition-colors",
-                    serverPage === n ? "bg-ap-blue text-white" : "bg-white border border-ap-border text-ap-secondary hover:bg-ap-bg",
+                    serverPage === n ? "bg-brand-primary text-white" : "bg-white border border-border-default text-text-default hover:bg-surface-subtle",
                   ].join(" ")}>
                   {n}
                 </Link>
@@ -209,9 +209,9 @@ export default async function HistoryPage({ params, searchParams }: Props) {
             )}
             {hasMore || serverPage < totalPages ? (
               <Link href={buildHref({ page: serverPage + 1 })}
-                className="px-3 py-2 bg-white border border-ap-border rounded-xl text-[13px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors">→</Link>
+                className="px-3 py-2 bg-white border border-border-default rounded-xl text-[13px] font-semibold text-text-default hover:bg-surface-subtle transition-colors">→</Link>
             ) : (
-              <span className="px-3 py-2 rounded-xl text-[13px] text-ap-border select-none">→</span>
+              <span className="px-3 py-2 rounded-xl text-[13px] text-border-default select-none">→</span>
             )}
           </div>
         )}

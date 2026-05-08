@@ -58,7 +58,7 @@ export default async function DepositRoute() {
   const DepositComponent = style === "RANDOM" ? DepositPageRandom : DepositPage;
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <DepositComponent
         displayName={profile?.name ?? "สมาชิก"}
         bankName={bankName}

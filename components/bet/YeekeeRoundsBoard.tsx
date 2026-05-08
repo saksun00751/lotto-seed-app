@@ -178,11 +178,11 @@ const stats = useMemo(() => {
     const isFinished = selectedRound.is_final || closeMs <= now;
     const remaining = closeMs - now;
     let label = t.yeekeeBadgeWaiting;
-    let badgeCls = "bg-ap-bg text-ap-secondary";
+    let badgeCls = "bg-surface-subtle text-text-default";
     if (isLive) { label = t.yeekeeBadgeOpen; badgeCls = "bg-emerald-100 text-emerald-700"; }
     else if (isFinished) {
       label = selectedRound.status === "voided" ? t.yeekeeBadgeVoided : t.yeekeeBadgeClosed;
-      badgeCls = "bg-ap-bg text-ap-tertiary";
+      badgeCls = "bg-surface-subtle text-text-muted";
     }
     return { closeMs, isLive, isFinished, remaining, label, badgeCls };
   }, [selectedRound, now, t]);
@@ -249,7 +249,7 @@ const stats = useMemo(() => {
   }, [groupId, locale, router, selectedRound, t]);
 
   return (
-    <section className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <section className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
       <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-3 flex items-center gap-3">
         {logo ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -276,8 +276,8 @@ const stats = useMemo(() => {
       </div>
 
       <div className="p-3 space-y-3">
-        {loading && <div className="h-[92px] flex items-center justify-center text-[13px] text-ap-tertiary">{t.yeekeeLoadingRounds}</div>}
-        {error && !loading && <div className="h-[92px] flex items-center justify-center text-[13px] text-ap-red">{error}</div>}
+        {loading && <div className="h-[92px] flex items-center justify-center text-[13px] text-text-muted">{t.yeekeeLoadingRounds}</div>}
+        {error && !loading && <div className="h-[92px] flex items-center justify-center text-[13px] text-status-error">{error}</div>}
 
         {!loading && !error && rounds && (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(2.75rem,1fr))] gap-2">
@@ -298,11 +298,11 @@ const stats = useMemo(() => {
               } else if (isLive) {
                 stateCls = "border-emerald-300 text-emerald-700 hover:bg-emerald-50";
               } else if (isUpcoming) {
-                stateCls = "border-transparent text-ap-secondary hover:border-ap-blue/40";
+                stateCls = "border-transparent text-text-default hover:border-brand-primary/40";
               } else if (isResulted) {
                 stateCls = "border-violet-400 bg-violet-50 text-violet-700 hover:bg-violet-100";
               } else {
-                stateCls = "border-transparent text-ap-tertiary opacity-50 hover:opacity-80";
+                stateCls = "border-transparent text-text-muted opacity-50 hover:opacity-80";
               }
               const selectedRing = isSelected ? " ring-2 ring-violet-500 ring-offset-1 scale-110" : "";
 
@@ -346,11 +346,11 @@ const stats = useMemo(() => {
           >
             <div className="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
               <div className="relative flex items-center justify-center px-4 pt-4 pb-2 flex-shrink-0 sm:justify-end">
-                <div className="w-10 h-1 bg-ap-border rounded-full sm:hidden" />
+                <div className="w-10 h-1 bg-border-default rounded-full sm:hidden" />
                 <button
                   type="button"
                   onClick={closeSheet}
-                  className="absolute right-4 top-2.5 flex w-9 h-9 rounded-full bg-ap-bg items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors sm:hidden"
+                  className="absolute right-4 top-2.5 flex w-9 h-9 rounded-full bg-surface-subtle items-center justify-center text-text-default hover:bg-border-default/40 transition-colors sm:hidden"
                   aria-label="close"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -360,7 +360,7 @@ const stats = useMemo(() => {
                 <button
                   type="button"
                   onClick={closeSheet}
-                  className="hidden sm:flex w-8 h-8 rounded-full bg-ap-bg items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors ml-auto"
+                  className="hidden sm:flex w-8 h-8 rounded-full bg-surface-subtle items-center justify-center text-text-default hover:bg-border-default/40 transition-colors ml-auto"
                   aria-label="close"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -370,26 +370,26 @@ const stats = useMemo(() => {
               </div>
               <div className="overflow-y-auto px-3 pb-4">
           {sheetView === "detail" ? (
-          <div className="rounded-xl border border-ap-border bg-gradient-to-br from-violet-50 to-fuchsia-50 px-3 py-3 flex flex-col items-center gap-2">
+          <div className="rounded-xl border border-border-default bg-gradient-to-br from-violet-50 to-fuchsia-50 px-3 py-3 flex flex-col items-center gap-2">
             <div className="w-full flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-center gap-2">
-                <span className="text-[18px] font-bold text-ap-primary">{t.yeekeeRoundFmt.replace("{n}", String(selectedRound.round_no))}</span>
+                <span className="text-[18px] font-bold text-text-strong">{t.yeekeeRoundFmt.replace("{n}", String(selectedRound.round_no))}</span>
                 <span className={`text-[13px] font-semibold rounded-full px-2 py-0.5 ${selectedInfo.badgeCls}`}>
                   {selectedInfo.label}
                 </span>
               </div>
-              <span className="text-[18px] font-bold text-ap-primary tabular-nums">
+              <span className="text-[18px] font-bold text-text-strong tabular-nums">
                 {t.yeekeeBetCloseAt.replace("{time}", hhmm(selectedRound.bet_close_at))}
               </span>
             </div>
 
             {selectedRound.status !== "resulted" && (
               <div className="text-center">
-                <div className="text-[14px] font-semibold text-ap-tertiary leading-none">
+                <div className="text-[14px] font-semibold text-text-muted leading-none">
                   {selectedInfo.isLive ? t.yeekeeRemaining : selectedInfo.isFinished ? t.yeekeeFinishedShort : t.yeekeeOpensIn}
                 </div>
                 <div className={`text-[28px] font-extrabold tabular-nums leading-none mt-1 ${
-                  selectedInfo.isLive ? "text-emerald-600" : selectedInfo.isFinished ? "text-ap-tertiary" : "text-violet-600"
+                  selectedInfo.isLive ? "text-emerald-600" : selectedInfo.isFinished ? "text-text-muted" : "text-violet-600"
                 }`}>
                   {selectedInfo.isFinished ? "—" : formatCountdown(
                     selectedInfo.isLive
@@ -403,22 +403,22 @@ const stats = useMemo(() => {
             {selectedInfo.isFinished && selectedRound.status !== "voided" && (() => {
               const r = resultByRound[selectedRound.round_id];
               if (r === "loading") {
-                return <div className="text-[13px] text-ap-tertiary">{t.yeekeeLoadingResult}</div>;
+                return <div className="text-[13px] text-text-muted">{t.yeekeeLoadingResult}</div>;
               }
               if (!r) return null;
               if ("error" in r) {
-                return <div className="text-[13px] text-ap-red">{r.error}</div>;
+                return <div className="text-[13px] text-status-error">{r.error}</div>;
               }
               return (
                 <div className="w-full space-y-2">
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-ap-border px-3 py-2">
+                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-border-default px-3 py-2">
                       <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
                         {r.top_3 || "—"}
                       </span>
                       <span className="mt-1 text-[12px] font-semibold text-slate-500">{t.yeekeeTop3}</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-ap-border px-3 py-2">
+                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-border-default px-3 py-2">
                       <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
                         {r.bottom_2 || "—"}
                       </span>
@@ -457,7 +457,7 @@ const stats = useMemo(() => {
               <button
                 type="button"
                 disabled
-                className="max-w-[200px] flex items-center justify-center gap-2 text-[14px] font-bold text-ap-tertiary border border-ap-border rounded-full px-6 py-2.5 cursor-not-allowed"
+                className="max-w-[200px] flex items-center justify-center gap-2 text-[14px] font-bold text-text-muted border border-border-default rounded-full px-6 py-2.5 cursor-not-allowed"
               >
                 {selectedInfo.isFinished ? t.yeekeeAlreadyClosed : t.yeekeeNotYetOpen}
               </button>
@@ -469,7 +469,7 @@ const stats = useMemo(() => {
                 <button
                   type="button"
                   onClick={() => { setSheetView("detail"); setPackageError(null); }}
-                  className="w-9 h-9 rounded-full bg-ap-bg border border-ap-border flex items-center justify-center text-ap-secondary active:scale-95"
+                  className="w-9 h-9 rounded-full bg-surface-subtle border border-border-default flex items-center justify-center text-text-default active:scale-95"
                   aria-label="back"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -477,25 +477,25 @@ const stats = useMemo(() => {
                   </svg>
                 </button>
                 <div className="min-w-0">
-                  <h3 className="text-[16px] font-extrabold text-ap-primary leading-tight">{t.selectPackage}</h3>
-                  <p className="text-[12px] font-semibold text-ap-tertiary">
+                  <h3 className="text-[16px] font-extrabold text-text-strong leading-tight">{t.selectPackage}</h3>
+                  <p className="text-[12px] font-semibold text-text-muted">
                     {t.yeekeeRoundFmt.replace("{n}", String(selectedRound.round_no))} · {t.yeekeeBetCloseAt.replace("{time}", hhmm(selectedRound.bet_close_at))}
                   </p>
                 </div>
               </div>
 
               {packageError && (
-                <div className="rounded-xl border border-ap-red/20 bg-ap-red/5 px-3 py-2 text-[13px] font-semibold text-ap-red">
+                <div className="rounded-xl border border-status-error/20 bg-status-error/5 px-3 py-2 text-[13px] font-semibold text-status-error">
                   {packageError}
                 </div>
               )}
 
               {packagesLoading ? (
-                <div className="h-28 flex items-center justify-center text-[13px] font-semibold text-ap-tertiary">
+                <div className="h-28 flex items-center justify-center text-[13px] font-semibold text-text-muted">
                   {t.yeekeeLoadingRounds}
                 </div>
               ) : packages.length === 0 ? (
-                <div className="h-28 flex items-center justify-center text-[13px] font-semibold text-ap-tertiary">
+                <div className="h-28 flex items-center justify-center text-[13px] font-semibold text-text-muted">
                   {t.noPackage}
                 </div>
               ) : (
@@ -506,7 +506,7 @@ const stats = useMemo(() => {
                       type="button"
                       onClick={() => pickPackage(pkg.id)}
                       disabled={packagePicking}
-                      className="group w-full overflow-hidden rounded-2xl border border-ap-border bg-white text-left shadow-sm transition-all active:scale-[0.98] disabled:opacity-70"
+                      className="group w-full overflow-hidden rounded-2xl border border-border-default bg-white text-left shadow-sm transition-all active:scale-[0.98] disabled:opacity-70"
                     >
                       {resolveImage(pkg.image) ? (
                         <img
@@ -515,7 +515,7 @@ const stats = useMemo(() => {
                           className="w-full object-cover"
                         />
                       ) : (
-                        <div className="flex min-h-24 items-center justify-center bg-ap-bg px-4 py-5 text-center text-[15px] font-bold text-ap-primary">
+                        <div className="flex min-h-24 items-center justify-center bg-surface-subtle px-4 py-5 text-center text-[15px] font-bold text-text-strong">
                           {pkg.name}
                         </div>
                       )}

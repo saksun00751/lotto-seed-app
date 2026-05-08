@@ -71,7 +71,7 @@ async function DashboardGamesSection({ locale }: { locale: string }) {
       {gameGroups.map((group) => {
         const gradient = headerGradient[group.game_type] ?? "from-gray-500 to-gray-400";
         return (
-          <section key={group.game_type} className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+          <section key={group.game_type} className="bg-white rounded-2xl border border-border-default shadow-card overflow-hidden">
             <div className={`bg-gradient-to-r ${gradient} flex items-center justify-between px-4 py-3`}>
               <h2 className="text-[15px] font-bold text-white tracking-tight">
                 {group.emoji} {(t as Record<string, string>)[group.game_type] ?? group.label}
@@ -94,7 +94,7 @@ function DashboardLotteryFallback() {
   return (
     <div className="space-y-3">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-white shadow-card">
+        <div key={i} className="rounded-2xl border border-border-default overflow-hidden animate-pulse bg-white shadow-card">
           <div className="h-11 bg-sky-200/70" />
           <div className="h-10 px-4 bg-sky-50 border-b border-slate-200" />
           <div className="bg-white divide-y divide-slate-200/80">
@@ -115,7 +115,7 @@ function DashboardGamesFallback() {
   return (
     <div className="space-y-5">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-white shadow-card">
+        <div key={i} className="rounded-2xl border border-border-default overflow-hidden animate-pulse bg-white shadow-card">
           <div className="h-11 bg-rose-200/70" />
           <div className="h-32 bg-slate-50" />
         </div>
@@ -130,7 +130,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
   const user = await getCurrentUser();
 
   return (
-    <div className="relative min-h-screen bg-ap-bg pb-20 sm:pb-8 overflow-hidden">
+    <div className="relative min-h-screen bg-surface-subtle pb-20 sm:pb-8 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-24 -left-16 w-[360px] h-[360px] rounded-full bg-sky-200/35 blur-3xl" />
         <div className="absolute top-1/3 -right-24 w-[340px] h-[340px] rounded-full bg-blue-200/25 blur-3xl" />

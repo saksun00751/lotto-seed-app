@@ -36,8 +36,8 @@ export default function YeekeeRewardList({
   const total = winners.reduce((s, it) => s + (Number(it.credit_amount) || 0), 0);
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden">
-      <div className="px-4 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 border-b border-ap-border">
+    <section className="rounded-2xl border border-border-default bg-white shadow-card overflow-hidden">
+      <div className="px-4 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 border-b border-border-default">
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ได้รับรางวัลทายเลข</h2>
         <p className="text-[12px] text-white/90 font-medium">
           ทั้งหมด {winners.length} รายการ · รวม {total.toLocaleString("th-TH")} เครดิต
@@ -46,13 +46,13 @@ export default function YeekeeRewardList({
 
       <div className="max-h-[420px] overflow-auto">
         {!rewardEnabled && (
-          <div className="p-6 text-center text-[14px] text-ap-tertiary">รอบนี้ไม่มีรางวัลทายเลข</div>
+          <div className="p-6 text-center text-[14px] text-text-muted">รอบนี้ไม่มีรางวัลทายเลข</div>
         )}
         {rewardEnabled && winners.length === 0 && (
-          <div className="p-6 text-center text-[14px] text-ap-secondary">ยังไม่มีผู้ได้รับรางวัล</div>
+          <div className="p-6 text-center text-[14px] text-text-default">ยังไม่มีผู้ได้รับรางวัล</div>
         )}
         {rewardEnabled && winners.length > 0 && (
-          <ul className="divide-y divide-ap-border">
+          <ul className="divide-y divide-border-default">
             {winners.map((it, idx) => {
               const shoot = it.shoot;
               const isRevealed = shoot?.is_number_revealed ?? false;
@@ -67,10 +67,10 @@ export default function YeekeeRewardList({
                       #{it.position ?? "-"}
                     </div>
                     <div className="min-w-0">
-                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-emerald-600" : "text-ap-primary"}`}>
+                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-emerald-600" : "text-text-strong"}`}>
                         {numberDisplay}
                       </p>
-                      <p className="text-[12px] text-ap-tertiary mt-0.5 truncate flex items-center gap-1">
+                      <p className="text-[12px] text-text-muted mt-0.5 truncate flex items-center gap-1">
                         <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <circle cx="12" cy="8" r="4" />
                           <path d="M4 21v-1a7 7 0 0114 0v1" strokeLinecap="round" />

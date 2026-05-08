@@ -30,12 +30,12 @@ export default async function LoginPage({
   const logoUrl     = meta ? getLogoUrl(meta.logo) : "/logo.png";
 
   return (
-    <main className="min-h-screen bg-ap-bg flex flex-col items-center justify-center p-5">
+    <main className="min-h-screen bg-surface-subtle flex flex-col items-center justify-center p-5">
 
       {/* Soft background blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-ap-blue/[0.035] blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-ap-blue/[0.03] blur-3xl" />
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-brand-primary/[0.035] blur-3xl" />
+        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-brand-primary/[0.03] blur-3xl" />
       </div>
 
       <LoginPageClient initialLang={locale} expired={expired} logoUrl={logoUrl} />

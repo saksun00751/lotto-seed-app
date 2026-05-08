@@ -213,26 +213,26 @@ export default function SpinPage({
 
   return (
     <>
-      <main className="min-h-screen bg-ap-bg flex flex-col items-center justify-center p-5 pt-6 pb-24 sm:pb-8">
+      <main className="min-h-screen bg-surface-subtle flex flex-col items-center justify-center p-5 pt-6 pb-24 sm:pb-8">
         <div className="w-full max-w-md">
 
           <div className="text-center mb-6">
-            <h1 className="text-[24px] font-bold text-ap-primary tracking-tight">{t.title}</h1>
-            <p className="text-[14px] text-ap-secondary mt-1">{t.subtitle}</p>
+            <h1 className="text-[24px] font-bold text-text-strong tracking-tight">{t.title}</h1>
+            <p className="text-[14px] text-text-default mt-1">{t.subtitle}</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-card-xl border border-ap-border p-6 flex flex-col items-center gap-5">
+          <div className="bg-white rounded-2xl shadow-card-xl border border-border-default p-6 flex flex-col items-center gap-5">
 
             {/* Top bar */}
             <div className="mb-6 w-full flex items-center justify-between">
               <Link href={`/${lang}/dashboard`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ap-bg border border-ap-border text-ap-secondary text-[13px] hover:bg-ap-blue/5 transition-colors">
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-subtle border border-border-default text-text-default text-[13px] hover:bg-brand-primary/5 transition-colors">
                 {t.back}
               </Link>
               <div className="flex items-center gap-1.5 bg-blue-50 border border-blue-200 rounded-full px-3 py-1.5">
                 <span className="text-[16px]">💎</span>
-                <span className="text-[14px] font-bold text-ap-blue tabular-nums">{diamond}</span>
-                <span className="text-[11px] text-ap-secondary">{t.diamond}</span>
+                <span className="text-[14px] font-bold text-brand-primary tabular-nums">{diamond}</span>
+                <span className="text-[11px] text-text-default">{t.diamond}</span>
               </div>
             </div>
 
@@ -251,7 +251,7 @@ export default function SpinPage({
             <button
               onClick={handleSpin}
               disabled={isSpinning || diamond < 1 || !wheelEnabled}
-              className="w-full bg-ap-blue text-white font-bold py-3 rounded-xl text-[15px] disabled:opacity-50 hover:bg-ap-blue-h transition-colors active:scale-[0.98]"
+              className="w-full bg-brand-primary text-white font-bold py-3 rounded-xl text-[15px] disabled:opacity-50 hover:bg-brand-primary-hover transition-colors active:scale-[0.98]"
             >
               {isSpinning
                 ? t.spinning
@@ -263,7 +263,7 @@ export default function SpinPage({
             </button>
 
             <Link href={`/${lang}/spin/history`}
-              className="w-full text-center py-2 rounded-xl border border-ap-border text-[13px] text-ap-secondary hover:bg-ap-bg transition-colors">
+              className="w-full text-center py-2 rounded-xl border border-border-default text-[13px] text-text-default hover:bg-surface-subtle transition-colors">
               {t.history}
             </Link>
 

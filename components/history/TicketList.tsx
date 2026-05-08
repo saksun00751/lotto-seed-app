@@ -37,7 +37,7 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
     value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
-    <div className="divide-y divide-ap-border">
+    <div className="divide-y divide-border-default">
       {tickets.map((ticket) => {
         const logoSrc = ticket.market_logo?.startsWith("http")
           ? ticket.market_logo
@@ -63,19 +63,19 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
             key={ticket.id}
             onClick={() => openDetail(ticket.id)}
             disabled={!!loading}
-            className={`w-full text-left px-3 py-3.5 sm:px-4 sm:py-4 flex items-center gap-3 transition-colors disabled:opacity-60 ${ticket.status === "won" ? "bg-emerald-50 hover:bg-emerald-100/80 active:bg-emerald-100" : "hover:bg-ap-bg/70 active:bg-ap-bg"}`}
+            className={`w-full text-left px-3 py-3.5 sm:px-4 sm:py-4 flex items-center gap-3 transition-colors disabled:opacity-60 ${ticket.status === "won" ? "bg-emerald-50 hover:bg-emerald-100/80 active:bg-emerald-100" : "hover:bg-surface-subtle/70 active:bg-surface-subtle"}`}
           >
             {/* Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2 mb-1 flex-wrap">
-                <span className="w-5 h-5 rounded-md border border-ap-border bg-ap-bg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <span className="w-5 h-5 rounded-md border border-border-default bg-surface-subtle flex items-center justify-center flex-shrink-0 overflow-hidden">
                   {ticket.market_logo ? (
                     <img src={logoSrc} alt={ticket.market_name} className="w-full h-full object-contain" />
                   ) : (
                     <span className="text-[12px]">🎯</span>
                   )}
                 </span>
-                <span className="text-[16px] sm:text-[17px] font-bold text-ap-primary truncate max-w-full">{ticket.market_name}</span>
+                <span className="text-[16px] sm:text-[17px] font-bold text-text-strong truncate max-w-full">{ticket.market_name}</span>
                   <span
                     title={ticket.cancel_reason ?? ticket.result_message ?? undefined}
                     className={`flex-shrink-0 text-[11px] sm:text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-slate-100 text-slate-700 border border-slate-200"}`}
@@ -83,15 +83,15 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
                   {statusLabel}
                 </span>
               </div>
-              <p className="text-[14px] font-semibold text-ap-secondary truncate">
+              <p className="text-[14px] font-semibold text-text-default truncate">
                 {t.draw} {ticket.draw_date}
               </p>
-              <p className="text-[14px] font-semibold text-ap-tertiary mt-0.5 sm:mt-1 truncate" title={metaText}>
+              <p className="text-[14px] font-semibold text-text-muted mt-0.5 sm:mt-1 truncate" title={metaText}>
                 {metaText}
               </p>
               {ticket.cancelled_at && (
                 <p
-                  className="text-[12px] font-semibold text-ap-tertiary mt-0.5 truncate"
+                  className="text-[12px] font-semibold text-text-muted mt-0.5 truncate"
                   title={[ticket.cancelled_by_name, ticket.cancelled_by_type, ticket.cancel_reason].filter(Boolean).join(" · ")}
                 >
                   {ticket.cancelled_at}
@@ -102,18 +102,18 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
 
             {/* Amount */}
             <div className="text-right shrink-0">
-              <p className="text-[16px] sm:text-[17px] font-bold text-ap-primary tabular-nums">
+              <p className="text-[16px] sm:text-[17px] font-bold text-text-strong tabular-nums">
                 ฿{fmtMoney(totalBill)}
               </p>
             </div>
             <div className="shrink-0 ml-0.5 sm:ml-1">
               {isLoading ? (
-                <svg className="w-4 h-4 text-ap-blue animate-spin" viewBox="0 0 24 24" fill="none">
+                <svg className="w-4 h-4 text-brand-primary animate-spin" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
                   <path d="M22 12a10 10 0 01-10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
                 </svg>
               ) : (
-                <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg className="w-4 h-4 text-text-default" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               )}
