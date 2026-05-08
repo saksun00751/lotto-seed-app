@@ -89,7 +89,7 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
           <span className="text-ap-tertiary shrink-0">›</span>
           <Link href={`/${locale}/bet`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">แทงหวย</Link>
           <span className="text-ap-tertiary shrink-0">›</span>
-          <Link href={`/${locale}/category/lotto-yeekee`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">ยี่กี</Link>
+          <Link href={`/${locale}/category/lotto-yeekee`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">หวยยี่กี่</Link>
           {marketName && (
             <>
               <span className="text-ap-tertiary shrink-0">›</span>
@@ -125,6 +125,23 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
               <div className="text-center text-[14px] text-ap-tertiary py-6">ยังไม่มีผลรางวัล</div>
             ) : (
               <>
+                {data.shoot_summary?.shoot_sum && (
+                  <div className="rounded-xl bg-gradient-to-br from-violet-50 to-fuchsia-50 border border-violet-200 px-4 py-3">
+                    <p className="text-center text-[12px] font-semibold text-ap-tertiary tracking-wide">
+                      ผลรวมเลขยิง{typeof data.shoot_summary?.shoot_count === "number" ? ` (${data.shoot_summary.shoot_count} รายการ)` : ""}
+                    </p>
+                    <div className="mt-2 flex items-center justify-center gap-1.5 flex-wrap">
+                      {data.shoot_summary.shoot_sum.split("").map((digit, i) => (
+                        <div
+                          key={i}
+                          className="w-10 h-12 rounded-xl bg-white border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
+                        >
+                          {digit}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex flex-col items-center justify-center rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-4">
                     <span className="text-[36px] font-extrabold tabular-nums text-emerald-600 leading-none">
@@ -164,8 +181,6 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
         <YeekeeRewardList
           winners={data.shoot_rewards?.winners ?? []}
           rewardEnabled={data.shoot_rewards?.policy_meta?.reward_enabled ?? true}
-          shootSum={data.shoot_summary?.shoot_sum}
-          shootCount={data.shoot_summary?.shoot_count}
         />
 
         <YeekeeShootsList roundId={Number(roundId)} autoRefresh={false} />

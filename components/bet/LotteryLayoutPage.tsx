@@ -250,7 +250,7 @@ export default function LotteryLayoutPage({
             <span className="text-ap-tertiary shrink-0">›</span>
             <Link
               href={categoryCode ? `/${lang}/category/${categoryCode}` : `/${lang}/bet`}
-              className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0 hidden sm:inline"
+              className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0"
             >
               {categoryName}
             </Link>

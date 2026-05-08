@@ -29,13 +29,9 @@ function formatTime(value?: string) {
 export default function YeekeeRewardList({
   winners = [],
   rewardEnabled = true,
-  shootSum,
-  shootCount,
 }: {
   winners?: RewardWinner[];
   rewardEnabled?: boolean;
-  shootSum?: string;
-  shootCount?: number;
 }) {
   const total = winners.reduce((s, it) => s + (Number(it.credit_amount) || 0), 0);
 
@@ -47,24 +43,6 @@ export default function YeekeeRewardList({
           ทั้งหมด {winners.length} รายการ · รวม {total.toLocaleString("th-TH")} เครดิต
         </p>
       </div>
-
-      {shootSum && (
-        <div className="px-4 py-3 bg-gradient-to-br from-violet-50 to-fuchsia-50 border-b border-ap-border">
-          <p className="text-center text-[12px] font-semibold text-ap-tertiary tracking-wide">
-            ผลรวมเลขยิง{typeof shootCount === "number" ? ` (${shootCount} รายการ)` : ""}
-          </p>
-          <div className="mt-2 flex items-center justify-center gap-1.5 flex-wrap">
-            {shootSum.split("").map((digit, i) => (
-              <div
-                key={i}
-                className="w-10 h-12 rounded-xl bg-white border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
-              >
-                {digit}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       <div className="max-h-[420px] overflow-auto">
         {!rewardEnabled && (
