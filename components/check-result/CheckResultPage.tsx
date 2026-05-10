@@ -473,6 +473,23 @@ export default function CheckResultPage({ groups, tickets }: Props) {
         <p className="text-[15px] font-semibold text-ap-secondary mt-0.5">{t.subtitle}</p>
       </div>
 
+      {/* Banner */}
+      <a
+        href="https://huayupdate.live/th"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative left-1/2 block w-[calc(100vw-40px)] max-w-[640px] -translate-x-1/2 overflow-hidden rounded-xl border border-ap-border bg-surface-card shadow-card"
+        aria-label="Huay Update"
+      >
+        <img
+          src="/banner01.jpeg"
+          alt="Huay Update"
+          width={640}
+          height={342}
+          className="block h-auto w-full"
+        />
+      </a>
+
       {/* Search by draw_date */}
       <form onSubmit={handleSearchByDate} className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-3">
         <div className="flex flex-col sm:flex-row gap-2">
