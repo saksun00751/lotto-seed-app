@@ -128,6 +128,19 @@ interface BlockedNumberItem {
   reason?:    string;
   max_amount?: number;
 }
+export interface MarketContent {
+  title?:            string;
+  summary?:          string;
+  rules_content?:    string;
+  schedule_content?: string;
+  prize_content?:    string;
+  formula_content?:  string;
+}
+interface MarketContentResponse {
+  success: boolean;
+  data?: { content?: MarketContent | null } | null;
+}
+
 interface BettingContextApiResponse {
   success: boolean;
   data?: (BettingContextApiItem[] | {
@@ -343,13 +356,15 @@ export default async function BetRoute({ params, searchParams }: Props) {
     const categoryItem = allCategories.find((c) => c.items.some((i) => i.id === lottery));
 
     const groupId = drawDetail?.market?.group_id;
-    const [{ drawId, numberLimits, betRates }, selectedPkgRes, bettingCtxRes] = await Promise.all([
+    const [{ drawId, numberLimits, betRates }, selectedPkgRes, bettingCtxRes, marketContentRes] = await Promise.all([
       getBetPageData(lottery, token, lang),
       groupId
         ? apiGet<SelectedPackageResponse>(`/lotto/groups/${groupId}/selected-package`, token, lang).catch(() => null)
         : Promise.resolve(null),
       apiGet<BettingContextApiResponse>(`/lotto/markets/${lottery}/betting-context`, token, lang).catch(() => null),
+      apiGet<MarketContentResponse>(`/lotto/markets/${lottery}/content`, token, lang).catch(() => null),
     ]);
+    const marketContent: MarketContent | null = marketContentRes?.success ? (marketContentRes.data?.content ?? null) : null;
     const baseBettingContext = mapBettingContext(bettingCtxRes);
     const bettingContext = applyPackageBetSettings(baseBettingContext, selectedPkgRes, drawDetail?.bet_settings);
 
@@ -444,6 +459,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
           bettingContext={bettingContext}
           yeekeeInfo={yeekeeInfo}
           lotteryInfo={lotteryInfo}
+          marketContent={marketContent}
         />
       </div>
     );

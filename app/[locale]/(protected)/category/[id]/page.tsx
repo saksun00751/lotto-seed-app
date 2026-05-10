@@ -218,7 +218,7 @@ export default async function CategoryPage({ params }: Props) {
         {cat.items.length === 0 ? (
           <ComingSoon emoji={cat.emoji} label={cat.label} t={t} />
         ) : !isYeekee ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {cat.items.map((item) => (
               <SubItemCard key={item.id} item={item} t={t} groupId={cat.groupId ?? 0} locale={locale} />
             ))}

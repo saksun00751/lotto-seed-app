@@ -37,6 +37,17 @@ export interface LotteryInfo {
   statusLabel?: string;
 }
 
+export interface MarketContent {
+  title?:            string;
+  summary?:          string;
+  rules_content?:    string;
+  schedule_content?: string;
+  prize_content?:    string;
+  formula_content?:  string;
+}
+
+type RulesSubTab = "rules" | "schedule" | "prize" | "formula";
+
 function isCloseAtExpired(closeAt?: string): boolean {
   return !!closeAt && new Date(closeAt).getTime() <= Date.now();
 }
@@ -64,6 +75,7 @@ export default function LotteryLayoutPage({
   bettingContext,
   yeekeeInfo,
   lotteryInfo,
+  marketContent,
 }: {
   lotteryTypeId?:   string;
   drawId?:          number;
@@ -79,6 +91,7 @@ export default function LotteryLayoutPage({
   bettingContext?:  BettingContext;
   yeekeeInfo?:      YeekeeInfo;
   lotteryInfo?:     LotteryInfo;
+  marketContent?:   MarketContent | null;
 }) {
   const { lang } = useLang();
   const router = useRouter();
@@ -97,6 +110,23 @@ export default function LotteryLayoutPage({
   const [closedModalOpen, setClosedModalOpen] = useState(() => isCloseAtExpired(closeAt));
   const [redirectCountdown, setRedirectCountdown] = useState(3);
   const [activeTab, setActiveTab] = useState<LotteryTab>(() => normalizeLotteryTab(searchParams.get("tab"), Boolean(yeekeeInfo)));
+
+  const rulesSubTabs = ([
+    { id: "rules"    as RulesSubTab, label: t.tabRulesRules,    html: marketContent?.rules_content },
+    { id: "schedule" as RulesSubTab, label: t.tabRulesSchedule, html: marketContent?.schedule_content },
+    { id: "prize"    as RulesSubTab, label: t.tabRulesPrize,    html: marketContent?.prize_content },
+    { id: "formula"  as RulesSubTab, label: t.tabRulesFormula,  html: marketContent?.formula_content },
+  ] as { id: RulesSubTab; label: string; html?: string }[]).filter(
+    (s): s is { id: RulesSubTab; label: string; html: string } =>
+      typeof s.html === "string" && s.html.trim().length > 0
+  );
+  const [rulesSubTab, setRulesSubTab] = useState<RulesSubTab>(() => rulesSubTabs[0]?.id ?? "rules");
+  useEffect(() => {
+    if (rulesSubTabs.length && !rulesSubTabs.some((s) => s.id === rulesSubTab)) {
+      setRulesSubTab(rulesSubTabs[0].id);
+    }
+  }, [rulesSubTabs, rulesSubTab]);
+  const activeRulesHtml = rulesSubTabs.find((s) => s.id === rulesSubTab)?.html ?? "";
 
   const availableBetTypeIds = betRates.map((r) => r.id);
   // เพิ่ม run/winlay อัตโนมัติถ้า API ไม่ส่งมา แต่มี 2top อยู่
@@ -349,6 +379,7 @@ export default function LotteryLayoutPage({
           {([
             { id: "bet", label: t.tabBet },
             ...(yeekeeInfo ? [{ id: "shoot" as const, label: t.tabShoot }] : []),
+            { id: "rules" as const, label: t.tabRules },
           ] as { id: LotteryTab; label: string }[]).map((tab) => {
             const active = activeTab === tab.id;
             return (
@@ -542,16 +573,53 @@ export default function LotteryLayoutPage({
         )}
 
         {activeTab === "rules" && (
-          <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-5 space-y-3 text-[14px] text-ap-secondary leading-relaxed">
-            <h3 className="text-[16px] font-extrabold text-ap-primary">{t.rulesTitle}</h3>
-            <ul className="list-disc pl-5 space-y-1.5">
-              <li>{t.ruleCheckBeforeConfirm}</li>
-              <li>{t.ruleCannotCancel}</li>
-              <li>{t.rulePackagePrice}</li>
-              <li>{t.ruleBlockedNumbers}</li>
-              {yeekeeInfo && <li>{t.ruleYeekee}</li>}
-              <li>{t.ruleSupport}</li>
-            </ul>
+          <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+            {(marketContent?.title || marketContent?.summary) && (
+              <div className="px-5 py-4 border-b border-ap-border">
+                {marketContent?.title && (
+                  <h3 className="text-[16px] font-extrabold text-ap-primary">{marketContent.title}</h3>
+                )}
+                {marketContent?.summary && (
+                  <p className="text-[14px] text-ap-secondary mt-1">{marketContent.summary}</p>
+                )}
+              </div>
+            )}
+            {rulesSubTabs.length > 1 && (
+              <div className="p-3 border-b border-ap-border">
+                <div className="p-1 rounded-2xl bg-surface-subtle overflow-x-auto scrollbar-hide">
+                  <div className="flex gap-1 w-max min-w-full">
+                    {rulesSubTabs.map((s) => {
+                      const active = rulesSubTab === s.id;
+                      return (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={() => setRulesSubTab(s.id)}
+                          className={[
+                            "flex-shrink-0 px-4 py-2 rounded-xl text-[14px] font-bold transition-all whitespace-nowrap",
+                            active
+                              ? "bg-surface-card text-ap-primary shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
+                              : "text-ap-tertiary hover:text-ap-primary",
+                          ].join(" ")}
+                        >
+                          {s.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+            {rulesSubTabs.length > 0 ? (
+              <div
+                className="px-5 py-4 text-[14px] text-ap-secondary leading-relaxed prose prose-sm max-w-none prose-headings:text-ap-primary prose-strong:text-ap-primary prose-a:text-ap-blue"
+                dangerouslySetInnerHTML={{ __html: activeRulesHtml }}
+              />
+            ) : (
+              <div className="px-5 py-10 text-center text-[14px] text-ap-tertiary">
+                {t.rulesEmpty}
+              </div>
+            )}
           </div>
         )}
       </div>
