@@ -22,10 +22,10 @@ type TT = ReturnType<typeof useTranslation<"transactions">>;
 
 function StatusBadge({ status, t }: { status: TxRow["status"]; t: TT }) {
   const map: Record<TxRow["status"], { cls: string; label: string }> = {
-    SUCCESS:   { cls: "bg-emerald-500/15 text-emerald-600", label: t.statusSuccess   },
-    PENDING:   { cls: "bg-amber-400/15 text-amber-600",    label: t.statusPending    },
-    CANCELLED: { cls: "bg-red-400/15 text-red-500",        label: t.statusCancelled  },
-    FAILED:    { cls: "bg-red-400/15 text-red-500",        label: t.statusCancelled  },
+    SUCCESS:   { cls: "bg-ap-green/15 text-ap-green", label: t.statusSuccess   },
+    PENDING:   { cls: "bg-amber-400/15 text-ap-orange",    label: t.statusPending    },
+    CANCELLED: { cls: "bg-red-400/15 text-ap-red",        label: t.statusCancelled  },
+    FAILED:    { cls: "bg-red-400/15 text-ap-red",        label: t.statusCancelled  },
   };
   const { cls, label } = map[status] ?? map.CANCELLED;
   return <span className={`text-[13px] font-bold px-2 py-0.5 rounded-full ${cls}`}>{label}</span>;
@@ -33,8 +33,8 @@ function StatusBadge({ status, t }: { status: TxRow["status"]; t: TT }) {
 
 function DirectionBadge({ direction, t }: { direction: TxRow["direction"]; t: TT }) {
   return direction === "CREDIT"
-    ? <span className="text-[12px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600">{t.credit}</span>
-    : <span className="text-[12px] font-bold px-1.5 py-0.5 rounded bg-red-400/10 text-red-500">{t.debit}</span>;
+    ? <span className="text-[12px] font-bold px-1.5 py-0.5 rounded bg-ap-green/10 text-ap-green">{t.credit}</span>
+    : <span className="text-[12px] font-bold px-1.5 py-0.5 rounded bg-red-400/10 text-ap-red">{t.debit}</span>;
 }
 
 function Empty({ label, suffix }: { label: string; suffix: string }) {
@@ -68,7 +68,7 @@ function TxCard({ tx, t, locale }: { tx: TxRow; t: TT; locale: string }) {
         <div className="mt-1"><StatusBadge status={tx.status} t={t} /></div>
       </div>
       <div className="text-right flex-shrink-0 pl-4">
-        <p className={`text-[18px] font-bold tabular-nums ${isCredit ? "text-emerald-500" : "text-red-500"}`}>
+        <p className={`text-[18px] font-bold tabular-nums ${isCredit ? "text-ap-green" : "text-ap-red"}`}>
           {isCredit ? "+" : ""}{formatNumber(tx.signedAmount, locale)}
         </p>
         {tx.balanceAfter > 0 && (
@@ -84,22 +84,22 @@ function TxCard({ tx, t, locale }: { tx: TxRow; t: TT; locale: string }) {
 function SummaryBar({ summary, t, locale }: { summary: TxSummary; t: TT; locale: string }) {
   const netPositive = summary.netAmount >= 0;
   return (
-    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card px-4 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card px-4 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
       <div className="text-center">
         <p className="text-[13px] text-ap-tertiary font-bold">{t.summaryTotal}</p>
         <p className="text-[17px] font-bold text-ap-primary tabular-nums">{summary.count}</p>
       </div>
       <div className="text-center">
         <p className="text-[13px] text-ap-tertiary font-bold">{t.summaryCredit}</p>
-        <p className="text-[17px] font-bold text-emerald-600 tabular-nums">+{formatNumber(summary.totalCredit, locale)}</p>
+        <p className="text-[17px] font-bold text-ap-green tabular-nums">+{formatNumber(summary.totalCredit, locale)}</p>
       </div>
       <div className="text-center">
         <p className="text-[13px] text-ap-tertiary font-bold">{t.summaryDebit}</p>
-        <p className="text-[17px] font-bold text-red-500 tabular-nums">-{formatNumber(summary.totalDebit, locale)}</p>
+        <p className="text-[17px] font-bold text-ap-red tabular-nums">-{formatNumber(summary.totalDebit, locale)}</p>
       </div>
       <div className="text-center">
         <p className="text-[13px] text-ap-tertiary font-bold">{t.summaryNet}</p>
-        <p className={`text-[17px] font-bold tabular-nums ${netPositive ? "text-emerald-600" : "text-red-500"}`}>
+        <p className={`text-[17px] font-bold tabular-nums ${netPositive ? "text-ap-green" : "text-ap-red"}`}>
           {netPositive ? "+" : ""}{formatNumber(summary.netAmount, locale)}
         </p>
       </div>
@@ -189,13 +189,13 @@ export default function TransactionsPageClient({ locale }: { locale: string; api
   const totalPages = Math.max(1, Math.ceil(pagination.total / pagination.limit));
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-4 pt-5 space-y-4">
 
         {/* Header */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors">
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -215,7 +215,7 @@ export default function TransactionsPageClient({ locale }: { locale: string; api
                 "flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl text-[14px] font-bold transition-colors border",
                 id === tabId
                   ? "bg-ap-blue text-white border-ap-blue shadow-sm"
-                  : "bg-white text-ap-secondary border-ap-border hover:bg-ap-bg",
+                  : "bg-surface-card text-ap-secondary border-ap-border hover:bg-surface-subtle",
               ].join(" ")}
             >
               <span className="emoji-font">{TAB_ICONS[id]}</span>
@@ -225,7 +225,7 @@ export default function TransactionsPageClient({ locale }: { locale: string; api
         </div>
 
         {/* Filter */}
-        <form onSubmit={onSubmitFilter} className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-3">
+        <form onSubmit={onSubmitFilter} className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input type="date" value={dateStartInput} onChange={(e) => setDateStartInput(e.target.value)}
               className="w-full border border-ap-border rounded-xl px-3 py-2 text-[15px] font-semibold text-ap-primary outline-none focus:border-ap-blue" />
@@ -238,7 +238,7 @@ export default function TransactionsPageClient({ locale }: { locale: string; api
               {t.search}
             </button>
             <button type="button" onClick={onClearFilter}
-              className="px-4 py-2 rounded-xl border border-ap-border text-[15px] font-bold text-ap-secondary hover:bg-ap-bg transition-colors">
+              className="px-4 py-2 rounded-xl border border-ap-border text-[15px] font-bold text-ap-secondary hover:bg-surface-subtle transition-colors">
               {t.clearDate}
             </button>
           </div>
@@ -250,8 +250,8 @@ export default function TransactionsPageClient({ locale }: { locale: string; api
         )}
 
         {/* List */}
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
-          <div className="px-4 py-3 border-b border-ap-border flex items-center justify-between bg-slate-100/70">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+          <div className="px-4 py-3 border-b border-ap-border flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-[20px] emoji-font">{TAB_ICONS[tabId]}</span>
               <span className="text-[16px] font-bold text-ap-primary">{TAB_LABELS[tabId]}</span>

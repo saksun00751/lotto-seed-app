@@ -31,7 +31,7 @@ function LoginContent({ logoUrl }: { logoUrl: string }) {
       </div>
 
       {/* Card */}
-      <div className="bg-ap-card rounded-[28px] shadow-card-xl border border-ap-border p-8">
+      <div className="bg-surface-card rounded-[28px] shadow-card-xl border border-ap-border p-8">
         <LoginForm />
       </div>
 
@@ -54,7 +54,7 @@ function ExpiredSessionBanner() {
   const t = useTranslation("login");
 
   return (
-    <div className="w-full max-w-[400px] mb-4 bg-red-50 border border-red-200 text-red-700 text-[13.5px] font-medium rounded-2xl px-4 py-3 text-center">
+    <div className="w-full max-w-[400px] mb-4 bg-red-50 border border-red-200 text-ap-red text-[13.5px] font-medium rounded-2xl px-4 py-3 text-center">
       {t.errSession}
     </div>
   );

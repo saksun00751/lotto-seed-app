@@ -232,7 +232,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
   }, [canSubmit, rows, bills, note, onAddBills, dateLocale, ctx2top, ctx2bot, ctx3top, ctx3tod, t]);
 
   // ── Render ─────────────────────────────────────────────────────────────────
-  const inputCls = "w-full text-center text-[14px] font-extrabold text-ap-blue outline-none bg-white tabular-nums py-2 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-ap-blue/20 transition-all placeholder:text-ap-tertiary/50 placeholder:font-normal";
+  const inputCls = "w-full text-center text-[14px] font-extrabold text-ap-blue outline-none bg-surface-card tabular-nums py-2 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-ap-blue/20 transition-all placeholder:text-ap-tertiary/50 placeholder:font-normal";
 
   return (
     <div className="p-0">
@@ -291,7 +291,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
             {rows.map((row, i) => {
               const is2 = row.digits === 2;
               return (
-                <tr key={row.id} className={i % 2 === 0 ? "bg-white hover:bg-gray-200" : "bg-ap-bg/40 hover:bg-ap-bg"} style={{ transition: "background 0.1s" }}>
+                <tr key={row.id} className={i % 2 === 0 ? "bg-surface-card hover:bg-gray-200" : "bg-surface-subtle/40 hover:bg-surface-subtle"} style={{ transition: "background 0.1s" }}>
                   <td className="border border-ap-border px-2 py-1 text-center font-extrabold text-ap-blue tabular-nums text-[14px]">
                     {row.number}
                   </td>
@@ -357,13 +357,13 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
                   onKeyDown={handleNumKeyDown}
                   placeholder={t.inputNumberPlaceholder}
                   maxLength={3}
-                  className="w-full text-center text-[15px] font-extrabold text-ap-blue outline-none bg-white tabular-nums py-2.5 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-ap-blue/20 transition-all placeholder:text-ap-tertiary placeholder:font-normal placeholder:text-[14px]"
+                  className="w-full text-center text-[15px] font-extrabold text-ap-blue outline-none bg-surface-card tabular-nums py-2.5 focus:bg-blue-50 focus:ring-2 focus:ring-inset focus:ring-ap-blue/20 transition-all placeholder:text-ap-tertiary placeholder:font-normal placeholder:text-[14px]"
                 />
               </td>
-              <td className="border border-ap-border bg-ap-bg/40" />
-              <td className="border border-ap-border bg-ap-bg/40" />
-              <td className="border border-ap-border bg-ap-bg/40" />
-              <td className="border border-ap-border bg-ap-bg/40" />
+              <td className="border border-ap-border bg-surface-subtle/40" />
+              <td className="border border-ap-border bg-surface-subtle/40" />
+              <td className="border border-ap-border bg-surface-subtle/40" />
+              <td className="border border-ap-border bg-surface-subtle/40" />
             </tr>
           </tbody>
         </table>
@@ -375,7 +375,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
         <input
           type="text" value={note} onChange={(e) => setNote(e.target.value)}
           placeholder={t.notePlaceholder}
-          className="flex-1 border-2 border-ap-blue rounded-xl px-3 py-1.5 text-[14px] outline-none focus:ring-2 focus:ring-ap-blue/10 bg-white transition-all"
+          className="flex-1 border-2 border-ap-blue rounded-xl px-3 py-1.5 text-[14px] outline-none focus:ring-2 focus:ring-ap-blue/10 bg-surface-card transition-all"
         />
         {lotteryLogo
           ? <img src={lotteryLogo} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
@@ -387,7 +387,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
       <div className="px-4 pb-4 flex gap-2">
         <button
           onClick={clearAll}
-          className="flex-1 py-2.5 rounded-xl border border-ap-border text-[14px] font-semibold text-ap-secondary hover:bg-ap-bg active:scale-95 transition-all"
+          className="flex-1 py-2.5 rounded-xl border border-ap-border text-[14px] font-semibold text-ap-secondary hover:bg-surface-subtle active:scale-95 transition-all"
         >
           {t.clearAll}
         </button>
@@ -397,7 +397,7 @@ export default function BetClassicForm({ lotteryFlag, lotteryLogo, bills, number
             "flex-[2] py-2.5 rounded-xl text-[14px] font-bold transition-all active:scale-95",
             canSubmit
               ? "bg-ap-blue text-white hover:bg-ap-blue-h shadow-md"
-              : "bg-ap-bg border border-dashed border-ap-border text-ap-tertiary cursor-not-allowed",
+              : "bg-surface-subtle border border-dashed border-ap-border text-ap-tertiary cursor-not-allowed",
           ].join(" ")}
         >
           + {t.addBill}

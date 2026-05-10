@@ -9,9 +9,9 @@ const STATUS_STYLE: Record<string, string> = {
   confirmed: "bg-ap-blue/10 text-ap-blue",
   won:       "bg-ap-green/10 text-ap-green",
   lost:      "bg-ap-red/10 text-ap-red",
-  pending:   "bg-yellow-50 text-yellow-700",
-  cancelled: "bg-ap-bg text-ap-tertiary",
-  refunded:  "bg-ap-bg text-ap-secondary",
+  pending:   "bg-yellow-50 text-ap-orange",
+  cancelled: "bg-surface-subtle text-ap-tertiary",
+  refunded:  "bg-surface-subtle text-ap-secondary",
 };
 const STATUS_LABEL: Record<string, string> = {
   confirmed: "ยืนยัน", won: "ถูกรางวัล", lost: "ไม่ถูก",
@@ -72,7 +72,7 @@ export default function BetSlipDetailModal({ slip, onClose }: Props) {
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm px-0 sm:px-4"
       onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}
     >
-      <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+      <div className="bg-surface-card w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
 
         {/* Header */}
         <div className="px-5 pt-5 pb-4 border-b border-ap-border flex-shrink-0">
@@ -83,7 +83,7 @@ export default function BetSlipDetailModal({ slip, onClose }: Props) {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <h2 className="text-[16px] font-bold text-ap-primary">{slip.lotteryName}</h2>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[status] ?? "bg-ap-bg text-ap-secondary"}`}>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[status] ?? "bg-surface-subtle text-ap-secondary"}`}>
                   {STATUS_LABEL[status] ?? status}
                 </span>
               </div>
@@ -95,7 +95,7 @@ export default function BetSlipDetailModal({ slip, onClose }: Props) {
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-ap-bg flex items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors flex-shrink-0"
+              className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors flex-shrink-0"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
@@ -107,7 +107,7 @@ export default function BetSlipDetailModal({ slip, onClose }: Props) {
         {/* Items list */}
         <div className="overflow-y-auto flex-1">
           {/* Column header */}
-          <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 px-5 py-2 bg-ap-bg text-[11px] font-semibold text-ap-tertiary uppercase tracking-wide sticky top-0">
+          <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 px-5 py-2 bg-surface-subtle text-[11px] font-semibold text-ap-tertiary uppercase tracking-wide sticky top-0">
             <span>เลข / ประเภท</span>
             <span className="text-right">ยอดแทง</span>
             <span className="text-right">อัตรา</span>
@@ -158,7 +158,7 @@ export default function BetSlipDetailModal({ slip, onClose }: Props) {
         </div>
 
         {/* Footer summary */}
-        <div className="px-5 py-4 border-t border-ap-border bg-ap-bg flex-shrink-0 space-y-1.5">
+        <div className="px-5 py-4 border-t border-ap-border bg-surface-subtle flex-shrink-0 space-y-1.5">
           {slip.note && (
             <p className="text-[12px] text-ap-secondary mb-2">หมายเหตุ: {slip.note}</p>
           )}
@@ -170,8 +170,8 @@ export default function BetSlipDetailModal({ slip, onClose }: Props) {
           </div>
           {slip.totalDiscountAmount > 0 && (
             <div className="flex justify-between items-center">
-              <span className="text-[13px] text-green-600">ส่วนลด</span>
-              <span className="text-[13px] font-semibold text-green-600 tabular-nums">
+              <span className="text-[13px] text-ap-green">ส่วนลด</span>
+              <span className="text-[13px] font-semibold text-ap-green tabular-nums">
                 -฿{slip.totalDiscountAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>

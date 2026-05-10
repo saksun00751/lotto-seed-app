@@ -76,7 +76,7 @@ export default function BetConfirmModal({
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onCancel} />
 
       {/* Modal */}
-      <div className={"relative w-full max-w-md bg-white rounded-3xl shadow-card-xl overflow-hidden flex flex-col max-h-[90dvh]"}>
+      <div className={"relative w-full max-w-md bg-surface-card rounded-3xl shadow-card-xl overflow-hidden flex flex-col max-h-[90dvh]"}>
 
         {/* Header */}
         <div className="px-5 py-4 border-b border-ap-border flex items-center justify-between shrink-0">
@@ -85,7 +85,7 @@ export default function BetConfirmModal({
             <p className="text-[14px] text-ap-primary font-medium mt-0.5">{lotteryName} • {today}</p>
           </div>
           <button onClick={onCancel}
-            className="w-8 h-8 flex items-center justify-center rounded-full bg-ap-bg hover:bg-ap-border text-ap-secondary transition-colors text-[18px]">
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-surface-subtle hover:bg-ap-border text-ap-secondary transition-colors text-[18px]">
             ×
           </button>
         </div>
@@ -97,7 +97,7 @@ export default function BetConfirmModal({
             if (!items.length) return null;
             return (
               <div key={group.key} className="border-b border-ap-border last:border-0">
-                <div className="px-5 py-2 bg-ap-bg/80 flex items-center justify-between">
+                <div className="px-5 py-2 bg-surface-subtle/80 flex items-center justify-between">
                   <span className="text-[14px] font-bold text-ap-primary uppercase tracking-wide">{group.label}</span>
                   <span className="text-[14px] font-bold text-ap-secondary">{items.length} {t.items}</span>
                 </div>
@@ -140,7 +140,7 @@ export default function BetConfirmModal({
           const discountPct = subtotalAmount > 0 ? (discountAmount / subtotalAmount) * 100 : 0;
           const netAmount = Math.max(0, subtotalAmount - discountAmount);
           return (
-            <div className="shrink-0 border-t border-ap-border bg-ap-bg/70 px-5 py-3 space-y-1.5">
+            <div className="shrink-0 border-t border-ap-border bg-surface-subtle/70 px-5 py-3 space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-[14px] font-semibold text-ap-primary">{t.totalItems}</span>
                 <span className="text-[14px] font-bold text-ap-primary">{bills.length} {t.items}</span>
@@ -172,7 +172,7 @@ export default function BetConfirmModal({
         {/* Actions */}
         <div className="shrink-0 px-5 pb-5 pt-3 flex gap-3">
           <button onClick={onCancel}
-            className="flex-1 py-3 rounded-2xl border-2 border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg active:scale-[0.98] transition-all">
+            className="flex-1 py-3 rounded-2xl border-2 border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-surface-subtle active:scale-[0.98] transition-all">
             {t.cancel}
           </button>
           <button onClick={handleConfirm}

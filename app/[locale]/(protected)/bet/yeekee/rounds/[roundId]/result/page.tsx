@@ -82,8 +82,8 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
   const isResulted = data.status === "resulted" && data.is_revealed;
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
-      <div className="bg-white border-b border-ap-border px-4 py-2.5 flex items-center sticky top-0 z-20 shadow-sm">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
+      <div className="bg-surface-card border-b border-ap-border px-4 py-2.5 flex items-center sticky top-0 z-20 shadow-sm">
         <div className="flex items-center gap-2 text-[14px] min-w-0 w-full">
           <Link href={`/${locale}/dashboard`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">หน้าหลัก</Link>
           <span className="text-ap-tertiary shrink-0">›</span>
@@ -113,7 +113,7 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
           <h1 className="text-[18px] font-bold text-ap-primary">เช็คผลรางวัล</h1>
         </div>
 
-        <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden">
+        <section className="rounded-2xl border border-ap-border bg-surface-card shadow-card overflow-hidden">
           <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-3">
             {marketName && <p className="text-[13px] font-semibold text-white/90">{marketName}</p>}
             <h2 className="text-[15px] font-extrabold text-white">รอบที่ {data.round_no ?? roundNoFromQuery ?? "—"}</h2>
@@ -134,7 +134,7 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
                       {data.shoot_summary.shoot_sum.split("").map((digit, i) => (
                         <div
                           key={i}
-                          className="w-10 h-12 rounded-xl bg-ap-card border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
+                          className="w-10 h-12 rounded-xl bg-surface-card border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
                         >
                           {digit}
                         </div>
@@ -144,13 +144,13 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
                 )}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex flex-col items-center justify-center rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-4">
-                    <span className="text-[36px] font-extrabold tabular-nums text-emerald-600 leading-none">
+                    <span className="text-[36px] font-extrabold tabular-nums text-ap-green leading-none">
                       {payload?.top_3 || "—"}
                     </span>
                     <span className="mt-2 text-[13px] font-semibold text-slate-600">3 ตัวบน</span>
                   </div>
                   <div className="flex flex-col items-center justify-center rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-4">
-                    <span className="text-[36px] font-extrabold tabular-nums text-emerald-600 leading-none">
+                    <span className="text-[36px] font-extrabold tabular-nums text-ap-green leading-none">
                       {payload?.bottom_2 || "—"}
                     </span>
                     <span className="mt-2 text-[13px] font-semibold text-slate-600">2 ตัวล่าง</span>
@@ -158,13 +158,13 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
                 </div>
 
 {payload?.raw_result && (
-                  <div className="rounded-xl bg-ap-bg/70 border border-ap-border px-3 py-2.5 text-[13px] text-ap-secondary break-all">
+                  <div className="rounded-xl bg-surface-subtle/70 border border-ap-border px-3 py-2.5 text-[13px] text-ap-secondary break-all">
                     <span className="font-semibold">ผลดิบ:</span> {payload.raw_result}
                   </div>
                 )}
 
                 {(proof?.precommit_signature || proof?.proof_signature || proof?.external_seed_reference) && (
-                  <details className="rounded-xl bg-ap-bg/70 border border-ap-border px-3 py-2.5 text-[12px] text-ap-tertiary">
+                  <details className="rounded-xl bg-surface-subtle/70 border border-ap-border px-3 py-2.5 text-[12px] text-ap-tertiary">
                     <summary className="cursor-pointer font-semibold text-ap-secondary">หลักฐาน (proof)</summary>
                     <div className="mt-2 space-y-1.5 break-all">
                       {proof?.precommit_signature && <div><span className="font-semibold">precommit:</span> {proof.precommit_signature}</div>}

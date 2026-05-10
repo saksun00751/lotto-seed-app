@@ -88,13 +88,13 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
   };
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden">
+    <section className="rounded-2xl border border-ap-border bg-surface-card shadow-card overflow-hidden">
       <div className="px-4 py-3 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border">
         <h2 className="text-[15px] font-extrabold text-white">ส่งเลขยิง</h2>
       </div>
 
       <div className="p-4">
-        <div className="bg-ap-bg/70 rounded-2xl border-2 border-ap-blue p-4 mb-4">
+        <div className="bg-surface-subtle/70 rounded-2xl border-2 border-ap-blue p-4 mb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             {Array.from({ length: MAX_DIGITS }).map((_, i) => (
               <div
@@ -102,10 +102,10 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                 className={[
                   "w-12 h-16 sm:w-14 rounded-xl border-2 border-ap-blue flex items-center justify-center text-[28px] font-extrabold tabular-nums transition-all",
                   inputBuf[i]
-                    ? "bg-white text-ap-blue shadow-md"
+                    ? "bg-surface-card text-ap-blue shadow-md"
                     : i === inputBuf.length
                       ? "bg-blue-50 text-ap-tertiary animate-pulse"
-                      : "bg-white text-ap-tertiary/30",
+                      : "bg-surface-card text-ap-tertiary/30",
                 ].join(" ")}
               >
                 {inputBuf[i] ?? "·"}
@@ -126,7 +126,7 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                   type="button"
                   onClick={pressRandomGuarded}
                   disabled={isLocked}
-                  className="py-3.5 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-emerald-700 text-[14px] font-bold shadow-sm hover:bg-emerald-100 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="py-3.5 rounded-xl bg-emerald-50 border-2 border-emerald-500 text-ap-green text-[14px] font-bold shadow-sm hover:bg-emerald-100 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   สุ่มเลข
                 </button>
@@ -139,7 +139,7 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                   type="button"
                   onClick={pressBackspaceGuarded}
                   disabled={isLocked}
-                  className="py-3.5 rounded-xl bg-yellow-50 border-2 border-yellow-500 text-yellow-700 text-[14px] font-bold shadow-sm hover:bg-yellow-100 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="py-3.5 rounded-xl bg-yellow-50 border-2 border-yellow-500 text-ap-orange text-[14px] font-bold shadow-sm hover:bg-yellow-100 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   ⌫
                 </button>
@@ -151,7 +151,7 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                 type="button"
                 onClick={() => pressDigitGuarded(key)}
                 disabled={isLocked}
-                className="py-3.5 rounded-xl bg-ap-card border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="py-3.5 rounded-xl bg-surface-card border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {key}
               </button>

@@ -87,7 +87,7 @@ function BankLogo({ bank, size }: { bank: BankOption; size: number }) {
 
   if (src && !imgError) {
     return (
-      <div className="rounded-lg overflow-hidden flex-shrink-0 bg-white" style={{ width: size, height: size }}>
+      <div className="rounded-lg overflow-hidden flex-shrink-0 bg-surface-card" style={{ width: size, height: size }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={bank.name_th} width={size} height={size} className="w-full h-full object-contain" onError={() => setImgError(true)} />
       </div>
@@ -128,7 +128,7 @@ function BankSelect({ banks, value, onChange, placeholder, hasError }: {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={[
-          "w-full flex items-center gap-3 border rounded-2xl px-4 py-2.5 text-[14px] outline-none transition-all text-left bg-white",
+          "w-full flex items-center gap-3 border rounded-2xl px-4 py-2.5 text-[14px] outline-none transition-all text-left bg-surface-card",
           open ? "border-ap-blue ring-2 ring-ap-blue/10" : "",
           hasError && !open ? "border-ap-red bg-ap-red/5" : !open ? "border-ap-border" : "",
         ].join(" ")}
@@ -147,11 +147,11 @@ function BankSelect({ banks, value, onChange, placeholder, hasError }: {
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 w-full bg-ap-card border border-ap-border rounded-2xl shadow-lg overflow-hidden max-h-56 overflow-y-auto">
+        <div className="absolute z-50 mt-1 w-full bg-surface-card border border-ap-border rounded-2xl shadow-lg overflow-hidden max-h-56 overflow-y-auto">
           {banks.map((b) => (
             <button key={b.code} type="button"
               onClick={() => { onChange(b.code); setOpen(false); }}
-              className={["w-full flex items-center gap-3 px-4 py-2.5 hover:bg-ap-bg transition-colors text-left",
+              className={["w-full flex items-center gap-3 px-4 py-2.5 hover:bg-surface-subtle transition-colors text-left",
                 b.code === value ? "bg-ap-blue/5" : ""].join(" ")}>
               <BankLogo bank={b} size={28} />
               <span className="text-[14px] text-ap-primary">{b.name_th}</span>
@@ -476,7 +476,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
         <label className="flex items-start gap-3 cursor-pointer group">
           <button type="button" onClick={() => setAgreed(!agreed)}
             className={["w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-200",
-              agreed ? "bg-ap-blue border-ap-blue" : "bg-white border-ap-border group-hover:border-ap-blue/40"].join(" ")}>
+              agreed ? "bg-ap-blue border-ap-blue" : "bg-surface-card border-ap-border group-hover:border-ap-blue/40"].join(" ")}>
             {agreed && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
           </button>
           <span className="text-[13px] text-ap-secondary leading-relaxed select-none">

@@ -186,7 +186,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
 
   return (
     <>
-      <nav className="sticky top-0 z-50 bg-navbar-bg backdrop-blur-xl border-b border-ap-border">
+      <nav className="sticky top-0 z-50 bg-surface-navbar backdrop-blur-xl border-b border-ap-border">
         <div className="max-w-5xl mx-auto px-3 sm:px-5 h-16 flex items-center justify-between gap-2">
 
           {/* Logo */}
@@ -209,7 +209,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                 <Link key={l.href} href={l.href}
                   className={[
                     "flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[13px] font-medium transition-all whitespace-nowrap",
-                    active ? "bg-ap-blue/10 text-ap-blue" : "text-ap-secondary hover:bg-ap-bg hover:text-ap-primary",
+                    active ? "bg-ap-blue/10 text-ap-blue" : "text-ap-secondary hover:bg-surface-subtle hover:text-ap-primary",
                   ].join(" ")}>
                   <AppIcon name={l.icon} className="text-[14px] leading-none" />
                   {l.label}
@@ -223,7 +223,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
 
             {/* Balance */}
             <Link href={`/${lang}/deposit`}
-              className="flex items-center gap-1.5 bg-ap-bg border border-ap-border rounded-full px-2.5 sm:px-3 py-1.5 hover:border-ap-blue/30 transition-colors">
+              className="flex items-center gap-1.5 bg-surface-subtle border border-ap-border rounded-full px-2.5 sm:px-3 py-1.5 hover:border-ap-blue/30 transition-colors">
               <AppIcon name="deposit" className="text-[14px] leading-none" />
                 <span className="text-[13px] sm:text-[13px] font-bold text-ap-primary tabular-nums">
                 ฿{liveBalance.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -235,7 +235,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
               <button
                 onClick={() => setProfileOpen((v) => !v)}
                 className={[
-                  "w-9 h-9 rounded-full bg-ap-card border border-ap-border flex items-center justify-center text-ap-primary shadow-sm transition-all",
+                  "w-9 h-9 rounded-full bg-surface-card border border-ap-border flex items-center justify-center text-ap-primary shadow-sm transition-all",
                   profileOpen ? "ring-2 ring-ap-blue/25 border-ap-blue/35 shadow-md" : "hover:border-ap-blue/35 hover:shadow-md",
                 ].join(" ")}
                 aria-label="Open menu"
@@ -249,14 +249,14 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
               </button>
 
               {profileOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] w-[248px] bg-ap-card rounded-2xl shadow-[0_16px_36px_rgba(15,23,42,0.18)] border border-slate-200 overflow-x-hidden overflow-y-auto max-h-[calc(100dvh-88px)] sm:max-h-[80vh] overscroll-contain animate-pop-in z-50">
+                <div className="absolute right-0 top-[calc(100%+8px)] w-[248px] bg-surface-card rounded-2xl shadow-[0_16px_36px_rgba(15,23,42,0.18)] border border-slate-200 overflow-x-hidden overflow-y-auto max-h-[calc(100dvh-88px)] sm:max-h-[80vh] overscroll-contain animate-pop-in z-50">
                   {/* Language switcher */}
                   <div className="px-4 pt-2.5 pb-2 flex items-center justify-between">
                     <span className="text-[13px] font-bold text-slate-500">{t.language}</span>
                     <button
                       type="button"
                       onClick={() => { setProfileOpen(false); setLangModalOpen(true); }}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[13px] font-bold text-slate-700 hover:border-ap-blue/35 transition-all"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-card border border-slate-200 text-[13px] font-bold text-slate-700 hover:border-ap-blue/35 transition-all"
                     >
                       <img
                         src={LANGS.find((l) => l.code === lang)?.flagIcon}
@@ -316,7 +316,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                         <span className={[
                           "w-6.5 h-6.5 rounded-lg flex items-center justify-center border transition-all duration-200",
                           active
-                            ? "bg-white border-ap-blue/25 text-ap-blue"
+                            ? "bg-surface-card border-ap-blue/25 text-ap-blue"
                             : "bg-slate-50 border-slate-200 text-slate-600 group-hover:border-[#bfdbfe] group-hover:bg-[#eff6ff] group-hover:text-ap-blue group-hover:scale-[1.04]",
                         ].join(" ")}>
                           <AppIcon name={item.icon} className="w-4 h-4" />
@@ -334,7 +334,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                           type="submit"
                           className="group w-full flex items-center gap-2.5 px-3 py-2.5 text-[14px] font-bold transition-all duration-200 ease-out text-ap-red hover:bg-gradient-to-r hover:from-rose-50 hover:to-white hover:border-rose-200/80 border border-transparent hover:shadow-[0_6px_14px_rgba(244,63,94,0.10)] rounded-xl mx-1.5"
                         >
-                          <span className="w-6.5 h-6.5 rounded-lg flex items-center justify-center border bg-rose-50 border-rose-200 text-rose-500 transition-transform duration-200 group-hover:scale-[1.04]">
+                          <span className="w-6.5 h-6.5 rounded-lg flex items-center justify-center border bg-rose-50 border-rose-200 text-ap-red transition-transform duration-200 group-hover:scale-[1.04]">
                             <AppIcon name="logout" className="w-4 h-4" />
                           </span>
                           {t.logout}
@@ -356,7 +356,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
           onClick={() => setLangModalOpen(false)}
         >
           <div
-            className="bg-ap-card rounded-2xl shadow-card-xl border border-ap-border w-[280px] overflow-hidden animate-pop-in"
+            className="bg-surface-card rounded-2xl shadow-card-xl border border-ap-border w-[280px] overflow-hidden animate-pop-in"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-5 py-4 border-b border-ap-border">
@@ -372,7 +372,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
                     "flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold transition-all w-full text-left",
                     lang === l.code
                       ? "bg-ap-blue/10 text-ap-blue border border-ap-blue/30"
-                      : "text-ap-primary hover:bg-ap-bg border border-transparent",
+                      : "text-ap-primary hover:bg-surface-subtle border border-transparent",
                   ].join(" ")}
                 >
                   <img src={l.flagIcon} alt={l.flag} className="w-5 h-5 rounded-sm object-cover" />
@@ -389,7 +389,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
 
       {/* Mobile bottom tabs */}
       <div
-        className="sm:hidden fixed bottom-0 left-0 right-0 bg-navbar-bg backdrop-blur-xl border-t border-ap-border z-50 pb-[env(safe-area-inset-bottom)]"
+        className="sm:hidden fixed bottom-0 left-0 right-0 bg-surface-navbar backdrop-blur-xl border-t border-ap-border z-50 pb-[env(safe-area-inset-bottom)]"
       >
         <div className="grid w-full" style={{ gridTemplateColumns: `repeat(${navLinks.length}, 1fr)` }}>
           {navLinks.map((l) => {

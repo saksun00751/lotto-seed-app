@@ -133,13 +133,13 @@ export default async function HistoryPage({ params, searchParams }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-4xl mx-auto px-4 pt-5 space-y-4">
 
         {/* Header */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors">
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -161,7 +161,7 @@ export default async function HistoryPage({ params, searchParams }: Props) {
                 "flex-shrink-0 px-4 py-2 rounded-full text-[13px] font-semibold transition-colors",
                 status === tab.id
                   ? "bg-ap-blue text-white"
-                  : "bg-white border border-ap-border text-ap-secondary hover:bg-ap-bg",
+                  : "bg-surface-card border border-ap-border text-ap-secondary hover:bg-surface-subtle",
               ].join(" ")}>
               {tab.label}
             </Link>
@@ -169,7 +169,7 @@ export default async function HistoryPage({ params, searchParams }: Props) {
         </div>
 
         {/* List */}
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           {pageItems.length === 0 ? (
             <div className="py-16 text-center">
               <p className="text-[32px] mb-3">📋</p>
@@ -190,7 +190,7 @@ export default async function HistoryPage({ params, searchParams }: Props) {
           <div className="flex items-center justify-center gap-1 py-2 flex-wrap">
             {serverPage > 1 ? (
               <Link href={buildHref({ page: serverPage - 1 })}
-                className="px-3 py-2 bg-white border border-ap-border rounded-xl text-[13px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors">←</Link>
+                className="px-3 py-2 bg-surface-card border border-ap-border rounded-xl text-[13px] font-semibold text-ap-secondary hover:bg-surface-subtle transition-colors">←</Link>
             ) : (
               <span className="px-3 py-2 rounded-xl text-[13px] text-ap-border select-none">←</span>
             )}
@@ -201,7 +201,7 @@ export default async function HistoryPage({ params, searchParams }: Props) {
                 <Link key={n} href={buildHref({ page: n })}
                   className={[
                     "min-w-[36px] h-9 flex items-center justify-center rounded-xl text-[13px] font-semibold transition-colors",
-                    serverPage === n ? "bg-ap-blue text-white" : "bg-white border border-ap-border text-ap-secondary hover:bg-ap-bg",
+                    serverPage === n ? "bg-ap-blue text-white" : "bg-surface-card border border-ap-border text-ap-secondary hover:bg-surface-subtle",
                   ].join(" ")}>
                   {n}
                 </Link>
@@ -209,7 +209,7 @@ export default async function HistoryPage({ params, searchParams }: Props) {
             )}
             {hasMore || serverPage < totalPages ? (
               <Link href={buildHref({ page: serverPage + 1 })}
-                className="px-3 py-2 bg-white border border-ap-border rounded-xl text-[13px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors">→</Link>
+                className="px-3 py-2 bg-surface-card border border-ap-border rounded-xl text-[13px] font-semibold text-ap-secondary hover:bg-surface-subtle transition-colors">→</Link>
             ) : (
               <span className="px-3 py-2 rounded-xl text-[13px] text-ap-border select-none">→</span>
             )}

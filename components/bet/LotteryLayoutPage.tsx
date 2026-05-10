@@ -213,10 +213,10 @@ export default function LotteryLayoutPage({
     router.replace(`/${lang}/bet`);
   };
   return (
-    <div className="min-h-screen bg-ap-bg">
+    <div className="min-h-screen bg-surface-subtle">
       {closedModalOpen && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-3xl bg-ap-card shadow-card-xl border border-ap-border overflow-hidden animate-pop-in">
+          <div className="w-full max-w-sm rounded-3xl bg-surface-card shadow-card-xl border border-ap-border overflow-hidden animate-pop-in">
             <div className="px-5 py-5 text-center">
               <div className="w-14 h-14 mx-auto rounded-2xl bg-ap-red/10 border border-ap-red/15 text-ap-red flex items-center justify-center mb-4">
                 <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
@@ -241,7 +241,7 @@ export default function LotteryLayoutPage({
       )}
 
       {/* ── Breadcrumb bar ─────────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-ap-border px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-0 sticky top-0 z-20 shadow-sm">
+      <div className="bg-surface-card border-b border-ap-border px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-0 sticky top-0 z-20 shadow-sm">
         <div className="flex items-center gap-2 text-[14px] min-w-0">
           <Link href={`/${lang}/dashboard`} className="text-ap-secondary hover:text-ap-primary transition-colors shrink-0">{t.home}</Link>
           <span className="text-ap-tertiary shrink-0">›</span>
@@ -345,7 +345,7 @@ export default function LotteryLayoutPage({
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
       <div className="max-w-[1280px] mx-auto px-3 py-4 pb-12 space-y-4">
         {/* Tabs */}
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-1 flex gap-1">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-1 flex gap-1">
           {([
             { id: "bet", label: t.tabBet },
             ...(yeekeeInfo ? [{ id: "shoot" as const, label: t.tabShoot }] : []),
@@ -399,7 +399,7 @@ export default function LotteryLayoutPage({
               const show2Double = betType === "2top" || betType === "2bot";
               if ((!visible.length && !show3Tong && !show2Double) || isClassic) return null;
               return (
-                <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+                <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
                   <div className="px-4 py-2.5 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border">
                     <p className="text-[14px] text-white font-bold uppercase tracking-wide">{t.specialModeTitle}</p>
                   </div>
@@ -415,7 +415,7 @@ export default function LotteryLayoutPage({
                             "py-2 rounded-xl text-[14px] font-bold border transition-all",
                             active
                               ? "bg-violet-50 border-violet-300 text-violet-700"
-                              : "bg-white border-ap-border text-ap-primary hover:border-ap-blue/30",
+                              : "bg-surface-card border-ap-border text-ap-primary hover:border-ap-blue/30",
                           ].join(" ")}
                         >
                           {mode.label}
@@ -426,7 +426,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setTripleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-surface-card border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
                       >
                         {t.tripleNumbers}
                       </button>
@@ -435,7 +435,7 @@ export default function LotteryLayoutPage({
                       <button
                         type="button"
                         onClick={() => setDoubleTrigger((n) => n + 1)}
-                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-white border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
+                        className="py-2 rounded-xl text-[14px] font-bold border transition-all bg-surface-card border-ap-border text-ap-primary hover:border-yellow-400 hover:bg-yellow-50 active:scale-95"
                       >
                         {t.doubleNumbers}
                       </button>
@@ -490,7 +490,7 @@ export default function LotteryLayoutPage({
 
         {activeTab === "shoot" && yeekeeInfo?.roundId != null && (
           <div className="space-y-5">
-            <section className="overflow-hidden rounded-2xl border border-ap-border bg-ap-card shadow-card">
+            <section className="overflow-hidden rounded-2xl border border-ap-border bg-surface-card shadow-card">
               <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-white">
                 <div className="flex items-center gap-3">
                   {lotteryLogo ? (
@@ -522,7 +522,7 @@ export default function LotteryLayoutPage({
                   { label: t.shootDetailStatus, value: yeekeeInfo.statusLabel ?? "-" },
                   { label: t.shootDetailCloseTime, value: (yeekeeInfo.shootCloseAt ?? yeekeeInfo.betCloseAt) ? new Date((yeekeeInfo.shootCloseAt ?? yeekeeInfo.betCloseAt) as string).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", hour12: false }) : "-" },
                 ].map((row) => (
-                  <div key={row.label} className="rounded-xl border border-slate-200 bg-white px-3 py-2.5">
+                  <div key={row.label} className="rounded-xl border border-slate-200 bg-surface-card px-3 py-2.5">
                     <p className="text-[14px] font-semibold text-ap-tertiary">{row.label}</p>
                     <p className="mt-1 text-[14px] font-bold text-ap-primary truncate">{row.value}</p>
                   </div>
@@ -542,7 +542,7 @@ export default function LotteryLayoutPage({
         )}
 
         {activeTab === "rules" && (
-          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-5 space-y-3 text-[14px] text-ap-secondary leading-relaxed">
+          <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-5 space-y-3 text-[14px] text-ap-secondary leading-relaxed">
             <h3 className="text-[16px] font-extrabold text-ap-primary">{t.rulesTitle}</h3>
             <ul className="list-disc pl-5 space-y-1.5">
               <li>{t.ruleCheckBeforeConfirm}</li>

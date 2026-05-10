@@ -213,7 +213,7 @@ export default function SpinPage({
 
   return (
     <>
-      <main className="min-h-screen bg-ap-bg flex flex-col items-center justify-center p-5 pt-6 pb-24 sm:pb-8">
+      <main className="min-h-screen bg-surface-subtle flex flex-col items-center justify-center p-5 pt-6 pb-24 sm:pb-8">
         <div className="w-full max-w-md">
 
           <div className="text-center mb-6">
@@ -221,12 +221,12 @@ export default function SpinPage({
             <p className="text-[14px] text-ap-secondary mt-1">{t.subtitle}</p>
           </div>
 
-          <div className="bg-ap-card rounded-2xl shadow-card-xl border border-ap-border p-6 flex flex-col items-center gap-5">
+          <div className="bg-surface-card rounded-2xl shadow-card-xl border border-ap-border p-6 flex flex-col items-center gap-5">
 
             {/* Top bar */}
             <div className="mb-6 w-full flex items-center justify-between">
               <Link href={`/${lang}/dashboard`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ap-bg border border-ap-border text-ap-secondary text-[13px] hover:bg-ap-blue/5 transition-colors">
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-subtle border border-ap-border text-ap-secondary text-[13px] hover:bg-ap-blue/5 transition-colors">
                 {t.back}
               </Link>
               <div className="flex items-center gap-1.5 bg-blue-50 border border-blue-200 rounded-full px-3 py-1.5">
@@ -263,7 +263,7 @@ export default function SpinPage({
             </button>
 
             <Link href={`/${lang}/spin/history`}
-              className="w-full text-center py-2 rounded-xl border border-ap-border text-[13px] text-ap-secondary hover:bg-ap-bg transition-colors">
+              className="w-full text-center py-2 rounded-xl border border-ap-border text-[13px] text-ap-secondary hover:bg-surface-subtle transition-colors">
               {t.history}
             </Link>
 

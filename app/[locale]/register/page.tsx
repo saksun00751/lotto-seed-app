@@ -46,7 +46,7 @@ export default async function RegisterPage({ params, searchParams }: Props) {
   const logoUrl = meta ? getLogoUrl(meta.logo) : "/logo.png";
 
   return (
-    <main className="min-h-screen bg-ap-bg flex flex-col items-center justify-center p-5">
+    <main className="min-h-screen bg-surface-subtle flex flex-col items-center justify-center p-5">
 
       {/* Background blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>

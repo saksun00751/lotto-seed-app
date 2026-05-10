@@ -156,7 +156,7 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
   }, [refresh, autoRefresh]);
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden flex flex-col">
+    <section className="rounded-2xl border border-ap-border bg-surface-card shadow-card overflow-hidden flex flex-col">
       <div className="px-4 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 border-b border-ap-border">
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ทายเลข</h2>
         <p className="text-[12px] text-white/80 font-medium">ทั้งหมด {count} รายการ</p>
@@ -195,7 +195,7 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
                       #{it.position ?? "-"}
                     </div>
                     <div className="min-w-0">
-                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-emerald-600" : "text-ap-primary"}`}>
+                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-ap-green" : "text-ap-primary"}`}>
                         {numberDisplay}
                       </p>
                       <p className="text-[12px] text-ap-tertiary mt-0.5 truncate flex items-center gap-1">
@@ -222,7 +222,7 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
             type="button"
             onClick={loadMore}
             disabled={loadingMore}
-            className="w-full rounded-xl border border-violet-300 bg-white text-violet-700 text-[13px] font-bold py-2 hover:bg-violet-50 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full rounded-xl border border-violet-300 bg-surface-card text-violet-700 text-[13px] font-bold py-2 hover:bg-violet-50 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loadingMore ? "กำลังโหลด..." : `ดูเพิ่ม (${Math.max(0, count - items.length)} รายการ)`}
           </button>

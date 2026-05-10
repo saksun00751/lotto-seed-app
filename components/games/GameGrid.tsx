@@ -82,7 +82,7 @@ export default function GameGrid({ games, emoji, notFound }: Props) {
           disabled={!!loading}
           className="group flex flex-col items-center gap-2 text-center active:scale-[0.97] transition-all disabled:opacity-60"
         >
-          <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden bg-ap-bg flex items-center justify-center relative">
+          <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden bg-surface-subtle flex items-center justify-center relative">
             {g.image?.vertical ? (
               <img
                 src={g.image.vertical}

@@ -145,18 +145,18 @@ function ClaimConfirmModal({
         className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
       />
 
-      <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-ap-card animate-pop-in">
+      <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-surface-card animate-pop-in">
         <div className="bg-[linear-gradient(180deg,#f5c24a_0%,#d29a2a_100%)] px-4 py-3 border-b border-amber-700/20">
           <p className="text-[18px] font-extrabold text-[#2e2003]">{t.claimModalTitle ?? "ยืนยันการรับโบนัส"}</p>
           <p className="text-[12px] text-[#4a3408]/85 mt-0.5">{t.claimModalSubtitle ?? "กรุณาตรวจสอบรายการก่อนทำรายการ"}</p>
         </div>
 
         <div className="p-4 space-y-3">
-          <div className="rounded-2xl border border-ap-border bg-ap-bg px-3 py-3">
+          <div className="rounded-2xl border border-ap-border bg-surface-subtle px-3 py-3">
             <p className="text-[12px] text-ap-tertiary">{t.claimModalSourceLabel ?? "ประเภทโบนัส"}</p>
             <p className="text-[20px] font-extrabold text-ap-primary mt-1">{target.label}</p>
             <p className="text-[11px] text-ap-tertiary mt-2">{t.claimModalAmountLabel ?? "จำนวนที่รับ"}</p>
-            <p className="text-[20px] font-extrabold text-emerald-600 tabular-nums mt-1">฿{fmtMoney(target.amount)}</p>
+            <p className="text-[20px] font-extrabold text-ap-green tabular-nums mt-1">฿{fmtMoney(target.amount)}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
@@ -164,7 +164,7 @@ function ClaimConfirmModal({
               type="button"
               onClick={onCancel}
               disabled={pending}
-              className="h-10 rounded-xl border border-ap-border bg-white text-ap-secondary text-[13px] font-semibold hover:bg-ap-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl border border-ap-border bg-surface-card text-ap-secondary text-[13px] font-semibold hover:bg-surface-subtle transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t.claimModalCancel ?? "ยกเลิก"}
             </button>
@@ -317,13 +317,13 @@ export default function BonusPage({
   ];
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-3xl mx-auto px-4 pt-5 space-y-4">
 
         {/* Top bar */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors">
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -384,7 +384,7 @@ export default function BonusPage({
         </div>
 
         {/* How it works */}
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           <div className="px-5 py-3 border-b border-ap-border">
             <p className="text-[14px] font-bold text-ap-tertiary uppercase tracking-wide">{t.howTitle}</p>
           </div>
@@ -396,7 +396,7 @@ export default function BonusPage({
               { icon: "🤝", label: t.stepReferTitle,    desc: t.stepReferDesc },
             ].map((step, idx) => (
               <li key={idx} className="flex items-center gap-4 px-5 py-3.5">
-                <div className="w-10 h-10 rounded-xl bg-ap-bg flex items-center justify-center text-[20px] flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-surface-subtle flex items-center justify-center text-[20px] flex-shrink-0">
                   {step.icon}
                 </div>
                 <div className="flex-1 min-w-0">

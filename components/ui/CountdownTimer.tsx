@@ -51,7 +51,7 @@ export default function CountdownTimer({ closeAt, className = "", showCurrentTim
     <div className="inline-flex items-center gap-1 text-[18px]">
       {[parts.hh, parts.mm, parts.ss].map((v, i) => (
         <span key={i} className="flex items-center gap-1">
-          <span className="inline-flex items-center justify-center min-w-[30px] px-1.5 py-0.5 rounded-md bg-ap-bg border border-ap-border tabular-nums">
+          <span className="inline-flex items-center justify-center min-w-[30px] px-1.5 py-0.5 rounded-md bg-surface-subtle border border-ap-border tabular-nums">
             {v}
           </span>
           {i < 2 && <span className="text-ap-tertiary">:</span>}

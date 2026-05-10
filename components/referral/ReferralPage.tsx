@@ -147,30 +147,30 @@ export default function ReferralPage({
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
           <div className="text-[32px] font-bold text-ap-blue tabular-nums">{referredCount}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statFriends}</div>
         </div>
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
           <div className="text-[32px] font-bold text-ap-green tabular-nums">฿{totalEarned.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statIncome}</div>
         </div>
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
-          <div className="text-[32px] font-bold text-amber-600 tabular-nums">฿{promotionBonusIncome.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
+          <div className="text-[32px] font-bold text-ap-orange tabular-nums">฿{promotionBonusIncome.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statBonusIncome}</div>
         </div>
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
           <div className="text-[32px] font-bold text-violet-600 tabular-nums">{promotionBonusCount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statBonusCount}</div>
         </div>
       </div>
 
       {/* Referral code + link */}
-      <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-5 space-y-4">
+      <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-5 space-y-4">
         <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">{t.codeTitle}</p>
 
         {/* Code */}
-        <div className="bg-ap-bg rounded-xl p-4 flex items-center justify-between">
+        <div className="bg-surface-subtle rounded-xl p-4 flex items-center justify-between">
           <div>
             <div className="text-[11px] text-ap-tertiary mb-1">{t.myCode}</div>
             <div className="text-[22px] font-bold text-ap-primary tracking-[0.15em] font-mono">{referralCode}</div>
@@ -179,7 +179,7 @@ export default function ReferralPage({
         </div>
 
         {/* Link */}
-        <div className="bg-ap-bg rounded-xl p-4 flex items-start justify-between gap-3">
+        <div className="bg-surface-subtle rounded-xl p-4 flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <div className="text-[11px] text-ap-tertiary mb-1">{t.myLink}</div>
             <div className="text-[14px] leading-6 text-ap-secondary break-all font-mono">{referralLink}</div>
@@ -205,7 +205,7 @@ export default function ReferralPage({
                 navigator.share({ title: "Lotto", text: `ใช้รหัส ${referralCode}`, url: referralLink });
               }
             }}
-            className="flex-1 flex items-center justify-center gap-2 bg-ap-bg border border-ap-border text-ap-primary rounded-full py-2.5 text-[13px] font-semibold hover:bg-ap-border transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 bg-surface-subtle border border-ap-border text-ap-primary rounded-full py-2.5 text-[13px] font-semibold hover:bg-ap-border transition-colors"
           >
             <span className="text-[16px]">📤</span>
             {t.shareOther}
@@ -214,7 +214,7 @@ export default function ReferralPage({
       </div>
 
       {/*
-      <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+      <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
         <div className="px-5 py-3 border-b border-ap-border">
           <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">วิธีรับโบนัส</p>
         </div>
@@ -228,7 +228,7 @@ export default function ReferralPage({
                 <div className="text-[13px] font-semibold text-ap-primary">{step.title}</div>
                 <div className="text-[12px] text-ap-tertiary mt-0.5">{step.desc}</div>
               </div>
-              <div className="w-6 h-6 rounded-full bg-amber-500 text-white text-[11px] font-bold flex items-center justify-center flex-shrink-0">
+              <div className="w-6 h-6 rounded-full bg-ap-orange text-white text-[11px] font-bold flex items-center justify-center flex-shrink-0">
                 {step.step}
               </div>
             </div>
@@ -248,7 +248,7 @@ export default function ReferralPage({
 function commissionRate(rank: number): { rate: string; label: string; color: string } {
   if (rank <= 5)  return { rate: "0.5%", label: "Tier 1", color: "bg-blue-50 text-blue-600 border-blue-200" };
   if (rank <= 20) return { rate: "1.0%", label: "Tier 2", color: "bg-purple-50 text-purple-600 border-purple-200" };
-  return           { rate: "1.5%", label: "Tier 3", color: "bg-amber-50 text-amber-600 border-amber-200" };
+  return           { rate: "1.5%", label: "Tier 3", color: "bg-amber-50 text-ap-orange border-amber-200" };
 }
 
 function ReferralList({
@@ -267,13 +267,13 @@ function ReferralList({
     referredCount === 0 ? null :
     referredCount <= 5  ? { label: "Tier 1 · 0.5%", color: "bg-blue-500"   } :
     referredCount <= 20 ? { label: "Tier 2 · 1.0%", color: "bg-purple-500" } :
-                          { label: "Tier 3 · 1.5%", color: "bg-amber-500"  };
+                          { label: "Tier 3 · 1.5%", color: "bg-ap-orange"  };
 
   return (
-    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
 
       {/* Section header */}
-      <div className="px-5 py-4 border-b border-ap-border bg-ap-bg/40">
+      <div className="px-5 py-4 border-b border-ap-border bg-surface-subtle/40">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-[14px] font-bold text-ap-primary">{t.listTitle}</p>
@@ -289,17 +289,17 @@ function ReferralList({
         {/* Summary bar */}
         {referrals.length > 0 && (
           <div className="mt-3 grid grid-cols-3 gap-2">
-            <div className="bg-white rounded-xl p-2.5 text-center border border-ap-border">
+            <div className="bg-surface-card rounded-xl p-2.5 text-center border border-ap-border">
               <p className="text-[16px] font-bold text-ap-blue tabular-nums">{referredCount}</p>
               <p className="text-[10px] text-ap-tertiary">{t.totalFriends}</p>
             </div>
-            <div className="bg-white rounded-xl p-2.5 text-center border border-ap-border">
+            <div className="bg-surface-card rounded-xl p-2.5 text-center border border-ap-border">
               <p className="text-[16px] font-bold text-ap-green tabular-nums">
                 ฿{totalEarned.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
               <p className="text-[10px] text-ap-tertiary">{t.bonusTotal}</p>
             </div>
-            <div className="bg-white rounded-xl p-2.5 text-center border border-ap-border">
+            <div className="bg-surface-card rounded-xl p-2.5 text-center border border-ap-border">
               <p className="text-[16px] font-bold text-ap-orange tabular-nums">
                 {referredCount > 0
                   ? `฿${(totalEarned / referredCount).toLocaleString("en-US", { maximumFractionDigits: 2 })}`
@@ -323,7 +323,7 @@ function ReferralList({
       ) : (
         <>
           {/* Column labels */}
-          <div className="grid grid-cols-[32px_1fr_auto] gap-3 px-5 py-2 bg-ap-bg/30 border-b border-ap-border">
+          <div className="grid grid-cols-[32px_1fr_auto] gap-3 px-5 py-2 bg-surface-subtle/30 border-b border-ap-border">
             <span className="text-[10px] font-semibold text-ap-tertiary uppercase">#</span>
             <span className="text-[10px] font-semibold text-ap-tertiary uppercase">{t.colMember}</span>
             <span className="text-[10px] font-semibold text-ap-tertiary uppercase text-right">{t.colBonus}</span>
@@ -354,14 +354,14 @@ function ReferralList({
               const avatarColors = [
                 "bg-blue-100 text-blue-600",
                 "bg-purple-100 text-purple-600",
-                "bg-amber-100 text-amber-600",
-                "bg-green-100 text-green-600",
-                "bg-rose-100 text-rose-600",
+                "bg-amber-100 text-ap-orange",
+                "bg-green-100 text-ap-green",
+                "bg-rose-100 text-ap-red",
               ];
               const avatarColor = avatarColors[(rank - 1) % avatarColors.length];
 
               return (
-                <div key={String(r.id ?? rank)} className="flex items-center gap-3 px-5 py-3.5 hover:bg-ap-bg/40 transition-colors">
+                <div key={String(r.id ?? rank)} className="flex items-center gap-3 px-5 py-3.5 hover:bg-surface-subtle/40 transition-colors">
 
                   {/* Rank */}
                   <div className="w-8 text-center flex-shrink-0">
@@ -407,7 +407,7 @@ function ReferralList({
           </div>
 
           {/* Footer total */}
-          <div className="px-5 py-3.5 border-t border-ap-border bg-ap-bg/40 flex items-center justify-between">
+          <div className="px-5 py-3.5 border-t border-ap-border bg-surface-subtle/40 flex items-center justify-between">
             <span className="text-[13px] font-semibold text-ap-secondary">{t.footerTotal}</span>
             <span className="text-[16px] font-bold text-ap-green tabular-nums">
               ฿{totalEarned.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}

@@ -103,9 +103,9 @@ function PromoCard({
   const promoCode = String(promo.code ?? "");
 
   return (
-    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
       {promo.filepic ? (
-        <div className="relative w-full aspect-[16/7] bg-ap-bg">
+        <div className="relative w-full aspect-[16/7] bg-surface-subtle">
           <img
             src={promo.filepic}
             alt={promo.name_th}
@@ -124,13 +124,13 @@ function PromoCard({
         {hasBonus && (
           <div className="grid grid-cols-3 gap-2">
             {bonusPercent > 0 && (
-              <div className="bg-ap-bg rounded-xl px-3 py-2 text-center">
+              <div className="bg-surface-subtle rounded-xl px-3 py-2 text-center">
                 <p className="text-[18px] font-extrabold text-ap-blue tabular-nums">{bonusPercent}%</p>
                 <p className="text-[10px] text-ap-tertiary mt-0.5">โบนัส</p>
               </div>
             )}
             {bonusMax > 0 && (
-              <div className="bg-ap-bg rounded-xl px-3 py-2 text-center">
+              <div className="bg-surface-subtle rounded-xl px-3 py-2 text-center">
                 <p className="text-[15px] font-bold text-ap-primary tabular-nums">
                   ฿{bonusMax.toLocaleString("th-TH")}
                 </p>
@@ -138,7 +138,7 @@ function PromoCard({
               </div>
             )}
             {turnpro > 0 && (
-              <div className="bg-ap-bg rounded-xl px-3 py-2 text-center">
+              <div className="bg-surface-subtle rounded-xl px-3 py-2 text-center">
                 <p className="text-[15px] font-bold text-ap-primary tabular-nums">{turnpro}x</p>
                 <p className="text-[10px] text-ap-tertiary mt-0.5">เทิร์น</p>
               </div>
@@ -258,7 +258,7 @@ export default function PromotionPageClient({ promotions, selectedPromotion }: P
   }
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-5 pt-6 space-y-5">
         <div>
           <h1 className="text-[22px] font-bold text-ap-primary tracking-tight">โปรโมชั่น</h1>
@@ -266,7 +266,7 @@ export default function PromotionPageClient({ promotions, selectedPromotion }: P
         </div>
 
         {sortedPromotions.length === 0 ? (
-          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2">
+          <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2">
             <span className="text-[48px]">🎁</span>
             <p className="text-[13px] text-ap-tertiary">ยังไม่มีโปรโมชั่น</p>
           </div>
@@ -284,7 +284,7 @@ export default function PromotionPageClient({ promotions, selectedPromotion }: P
         )}
 
         {activePromotion && (
-          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card px-5 py-4">
+          <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card px-5 py-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[12px] text-ap-tertiary uppercase tracking-wide font-medium mb-1">โปรโมชั่นที่รับอยู่</p>
@@ -297,7 +297,7 @@ export default function PromotionPageClient({ promotions, selectedPromotion }: P
                 type="button"
                 onClick={() => { void handleDeselectPromotion(); }}
                 disabled={deselecting || !!submittingCode}
-                className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-red-600 text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-ap-red text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {deselecting ? "กำลังยกเลิก..." : "ยกเลิกโปร"}
               </button>

@@ -21,3 +21,4 @@ npm-debug.log*
 *.swp
 
 .codex
+.claude/worktrees/vigilant-fermi-aa4225

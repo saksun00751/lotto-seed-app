@@ -59,15 +59,15 @@ export default async function GameProviderGamesPage({ params }: Props) {
   const activeGames = games.filter((g) => g.status === "ACTIVE");
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-4 pt-5">
 
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-ap-border">
             <Link
               href={`/${locale}/games/${type}`}
-              className="w-8 h-8 rounded-full bg-ap-bg border border-ap-border flex items-center justify-center text-ap-secondary hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 rounded-full bg-surface-subtle border border-ap-border flex items-center justify-center text-ap-secondary hover:bg-gray-200 transition-colors"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M15 18l-6-6 6-6" />

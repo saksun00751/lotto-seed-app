@@ -73,15 +73,15 @@ export default async function GamesTypePage({ params }: Props) {
   })).filter((group) => group.games.length > 0);
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-4 pt-5">
 
         {/* Grid */}
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           {/* Card header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-ap-border">
             <Link href={`/${locale}/bet`}
-              className="w-8 h-8 rounded-full bg-ap-bg border border-ap-border flex items-center justify-center text-ap-secondary hover:bg-gray-200 transition-colors">
+              className="w-8 h-8 rounded-full bg-surface-subtle border border-ap-border flex items-center justify-center text-ap-secondary hover:bg-gray-200 transition-colors">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
@@ -100,8 +100,8 @@ export default async function GamesTypePage({ params }: Props) {
             isCardGroupPage ? (
               <div className="p-3 space-y-5">
                 {groupedGames.map((group) => (
-                  <section key={group.type} className="overflow-hidden rounded-2xl border border-ap-border bg-white">
-                    <div className="flex items-center gap-2 border-b border-ap-border bg-ap-bg px-3 py-2.5">
+                  <section key={group.type} className="overflow-hidden rounded-2xl border border-ap-border bg-surface-card">
+                    <div className="flex items-center gap-2 border-b border-ap-border bg-surface-subtle px-3 py-2.5">
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="text-[18px] shrink-0">{CARD_GROUP_EMOJI[group.type] ?? meta.emoji}</span>
                         <div className="min-w-0">

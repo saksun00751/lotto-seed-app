@@ -32,7 +32,7 @@ export default function Input({ label, error, hint, leftEl, rightEl, ...props }:
           aria-invalid={Boolean(error)}
           aria-describedby={describedBy}
           className={[
-            "w-full rounded-2xl border bg-ap-bg text-[15px] text-ap-primary placeholder:text-ap-tertiary",
+            "w-full rounded-2xl border bg-surface-subtle text-[15px] text-ap-primary placeholder:text-ap-tertiary",
             "py-3 transition-all outline-none",
             leftEl ? "pl-10" : "pl-4",
             rightEl ? "pr-10" : "pr-4",

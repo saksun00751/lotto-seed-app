@@ -158,7 +158,7 @@ export default function PackageModalButton({
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl p-5 max-h-[80vh] flex flex-col"
+            className="bg-surface-card w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl p-5 max-h-[80vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -166,7 +166,7 @@ export default function PackageModalButton({
               <h2 className="text-[16px] font-bold text-ap-primary">{labelSelect}</h2>
               <button
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-full bg-ap-bg flex items-center justify-center text-ap-secondary text-lg leading-none hover:bg-ap-border transition-colors"
+                className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-ap-secondary text-lg leading-none hover:bg-ap-border transition-colors"
               >
                 ×
               </button>
@@ -194,7 +194,7 @@ export default function PackageModalButton({
                           className="w-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
-                        <div className="w-full aspect-[3/4] flex items-center justify-center bg-ap-bg text-[48px]">
+                        <div className="w-full aspect-[3/4] flex items-center justify-center bg-surface-subtle text-[48px]">
                           🎯
                         </div>
                       )}

@@ -36,7 +36,7 @@ export default async function CheckResultRoute() {
   } catch {}
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <CheckResultPage groups={groups} tickets={tickets} />
     </div>
   );

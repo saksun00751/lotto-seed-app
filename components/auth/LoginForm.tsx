@@ -188,7 +188,7 @@ export default function LoginForm() {
           <label className="flex items-center gap-2 cursor-pointer group">
             <button type="button" onClick={() => setRemember(!remember)}
               className={["w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200",
-                remember ? "bg-ap-blue border-ap-blue" : "bg-white border-ap-border group-hover:border-ap-blue/40"].join(" ")}>
+                remember ? "bg-ap-blue border-ap-blue" : "bg-surface-card border-ap-border group-hover:border-ap-blue/40"].join(" ")}>
               {remember && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
             </button>
             <span className="text-[13px] text-ap-secondary select-none">{t.remember}</span>

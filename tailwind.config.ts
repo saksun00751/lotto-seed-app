@@ -35,6 +35,11 @@ const config: Config = {
         "page-bg": "var(--page-bg)",
         "navbar-bg": "var(--navbar-bg)",
         "balance-card-bg": "var(--balance-card-bg)",
+        "surface-card": "var(--ap-card)",
+        "surface-subtle": "var(--ap-bg)",
+        "surface-page": "var(--page-bg)",
+        "surface-navbar": "var(--navbar-bg)",
+        "surface-highlight": "var(--balance-card-bg)",
       },
       borderRadius: { "2xl": "18px", "3xl": "24px", "4xl": "32px" },
       boxShadow: {

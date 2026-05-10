@@ -42,7 +42,7 @@ export default function BetHistoryFilters() {
     <form
       ref={formRef}
       onSubmit={(e) => { e.preventDefault(); submit(); }}
-      className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 space-y-3"
+      className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-4 space-y-3"
     >
       {/* Search */}
       <div className="relative">
@@ -54,7 +54,7 @@ export default function BetHistoryFilters() {
           type="text"
           defaultValue={searchParams.get("search") ?? ""}
           placeholder="ค้นหาเลขโพย หรือชื่อหวย..."
-          className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-ap-border bg-ap-bg text-[13px] text-ap-primary placeholder:text-ap-tertiary focus:outline-none focus:border-ap-blue transition-colors"
+          className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-ap-border bg-surface-subtle text-[13px] text-ap-primary placeholder:text-ap-tertiary focus:outline-none focus:border-ap-blue transition-colors"
         />
       </div>
 
@@ -66,7 +66,7 @@ export default function BetHistoryFilters() {
             name="dateFrom"
             type="date"
             defaultValue={searchParams.get("dateFrom") ?? ""}
-            className="w-full px-3 py-2.5 rounded-xl border border-ap-border bg-ap-bg text-[13px] text-ap-primary focus:outline-none focus:border-ap-blue transition-colors"
+            className="w-full px-3 py-2.5 rounded-xl border border-ap-border bg-surface-subtle text-[13px] text-ap-primary focus:outline-none focus:border-ap-blue transition-colors"
           />
         </div>
         <div>
@@ -75,7 +75,7 @@ export default function BetHistoryFilters() {
             name="dateTo"
             type="date"
             defaultValue={searchParams.get("dateTo") ?? ""}
-            className="w-full px-3 py-2.5 rounded-xl border border-ap-border bg-ap-bg text-[13px] text-ap-primary focus:outline-none focus:border-ap-blue transition-colors"
+            className="w-full px-3 py-2.5 rounded-xl border border-ap-border bg-surface-subtle text-[13px] text-ap-primary focus:outline-none focus:border-ap-blue transition-colors"
           />
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function BetHistoryFilters() {
           <button
             type="button"
             onClick={clear}
-            className="px-4 py-2.5 bg-ap-bg border border-ap-border text-ap-secondary rounded-xl text-[13px] font-semibold hover:bg-ap-border/30 transition-colors"
+            className="px-4 py-2.5 bg-surface-subtle border border-ap-border text-ap-secondary rounded-xl text-[13px] font-semibold hover:bg-ap-border/30 transition-colors"
           >
             ล้าง
           </button>

@@ -116,7 +116,7 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
   ];
 
   return (
-    <div className="bg-balance-card-bg rounded-3xl overflow-hidden relative border border-white/22 shadow-[0_18px_48px_rgba(0,47,106,0.35)]">
+    <div className="bg-surface-highlight rounded-3xl overflow-hidden relative border border-white/22 shadow-[0_18px_48px_rgba(0,47,106,0.35)]">
       <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 blur-sm" />
       <div className="absolute -right-4 -bottom-10 w-32 h-32 rounded-full bg-cyan-200/10 blur-sm" />
 
@@ -148,7 +148,7 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
               <button
                 onClick={handleRefresh}
-                className="w-8 h-8 rounded-full bg-ap-card border border-white ring-1 ring-[#0a5cae]/35 text-slate-700 flex items-center justify-center shadow-[0_4px_12px_rgba(0,34,80,0.22)] pointer-events-auto hover:bg-ap-card active:scale-95 transition-all"
+                className="w-8 h-8 rounded-full bg-surface-card border border-white ring-1 ring-[#0a5cae]/35 text-slate-700 flex items-center justify-center shadow-[0_4px_12px_rgba(0,34,80,0.22)] pointer-events-auto hover:bg-surface-card active:scale-95 transition-all"
                 title="รีเฟรช"
                 aria-label="รีเฟรชยอดเงิน"
               >

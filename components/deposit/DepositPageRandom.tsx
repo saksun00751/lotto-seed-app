@@ -577,23 +577,23 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
     <div className="max-w-5xl mx-auto px-4 sm:px-5 pt-5 sm:pt-6">
 
       {/* Balance card */}
-      <div className="relative overflow-hidden bg-[linear-gradient(160deg,#ffffff_0%,#f8fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
+      <div className="relative overflow-hidden bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(59,130,246,0.12),transparent_42%)] pointer-events-none" />
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
-        <p className="relative text-[12px] text-slate-500 uppercase tracking-[0.08em] font-semibold mb-1">{t.balance}</p>
-        <p className="relative text-[32px] font-extrabold text-slate-900 tabular-nums leading-tight tracking-tight">
+        <p className="relative text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-1">{t.balance}</p>
+        <p className="relative text-[32px] font-extrabold text-ap-primary tabular-nums leading-tight tracking-tight">
           ฿{balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
       </div>
 
       {/* User bank info card */}
-      <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+      <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
-        <p className="text-[12px] text-slate-500 uppercase tracking-[0.08em] font-semibold mb-2">{t.myBank}</p>
+        <p className="text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-2">{t.myBank}</p>
         {bankAccount ? (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-surface-card border border-ap-border overflow-hidden flex items-center justify-center flex-shrink-0">
                 {bankLogo ? (
                   <img src={bankLogo} alt={bankName ?? t.bankAlt} className="w-full h-full object-contain" />
                 ) : (
@@ -601,11 +601,11 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                 )}
               </div>
               <div>
-                <p className="text-[14px] font-semibold text-slate-900">{displayName}</p>
-                {bankName && <p className="text-[13px] text-slate-600 mt-0.5">{bankName}</p>}
+                <p className="text-[14px] font-semibold text-ap-primary">{displayName}</p>
+                {bankName && <p className="text-[13px] text-ap-secondary mt-0.5">{bankName}</p>}
               </div>
             </div>
-            <p className="text-[14px] font-mono font-semibold text-slate-900 tracking-wider bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1">
+            <p className="text-[14px] font-mono font-semibold text-ap-primary tracking-wider bg-surface-subtle border border-ap-border rounded-lg px-2.5 py-1">
               {formatBankAccount(bankAccount)}
             </p>
           </div>
@@ -621,7 +621,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
         onActiveChange={(next) => setActivePromotion(next)}
       />
 
-      <div className="bg-ap-card rounded-2xl border border-ap-border p-5 shadow-sm">
+      <div className="bg-surface-card rounded-2xl border border-ap-border p-5 shadow-sm">
         <h1 className="text-[18px] font-extrabold text-ap-primary">{t.selectMethod}</h1>
 
         {/* Stepper */}
@@ -638,7 +638,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                 <div className="flex flex-col items-center gap-1 flex-shrink-0">
                   <div className={[
                     "w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold transition-all",
-                    active ? "bg-ap-blue text-white" : done ? "bg-ap-blue/15 text-ap-blue" : "bg-ap-bg text-ap-tertiary",
+                    active ? "bg-ap-blue text-white" : done ? "bg-ap-blue/15 text-ap-blue" : "bg-surface-subtle text-ap-tertiary",
                   ].join(" ")}>
                     {i + 1}
                   </div>
@@ -724,7 +724,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               <button
                 type="button"
                 onClick={reset}
-                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg transition-colors"
+                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-surface-subtle transition-colors"
               >
                 {"ย้อนกลับ"}
               </button>
@@ -767,22 +767,22 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                           "w-full text-left rounded-2xl border p-4 transition-all duration-200",
                           active
                             ? "border-blue-300 bg-blue-50/60 shadow-[0_8px_16px_rgba(37,99,235,0.10)]"
-                            : "border-slate-200 bg-white hover:border-blue-200 hover:bg-gradient-to-r hover:from-white hover:to-blue-50/40",
+                            : "border-ap-border bg-surface-card hover:border-blue-200 hover:bg-gradient-to-r hover:from-white hover:to-blue-50/40",
                         ].join(" ")}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-[20px] flex-shrink-0">💳</div>
-                            <p className="text-[15px] font-bold text-slate-900">{p.name}</p>
+                            <div className="w-10 h-10 rounded-xl bg-surface-subtle border border-ap-border flex items-center justify-center text-[20px] flex-shrink-0">💳</div>
+                            <p className="text-[15px] font-bold text-ap-primary">{p.name}</p>
                           </div>
                           {p.min_deposit > 0 && (
-                            <span className="text-[12px] text-slate-500">
+                            <span className="text-[12px] text-ap-tertiary">
                               {t.min} ฿{p.min_deposit.toLocaleString("en-US")}
                             </span>
                           )}
                         </div>
                         {p.remark && (
-                          <p className="text-[13px] text-amber-600 mt-2 bg-amber-50 rounded-lg px-2 py-1">{p.remark}</p>
+                          <p className="text-[13px] text-ap-orange mt-2 bg-amber-50 rounded-lg px-2 py-1">{p.remark}</p>
                         )}
                       </button>
                     );
@@ -803,7 +803,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder={String(selectedPayment.min_deposit || 0)}
-                        className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-white transition-colors"
+                        className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-surface-card transition-colors"
                       />
                     </div>
                     {selectedPayment.min_deposit > 0 && (
@@ -822,7 +822,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               <button
                 type="button"
                 onClick={reset}
-                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg transition-colors"
+                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-surface-subtle transition-colors"
               >
                 {"ย้อนกลับ"}
               </button>
@@ -851,15 +851,15 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               <p className="text-[13px] text-ap-secondary mt-1">{t.scanQrDesc}</p>
             </div>
 
-            <div className="rounded-2xl border border-ap-border bg-white p-4">
+            <div className="rounded-2xl border border-ap-border bg-surface-card p-4">
               <div className="flex justify-center">
                 <img
                   src={qrImageSrc}
                   alt="Deposit QR Code"
-                  className="w-full max-w-[320px] rounded-xl border border-ap-border bg-white p-2"
+                  className="w-full max-w-[320px] rounded-xl border border-ap-border bg-surface-card p-2"
                 />
               </div>
-              <p className="mt-2 text-center text-[13px] font-semibold text-red-600">
+              <p className="mt-2 text-center text-[13px] font-semibold text-ap-red">
                 {countdownSec === null
                   ? t.noExpire
                   : countdownSec > 0
@@ -868,21 +868,21 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               </p>
 
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px]">
-                <div className="rounded-xl bg-ap-bg px-3 py-2">
+                <div className="rounded-xl bg-surface-subtle px-3 py-2">
                   <p className="text-ap-tertiary">Amount</p>
                   <p className="font-bold text-ap-primary">
                     ฿{Number(qrCodeData.amount || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                 </div>
-                <div className="rounded-xl bg-ap-bg px-3 py-2">
+                <div className="rounded-xl bg-surface-subtle px-3 py-2">
                   <p className="text-ap-tertiary">{t.expiresAt}</p>
                   <p className="font-semibold text-ap-primary">{qrCodeData.expired_date || "-"}</p>
                 </div>
-                <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
+                <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
                   <p className="text-ap-tertiary">TXID</p>
                   <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.txid || "-"}</p>
                 </div>
-                <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
+                <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
                   <p className="text-ap-tertiary">Request ID</p>
                   <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.request_id}</p>
                 </div>
@@ -920,9 +920,9 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
             <div className="rounded-2xl border-2 border-ap-blue bg-ap-blue/5 p-4">
               <div className="flex items-center gap-3">
                 {pickedAccount.bank_pic ? (
-                  <img src={pickedAccount.bank_pic} alt={pickedAccount.bank_name} className="w-12 h-12 rounded-xl object-contain bg-white border border-ap-border" />
+                  <img src={pickedAccount.bank_pic} alt={pickedAccount.bank_name} className="w-12 h-12 rounded-xl object-contain bg-surface-card border border-ap-border" />
                 ) : (
-                  <div className="w-12 h-12 rounded-xl bg-white border border-ap-border flex items-center justify-center text-[22px]">🏦</div>
+                  <div className="w-12 h-12 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center text-[22px]">🏦</div>
                 )}
                 <div className="min-w-0">
                   <p className="text-[15px] font-bold text-ap-primary truncate">{pickedAccount.bank_name}</p>
@@ -930,7 +930,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-white border border-ap-border px-3 py-2">
+              <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-surface-card border border-ap-border px-3 py-2">
                 <div className="min-w-0 flex-1">
                   <p className="text-[11px] text-ap-tertiary uppercase tracking-wide leading-none">{t.accountNo}</p>
                   <p className="mt-1 text-[18px] font-mono font-bold text-ap-primary tracking-wider leading-none break-all">
@@ -947,13 +947,13 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               </div>
 
               {pickedAccount.remark && (
-                <p className="mt-2 text-[13px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5">
+                <p className="mt-2 text-[13px] text-ap-orange bg-amber-50 border border-amber-200 rounded-lg px-2 py-1.5">
                   {pickedAccount.remark}
                 </p>
               )}
 
               {pickedAccount.qrcode && pickedAccount.qr_pic && (
-                <div className="mt-3 flex flex-col items-center gap-2 rounded-xl bg-white border border-ap-border p-3">
+                <div className="mt-3 flex flex-col items-center gap-2 rounded-xl bg-surface-card border border-ap-border p-3">
                   <p className="text-[12px] font-bold text-ap-tertiary uppercase tracking-wide">{t.scanQr}</p>
                   <img
                     src={pickedAccount.qr_pic}
@@ -965,7 +965,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
             </div>
 
             <div className="mt-4 rounded-xl bg-amber-50 border border-amber-200 px-3 py-2">
-              <p className="text-[12px] text-amber-700">
+              <p className="text-[12px] text-ap-orange">
                 {"กรุณาโอนตามจำนวนที่ระบุ และใช้บัญชีที่ลงทะเบียนไว้เท่านั้น"}
               </p>
             </div>
@@ -975,7 +975,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
               <button
                 type="button"
                 onClick={() => setStep("amount")}
-                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-ap-bg transition-colors"
+                className="flex-1 h-12 rounded-xl border border-ap-border text-[14px] font-bold text-ap-secondary hover:bg-surface-subtle transition-colors"
               >
                 {"ย้อนกลับ"}
               </button>
@@ -993,7 +993,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
 
       {statusModal && (
         <div className="fixed inset-0 z-[60] bg-black/40 flex items-center justify-center px-5">
-          <div className="w-full max-w-sm bg-ap-card rounded-2xl border border-ap-border shadow-card p-5">
+          <div className="w-full max-w-sm bg-surface-card rounded-2xl border border-ap-border shadow-card p-5">
             <p className="text-[17px] font-bold text-ap-primary">
               {statusModal.kind === "success" ? t.depositSuccess : t.txExpired}
             </p>

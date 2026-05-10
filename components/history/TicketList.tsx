@@ -63,12 +63,12 @@ export default function TicketList({ tickets, t }: { tickets: Ticket[]; t: T }) 
             key={ticket.id}
             onClick={() => openDetail(ticket.id)}
             disabled={!!loading}
-            className={`w-full text-left px-3 py-3.5 sm:px-4 sm:py-4 flex items-center gap-3 transition-colors disabled:opacity-60 ${ticket.status === "won" ? "bg-emerald-50 hover:bg-emerald-100/80 active:bg-emerald-100" : "hover:bg-ap-bg/70 active:bg-ap-bg"}`}
+            className={`w-full text-left px-3 py-3.5 sm:px-4 sm:py-4 flex items-center gap-3 transition-colors disabled:opacity-60 ${ticket.status === "won" ? "bg-emerald-50 hover:bg-emerald-100/80 active:bg-emerald-100" : "hover:bg-surface-subtle/70 active:bg-surface-subtle"}`}
           >
             {/* Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2 mb-1 flex-wrap">
-                <span className="w-5 h-5 rounded-md border border-ap-border bg-ap-bg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <span className="w-5 h-5 rounded-md border border-ap-border bg-surface-subtle flex items-center justify-center flex-shrink-0 overflow-hidden">
                   {ticket.market_logo ? (
                     <img src={logoSrc} alt={ticket.market_name} className="w-full h-full object-contain" />
                   ) : (

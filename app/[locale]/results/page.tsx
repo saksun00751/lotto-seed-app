@@ -17,7 +17,7 @@ export default async function ResultsRoute() {
   await requireAuth();
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <Navbar />
       <ResultsPage />
     </div>

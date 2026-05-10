@@ -17,7 +17,7 @@ export default function RefreshButton() {
   return (
     <button
       onClick={handleRefresh}
-      className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center shadow pointer-events-auto hover:bg-white transition-colors"
+      className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center shadow pointer-events-auto hover:bg-surface-card transition-colors"
       title="รีเฟรช"
     >
       <svg

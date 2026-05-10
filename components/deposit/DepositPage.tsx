@@ -422,15 +422,15 @@ function BankCard({
         "w-full text-left rounded-2xl border-2 p-4 transition-all cursor-pointer",
         selected
           ? "border-ap-blue bg-ap-blue/5 shadow-sm"
-          : "border-ap-border hover:border-ap-blue/40 hover:bg-ap-bg",
+          : "border-ap-border hover:border-ap-blue/40 hover:bg-surface-subtle",
       ].join(" ")}
     >
       {/* Header: bank logo + name */}
       <div className="flex items-center gap-3">
         {account.bank_pic ? (
-          <img src={account.bank_pic} alt={account.bank_name} className="w-10 h-10 rounded-xl object-contain bg-white border border-ap-border flex-shrink-0" />
+          <img src={account.bank_pic} alt={account.bank_name} className="w-10 h-10 rounded-xl object-contain bg-surface-card border border-ap-border flex-shrink-0" />
         ) : (
-          <div className="w-10 h-10 rounded-xl bg-ap-bg border border-ap-border flex items-center justify-center text-[20px] flex-shrink-0">🏦</div>
+          <div className="w-10 h-10 rounded-xl bg-surface-subtle border border-ap-border flex items-center justify-center text-[20px] flex-shrink-0">🏦</div>
         )}
         <div className="flex-1 min-w-0">
           <p className="text-[15px] font-bold text-ap-primary truncate">{account.bank_name}</p>
@@ -444,7 +444,7 @@ function BankCard({
       </div>
 
       {/* Account number + copy button */}
-      <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-ap-bg/70 border border-ap-border/70 px-3 py-2">
+      <div className="mt-3 flex items-center justify-between gap-2 rounded-xl bg-surface-subtle/70 border border-ap-border/70 px-3 py-2">
         <div className="min-w-0 flex-1">
           <p className="text-[11px] text-ap-tertiary uppercase tracking-wide leading-none">{t.accountNo}</p>
           <p className="mt-1 text-[17px] sm:text-[18px] font-mono font-bold text-ap-primary tracking-wider leading-none break-all">
@@ -477,7 +477,7 @@ function BankCard({
       )}
 
       {account.remark && (
-        <p className="text-[13px] text-amber-600 mt-2 bg-amber-50 rounded-lg px-2 py-1">{account.remark}</p>
+        <p className="text-[13px] text-ap-orange mt-2 bg-amber-50 rounded-lg px-2 py-1">{account.remark}</p>
       )}
     </div>
   );
@@ -489,7 +489,7 @@ function Notes({ t }: { t: DepositT }) {
     <div className="mt-6 bg-amber-50 border border-amber-200 rounded-2xl p-4">
       <div className="flex items-center gap-2 mb-2.5">
         <span className="text-[18px]">⚠️</span>
-        <p className="text-[14px] font-bold text-amber-700 uppercase tracking-wide">{t.notesTitle}</p>
+        <p className="text-[14px] font-bold text-ap-orange uppercase tracking-wide">{t.notesTitle}</p>
       </div>
       <div className="space-y-1.5">
         {[
@@ -498,8 +498,8 @@ function Notes({ t }: { t: DepositT }) {
           { bold: false, text: t.note3 },
         ].map((n, i) => (
           <div key={i} className="flex items-start gap-2">
-            <span className="text-amber-500 text-[14px] mt-0.5 flex-shrink-0">•</span>
-            <p className={`text-[14px] text-amber-700 leading-relaxed ${n.bold ? "font-semibold" : ""}`}>
+            <span className="text-ap-orange text-[14px] mt-0.5 flex-shrink-0">•</span>
+            <p className={`text-[14px] text-ap-orange leading-relaxed ${n.bold ? "font-semibold" : ""}`}>
               {n.text}
             </p>
           </div>
@@ -1080,23 +1080,23 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
     <div className="max-w-5xl mx-auto px-4 sm:px-5 pt-5 sm:pt-6">
 
       {/* Balance card */}
-      <div className="relative overflow-hidden bg-[linear-gradient(160deg,#ffffff_0%,#f8fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
+      <div className="relative overflow-hidden bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(59,130,246,0.12),transparent_42%)] pointer-events-none" />
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
-        <p className="relative text-[12px] text-slate-500 uppercase tracking-[0.08em] font-semibold mb-1">{t.balance}</p>
-        <p className="relative text-[32px] font-extrabold text-slate-900 tabular-nums leading-tight tracking-tight">
+        <p className="relative text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-1">{t.balance}</p>
+        <p className="relative text-[32px] font-extrabold text-ap-primary tabular-nums leading-tight tracking-tight">
           ฿{balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
       </div>
 
       {/* User bank info card */}
-      <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+      <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
-        <p className="text-[12px] text-slate-500 uppercase tracking-[0.08em] font-semibold mb-2">{t.myBank}</p>
+        <p className="text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-2">{t.myBank}</p>
         {bankAccount ? (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-surface-card border border-ap-border overflow-hidden flex items-center justify-center flex-shrink-0">
                 {bankLogo ? (
                   <img src={bankLogo} alt={bankName ?? t.bankAlt} className="w-full h-full object-contain" />
                 ) : (
@@ -1104,11 +1104,11 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                 )}
               </div>
               <div>
-              <p className="text-[14px] font-semibold text-slate-900">{displayName}</p>
-              {bankName && <p className="text-[13px] text-slate-600 mt-0.5">{bankName}</p>}
+              <p className="text-[14px] font-semibold text-ap-primary">{displayName}</p>
+              {bankName && <p className="text-[13px] text-ap-secondary mt-0.5">{bankName}</p>}
               </div>
             </div>
-            <p className="text-[14px] font-mono font-semibold text-slate-900 tracking-wider bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1">
+            <p className="text-[14px] font-mono font-semibold text-ap-primary tracking-wider bg-surface-subtle border border-ap-border rounded-lg px-2.5 py-1">
               {formatBankAccount(bankAccount)}
             </p>
           </div>
@@ -1118,7 +1118,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
       </div>
 
       {(promotionLoading || visiblePromotions.length > 0) && (
-        <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+        <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-center justify-between mb-2.5">
             <p className="text-[14px] text-ap-tertiary uppercase tracking-wide font-medium">{t.promoTitle}</p>
@@ -1129,8 +1129,8 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
           {promotionLoading ? (
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-ap-bg animate-pulse" />
-              <div className="h-16 rounded-xl bg-ap-bg animate-pulse" />
+              <div className="h-16 rounded-xl bg-surface-subtle animate-pulse" />
+              <div className="h-16 rounded-xl bg-surface-subtle animate-pulse" />
             </div>
           ) : (
             <HScrollRow itemWidth={248} scrollBy={1}>
@@ -1142,7 +1142,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                 return (
                   <div
                     key={promo.code}
-                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-slate-200 bg-ap-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
+                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-ap-border bg-surface-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
                   >
                     {promo.filepic ? (
                       <img
@@ -1151,7 +1151,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                         className="w-full h-32 sm:h-36 object-cover"
                       />
                     ) : (
-                      <div className="w-full h-32 sm:h-36 bg-ap-bg flex items-center justify-center text-[36px]">
+                      <div className="w-full h-32 sm:h-36 bg-surface-subtle flex items-center justify-center text-[36px]">
                         🎁
                       </div>
                     )}
@@ -1189,7 +1189,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
       )}
 
       {activePromotion && (
-        <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+        <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
@@ -1203,7 +1203,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
               type="button"
               onClick={() => { void handleDeselectPromotion(); }}
               disabled={promoDeselecting || !!promoSubmittingId}
-              className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-red-600 text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-ap-red text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {promoDeselecting ? t.cancelling : t.cancelPromo}
             </button>
@@ -1212,10 +1212,10 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
       )}
 
       {/* Card */}
-      <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f8fbff_100%)] rounded-3xl border border-slate-200 shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-5">
+      <div className="relative bg-surface-card rounded-3xl border border-ap-border shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-5">
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/70 to-transparent" />
         <div className="space-y-3 animate-fade-up">
-          <h2 className="text-[17px] font-bold text-slate-900 mb-1">{t.selectMethod}</h2>
+          <h2 className="text-[17px] font-bold text-ap-primary mb-1">{t.selectMethod}</h2>
 
           {channelsLoading && (
             <div className="flex items-center gap-2 py-2">
@@ -1233,7 +1233,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
           )}
 
           {!channelsLoading && !channelsError && enabledChannels.length > 0 && (
-            <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f6f9ff_100%)] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_6px_14px_rgba(15,23,42,0.05)]">
+            <div className="rounded-2xl border border-ap-border bg-[linear-gradient(180deg,#ffffff_0%,#f6f9ff_100%)] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_6px_14px_rgba(15,23,42,0.05)]">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               {enabledChannels.map((ch) => {
                 const meta = CHANNEL_META[ch];
@@ -1246,12 +1246,12 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                       "relative overflow-hidden rounded-xl border px-4 py-4 text-left cursor-pointer transition-all duration-200 ease-out active:scale-[0.99]",
                       active
                         ? "border-[#1f63d8] bg-gradient-to-b from-[#3588f4] via-[#2872e6] to-[#1f63d8] ring-2 ring-[#88b7ff]/45 shadow-[0_12px_24px_rgba(37,99,235,0.35),inset_0_1px_0_rgba(255,255,255,0.22)] -translate-y-[1px]"
-                        : "border-slate-200 bg-white shadow-[0_6px_12px_rgba(15,23,42,0.08)] hover:border-blue-300 hover:bg-[#f8fbff] hover:shadow-[0_10px_18px_rgba(37,99,235,0.16)] hover:-translate-y-[1px]",
+                        : "border-ap-border bg-surface-card shadow-[0_6px_12px_rgba(15,23,42,0.08)] hover:border-blue-300 hover:bg-[#f8fbff] hover:shadow-[0_10px_18px_rgba(37,99,235,0.16)] hover:-translate-y-[1px]",
                     ].join(" ")}
                   >
                     {active && <span className="absolute left-0 right-0 top-0 h-px bg-white/60" aria-hidden />}
                     {active && (
-                      <span className="absolute right-2 top-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-blue-600 shadow-sm" aria-hidden>
+                      <span className="absolute right-2 top-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-surface-card text-blue-600 shadow-sm" aria-hidden>
                         <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                           <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -1260,13 +1260,13 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                     <div className="flex items-center gap-2.5">
                       <div className={[
                         "w-11 h-11 rounded-lg border flex items-center justify-center text-[22px] flex-shrink-0 transition-all",
-                        active ? "bg-white/15 border-white/30 text-white shadow-sm scale-[1.03]" : "bg-white border-slate-300",
+                        active ? "bg-white/15 border-white/30 text-white shadow-sm scale-[1.03]" : "bg-surface-card border-ap-border",
                       ].join(" ")}>
                         {meta.icon}
                       </div>
                       <div className="min-w-0">
-                        <p className={["text-[18px] font-extrabold leading-tight tracking-tight", active ? "text-white" : "text-slate-900"].join(" ")}>{meta.title}</p>
-                        <p className={["text-[14px] mt-0.5 line-clamp-1 font-medium", active ? "text-blue-100/95" : "text-slate-600"].join(" ")}>{meta.desc}</p>
+                        <p className={["text-[18px] font-extrabold leading-tight tracking-tight", active ? "text-white" : "text-ap-primary"].join(" ")}>{meta.title}</p>
+                        <p className={["text-[14px] mt-0.5 line-clamp-1 font-medium", active ? "text-blue-100/95" : "text-ap-secondary"].join(" ")}>{meta.desc}</p>
                       </div>
                     </div>
                   </button>
@@ -1278,7 +1278,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
         </div>
 
         {method && !showResult && (
-          <div className="mt-5 pt-4 border-t border-slate-200 space-y-4 animate-fade-up">
+          <div className="mt-5 pt-4 border-t border-ap-border space-y-4 animate-fade-up">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[20px]">{CHANNEL_META[method].icon}</span>
               <h2 className="text-[16px] font-bold text-ap-primary">{t.channelInfo}</h2>
@@ -1316,7 +1316,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
             )}
 
             {!bankLoading && method === "slip" && (
-              <div className="space-y-3 pt-2 border-t border-slate-200">
+              <div className="space-y-3 pt-2 border-t border-ap-border">
                 <p className="text-[14px] font-bold text-ap-secondary uppercase tracking-wide">
                   {t.uploadSlipTitle}
                 </p>
@@ -1334,7 +1334,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                       value={slipAmount}
                       onChange={(e) => setSlipAmount(e.target.value)}
                       placeholder="0.00"
-                      className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-white transition-colors"
+                      className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-surface-card transition-colors"
                     />
                   </div>
                 </div>
@@ -1344,11 +1344,11 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                     {t.slipImage}
                   </label>
                   {slipPreview ? (
-                    <div className="relative rounded-2xl border-2 border-ap-border overflow-hidden bg-white">
+                    <div className="relative rounded-2xl border-2 border-ap-border overflow-hidden bg-surface-card">
                       <img
                         src={slipPreview}
                         alt={t.slipAlt}
-                        className="w-full max-h-[420px] object-contain bg-slate-50"
+                        className="w-full max-h-[420px] object-contain bg-surface-subtle"
                       />
                       <button
                         type="button"
@@ -1361,7 +1361,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                         </svg>
                         {t.remove}
                       </button>
-                      <div className="px-3 py-2 bg-white border-t border-ap-border">
+                      <div className="px-3 py-2 bg-surface-card border-t border-ap-border">
                         <p className="text-[12px] text-ap-tertiary truncate">
                           {slipFile?.name}
                           {slipFile && ` • ${(slipFile.size / 1024).toFixed(0)} KB`}
@@ -1369,7 +1369,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                       </div>
                     </div>
                   ) : (
-                    <label className="flex flex-col items-center justify-center gap-2 w-full rounded-2xl border-2 border-dashed border-ap-border bg-ap-bg/50 hover:border-ap-blue hover:bg-ap-blue/5 transition-colors py-8 cursor-pointer">
+                    <label className="flex flex-col items-center justify-center gap-2 w-full rounded-2xl border-2 border-dashed border-ap-border bg-surface-subtle/50 hover:border-ap-blue hover:bg-ap-blue/5 transition-colors py-8 cursor-pointer">
                       <div className="w-12 h-12 rounded-full bg-ap-blue/10 flex items-center justify-center text-[22px]">
                         📎
                       </div>
@@ -1418,22 +1418,22 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                           "w-full text-left rounded-2xl border p-4 transition-all duration-200",
                           active
                             ? "border-blue-300 bg-blue-50/60 shadow-[0_8px_16px_rgba(37,99,235,0.10)]"
-                            : "border-slate-200 bg-white hover:border-blue-200 hover:bg-gradient-to-r hover:from-white hover:to-blue-50/40",
+                            : "border-ap-border bg-surface-card hover:border-blue-200 hover:bg-gradient-to-r hover:from-white hover:to-blue-50/40",
                         ].join(" ")}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-[20px] flex-shrink-0">💳</div>
-                            <p className="text-[15px] font-bold text-slate-900">{p.name}</p>
+                            <div className="w-10 h-10 rounded-xl bg-surface-subtle border border-ap-border flex items-center justify-center text-[20px] flex-shrink-0">💳</div>
+                            <p className="text-[15px] font-bold text-ap-primary">{p.name}</p>
                           </div>
                           {p.min_deposit > 0 && (
-                            <span className="text-[12px] text-slate-500">
+                            <span className="text-[12px] text-ap-tertiary">
                               {t.min} ฿{p.min_deposit.toLocaleString("en-US")}
                             </span>
                           )}
                         </div>
                         {p.remark && (
-                          <p className="text-[13px] text-amber-600 mt-2 bg-amber-50 rounded-lg px-2 py-1">{p.remark}</p>
+                          <p className="text-[13px] text-ap-orange mt-2 bg-amber-50 rounded-lg px-2 py-1">{p.remark}</p>
                         )}
                       </button>
                     );
@@ -1454,7 +1454,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                         value={paymentAmount}
                         onChange={(e) => setPaymentAmount(e.target.value)}
                         placeholder={String(selectedPayment.min_deposit || 0)}
-                        className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-white transition-colors"
+                        className="w-full rounded-2xl border-2 border-ap-border focus:border-ap-blue outline-none pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary bg-surface-card transition-colors"
                       />
                     </div>
                     {selectedPayment.min_deposit > 0 && (
@@ -1482,7 +1482,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
         )}
 
         {showResult && (
-          <div className="mt-5 pt-4 border-t border-slate-200 space-y-4 animate-fade-up">
+          <div className="mt-5 pt-4 border-t border-ap-border space-y-4 animate-fade-up">
             {method === "payment" && qrCodeData && qrImageSrc ? (
               <div className="space-y-3">
                 <div className="rounded-2xl border border-ap-blue/20 bg-ap-blue/[0.03] p-4">
@@ -1492,15 +1492,15 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-ap-border bg-white p-4">
+                <div className="rounded-2xl border border-ap-border bg-surface-card p-4">
                   <div className="flex justify-center">
                     <img
                       src={qrImageSrc}
                       alt="Deposit QR Code"
-                      className="w-full max-w-[320px] rounded-xl border border-ap-border bg-white p-2"
+                      className="w-full max-w-[320px] rounded-xl border border-ap-border bg-surface-card p-2"
                     />
                   </div>
-                  <p className="mt-2 text-center text-[13px] font-semibold text-red-600">
+                  <p className="mt-2 text-center text-[13px] font-semibold text-ap-red">
                     {countdownSec === null
                       ? t.noExpire
                       : countdownSec > 0
@@ -1509,21 +1509,21 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                   </p>
 
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px]">
-                    <div className="rounded-xl bg-ap-bg px-3 py-2">
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2">
                       <p className="text-ap-tertiary">{t.amountLabel}</p>
                       <p className="font-bold text-ap-primary">
                         ฿{Number(qrCodeData.amount || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </p>
                     </div>
-                    <div className="rounded-xl bg-ap-bg px-3 py-2">
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2">
                       <p className="text-ap-tertiary">{t.expiresAt}</p>
                       <p className="font-semibold text-ap-primary">{qrCodeData.expired_date || "-"}</p>
                     </div>
-                    <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
                       <p className="text-ap-tertiary">TXID</p>
                       <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.txid || "-"}</p>
                     </div>
-                    <div className="rounded-xl bg-ap-bg px-3 py-2 sm:col-span-2">
+                    <div className="rounded-xl bg-surface-subtle px-3 py-2 sm:col-span-2">
                       <p className="text-ap-tertiary">Request ID</p>
                       <p className="font-mono text-[12px] text-ap-primary break-all">{qrCodeData.request_id}</p>
                     </div>
@@ -1559,7 +1559,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
       {statusModal && (
         <div className="fixed inset-0 z-[60] bg-black/40 flex items-center justify-center px-5">
-          <div className="w-full max-w-sm bg-ap-card rounded-2xl border border-ap-border shadow-card p-5">
+          <div className="w-full max-w-sm bg-surface-card rounded-2xl border border-ap-border shadow-card p-5">
             <p className="text-[17px] font-bold text-ap-primary">
               {statusModal.kind === "success" ? t.depositSuccess : t.txExpired}
             </p>

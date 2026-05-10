@@ -105,12 +105,12 @@ export default async function YeekeeShootPage({ params }: Props) {
   ];
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-6xl mx-auto px-5 pt-6 space-y-5">
         <div className="flex items-center gap-3">
           <BackButton
             fallbackHref={`/${locale}/bet`}
-            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
           >
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -122,7 +122,7 @@ export default async function YeekeeShootPage({ params }: Props) {
           </div>
         </div>
 
-        <section className="overflow-hidden rounded-2xl border border-ap-border bg-ap-card shadow-card">
+        <section className="overflow-hidden rounded-2xl border border-ap-border bg-surface-card shadow-card">
           <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-white">
             <div className="flex items-center gap-3">
               {marketLogo ? (
@@ -149,7 +149,7 @@ export default async function YeekeeShootPage({ params }: Props) {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 bg-slate-50/60">
             {detailRows.map((row) => (
-              <div key={row.label} className="rounded-xl border border-slate-200 bg-white px-3 py-2.5">
+              <div key={row.label} className="rounded-xl border border-slate-200 bg-surface-card px-3 py-2.5">
                 <p className="text-[14px] font-semibold text-ap-tertiary">{row.label}</p>
                 <p className="mt-1 text-[14px] font-bold text-ap-primary truncate">{row.value}</p>
               </div>

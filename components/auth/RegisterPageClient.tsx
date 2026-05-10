@@ -57,7 +57,7 @@ function RegisterContent({ defaultRef, banks, logoUrl }: RegisterContentProps) {
       </div>
 
       {/* Card */}
-      <div className="bg-ap-card rounded-[28px] shadow-card-xl border border-ap-border p-8">
+      <div className="bg-surface-card rounded-[28px] shadow-card-xl border border-ap-border p-8">
         <RegisterForm defaultRef={defaultRef} banks={banks} />
       </div>
 

@@ -56,7 +56,7 @@ export default function PromoBanner() {
         {items.map((s) => (
           <div
             key={s.code}
-            className="relative flex-shrink-0 w-full aspect-[16/6] bg-ap-bg"
+            className="relative flex-shrink-0 w-full aspect-[16/6] bg-surface-subtle"
           >
             <img
               src={s.filepic || s.image}
@@ -94,7 +94,7 @@ export default function PromoBanner() {
               onClick={() => { go(i); resetTimer(); }}
               className={[
                 "rounded-full transition-all duration-300",
-                i === idx ? "w-4 h-1.5 bg-white" : "w-1.5 h-1.5 bg-white/50",
+                i === idx ? "w-4 h-1.5 bg-surface-card" : "w-1.5 h-1.5 bg-white/50",
               ].join(" ")}
             />
           ))}

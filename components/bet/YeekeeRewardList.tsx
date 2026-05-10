@@ -36,7 +36,7 @@ export default function YeekeeRewardList({
   const total = winners.reduce((s, it) => s + (Number(it.credit_amount) || 0), 0);
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden">
+    <section className="rounded-2xl border border-ap-border bg-surface-card shadow-card overflow-hidden">
       <div className="px-4 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 border-b border-ap-border">
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ได้รับรางวัลทายเลข</h2>
         <p className="text-[12px] text-white/90 font-medium">
@@ -63,11 +63,11 @@ export default function YeekeeRewardList({
               return (
                 <li key={`${it.position ?? idx}`} className="px-4 py-2.5 flex items-center justify-between gap-3 hover:bg-amber-50/50">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="shrink-0 w-9 h-9 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center text-[12px] font-extrabold tabular-nums">
+                    <div className="shrink-0 w-9 h-9 rounded-lg bg-amber-50 border border-amber-200 text-ap-orange flex items-center justify-center text-[12px] font-extrabold tabular-nums">
                       #{it.position ?? "-"}
                     </div>
                     <div className="min-w-0">
-                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-emerald-600" : "text-ap-primary"}`}>
+                      <p className={`text-[18px] font-extrabold tabular-nums tracking-wider leading-tight ${isRevealed ? "text-ap-green" : "text-ap-primary"}`}>
                         {numberDisplay}
                       </p>
                       <p className="text-[12px] text-ap-tertiary mt-0.5 truncate flex items-center gap-1">
@@ -82,7 +82,7 @@ export default function YeekeeRewardList({
                       </p>
                     </div>
                   </div>
-                  <span className="shrink-0 text-[15px] font-extrabold tabular-nums text-emerald-600">
+                  <span className="shrink-0 text-[15px] font-extrabold tabular-nums text-ap-green">
                     +{(Number(it.credit_amount) || 0).toLocaleString("th-TH")}
                   </span>
                 </li>

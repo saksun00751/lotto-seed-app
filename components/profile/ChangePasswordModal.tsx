@@ -57,7 +57,7 @@ function PasswordField({
           className={[
             "w-full border rounded-2xl pl-10 pr-11 py-3 text-[16px] font-semibold text-ap-primary outline-none transition-all",
             "focus:ring-2 focus:ring-ap-blue/10",
-            error ? "border-ap-red bg-ap-red/5 focus:border-ap-red" : "border-ap-border bg-white focus:border-ap-blue",
+            error ? "border-ap-red bg-ap-red/5 focus:border-ap-red" : "border-ap-border bg-surface-card focus:border-ap-blue",
           ].join(" ")}
         />
         <button
@@ -130,7 +130,7 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
           onClose={() => setToast(null)}
         />
       )}
-      <div className="bg-ap-card rounded-3xl border border-ap-border shadow-card overflow-hidden">
+      <div className="bg-surface-card rounded-3xl border border-ap-border shadow-card overflow-hidden">
 
         {/* Header */}
         <div className="bg-ap-blue px-6 pt-6 pb-5 text-white relative overflow-hidden">
@@ -209,7 +209,7 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
                       ? "border-ap-red bg-ap-red/5 focus:border-ap-red focus:ring-ap-red/10"
                       : confirmMatch
                         ? "border-ap-green bg-ap-green/5 focus:border-ap-green focus:ring-ap-green/10"
-                        : "border-ap-border bg-white focus:border-ap-blue focus:ring-ap-blue/10",
+                        : "border-ap-border bg-surface-card focus:border-ap-blue focus:ring-ap-blue/10",
                   ].join(" ")}
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5">

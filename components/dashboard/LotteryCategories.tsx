@@ -22,7 +22,7 @@ function StatusBadge({ status, label }: { status: SubItem["drawStatus"]; label?:
   if (status === "closed")
     return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-semibold bg-slate-200 text-slate-600 border border-slate-300">{text}</span>;
   if (status === "resulted")
-    return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-rose-100 text-rose-600 border border-rose-200">{text}</span>;
+    return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-rose-100 text-ap-red border border-rose-200">{text}</span>;
   return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-sm">{text}</span>;
 }
 
@@ -59,12 +59,12 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
     return (
       <div className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-ap-card shadow-card">
+          <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-surface-card shadow-card">
             <div className="h-11 bg-sky-200/70" />
             <div className="h-10 px-4 bg-sky-50 border-b border-slate-200" />
             <div className="bg-slate-50/50 p-3 space-y-2.5">
               {[1, 2, 3].map((j) => (
-                <div key={j} className="rounded-xl bg-white border border-slate-200/80 px-3.5 py-3">
+                <div key={j} className="rounded-xl bg-surface-card border border-slate-200/80 px-3.5 py-3">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-slate-200" />
                     <div className="flex-1 space-y-2">
@@ -96,7 +96,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
       </h2>
 
       {categories.map((cat: Category) => (
-        <div key={cat.id} className="rounded-2xl border border-sky-100 shadow-card hover:shadow-card-hover transition-all overflow-hidden bg-ap-card">
+        <div key={cat.id} className="rounded-2xl border border-sky-100 shadow-card hover:shadow-card-hover transition-all overflow-hidden bg-surface-card">
 
           <div className="relative bg-ap-blue px-4 py-2.5 flex items-center gap-2 overflow-hidden">
             <span className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.12)_0%,transparent_48%,rgba(255,255,255,0.08)_100%)]" />
@@ -134,7 +134,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
             {cat.items.map((item: SubItem) => (
               <div
                 key={item.id}
-                className="rounded-xl bg-ap-card border border-slate-200/80 shadow-sm hover:shadow-md transition-all px-3.5 py-3"
+                className="rounded-xl bg-surface-card border border-slate-200/80 shadow-sm hover:shadow-md transition-all px-3.5 py-3"
               >
                 <div className="flex items-center gap-3">
                   {item.logo

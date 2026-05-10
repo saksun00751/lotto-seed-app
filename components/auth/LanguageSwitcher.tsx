@@ -22,7 +22,7 @@ export default function LanguageSwitcher() {
           className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-medium transition-all ${
             lang === l.code
               ? "bg-ap-blue text-white shadow-sm"
-              : "bg-white border border-ap-border text-ap-secondary hover:border-ap-blue/40 hover:text-ap-primary"
+              : "bg-surface-card border border-ap-border text-ap-secondary hover:border-ap-blue/40 hover:text-ap-primary"
           }`}
         >
           <img src={l.flagIcon} alt={l.flag} className="w-4 h-4 rounded-sm object-cover" />

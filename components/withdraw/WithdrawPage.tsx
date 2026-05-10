@@ -78,10 +78,10 @@ function Notes({ withdrawMin, withdrawMaxDay, withdrawSumToday, tw }: {
       </div>
 
       <div className="relative space-y-2">
-        <div className="rounded-xl border border-[#eedeb0] bg-white/95 px-3 py-2.5 text-[14px] font-semibold text-slate-800">
+        <div className="rounded-xl border border-[#eedeb0] bg-surface-card px-3 py-2.5 text-[14px] font-semibold text-ap-primary">
           {t1(tw.noteMinWithBaht, fmt(withdrawMin))}
         </div>
-        <div className="rounded-xl border border-[#eedeb0] bg-white/95 px-3 py-2.5 text-[14px] font-semibold text-slate-800">
+        <div className="rounded-xl border border-[#eedeb0] bg-surface-card px-3 py-2.5 text-[14px] font-semibold text-ap-primary">
           {tVars(tw.noteMaxDayWithSum, { max: fmt(withdrawMaxDay), sum: fmt(withdrawSumToday) })}
         </div>
       </div>
@@ -102,42 +102,42 @@ function PromoCard({
   tw:              WithdrawT;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-ap-card shadow-[0_10px_22px_rgba(15,23,42,0.08)] px-4 py-3.5 mb-5">
+    <div className="relative overflow-hidden rounded-2xl border border-ap-border bg-surface-card shadow-[0_10px_22px_rgba(15,23,42,0.08)] px-4 py-3.5 mb-5">
       <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
 
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2 min-w-0">
           <span className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-blue-50 border border-blue-200 text-[15px] flex-shrink-0">👑</span>
           <div className="min-w-0">
-            <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide leading-none">{tw.promoTitle}</p>
-            <p className="text-[16px] font-bold text-slate-900 mt-0.5 truncate">{name || "-"}</p>
+            <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoTitle}</p>
+            <p className="text-[16px] font-bold text-ap-primary mt-0.5 truncate">{name || "-"}</p>
           </div>
         </div>
         <span className={`text-[13px] px-2 py-0.5 rounded-full border font-bold whitespace-nowrap ${
           turnoverPassed
-            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-            : "bg-amber-50 text-amber-700 border-amber-200"
+            ? "bg-emerald-50 text-ap-green border-emerald-200"
+            : "bg-amber-50 text-ap-orange border-amber-200"
         }`}>
           {turnoverPassed ? tw.promoPassed : tw.promoNotPassed}
         </span>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide leading-none">{tw.promoStatTurn}</p>
-          <p className="text-[16px] font-bold text-slate-900 mt-1 tabular-nums">฿{fmt(turnover)}</p>
+        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatTurn}</p>
+          <p className="text-[16px] font-bold text-ap-primary mt-1 tabular-nums">฿{fmt(turnover)}</p>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide leading-none">{tw.promoStatLimit}</p>
-          <p className="text-[16px] font-bold text-red-600 mt-1 tabular-nums">฿{fmt(withdrawLimit)}</p>
+        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatLimit}</p>
+          <p className="text-[16px] font-bold text-ap-red mt-1 tabular-nums">฿{fmt(withdrawLimit)}</p>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide leading-none">{tw.promoStatPayout}</p>
+        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatPayout}</p>
           <p className="text-[16px] font-bold text-blue-700 mt-1 tabular-nums">฿{fmt(payoutAmount)}</p>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide leading-none">{tw.promoStatShortfall}</p>
-          <p className="text-[16px] font-bold text-amber-700 mt-1 tabular-nums">฿{fmt(shortfall)}</p>
+        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatShortfall}</p>
+          <p className="text-[16px] font-bold text-ap-orange mt-1 tabular-nums">฿{fmt(shortfall)}</p>
         </div>
       </div>
 
@@ -150,7 +150,7 @@ function PromoCard({
         <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-[14px] font-semibold text-blue-800">
           {tVars(tw.promoCalcNote, { req: fmt(requestedAmount), limit: fmt(withdrawLimit) })}
         </div>
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[14px] font-semibold text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[14px] font-semibold text-ap-red">
           {tw.promoForceFull}
         </div>
       </div>
@@ -218,7 +218,7 @@ export default function WithdrawPage({
   if (state.success) {
     return (
       <div className="max-w-5xl mx-auto px-4 sm:px-5 pt-5 sm:pt-6">
-        <div className="relative overflow-hidden bg-[linear-gradient(160deg,#ffffff_0%,#f8fbff_100%)] rounded-3xl border border-slate-200 shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-6 text-center">
+        <div className="relative overflow-hidden bg-surface-card rounded-3xl border border-ap-border shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-6 text-center">
           <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/70 to-transparent" />
           <div className="w-20 h-20 rounded-full bg-ap-green/10 flex items-center justify-center mx-auto mb-5">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="2.2">
@@ -230,7 +230,7 @@ export default function WithdrawPage({
             {t1(tw.successDesc, COOLDOWN_MIN)}
           </p>
 
-          <div className="mt-5 bg-slate-50 rounded-2xl border border-slate-200 p-4 text-left space-y-2.5">
+          <div className="mt-5 bg-surface-subtle rounded-2xl border border-ap-border p-4 text-left space-y-2.5">
             {[
               { label: tw.rowAmount, value: `฿${fmt(effectiveAmount)}`, blue: true },
               { label: tw.rowBank,   value: bankName ?? "-" },
@@ -273,29 +273,29 @@ export default function WithdrawPage({
 
       {/* Withdraw disabled */}
       {!canWithdraw && (
-        <div className="mb-4 bg-red-50 border border-red-200 rounded-2xl px-4 py-3 text-[13px] text-red-700 font-medium shadow-[0_8px_18px_rgba(127,29,29,0.14)]">
+        <div className="mb-4 bg-red-50 border border-red-200 rounded-2xl px-4 py-3 text-[13px] text-ap-red font-medium shadow-[0_8px_18px_rgba(127,29,29,0.14)]">
           {tw.systemClosed}
         </div>
       )}
 
       {/* Balance card */}
-      <div className="relative overflow-hidden bg-[linear-gradient(160deg,#ffffff_0%,#f8fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
+      <div className="relative overflow-hidden bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(59,130,246,0.12),transparent_42%)] pointer-events-none" />
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
-        <p className="relative text-[12px] text-slate-500 uppercase tracking-[0.08em] font-semibold mb-1">{tw.balance}</p>
-        <p className="relative text-[32px] font-extrabold text-slate-900 tabular-nums leading-tight tracking-tight">
+        <p className="relative text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-1">{tw.balance}</p>
+        <p className="relative text-[32px] font-extrabold text-ap-primary tabular-nums leading-tight tracking-tight">
           ฿{fmt(balance)}
         </p>
       </div>
 
       {/* Bank info card */}
-      <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+      <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
-        <p className="text-[12px] text-slate-500 uppercase tracking-[0.08em] font-semibold mb-2">{tw.myAccount}</p>
+        <p className="text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-2">{tw.myAccount}</p>
         {bankAccount ? (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-surface-card border border-ap-border overflow-hidden flex items-center justify-center flex-shrink-0">
                 {bankLogo ? (
                   <img src={bankLogo} alt={bankName ?? tw.bankAlt} className="w-full h-full object-contain" />
                 ) : (
@@ -303,17 +303,17 @@ export default function WithdrawPage({
                 )}
               </div>
               <div>
-                <p className="text-[14px] font-semibold text-slate-900">{displayName}</p>
-                <p className="text-[13px] text-slate-600 mt-0.5">{bankName}</p>
+                <p className="text-[14px] font-semibold text-ap-primary">{displayName}</p>
+                <p className="text-[13px] text-ap-secondary mt-0.5">{bankName}</p>
               </div>
             </div>
-            <p className="text-[14px] font-mono font-semibold text-slate-900 tracking-wider bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1">
+            <p className="text-[14px] font-mono font-semibold text-ap-primary tracking-wider bg-surface-subtle border border-ap-border rounded-lg px-2.5 py-1">
               {formatBankAccount(bankAccount)}
             </p>
           </div>
         ) : (
           <div className="flex items-center justify-between">
-            <p className="text-[13px] text-slate-500">{tw.noBank}</p>
+            <p className="text-[13px] text-ap-tertiary">{tw.noBank}</p>
             <a href={`/${lang}/profile`} className="text-[14px] text-ap-blue font-semibold hover:text-ap-blue-h transition-colors">{tw.setup}</a>
           </div>
         )}
@@ -336,7 +336,7 @@ export default function WithdrawPage({
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4" onClick={() => setShowConfirm(false)}>
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-          <div className="relative bg-[linear-gradient(160deg,#ffffff_0%,#f8fbff_100%)] rounded-3xl border border-slate-200 shadow-[0_20px_44px_rgba(15,23,42,0.24)] w-full max-w-sm p-6 animate-fade-up" onClick={(e) => e.stopPropagation()}>
+          <div className="relative bg-surface-card rounded-3xl border border-ap-border shadow-[0_20px_44px_rgba(15,23,42,0.24)] w-full max-w-sm p-6 animate-fade-up" onClick={(e) => e.stopPropagation()}>
             <div className="w-14 h-14 rounded-full bg-ap-red/10 flex items-center justify-center mx-auto mb-4">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -345,7 +345,7 @@ export default function WithdrawPage({
             <h3 className="text-[18px] font-bold text-ap-primary text-center mb-1">{tw.confirmTitle}</h3>
             <p className="text-[14px] text-ap-tertiary text-center mb-5">{tw.confirmDesc}</p>
 
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 mb-5">
+            <div className="bg-surface-subtle border border-ap-border rounded-2xl p-4 space-y-3 mb-5">
               {[
                 { label: tw.rowAmount, value: `฿${fmt(effectiveAmount)}`, highlight: true },
                 { label: tw.rowBank,   value: bankName ?? "-" },
@@ -365,7 +365,7 @@ export default function WithdrawPage({
               <button
                 type="button"
                 onClick={() => setShowConfirm(false)}
-                className="flex-1 py-3 rounded-full border border-ap-border text-[14px] font-semibold text-ap-secondary hover:bg-ap-bg transition-colors"
+                className="flex-1 py-3 rounded-full border border-ap-border text-[14px] font-semibold text-ap-secondary hover:bg-surface-subtle transition-colors"
               >
                 {tw.confirmCancel}
               </button>
@@ -385,9 +385,9 @@ export default function WithdrawPage({
       {/* Form card */}
       <form ref={formRef} action={action}>
       <input type="hidden" name="amount" value={promoActive ? String(forcedAmount) : amount} />
-      <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f8fbff_100%)] rounded-3xl border border-slate-200 shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-5 space-y-5">
+      <div className="relative bg-surface-card rounded-3xl border border-ap-border shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-5 space-y-5">
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/70 to-transparent" />
-        <h2 className="text-[17px] font-bold text-slate-900">{tw.enterAmount}</h2>
+        <h2 className="text-[17px] font-bold text-ap-primary">{tw.enterAmount}</h2>
 
         {/* Quick-amount buttons */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -406,8 +406,8 @@ export default function WithdrawPage({
                   "py-3 rounded-xl text-[13px] font-bold border transition-all active:scale-[0.98]",
                   selected
                     ? "border-[#1f63d8] bg-gradient-to-b from-[#3588f4] via-[#2872e6] to-[#1f63d8] text-white shadow-[0_10px_20px_rgba(37,99,235,0.25)]"
-                    : "bg-white border-slate-200 text-slate-800 hover:border-blue-300 hover:bg-[#f8fbff]",
-                  promoActive ? "opacity-50 cursor-not-allowed hover:border-slate-200 hover:bg-white" : "",
+                    : "bg-surface-card border-ap-border text-ap-primary hover:border-blue-300 hover:bg-[#f8fbff]",
+                  promoActive ? "opacity-50 cursor-not-allowed hover:border-ap-border hover:bg-surface-card" : "",
                 ].join(" ")}
               >
                 {q.label}
@@ -431,16 +431,16 @@ export default function WithdrawPage({
               disabled={promoActive}
               readOnly={promoActive}
               className={[
-                "w-full border-2 rounded-2xl pl-9 pr-4 py-3 text-[16px] font-semibold text-slate-900 outline-none transition-all bg-white",
+                "w-full border-2 rounded-2xl pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary outline-none transition-all bg-surface-card",
                 amountError
                   ? "border-ap-red bg-ap-red/[0.03] focus:ring-2 focus:ring-ap-red/10"
-                  : "border-slate-200 focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/10",
-                promoActive ? "cursor-not-allowed bg-slate-100 text-slate-500 focus:border-slate-200 focus:ring-0" : "",
+                  : "border-ap-border focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/10",
+                promoActive ? "cursor-not-allowed bg-slate-100 text-ap-tertiary focus:border-ap-border focus:ring-0" : "",
               ].join(" ")}
             />
           </div>
           {promoActive && (
-            <p className="text-[13px] text-red-600 mt-1.5 pl-1 font-medium">
+            <p className="text-[13px] text-ap-red mt-1.5 pl-1 font-medium">
               {tw.promoForceInput}
             </p>
           )}
@@ -451,9 +451,9 @@ export default function WithdrawPage({
 
         {/* Summary row */}
         {isValid && (
-          <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between animate-fade-in">
-            <span className="text-[14px] text-slate-600">{tw.transferTo}</span>
-            <span className="text-[13px] font-semibold text-slate-900">
+          <div className="bg-surface-subtle border border-ap-border rounded-xl px-4 py-3 flex items-center justify-between animate-fade-in">
+            <span className="text-[14px] text-ap-secondary">{tw.transferTo}</span>
+            <span className="text-[13px] font-semibold text-ap-primary">
               {displayName} · {bankAccount ? maskAccount(bankAccount) : "-"}
             </span>
           </div>

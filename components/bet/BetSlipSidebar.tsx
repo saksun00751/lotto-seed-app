@@ -240,10 +240,10 @@ export default function BetSlipSidebar({
       />
     )}
     <div className="space-y-3">
-      <div className="bg-ap-card rounded-2xl overflow-hidden shadow-card border border-ap-border sticky top-4">
+      <div className="bg-surface-card rounded-2xl overflow-hidden shadow-card border border-ap-border sticky top-4">
 
         {/* Header */}
-        <div className="px-4 py-3 border-b border-ap-border bg-white">
+        <div className="px-4 py-3 border-b border-ap-border bg-surface-card">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="text-[17px] leading-none">📋</span>
@@ -290,7 +290,7 @@ export default function BetSlipSidebar({
               if (!items.length) return null;
               return (
                 <div key={group.key}>
-                  <div className="px-4 py-2 bg-ap-bg/80 border-b border-ap-border flex items-center justify-between">
+                  <div className="px-4 py-2 bg-surface-subtle/80 border-b border-ap-border flex items-center justify-between">
                     <span className="text-[14px] font-bold text-ap-primary uppercase tracking-wide">{group.label}</span>
                     <span className="text-[14px] font-bold text-ap-secondary">{items.length} {t.items}</span>
                   </div>
@@ -299,7 +299,7 @@ export default function BetSlipSidebar({
                     const payout = Number(bettingContext?.[b.betType]?.payout ?? 0);
                     const winAmt = amt * payout;
                     return (
-                      <div key={b.id} className="px-4 py-3 flex items-center gap-3 hover:bg-ap-bg/60 transition-colors border-b border-ap-border last:border-b-0">
+                      <div key={b.id} className="px-4 py-3 flex items-center gap-3 hover:bg-surface-subtle/60 transition-colors border-b border-ap-border last:border-b-0">
                         <div className="w-12 h-12 rounded-2xl bg-ap-primary flex items-center justify-center flex-shrink-0">
                           <span className="text-white font-extrabold text-[15px] tabular-nums tracking-wider">{b.number}</span>
                         </div>
@@ -346,7 +346,7 @@ export default function BetSlipSidebar({
 
         {/* Bulk amount */}
         {bills.length > 0 && (
-          <div className="px-4 py-3 border-t border-ap-border bg-ap-bg/40">
+          <div className="px-4 py-3 border-t border-ap-border bg-surface-subtle/40">
             <label className="text-[14px] text-ap-primary font-bold mb-1.5 block uppercase tracking-wide">
               ใส่ยอดทุกบิล
             </label>
@@ -368,7 +368,7 @@ export default function BetSlipSidebar({
                 if (["e", "E", "+", "-", ".", ","].includes(e.key)) e.preventDefault();
               }}
               placeholder="ยอด"
-              className="w-full border-2 border-ap-blue/30 rounded-xl px-3 py-2.5 text-[15px] text-center font-extrabold text-ap-blue outline-none focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/15 bg-white tabular-nums"
+              className="w-full border-2 border-ap-blue/30 rounded-xl px-3 py-2.5 text-[15px] text-center font-extrabold text-ap-blue outline-none focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/15 bg-surface-card tabular-nums"
             />
             <div className="grid grid-cols-4 gap-1.5 mt-2">
               {[10, 20, 50, 100].map((v) => (
@@ -382,7 +382,7 @@ export default function BetSlipSidebar({
                     setBulkAmount(String(v));
                     onSetAllAmount?.(v);
                   }}
-                  className="py-2 rounded-lg bg-white border-2 border-ap-border text-[14px] font-bold text-ap-primary hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all tabular-nums"
+                  className="py-2 rounded-lg bg-surface-card border-2 border-ap-border text-[14px] font-bold text-ap-primary hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all tabular-nums"
                 >
                   ฿{v}
                 </button>

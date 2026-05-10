@@ -45,7 +45,7 @@ export default function TicketSearch({ search, drawDate, limit, t }: Props) {
           ref={searchRef}
           defaultValue={search}
           placeholder={t.searchPlaceholder}
-          className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-primary placeholder:text-ap-tertiary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
+          className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-primary placeholder:text-ap-tertiary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
         />
         <button
           type="submit"
@@ -61,12 +61,12 @@ export default function TicketSearch({ search, drawDate, limit, t }: Props) {
           type="date"
           value={drawDate}
           onChange={(e) => push({ draw_date: e.target.value })}
-          className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-primary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
+          className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-primary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
         />
         {(search || drawDate) && (
           <button
             onClick={() => push({ search: "", draw_date: "" })}
-            className="px-3 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-secondary hover:bg-ap-bg transition-colors"
+            className="px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-secondary hover:bg-surface-subtle transition-colors"
           >
             {t.clear}
           </button>
@@ -76,7 +76,7 @@ export default function TicketSearch({ search, drawDate, limit, t }: Props) {
       {/* Limit row */}
       <div className="flex items-center gap-2">
         <span className="text-[12px] text-ap-secondary">{t.show}</span>
-        <div className="flex rounded-xl border border-ap-border bg-white overflow-hidden text-[13px]">
+        <div className="flex rounded-xl border border-ap-border bg-surface-card overflow-hidden text-[13px]">
           {LIMITS.map((n) => (
             <button
               key={n}
@@ -84,7 +84,7 @@ export default function TicketSearch({ search, drawDate, limit, t }: Props) {
               className={`px-3 py-1.5 transition-colors ${
                 limit === n
                   ? "bg-ap-blue text-white font-semibold"
-                  : "text-ap-secondary hover:bg-ap-bg"
+                  : "text-ap-secondary hover:bg-surface-subtle"
               }`}
             >
               {n}

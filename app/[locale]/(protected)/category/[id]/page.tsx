@@ -43,7 +43,7 @@ interface CategoryTranslation {
 
 function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryTranslation; groupId: number; locale: string }) {
   return (
-    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card hover:shadow-card-hover transition-all hover:-translate-y-0.5 overflow-hidden h-full">
+    <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card hover:shadow-card-hover transition-all hover:-translate-y-0.5 overflow-hidden h-full">
       <div className={`h-[3px] bg-gradient-to-r ${item.barClass}`} />
       <div className="p-4 h-full flex flex-col">
         {/* Header */}
@@ -78,11 +78,11 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
         {/* Result or countdown */}
         {item.result ? (
           <div className="grid grid-cols-2 gap-1.5 h-[68px] mb-3">
-            <div className="bg-ap-bg rounded-xl p-2 text-center flex flex-col justify-center">
+            <div className="bg-surface-subtle rounded-xl p-2 text-center flex flex-col justify-center">
               <div className="text-[20px] font-bold text-ap-primary tabular-nums">{item.result.top3}</div>
               <div className="text-[12px] text-ap-tertiary">{t.top3}</div>
             </div>
-            <div className="bg-ap-bg rounded-xl p-2 text-center flex flex-col justify-center">
+            <div className="bg-surface-subtle rounded-xl p-2 text-center flex flex-col justify-center">
               <div className="text-[20px] font-bold text-ap-primary tabular-nums">{item.result.bot2}</div>
               <div className="text-[12px] text-ap-tertiary">{t.bot2}</div>
             </div>
@@ -111,7 +111,7 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
               toastClosedRefresh={t.closedRefreshing}
             />
           ) : (
-            <button className="block w-full text-center bg-ap-bg border border-ap-border text-ap-secondary rounded-full py-2 text-[13px] font-medium cursor-default">
+            <button className="block w-full text-center bg-surface-subtle border border-ap-border text-ap-secondary rounded-full py-2 text-[13px] font-medium cursor-default">
               {t.viewPast}
             </button>
           )}
@@ -165,7 +165,7 @@ export default async function CategoryPage({ params }: Props) {
   })();
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <Suspense fallback={null}>
         <BetToastNotice />
       </Suspense>
@@ -175,7 +175,7 @@ export default async function CategoryPage({ params }: Props) {
         <div className="flex items-center gap-3 mb-6">
           <BackButton
             fallbackHref={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
           >
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />

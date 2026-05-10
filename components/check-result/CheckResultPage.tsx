@@ -68,22 +68,13 @@ function checkWin(number: string, betType: string, top3: string, bot2: string): 
   }
 }
 
-const TAB_GRADIENTS = [
-  "from-ap-blue to-sky-400",
-  "from-emerald-500 to-teal-400",
-  "from-yellow-500 to-orange-400",
-  "from-violet-600 to-indigo-400",
-  "from-rose-500 to-pink-400",
-  "from-cyan-500 to-blue-400",
-];
-
 const STATUS_STYLE: Record<string, string> = {
   active:    "bg-ap-blue/10 text-ap-blue",
   confirmed: "bg-ap-blue/10 text-ap-blue",
   won:       "bg-ap-green/10 text-ap-green",
   lost:      "bg-ap-red/10 text-ap-red",
-  pending:   "bg-yellow-50 text-yellow-700",
-  cancelled: "bg-ap-bg text-ap-tertiary",
+  pending:   "bg-yellow-50 text-ap-orange",
+  cancelled: "bg-surface-subtle text-ap-tertiary",
 };
 type TCR = ReturnType<typeof useTranslation<"checkResult">>;
 
@@ -295,7 +286,7 @@ function CheckResultModal({
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm px-0 sm:px-4"
       onClick={(e) => { if (e.currentTarget === e.target) onClose(); }}
     >
-      <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+      <div className="bg-surface-card w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
 
         {/* Header */}
         <div className="px-5 pt-5 pb-4 border-b border-ap-border flex-shrink-0">
@@ -307,7 +298,7 @@ function CheckResultModal({
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-ap-bg flex items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors flex-shrink-0"
+              className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors flex-shrink-0"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
@@ -320,7 +311,7 @@ function CheckResultModal({
             {[
               { label: t.col3top,  value: draw.result_top_3,    bg: "bg-ap-blue text-white" },
               { label: t.col2top,  value: top2,                 bg: "bg-teal-500 text-white" },
-              { label: t.col2bot,  value: draw.result_bottom_2, bg: "bg-emerald-500 text-white" },
+              { label: t.col2bot,  value: draw.result_bottom_2, bg: "bg-ap-green text-white" },
             ].map((r) => (
               <div key={r.label} className={`${r.bg} rounded-2xl py-3 text-center`}>
                 <p className="text-[26px] font-bold tabular-nums tracking-wider">{r.value || "—"}</p>
@@ -352,11 +343,11 @@ function CheckResultModal({
                     <button
                       type="button"
                       onClick={() => toggleSlip(ticket.id)}
-                      className="w-full text-left px-5 py-3.5 hover:bg-ap-bg/60 transition-colors flex items-center gap-3"
+                      className="w-full text-left px-5 py-3.5 hover:bg-surface-subtle/60 transition-colors flex items-center gap-3"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-ap-bg text-ap-secondary"}`}>
+                          <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-surface-subtle text-ap-secondary"}`}>
                             {statusLabel(ticket.status, t)}
                           </span>
                           <span className="text-[13px] font-bold text-ap-tertiary font-mono">#{ticket.id}</span>
@@ -381,7 +372,7 @@ function CheckResultModal({
 
                     {/* Expanded items */}
                     {isOpen && detail && (
-                      <div className="bg-ap-bg/60 border-t border-ap-border">
+                      <div className="bg-surface-subtle/60 border-t border-ap-border">
                         {/* Column headers */}
                         <div className="grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2 text-[12px] font-bold text-ap-tertiary uppercase tracking-wide">
                           <span>{t.colNumber}</span>
@@ -450,7 +441,6 @@ export default function CheckResultPage({ groups, tickets }: Props) {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const activeGroup = displayGroups.find((g) => g.group_code === activeId) ?? null;
-  const gradient    = TAB_GRADIENTS[displayGroups.findIndex((g) => g.group_code === activeId) % TAB_GRADIENTS.length] ?? TAB_GRADIENTS[0];
 
   async function handleSearchByDate(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -484,7 +474,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
       </div>
 
       {/* Search by draw_date */}
-      <form onSubmit={handleSearchByDate} className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-3">
+      <form onSubmit={handleSearchByDate} className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-3">
         <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="date"
@@ -505,18 +495,18 @@ export default function CheckResultPage({ groups, tickets }: Props) {
       </form>
 
       {displayGroups.length === 0 && (
-        <div className="py-16 text-center bg-ap-card rounded-2xl border border-ap-border shadow-card">
+        <div className="py-16 text-center bg-surface-card rounded-2xl border border-ap-border shadow-card">
           <p className="text-[32px] mb-3">🏆</p>
           <p className="text-[16px] font-bold text-ap-primary">{t.emptyResult}</p>
         </div>
       )}
 
       {displayGroups.length > 0 && (
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
 
           {/* Tab bar - segmented switcher (iOS-like) */}
-          <div className="p-3 bg-white">
-            <div className="p-1 rounded-2xl bg-slate-100 overflow-x-auto scrollbar-hide">
+          <div className="p-3 bg-surface-card">
+            <div className="p-1 rounded-2xl bg-surface-subtle overflow-x-auto scrollbar-hide">
               <div className="flex gap-1 w-max min-w-full">
                 {displayGroups.map((g) => {
                   const active = activeId === g.group_code;
@@ -527,7 +517,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                       className={[
                         "flex-shrink-0 px-4 py-2 rounded-xl text-[14px] font-bold transition-all whitespace-nowrap",
                         active
-                          ? "bg-white text-ap-primary shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
+                          ? "bg-surface-card text-ap-primary shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
                           : "text-ap-tertiary hover:text-ap-primary",
                       ].join(" ")}
                     >
@@ -541,7 +531,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
 
           {/* Group header + description */}
           {activeGroup && (
-            <div className={`relative overflow-hidden bg-gradient-to-r ${gradient} px-5 py-3.5`}>
+            <div className="relative overflow-hidden bg-ap-blue px-5 py-3.5">
               <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white/15 to-transparent pointer-events-none" />
               <div className="relative flex items-center gap-2.5">
                 <span className="w-1 h-7 rounded-full bg-white/90" aria-hidden />
@@ -591,7 +581,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     onClick={() => canOpen && setModalDraw(drawInfo)}
                     className={[
                       "md:hidden px-4 py-3 transition-colors",
-                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-ap-bg/40",
+                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-surface-subtle/40",
                     ].join(" ")}
                   >
                     <div className="flex items-start justify-between gap-2">
@@ -611,24 +601,24 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                       )}
                     </div>
 
-                    <div className="mt-2 grid grid-cols-3 gap-2 sm:rounded-xl sm:border sm:border-ap-border sm:bg-slate-50/70 sm:p-2">
-                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
+                    <div className="mt-2 grid grid-cols-3 gap-2 sm:rounded-xl sm:border sm:border-ap-border sm:bg-surface-subtle/70 sm:p-2">
+                      <div className="text-center rounded-lg bg-surface-card border border-ap-border py-2 px-1">
                         <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col3top}</p>
                         {top3
                           ? <span className="inline-block bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
-                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                          : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
                       </div>
-                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
+                      <div className="text-center rounded-lg bg-surface-card border border-ap-border py-2 px-1">
                         <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2top}</p>
                         {top3
                           ? <span className="inline-block bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
-                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                          : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
                       </div>
-                      <div className="text-center rounded-lg bg-white border border-ap-border py-2 px-1">
+                      <div className="text-center rounded-lg bg-surface-card border border-ap-border py-2 px-1">
                         <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2bot}</p>
                         {bot2
-                          ? <span className="inline-block bg-emerald-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
-                          : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                          ? <span className="inline-block bg-ap-green text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
+                          : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
                       </div>
                     </div>
 
@@ -654,7 +644,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     onClick={() => canOpen && setModalDraw(drawInfo)}
                     className={[
                       "hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-3 items-center transition-colors",
-                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-ap-bg/40",
+                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-surface-subtle/40",
                     ].join(" ")}
                   >
                     <div className="flex items-center gap-2 min-w-0">
@@ -675,19 +665,19 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     <div className="flex justify-center">
                       {top3
                         ? <span className="bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
-                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                        : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {top3
                         ? <span className="bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
-                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                        : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {bot2
-                        ? <span className="bg-emerald-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
-                        : <span className="inline-block bg-slate-100 text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-slate-200">—</span>}
+                        ? <span className="bg-ap-green text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
+                        : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
                     </div>
 
                     <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>

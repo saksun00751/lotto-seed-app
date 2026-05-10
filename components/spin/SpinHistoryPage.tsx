@@ -48,13 +48,13 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
   }
 
   return (
-    <main className="min-h-screen bg-ap-bg flex flex-col items-center p-5 pt-6 pb-24 sm:pb-8">
+    <main className="min-h-screen bg-surface-subtle flex flex-col items-center p-5 pt-6 pb-24 sm:pb-8">
       <div className="w-full max-w-md">
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <Link href={`/${lang}/spin`}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-ap-border text-ap-secondary text-[13px] hover:bg-ap-bg transition-colors">
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-card border border-ap-border text-ap-secondary text-[13px] hover:bg-surface-subtle transition-colors">
             ← {t.back.replace("← ", "")}
           </Link>
           <h1 className="text-[20px] font-bold text-ap-primary">{t.history}</h1>
@@ -69,17 +69,17 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
             type="date"
             value={dateFilter}
             onChange={(e) => handleDateChange(e.target.value)}
-            className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-primary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
+            className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-primary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
           />
           {dateFilter && (
             <button
               onClick={() => handleDateChange("")}
-              className="px-3 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-secondary hover:bg-ap-bg transition-colors"
+              className="px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-secondary hover:bg-surface-subtle transition-colors"
             >
               {t.filterClear}
             </button>
           )}
-          <div className="flex rounded-xl border border-ap-border bg-white overflow-hidden text-[13px]">
+          <div className="flex rounded-xl border border-ap-border bg-surface-card overflow-hidden text-[13px]">
             {[10, 50, 100].map((n) => (
               <button
                 key={n}
@@ -87,7 +87,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
                 className={`px-3 py-2 transition-colors ${
                   pageSize === n
                     ? "bg-ap-blue text-white font-semibold"
-                    : "text-ap-secondary hover:bg-ap-bg"
+                    : "text-ap-secondary hover:bg-surface-subtle"
                 }`}
               >
                 {n}
@@ -98,7 +98,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
 
         {/* Empty */}
         {filtered.length === 0 && (
-          <div className="bg-white rounded-2xl border border-ap-border p-8 text-center text-ap-secondary text-[14px]">
+          <div className="bg-surface-card rounded-2xl border border-ap-border p-8 text-center text-ap-secondary text-[14px]">
             {dateFilter ? t.historyNoResult : t.historyEmpty}
           </div>
         )}
@@ -112,7 +112,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
               lastDate = item.date;
               rendered.push(
                 <div key={`date-${item.date}-${idx}`} className="flex items-center gap-2 mt-4 mb-2 first:mt-0">
-                  <span className="text-[12px] font-semibold text-ap-secondary bg-ap-bg border border-ap-border rounded-full px-3 py-1">
+                  <span className="text-[12px] font-semibold text-ap-secondary bg-surface-subtle border border-ap-border rounded-full px-3 py-1">
                     {item.date}
                   </span>
                 </div>
@@ -122,7 +122,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
             rendered.push(
               <div
                 key={`item-${idx}`}
-                className={`bg-white flex items-center justify-between px-4 py-3 border-x border-ap-border ${
+                className={`bg-surface-card flex items-center justify-between px-4 py-3 border-x border-ap-border ${
                   idx === 0 || pageItems[idx - 1]?.date !== item.date ? "border-t rounded-t-2xl" : "border-t"
                 } ${isLast ? "border-b rounded-b-2xl" : ""}`}
               >
@@ -147,7 +147,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
             <button
               onClick={() => { setPage((p) => Math.max(1, p - 1)); window.scrollTo(0, 0); }}
               disabled={page === 1}
-              className="px-4 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-secondary disabled:opacity-40 hover:bg-ap-bg transition-colors"
+              className="px-4 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-secondary disabled:opacity-40 hover:bg-surface-subtle transition-colors"
             >
               {t.pagePrev}
             </button>
@@ -157,7 +157,7 @@ export default function SpinHistoryPage({ groups }: { groups: HistoryGroup[] }) 
             <button
               onClick={() => { setPage((p) => Math.min(totalPages, p + 1)); window.scrollTo(0, 0); }}
               disabled={page === totalPages}
-              className="px-4 py-2 rounded-xl border border-ap-border bg-white text-[13px] text-ap-secondary disabled:opacity-40 hover:bg-ap-bg transition-colors"
+              className="px-4 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-secondary disabled:opacity-40 hover:bg-surface-subtle transition-colors"
             >
               {t.pageNext}
             </button>

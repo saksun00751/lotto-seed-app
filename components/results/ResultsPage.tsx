@@ -91,7 +91,7 @@ export default function ResultsPage() {
 
       {/* Card */}
       {!loading && !error && groups.length > 0 && (
-        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
 
           {/* Tab bar */}
           <div className={`bg-gradient-to-r ${gradient} p-1 flex gap-1 overflow-x-auto`}>
@@ -102,7 +102,7 @@ export default function ResultsPage() {
                 className={[
                   "flex-shrink-0 flex-1 min-w-[72px] py-2 rounded-xl text-[13px] font-semibold transition-all whitespace-nowrap px-2",
                   activeId === g.group_code
-                    ? "bg-white text-ap-primary shadow-sm"
+                    ? "bg-surface-card text-ap-primary shadow-sm"
                     : "text-white/80 hover:text-white hover:bg-white/10",
                 ].join(" ")}
               >
@@ -130,7 +130,7 @@ export default function ResultsPage() {
               const resultTime = timeOnly(draw.result_at ?? draw.draw_date);
 
               return (
-                <div key={market.market_id} className="flex items-center gap-3 px-4 py-3 hover:bg-ap-bg transition-colors">
+                <div key={market.market_id} className="flex items-center gap-3 px-4 py-3 hover:bg-surface-subtle transition-colors">
 
                   {/* Logo / icon */}
                   <div className="w-9 flex-shrink-0">

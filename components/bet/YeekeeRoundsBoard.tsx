@@ -178,11 +178,11 @@ const stats = useMemo(() => {
     const isFinished = selectedRound.is_final || closeMs <= now;
     const remaining = closeMs - now;
     let label = t.yeekeeBadgeWaiting;
-    let badgeCls = "bg-ap-bg text-ap-secondary";
-    if (isLive) { label = t.yeekeeBadgeOpen; badgeCls = "bg-emerald-100 text-emerald-700"; }
+    let badgeCls = "bg-surface-subtle text-ap-secondary";
+    if (isLive) { label = t.yeekeeBadgeOpen; badgeCls = "bg-emerald-100 text-ap-green"; }
     else if (isFinished) {
       label = selectedRound.status === "voided" ? t.yeekeeBadgeVoided : t.yeekeeBadgeClosed;
-      badgeCls = "bg-ap-bg text-ap-tertiary";
+      badgeCls = "bg-surface-subtle text-ap-tertiary";
     }
     return { closeMs, isLive, isFinished, remaining, label, badgeCls };
   }, [selectedRound, now, t]);
@@ -249,7 +249,7 @@ const stats = useMemo(() => {
   }, [groupId, locale, router, selectedRound, t]);
 
   return (
-    <section className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <section className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
       <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-3 flex items-center gap-3">
         {logo ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -294,9 +294,9 @@ const stats = useMemo(() => {
                 "min-h-11 aspect-square w-full rounded-lg border flex items-center justify-center text-[14px] font-bold tabular-nums transition-all";
               let stateCls = "";
               if (isCurrent && isLive) {
-                stateCls = "bg-emerald-500 border-emerald-600 text-white shadow-md";
+                stateCls = "bg-ap-green border-emerald-600 text-white shadow-md";
               } else if (isLive) {
-                stateCls = "border-emerald-300 text-emerald-700 hover:bg-emerald-50";
+                stateCls = "border-emerald-300 text-ap-green hover:bg-emerald-50";
               } else if (isUpcoming) {
                 stateCls = "border-transparent text-ap-secondary hover:border-ap-blue/40";
               } else if (isResulted) {
@@ -344,13 +344,13 @@ const stats = useMemo(() => {
             aria-modal="true"
             aria-label={sheetView === "packages" ? t.selectPackage : t.yeekeeRoundFmt.replace("{n}", String(selectedRound.round_no))}
           >
-            <div className="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+            <div className="bg-surface-card w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
               <div className="relative flex items-center justify-center px-4 pt-4 pb-2 flex-shrink-0 sm:justify-end">
                 <div className="w-10 h-1 bg-ap-border rounded-full sm:hidden" />
                 <button
                   type="button"
                   onClick={closeSheet}
-                  className="absolute right-4 top-2.5 flex w-9 h-9 rounded-full bg-ap-bg items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors sm:hidden"
+                  className="absolute right-4 top-2.5 flex w-9 h-9 rounded-full bg-surface-subtle items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors sm:hidden"
                   aria-label="close"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -360,7 +360,7 @@ const stats = useMemo(() => {
                 <button
                   type="button"
                   onClick={closeSheet}
-                  className="hidden sm:flex w-8 h-8 rounded-full bg-ap-bg items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors ml-auto"
+                  className="hidden sm:flex w-8 h-8 rounded-full bg-surface-subtle items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors ml-auto"
                   aria-label="close"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -389,7 +389,7 @@ const stats = useMemo(() => {
                   {selectedInfo.isLive ? t.yeekeeRemaining : selectedInfo.isFinished ? t.yeekeeFinishedShort : t.yeekeeOpensIn}
                 </div>
                 <div className={`text-[28px] font-extrabold tabular-nums leading-none mt-1 ${
-                  selectedInfo.isLive ? "text-emerald-600" : selectedInfo.isFinished ? "text-ap-tertiary" : "text-violet-600"
+                  selectedInfo.isLive ? "text-ap-green" : selectedInfo.isFinished ? "text-ap-tertiary" : "text-violet-600"
                 }`}>
                   {selectedInfo.isFinished ? "—" : formatCountdown(
                     selectedInfo.isLive
@@ -412,14 +412,14 @@ const stats = useMemo(() => {
               return (
                 <div className="w-full space-y-2">
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-ap-border px-3 py-2">
-                      <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
+                    <div className="flex flex-col items-center justify-center rounded-xl bg-surface-card border border-ap-border px-3 py-2">
+                      <span className="text-[26px] font-extrabold tabular-nums text-ap-green leading-none">
                         {r.top_3 || "—"}
                       </span>
                       <span className="mt-1 text-[12px] font-semibold text-slate-500">{t.yeekeeTop3}</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center rounded-xl bg-white border border-ap-border px-3 py-2">
-                      <span className="text-[26px] font-extrabold tabular-nums text-emerald-600 leading-none">
+                    <div className="flex flex-col items-center justify-center rounded-xl bg-surface-card border border-ap-border px-3 py-2">
+                      <span className="text-[26px] font-extrabold tabular-nums text-ap-green leading-none">
                         {r.bottom_2 || "—"}
                       </span>
                       <span className="mt-1 text-[12px] font-semibold text-slate-500">{t.yeekeeBottom2}</span>
@@ -469,7 +469,7 @@ const stats = useMemo(() => {
                 <button
                   type="button"
                   onClick={() => { setSheetView("detail"); setPackageError(null); }}
-                  className="w-9 h-9 rounded-full bg-ap-bg border border-ap-border flex items-center justify-center text-ap-secondary active:scale-95"
+                  className="w-9 h-9 rounded-full bg-surface-subtle border border-ap-border flex items-center justify-center text-ap-secondary active:scale-95"
                   aria-label="back"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -506,7 +506,7 @@ const stats = useMemo(() => {
                       type="button"
                       onClick={() => pickPackage(pkg.id)}
                       disabled={packagePicking}
-                      className="group w-full overflow-hidden rounded-2xl border border-ap-border bg-ap-card text-left shadow-sm transition-all active:scale-[0.98] disabled:opacity-70"
+                      className="group w-full overflow-hidden rounded-2xl border border-ap-border bg-surface-card text-left shadow-sm transition-all active:scale-[0.98] disabled:opacity-70"
                     >
                       {resolveImage(pkg.image) ? (
                         <img
@@ -515,7 +515,7 @@ const stats = useMemo(() => {
                           className="w-full object-cover"
                         />
                       ) : (
-                        <div className="flex min-h-24 items-center justify-center bg-ap-bg px-4 py-5 text-center text-[15px] font-bold text-ap-primary">
+                        <div className="flex min-h-24 items-center justify-center bg-surface-subtle px-4 py-5 text-center text-[15px] font-bold text-ap-primary">
                           {pkg.name}
                         </div>
                       )}

@@ -58,7 +58,7 @@ export default async function ContactPage({ params }: Props) {
   } catch {}
 
   return (
-    <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
+    <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-5 pt-6 space-y-6">
 
         {/* Header */}
@@ -71,7 +71,7 @@ export default async function ContactPage({ params }: Props) {
         {channels.map((ch) => {
           const meta = getChannelMeta(ch.type, t);
           return (
-            <div key={ch.code} className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+            <div key={ch.code} className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
               <div className="h-2" style={{ backgroundColor: meta.color }} />
               <div className="p-5">
                 <div className="flex items-center gap-4 mb-4">
@@ -86,7 +86,7 @@ export default async function ContactPage({ params }: Props) {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between bg-ap-bg rounded-xl px-4 py-3 mb-4">
+                <div className="flex items-center justify-between bg-surface-subtle rounded-xl px-4 py-3 mb-4">
                   <span className="text-[13px] text-ap-secondary">ID</span>
                   <span className="text-[14px] font-bold text-ap-primary font-mono">{ch.label}</span>
                 </div>
@@ -106,7 +106,7 @@ export default async function ContactPage({ params }: Props) {
         })}
 
         {channels.length === 0 && (
-          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2 text-ap-tertiary">
+          <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2 text-ap-tertiary">
             <span className="text-[48px]">💬</span>
             <p className="text-[13px]">{t.empty}</p>
           </div>

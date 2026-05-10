@@ -199,7 +199,7 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
   return (
     <>
       {(promotionLoading || visiblePromotions.length > 0) && (
-        <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+        <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-center justify-between mb-2.5">
             <p className="text-[14px] text-ap-tertiary uppercase tracking-wide font-medium">รายการโปรโมชั่น</p>
@@ -210,8 +210,8 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
 
           {promotionLoading ? (
             <div className="space-y-2">
-              <div className="h-16 rounded-xl bg-ap-bg animate-pulse" />
-              <div className="h-16 rounded-xl bg-ap-bg animate-pulse" />
+              <div className="h-16 rounded-xl bg-surface-subtle animate-pulse" />
+              <div className="h-16 rounded-xl bg-surface-subtle animate-pulse" />
             </div>
           ) : (
             <HScrollRow itemWidth={248} scrollBy={1}>
@@ -223,12 +223,12 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
                 return (
                   <div
                     key={promo.code}
-                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-slate-200 bg-ap-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
+                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-ap-border bg-surface-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
                   >
                     {promo.filepic ? (
                       <img src={promo.filepic} alt={title} className="w-full h-32 sm:h-36 object-cover" />
                     ) : (
-                      <div className="w-full h-32 sm:h-36 bg-ap-bg flex items-center justify-center text-[36px]">🎁</div>
+                      <div className="w-full h-32 sm:h-36 bg-surface-subtle flex items-center justify-center text-[36px]">🎁</div>
                     )}
                     <div className="p-3 flex flex-col">
                       <p className="text-[14px] font-semibold text-ap-primary leading-snug">{title}</p>
@@ -264,7 +264,7 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
       )}
 
       {activePromotion && (
-        <div className="relative bg-[linear-gradient(165deg,#ffffff_0%,#f9fbff_100%)] rounded-2xl border border-slate-200 shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+        <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
@@ -278,7 +278,7 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
               type="button"
               onClick={() => { void handleDeselectPromotion(); }}
               disabled={promoDeselecting || !!promoSubmittingId}
-              className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-red-600 text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-ap-red text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {promoDeselecting ? "กำลังยกเลิก..." : "ยกเลิกโปร"}
             </button>

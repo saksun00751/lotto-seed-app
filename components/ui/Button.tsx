@@ -26,7 +26,7 @@ export default function Button({
 
   const variantClass = {
     primary: "bg-ap-blue text-white hover:bg-ap-blue-h",
-    secondary: "bg-ap-bg text-ap-primary border border-ap-border hover:border-ap-blue/40",
+    secondary: "bg-surface-subtle text-ap-primary border border-ap-border hover:border-ap-blue/40",
     ghost: "text-ap-blue hover:opacity-70",
   }[variant];
 
