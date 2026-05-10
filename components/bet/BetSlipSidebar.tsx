@@ -240,7 +240,7 @@ export default function BetSlipSidebar({
       />
     )}
     <div className="space-y-3">
-      <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border sticky top-4">
+      <div className="bg-ap-card rounded-2xl overflow-hidden shadow-card border border-ap-border sticky top-4">
 
         {/* Header */}
         <div className="px-4 py-3 border-b border-ap-border bg-white">

@@ -36,7 +36,7 @@ export default function YeekeeRewardList({
   const total = winners.reduce((s, it) => s + (Number(it.credit_amount) || 0), 0);
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden">
+    <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden">
       <div className="px-4 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 border-b border-ap-border">
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ได้รับรางวัลทายเลข</h2>
         <p className="text-[12px] text-white/90 font-medium">

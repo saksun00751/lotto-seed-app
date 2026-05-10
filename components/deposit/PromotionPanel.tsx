@@ -223,7 +223,7 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
                 return (
                   <div
                     key={promo.code}
-                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-slate-200 bg-white overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
+                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-slate-200 bg-ap-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
                   >
                     {promo.filepic ? (
                       <img src={promo.filepic} alt={title} className="w-full h-32 sm:h-36 object-cover" />

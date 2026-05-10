@@ -72,7 +72,7 @@ export default function BetTypeSelector({ onChange, selected3, selected2, select
   };
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
+    <div className="bg-ap-card rounded-2xl overflow-hidden shadow-card border border-ap-border">
       <div className="px-4 py-2.5 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border flex items-center justify-between gap-3">
         <p className="text-[14px] font-bold text-white uppercase tracking-wider">{t.betTypeTitle}</p>
         {!activeGroup && !disabled && (

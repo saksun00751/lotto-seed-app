@@ -38,7 +38,7 @@ export default function HScrollRow({ children, itemWidth = 92, scrollBy = 3 }: P
         onClick={() => scroll(-1)}
         disabled={!canLeft}
         className={[
-          "absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-7 h-7 rounded-full bg-white border border-ap-border shadow-card flex items-center justify-center transition-all",
+          "absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-7 h-7 rounded-full bg-ap-card border border-ap-border shadow-card flex items-center justify-center transition-all",
           canLeft ? "text-ap-secondary hover:bg-ap-bg active:scale-95" : "opacity-0 pointer-events-none",
         ].join(" ")}
       >
@@ -60,7 +60,7 @@ export default function HScrollRow({ children, itemWidth = 92, scrollBy = 3 }: P
         onClick={() => scroll(1)}
         disabled={!canRight}
         className={[
-          "absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-7 h-7 rounded-full bg-white border border-ap-border shadow-card flex items-center justify-center transition-all",
+          "absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-7 h-7 rounded-full bg-ap-card border border-ap-border shadow-card flex items-center justify-center transition-all",
           canRight ? "text-ap-secondary hover:bg-ap-bg active:scale-95" : "opacity-0 pointer-events-none",
         ].join(" ")}
       >

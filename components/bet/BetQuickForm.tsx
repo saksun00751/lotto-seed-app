@@ -348,7 +348,7 @@ export default function BetQuickForm({
   return (
     <>
     {toastMsg && <Toast message={toastMsg.text} type={toastMsg.type} onClose={() => setToastMsg(null)} />}
-    <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
+    <div className="bg-ap-card rounded-2xl overflow-hidden shadow-card border border-ap-border">
 
       {/* Tabs */}
       <div className="flex border-b border-ap-border">
@@ -430,7 +430,7 @@ export default function BetQuickForm({
               onChange={(e) => handleSlipChange(e.target.value)}
               placeholder={`${t.pasteSlipPlaceholder.replace("{digits}", String(maxDigits))}\n${t.exampleLabel} ${maxDigits === 3 ? t.pasteSlipExample3 : t.pasteSlipExample2}`}
               rows={4}
-              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[15px] font-bold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-white shadow-sm transition-all resize-none leading-relaxed"
+              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[15px] font-bold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-ap-card shadow-sm transition-all resize-none leading-relaxed"
             />
             <p className="mt-1.5 text-[14px] text-ap-secondary font-medium">{t.pasteSlipHint}</p>
           </div>
@@ -446,7 +446,7 @@ export default function BetQuickForm({
               onChange={(e) => handleNumberInput(e.target.value)}
               maxLength={maxDigits}
               placeholder={"·".repeat(maxDigits)}
-              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[22px] text-center font-extrabold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-white shadow-sm transition-all placeholder:text-ap-tertiary/40"
+              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[22px] text-center font-extrabold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-ap-card shadow-sm transition-all placeholder:text-ap-tertiary/40"
             />
           </div>
         )}

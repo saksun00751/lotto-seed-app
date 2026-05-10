@@ -484,7 +484,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
       </div>
 
       {/* Search by draw_date */}
-      <form onSubmit={handleSearchByDate} className="bg-white rounded-2xl border border-ap-border shadow-card p-3">
+      <form onSubmit={handleSearchByDate} className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-3">
         <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="date"
@@ -505,14 +505,14 @@ export default function CheckResultPage({ groups, tickets }: Props) {
       </form>
 
       {displayGroups.length === 0 && (
-        <div className="py-16 text-center bg-white rounded-2xl border border-ap-border shadow-card">
+        <div className="py-16 text-center bg-ap-card rounded-2xl border border-ap-border shadow-card">
           <p className="text-[32px] mb-3">🏆</p>
           <p className="text-[16px] font-bold text-ap-primary">{t.emptyResult}</p>
         </div>
       )}
 
       {displayGroups.length > 0 && (
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
 
           {/* Tab bar - segmented switcher (iOS-like) */}
           <div className="p-3 bg-white">

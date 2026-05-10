@@ -130,7 +130,7 @@ export default function ChangePasswordModal({ hasPassword: _hasPassword }: { has
           onClose={() => setToast(null)}
         />
       )}
-      <div className="bg-white rounded-3xl border border-ap-border shadow-card overflow-hidden">
+      <div className="bg-ap-card rounded-3xl border border-ap-border shadow-card overflow-hidden">
 
         {/* Header */}
         <div className="bg-ap-blue px-6 pt-6 pb-5 text-white relative overflow-hidden">

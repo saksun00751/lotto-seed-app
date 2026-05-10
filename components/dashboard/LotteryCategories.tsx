@@ -59,7 +59,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
     return (
       <div className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-white shadow-card">
+          <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-ap-card shadow-card">
             <div className="h-11 bg-sky-200/70" />
             <div className="h-10 px-4 bg-sky-50 border-b border-slate-200" />
             <div className="bg-slate-50/50 p-3 space-y-2.5">
@@ -96,9 +96,9 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
       </h2>
 
       {categories.map((cat: Category) => (
-        <div key={cat.id} className="rounded-2xl border border-sky-100 shadow-card hover:shadow-card-hover transition-all overflow-hidden bg-white">
+        <div key={cat.id} className="rounded-2xl border border-sky-100 shadow-card hover:shadow-card-hover transition-all overflow-hidden bg-ap-card">
 
-          <div className="relative bg-gradient-to-r from-[#0468ce] via-[#0a7bde] to-[#20a4ff] px-4 py-2.5 flex items-center gap-2 overflow-hidden">
+          <div className="relative bg-ap-blue px-4 py-2.5 flex items-center gap-2 overflow-hidden">
             <span className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.12)_0%,transparent_48%,rgba(255,255,255,0.08)_100%)]" />
             <span className="relative text-[18px]">{cat.emoji}</span>
             <span className="text-white font-bold text-[14px] tracking-tight">{cat.label}</span>
@@ -134,7 +134,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
             {cat.items.map((item: SubItem) => (
               <div
                 key={item.id}
-                className="rounded-xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all px-3.5 py-3"
+                className="rounded-xl bg-ap-card border border-slate-200/80 shadow-sm hover:shadow-md transition-all px-3.5 py-3"
               >
                 <div className="flex items-center gap-3">
                   {item.logo

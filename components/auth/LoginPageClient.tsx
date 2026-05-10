@@ -31,7 +31,7 @@ function LoginContent({ logoUrl }: { logoUrl: string }) {
       </div>
 
       {/* Card */}
-      <div className="bg-white rounded-[28px] shadow-card-xl border border-ap-border p-8">
+      <div className="bg-ap-card rounded-[28px] shadow-card-xl border border-ap-border p-8">
         <LoginForm />
       </div>
 

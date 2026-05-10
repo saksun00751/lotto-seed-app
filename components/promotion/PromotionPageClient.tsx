@@ -103,7 +103,7 @@ function PromoCard({
   const promoCode = String(promo.code ?? "");
 
   return (
-    <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
       {promo.filepic ? (
         <div className="relative w-full aspect-[16/7] bg-ap-bg">
           <img
@@ -266,7 +266,7 @@ export default function PromotionPageClient({ promotions, selectedPromotion }: P
         </div>
 
         {sortedPromotions.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2">
+          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2">
             <span className="text-[48px]">🎁</span>
             <p className="text-[13px] text-ap-tertiary">ยังไม่มีโปรโมชั่น</p>
           </div>
@@ -284,7 +284,7 @@ export default function PromotionPageClient({ promotions, selectedPromotion }: P
         )}
 
         {activePromotion && (
-          <div className="bg-white rounded-2xl border border-ap-border shadow-card px-5 py-4">
+          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card px-5 py-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[12px] text-ap-tertiary uppercase tracking-wide font-medium mb-1">โปรโมชั่นที่รับอยู่</p>

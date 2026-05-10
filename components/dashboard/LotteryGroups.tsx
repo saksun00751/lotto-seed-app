@@ -95,7 +95,7 @@ export default function LotteryGroups() {
 
   if (loading) {
     return (
-      <section className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+      <section className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
         <div className="bg-gradient-to-r from-ap-blue to-sky-400 px-4 py-3 flex items-center justify-between">
           <h2 className="text-[15px] font-bold text-white tracking-tight">{t.lotto}</h2>
         </div>
@@ -111,7 +111,7 @@ export default function LotteryGroups() {
   if (!groups.length) return null;
 
   return (
-    <section className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <section className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
       <div className="bg-gradient-to-r from-ap-blue to-sky-400 px-4 py-3 flex items-center justify-between">
         <h2 className="text-[15px] font-bold text-white tracking-tight">{t.lotto}</h2>
       </div>

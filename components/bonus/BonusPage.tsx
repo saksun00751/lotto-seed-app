@@ -145,7 +145,7 @@ function ClaimConfirmModal({
         className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
       />
 
-      <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-white animate-pop-in">
+      <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-ap-card animate-pop-in">
         <div className="bg-[linear-gradient(180deg,#f5c24a_0%,#d29a2a_100%)] px-4 py-3 border-b border-amber-700/20">
           <p className="text-[18px] font-extrabold text-[#2e2003]">{t.claimModalTitle ?? "ยืนยันการรับโบนัส"}</p>
           <p className="text-[12px] text-[#4a3408]/85 mt-0.5">{t.claimModalSubtitle ?? "กรุณาตรวจสอบรายการก่อนทำรายการ"}</p>
@@ -323,7 +323,7 @@ export default function BonusPage({
         {/* Top bar */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
+            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -384,7 +384,7 @@ export default function BonusPage({
         </div>
 
         {/* How it works */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           <div className="px-5 py-3 border-b border-ap-border">
             <p className="text-[14px] font-bold text-ap-tertiary uppercase tracking-wide">{t.howTitle}</p>
           </div>

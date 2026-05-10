@@ -221,7 +221,7 @@ export default function SpinPage({
             <p className="text-[14px] text-ap-secondary mt-1">{t.subtitle}</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-card-xl border border-ap-border p-6 flex flex-col items-center gap-5">
+          <div className="bg-ap-card rounded-2xl shadow-card-xl border border-ap-border p-6 flex flex-col items-center gap-5">
 
             {/* Top bar */}
             <div className="mb-6 w-full flex items-center justify-between">

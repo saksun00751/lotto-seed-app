@@ -463,7 +463,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
 
         {/* หวย */}
         {lottoCategories.length > 0 && (
-          <section className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+          <section className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
             <div className="bg-gradient-to-r from-ap-blue to-sky-400 px-4 py-3 flex items-center justify-between">
               <h2 className="text-[15px] font-bold text-white tracking-tight">{t.lotto}</h2>
             </div>
@@ -498,7 +498,7 @@ export default async function BetRoute({ params, searchParams }: Props) {
           };
           const gradient = headerGradient[group.game_type] ?? "from-gray-500 to-gray-400";
           return (
-            <section key={group.game_type} className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+            <section key={group.game_type} className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
               <div className={`bg-gradient-to-r ${gradient} flex items-center justify-between px-4 py-3`}>
                 <h2 className="text-[15px] font-bold text-white tracking-tight">
                   {group.emoji} {(t as Record<string, string>)[group.game_type] ?? group.label}

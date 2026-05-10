@@ -359,7 +359,7 @@ function historyStatusLabel(status: string, t: RewardT): string {
 
 function RewardCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden animate-pulse">
+    <div className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden animate-pulse">
       <div className="h-28 bg-ap-bg" />
       <div className="p-4 space-y-3">
         <div className="h-4 rounded bg-ap-bg w-3/4" />
@@ -390,7 +390,7 @@ function EmptyState({ t }: { t: RewardT }) {
 
 function SystemDisabledCard({ t }: { t: RewardT }) {
   return (
-    <div className="rounded-2xl border border-ap-border bg-white shadow-card px-5 py-8 text-center">
+    <div className="rounded-2xl border border-ap-border bg-ap-card shadow-card px-5 py-8 text-center">
       <div className="w-12 h-12 mx-auto rounded-xl bg-red-50 text-red-600 border border-red-100 flex items-center justify-center text-[22px]">
         ⛔
       </div>
@@ -423,7 +423,7 @@ function RedeemConfirmModal({
         onClick={onCancel}
         className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
       />
-      <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-white animate-pop-in">
+      <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-ap-card animate-pop-in">
         <div className="bg-[linear-gradient(180deg,#f5c24a_0%,#d29a2a_100%)] px-4 py-3 border-b border-amber-700/20">
           <p className="text-[18px] font-extrabold text-[#2e2003]">{t.confirmModalTitle}</p>
           <p className="text-[12px] text-[#4a3408]/85 mt-0.5">{t.confirmModalSubtitle}</p>
@@ -688,7 +688,7 @@ export default function RewardPage({ locale }: Props) {
         <div className="flex items-center gap-3">
           <Link
             href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
+            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
           >
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -1025,7 +1025,7 @@ export default function RewardPage({ locale }: Props) {
                     </div>
 
                     {meta.total > meta.per_page && (
-                      <div className="bg-white rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
+                      <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
                         <button
                           type="button"
                           onClick={() => setPage((prev) => Math.max(1, prev - 1))}
@@ -1055,7 +1055,7 @@ export default function RewardPage({ locale }: Props) {
         ) : (
           <div className="space-y-3">
             {historyLoading ? (
-              <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4 space-y-3 animate-pulse">
+              <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 space-y-3 animate-pulse">
                 <div className="h-4 rounded bg-ap-bg w-48" />
                 <div className="h-14 rounded-xl bg-ap-bg" />
                 <div className="h-14 rounded-xl bg-ap-bg" />
@@ -1081,7 +1081,7 @@ export default function RewardPage({ locale }: Props) {
                   const groups = groupHistoryByDate(historyItems);
                   const timelineCounts = new Map(historyTimeline.map((entry) => [entry.date, entry.count]));
                   return (
-                    <div className="rounded-2xl border border-ap-border bg-white shadow-card px-4 sm:px-5 py-4">
+                    <div className="rounded-2xl border border-ap-border bg-ap-card shadow-card px-4 sm:px-5 py-4">
                       <div className="relative">
                         <div
                           aria-hidden
@@ -1125,7 +1125,7 @@ export default function RewardPage({ locale }: Props) {
                                           <span className="emoji-font leading-none">{marker.emoji}</span>
                                         </span>
 
-                                        <div className="rounded-2xl border border-ap-border bg-white hover:border-amber-300/70 hover:shadow-card transition-all px-3.5 py-3">
+                                        <div className="rounded-2xl border border-ap-border bg-ap-card hover:border-amber-300/70 hover:shadow-card transition-all px-3.5 py-3">
                                           <div className="flex items-start justify-between gap-3">
                                             <div className="min-w-0">
                                               <p className="text-[16px] font-bold text-ap-primary leading-snug truncate">
@@ -1177,7 +1177,7 @@ export default function RewardPage({ locale }: Props) {
                 })()}
 
                 {historyMeta.total > historyMeta.per_page && (
-                  <div className="bg-white rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
+                  <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
                     <button
                       type="button"
                       onClick={() => setHistoryPage((prev) => Math.max(1, prev - 1))}

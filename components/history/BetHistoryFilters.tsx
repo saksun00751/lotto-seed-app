@@ -42,7 +42,7 @@ export default function BetHistoryFilters() {
     <form
       ref={formRef}
       onSubmit={(e) => { e.preventDefault(); submit(); }}
-      className="bg-white rounded-2xl border border-ap-border shadow-card p-4 space-y-3"
+      className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 space-y-3"
     >
       {/* Search */}
       <div className="relative">

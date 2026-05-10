@@ -113,7 +113,7 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
           <h1 className="text-[18px] font-bold text-ap-primary">เช็คผลรางวัล</h1>
         </div>
 
-        <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden">
+        <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden">
           <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-3">
             {marketName && <p className="text-[13px] font-semibold text-white/90">{marketName}</p>}
             <h2 className="text-[15px] font-extrabold text-white">รอบที่ {data.round_no ?? roundNoFromQuery ?? "—"}</h2>
@@ -134,7 +134,7 @@ export default async function YeekeeRoundResultPage({ params, searchParams }: Pr
                       {data.shoot_summary.shoot_sum.split("").map((digit, i) => (
                         <div
                           key={i}
-                          className="w-10 h-12 rounded-xl bg-white border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
+                          className="w-10 h-12 rounded-xl bg-ap-card border-2 border-violet-400 flex items-center justify-center text-[24px] font-extrabold tabular-nums text-violet-700 shadow-sm"
                         >
                           {digit}
                         </div>

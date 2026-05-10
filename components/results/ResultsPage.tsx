@@ -91,7 +91,7 @@ export default function ResultsPage() {
 
       {/* Card */}
       {!loading && !error && groups.length > 0 && (
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
 
           {/* Tab bar */}
           <div className={`bg-gradient-to-r ${gradient} p-1 flex gap-1 overflow-x-auto`}>

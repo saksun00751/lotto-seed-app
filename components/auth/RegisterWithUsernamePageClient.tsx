@@ -58,7 +58,7 @@ function RegisterWithUsernameContent({ defaultRef, banks, logoUrl }: RegisterCon
       </div>
 
       {/* Card */}
-      <div className="bg-white rounded-[28px] shadow-card-xl border border-ap-border p-8">
+      <div className="bg-ap-card rounded-[28px] shadow-card-xl border border-ap-border p-8">
         <RegisterUsernameForm defaultRef={defaultRef} banks={banks} />
       </div>
 

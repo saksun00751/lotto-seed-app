@@ -235,7 +235,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
               <button
                 onClick={() => setProfileOpen((v) => !v)}
                 className={[
-                  "w-9 h-9 rounded-full bg-white border border-ap-border flex items-center justify-center text-ap-primary shadow-sm transition-all",
+                  "w-9 h-9 rounded-full bg-ap-card border border-ap-border flex items-center justify-center text-ap-primary shadow-sm transition-all",
                   profileOpen ? "ring-2 ring-ap-blue/25 border-ap-blue/35 shadow-md" : "hover:border-ap-blue/35 hover:shadow-md",
                 ].join(" ")}
                 aria-label="Open menu"
@@ -249,7 +249,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
               </button>
 
               {profileOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] w-[248px] bg-white rounded-2xl shadow-[0_16px_36px_rgba(15,23,42,0.18)] border border-slate-200 overflow-x-hidden overflow-y-auto max-h-[calc(100dvh-88px)] sm:max-h-[80vh] overscroll-contain animate-pop-in z-50">
+                <div className="absolute right-0 top-[calc(100%+8px)] w-[248px] bg-ap-card rounded-2xl shadow-[0_16px_36px_rgba(15,23,42,0.18)] border border-slate-200 overflow-x-hidden overflow-y-auto max-h-[calc(100dvh-88px)] sm:max-h-[80vh] overscroll-contain animate-pop-in z-50">
                   {/* Language switcher */}
                   <div className="px-4 pt-2.5 pb-2 flex items-center justify-between">
                     <span className="text-[13px] font-bold text-slate-500">{t.language}</span>
@@ -356,7 +356,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
           onClick={() => setLangModalOpen(false)}
         >
           <div
-            className="bg-white rounded-2xl shadow-card-xl border border-ap-border w-[280px] overflow-hidden animate-pop-in"
+            className="bg-ap-card rounded-2xl shadow-card-xl border border-ap-border w-[280px] overflow-hidden animate-pop-in"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-5 py-4 border-b border-ap-border">
@@ -389,7 +389,7 @@ export default function Navbar({ logoUrl, balance, diamond, userName, userPhone,
 
       {/* Mobile bottom tabs */}
       <div
-        className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-ap-border z-50 pb-[env(safe-area-inset-bottom)]"
+        className="sm:hidden fixed bottom-0 left-0 right-0 bg-navbar-bg backdrop-blur-xl border-t border-ap-border z-50 pb-[env(safe-area-inset-bottom)]"
       >
         <div className="grid w-full" style={{ gridTemplateColumns: `repeat(${navLinks.length}, 1fr)` }}>
           {navLinks.map((l) => {

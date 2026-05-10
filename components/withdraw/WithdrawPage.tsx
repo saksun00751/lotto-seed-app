@@ -102,7 +102,7 @@ function PromoCard({
   tw:              WithdrawT;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_22px_rgba(15,23,42,0.08)] px-4 py-3.5 mb-5">
+    <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-ap-card shadow-[0_10px_22px_rgba(15,23,42,0.08)] px-4 py-3.5 mb-5">
       <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
 
       <div className="flex items-center justify-between gap-2 mb-3">

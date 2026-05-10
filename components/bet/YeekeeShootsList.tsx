@@ -156,7 +156,7 @@ export default function YeekeeShootsList({ roundId, autoRefresh = true }: { roun
   }, [refresh, autoRefresh]);
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden flex flex-col">
+    <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden flex flex-col">
       <div className="px-4 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 border-b border-ap-border">
         <h2 className="text-[15px] font-extrabold text-white">รายการผู้ทายเลข</h2>
         <p className="text-[12px] text-white/80 font-medium">ทั้งหมด {count} รายการ</p>

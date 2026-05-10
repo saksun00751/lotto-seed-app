@@ -79,7 +79,7 @@ function CouponCard({
   }
 
   return (
-    <div className={`relative bg-white rounded-2xl border overflow-hidden shadow-card transition-all ${isActive ? "border-amber-300" : "border-ap-border opacity-80"}`}>
+    <div className={`relative bg-ap-card rounded-2xl border overflow-hidden shadow-card transition-all ${isActive ? "border-amber-300" : "border-ap-border opacity-80"}`}>
 
       {/* Ticket top strip */}
       <div className={`h-2 w-full ${isActive ? "bg-gradient-to-r from-amber-400 to-orange-500" : "bg-ap-bg"}`} />
@@ -181,7 +181,7 @@ function RedeemBox({ onRedeem }: { onRedeem: (code: string) => Promise<{ success
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4">
+    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4">
       <p className="text-[14px] font-extrabold text-ap-tertiary uppercase tracking-wide mb-3">🎟 {t.redeemLabel}</p>
       <form onSubmit={handleRedeem} className="flex gap-2">
         <input
@@ -220,7 +220,7 @@ export default function CouponPage({ items, count, locale, onClaim, onRedeem }: 
         {/* Header */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
+            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -236,7 +236,7 @@ export default function CouponPage({ items, count, locale, onClaim, onRedeem }: 
 
         {/* List */}
         {items.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-ap-border shadow-card py-16 text-center">
+          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card py-16 text-center">
             <div className="text-[48px] mb-3">🎟</div>
             <p className="text-[17px] font-extrabold text-ap-primary">{t.empty}</p>
             <p className="text-[14px] font-medium text-ap-tertiary mt-1">{t.emptyDesc}</p>

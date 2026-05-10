@@ -621,7 +621,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
         onActiveChange={(next) => setActivePromotion(next)}
       />
 
-      <div className="bg-white rounded-2xl border border-ap-border p-5 shadow-sm">
+      <div className="bg-ap-card rounded-2xl border border-ap-border p-5 shadow-sm">
         <h1 className="text-[18px] font-extrabold text-ap-primary">{t.selectMethod}</h1>
 
         {/* Stepper */}
@@ -993,7 +993,7 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
 
       {statusModal && (
         <div className="fixed inset-0 z-[60] bg-black/40 flex items-center justify-center px-5">
-          <div className="w-full max-w-sm bg-white rounded-2xl border border-ap-border shadow-card p-5">
+          <div className="w-full max-w-sm bg-ap-card rounded-2xl border border-ap-border shadow-card p-5">
             <p className="text-[17px] font-bold text-ap-primary">
               {statusModal.kind === "success" ? t.depositSuccess : t.txExpired}
             </p>

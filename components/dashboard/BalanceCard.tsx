@@ -117,8 +117,6 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
 
   return (
     <div className="bg-balance-card-bg rounded-3xl overflow-hidden relative border border-white/22 shadow-[0_18px_48px_rgba(0,47,106,0.35)]">
-      <div className="absolute inset-0 bg-[radial-gradient(130%_110%_at_0%_0%,rgba(255,255,255,0.14),transparent_48%),radial-gradient(85%_65%_at_100%_0%,rgba(125,211,252,0.18),transparent_52%),linear-gradient(130deg,#084f9d_0%,#0a66c0_48%,#1b87d5_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.02)_30%,rgba(0,28,66,0.20)_100%)]" />
       <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 blur-sm" />
       <div className="absolute -right-4 -bottom-10 w-32 h-32 rounded-full bg-cyan-200/10 blur-sm" />
 
@@ -150,7 +148,7 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
               <button
                 onClick={handleRefresh}
-                className="w-8 h-8 rounded-full bg-white border border-white ring-1 ring-[#0a5cae]/35 text-slate-700 flex items-center justify-center shadow-[0_4px_12px_rgba(0,34,80,0.22)] pointer-events-auto hover:bg-white active:scale-95 transition-all"
+                className="w-8 h-8 rounded-full bg-ap-card border border-white ring-1 ring-[#0a5cae]/35 text-slate-700 flex items-center justify-center shadow-[0_4px_12px_rgba(0,34,80,0.22)] pointer-events-auto hover:bg-ap-card active:scale-95 transition-all"
                 title="รีเฟรช"
                 aria-label="รีเฟรชยอดเงิน"
               >

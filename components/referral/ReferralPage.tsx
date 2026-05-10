@@ -147,26 +147,26 @@ export default function ReferralPage({
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4 text-center">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
           <div className="text-[32px] font-bold text-ap-blue tabular-nums">{referredCount}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statFriends}</div>
         </div>
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4 text-center">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
           <div className="text-[32px] font-bold text-ap-green tabular-nums">฿{totalEarned.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statIncome}</div>
         </div>
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4 text-center">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
           <div className="text-[32px] font-bold text-amber-600 tabular-nums">฿{promotionBonusIncome.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statBonusIncome}</div>
         </div>
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card p-4 text-center">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-4 text-center">
           <div className="text-[32px] font-bold text-violet-600 tabular-nums">{promotionBonusCount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-[12px] text-ap-tertiary mt-0.5">{t.statBonusCount}</div>
         </div>
       </div>
 
       {/* Referral code + link */}
-      <div className="bg-white rounded-2xl border border-ap-border shadow-card p-5 space-y-4">
+      <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card p-5 space-y-4">
         <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">{t.codeTitle}</p>
 
         {/* Code */}
@@ -214,7 +214,7 @@ export default function ReferralPage({
       </div>
 
       {/*
-      <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+      <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
         <div className="px-5 py-3 border-b border-ap-border">
           <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">วิธีรับโบนัส</p>
         </div>
@@ -270,7 +270,7 @@ function ReferralList({
                           { label: "Tier 3 · 1.5%", color: "bg-amber-500"  };
 
   return (
-    <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
 
       {/* Section header */}
       <div className="px-5 py-4 border-b border-ap-border bg-ap-bg/40">

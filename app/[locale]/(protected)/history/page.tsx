@@ -139,7 +139,7 @@ export default async function HistoryPage({ params, searchParams }: Props) {
         {/* Header */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
+            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors">
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -169,7 +169,7 @@ export default async function HistoryPage({ params, searchParams }: Props) {
         </div>
 
         {/* List */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           {pageItems.length === 0 ? (
             <div className="py-16 text-center">
               <p className="text-[32px] mb-3">📋</p>

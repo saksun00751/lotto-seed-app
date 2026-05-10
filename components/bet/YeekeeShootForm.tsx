@@ -88,7 +88,7 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
   };
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-white shadow-card overflow-hidden">
+    <section className="rounded-2xl border border-ap-border bg-ap-card shadow-card overflow-hidden">
       <div className="px-4 py-3 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border">
         <h2 className="text-[15px] font-extrabold text-white">ส่งเลขยิง</h2>
       </div>
@@ -151,7 +151,7 @@ export default function YeekeeShootForm({ roundId }: { roundId: number }) {
                 type="button"
                 onClick={() => pressDigitGuarded(key)}
                 disabled={isLocked}
-                className="py-3.5 rounded-xl bg-white border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="py-3.5 rounded-xl bg-ap-card border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {key}
               </button>

@@ -62,7 +62,7 @@ export default async function GameProviderGamesPage({ params }: Props) {
     <div className="min-h-screen bg-ap-bg pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-4 pt-5">
 
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-ap-border">
             <Link

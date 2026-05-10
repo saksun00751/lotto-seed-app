@@ -71,7 +71,7 @@ async function DashboardGamesSection({ locale }: { locale: string }) {
       {gameGroups.map((group) => {
         const gradient = headerGradient[group.game_type] ?? "from-gray-500 to-gray-400";
         return (
-          <section key={group.game_type} className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+          <section key={group.game_type} className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
             <div className={`bg-gradient-to-r ${gradient} flex items-center justify-between px-4 py-3`}>
               <h2 className="text-[15px] font-bold text-white tracking-tight">
                 {group.emoji} {(t as Record<string, string>)[group.game_type] ?? group.label}
@@ -94,7 +94,7 @@ function DashboardLotteryFallback() {
   return (
     <div className="space-y-3">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-white shadow-card">
+        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-ap-card shadow-card">
           <div className="h-11 bg-sky-200/70" />
           <div className="h-10 px-4 bg-sky-50 border-b border-slate-200" />
           <div className="bg-white divide-y divide-slate-200/80">
@@ -115,7 +115,7 @@ function DashboardGamesFallback() {
   return (
     <div className="space-y-5">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-white shadow-card">
+        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-ap-card shadow-card">
           <div className="h-11 bg-rose-200/70" />
           <div className="h-32 bg-slate-50" />
         </div>

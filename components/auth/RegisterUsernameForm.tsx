@@ -141,7 +141,7 @@ function BankSelect({ banks, value, onChange, placeholder, hasError }: {
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-ap-border rounded-2xl shadow-lg overflow-hidden max-h-56 overflow-y-auto">
+        <div className="absolute z-50 mt-1 w-full bg-ap-card border border-ap-border rounded-2xl shadow-lg overflow-hidden max-h-56 overflow-y-auto">
           {banks.map((b) => (
             <button key={b.code} type="button"
               onClick={() => { onChange(b.code); setOpen(false); }}

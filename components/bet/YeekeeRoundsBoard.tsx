@@ -249,7 +249,7 @@ const stats = useMemo(() => {
   }, [groupId, locale, router, selectedRound, t]);
 
   return (
-    <section className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+    <section className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
       <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-3 flex items-center gap-3">
         {logo ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -506,7 +506,7 @@ const stats = useMemo(() => {
                       type="button"
                       onClick={() => pickPackage(pkg.id)}
                       disabled={packagePicking}
-                      className="group w-full overflow-hidden rounded-2xl border border-ap-border bg-white text-left shadow-sm transition-all active:scale-[0.98] disabled:opacity-70"
+                      className="group w-full overflow-hidden rounded-2xl border border-ap-border bg-ap-card text-left shadow-sm transition-all active:scale-[0.98] disabled:opacity-70"
                     >
                       {resolveImage(pkg.image) ? (
                         <img

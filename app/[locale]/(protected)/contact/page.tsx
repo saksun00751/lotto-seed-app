@@ -71,7 +71,7 @@ export default async function ContactPage({ params }: Props) {
         {channels.map((ch) => {
           const meta = getChannelMeta(ch.type, t);
           return (
-            <div key={ch.code} className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+            <div key={ch.code} className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
               <div className="h-2" style={{ backgroundColor: meta.color }} />
               <div className="p-5">
                 <div className="flex items-center gap-4 mb-4">
@@ -106,7 +106,7 @@ export default async function ContactPage({ params }: Props) {
         })}
 
         {channels.length === 0 && (
-          <div className="bg-white rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2 text-ap-tertiary">
+          <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2 text-ap-tertiary">
             <span className="text-[48px]">💬</span>
             <p className="text-[13px]">{t.empty}</p>
           </div>

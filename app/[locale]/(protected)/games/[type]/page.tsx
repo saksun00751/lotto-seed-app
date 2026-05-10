@@ -77,7 +77,7 @@ export default async function GamesTypePage({ params }: Props) {
       <div className="max-w-5xl mx-auto px-4 pt-5">
 
         {/* Grid */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           {/* Card header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-ap-border">
             <Link href={`/${locale}/bet`}

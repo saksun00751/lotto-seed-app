@@ -65,7 +65,7 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, selectedPack
     <div className="space-y-3">
 
       {/* เลขอั้น */}
-      <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
+      <div className="bg-ap-card rounded-2xl overflow-hidden shadow-card border border-ap-border">
         <div className="px-4 py-2.5 flex items-center gap-2 bg-gradient-to-r from-orange-600 to-amber-500 border-b border-ap-border">
           <span className="text-[15px]">🔒</span>
           <span className="font-bold text-white text-[14px]">{t.blockedNumbers}</span>
@@ -123,7 +123,7 @@ export default function BetLeftSidebar({ lotteryName, numberLimits, selectedPack
 
       {/* Package ที่เลือก */}
       {selectedPackage && (
-        <div className="bg-white rounded-2xl overflow-hidden shadow-card border border-ap-border">
+        <div className="bg-ap-card rounded-2xl overflow-hidden shadow-card border border-ap-border">
           <div className="px-4 py-2.5 flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-green-500 border-b border-ap-border">
             <span className="text-[14px]">🎁</span>
             <span className="font-bold text-white text-[14px]">{t.selectedPackage}</span>

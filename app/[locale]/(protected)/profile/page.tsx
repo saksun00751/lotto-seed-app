@@ -109,7 +109,7 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Menu sections */}
         {menuSections.map((section) => (
-          <div key={section.title} className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+          <div key={section.title} className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
             <div className="px-5 py-3 border-b border-ap-border">
               <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">{section.title}</p>
             </div>
@@ -134,7 +134,7 @@ export default async function ProfilePage({ params }: Props) {
         ))}
 
         {/* Logout */}
-        <div className="bg-white rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
           <form action={logoutAction}>
             <button type="submit"
               className="w-full flex items-center gap-4 px-5 py-4 hover:bg-ap-red/5 transition-colors text-left">

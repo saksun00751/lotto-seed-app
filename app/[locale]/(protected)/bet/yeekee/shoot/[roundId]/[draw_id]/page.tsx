@@ -110,7 +110,7 @@ export default async function YeekeeShootPage({ params }: Props) {
         <div className="flex items-center gap-3">
           <BackButton
             fallbackHref={`/${locale}/bet`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
+            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
           >
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -122,7 +122,7 @@ export default async function YeekeeShootPage({ params }: Props) {
           </div>
         </div>
 
-        <section className="overflow-hidden rounded-2xl border border-ap-border bg-white shadow-card">
+        <section className="overflow-hidden rounded-2xl border border-ap-border bg-ap-card shadow-card">
           <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-white">
             <div className="flex items-center gap-3">
               {marketLogo ? (

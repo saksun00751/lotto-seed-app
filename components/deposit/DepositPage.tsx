@@ -1142,7 +1142,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
                 return (
                   <div
                     key={promo.code}
-                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-slate-200 bg-white overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
+                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-slate-200 bg-ap-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
                   >
                     {promo.filepic ? (
                       <img
@@ -1559,7 +1559,7 @@ export default function DepositPage({ displayName, bankName, bankLogo, bankAccou
 
       {statusModal && (
         <div className="fixed inset-0 z-[60] bg-black/40 flex items-center justify-center px-5">
-          <div className="w-full max-w-sm bg-white rounded-2xl border border-ap-border shadow-card p-5">
+          <div className="w-full max-w-sm bg-ap-card rounded-2xl border border-ap-border shadow-card p-5">
             <p className="text-[17px] font-bold text-ap-primary">
               {statusModal.kind === "success" ? t.depositSuccess : t.txExpired}
             </p>

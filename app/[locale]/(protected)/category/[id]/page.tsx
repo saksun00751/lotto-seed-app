@@ -43,7 +43,7 @@ interface CategoryTranslation {
 
 function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryTranslation; groupId: number; locale: string }) {
   return (
-    <div className="bg-white rounded-2xl border border-ap-border shadow-card hover:shadow-card-hover transition-all hover:-translate-y-0.5 overflow-hidden h-full">
+    <div className="bg-ap-card rounded-2xl border border-ap-border shadow-card hover:shadow-card-hover transition-all hover:-translate-y-0.5 overflow-hidden h-full">
       <div className={`h-[3px] bg-gradient-to-r ${item.barClass}`} />
       <div className="p-4 h-full flex flex-col">
         {/* Header */}
@@ -175,7 +175,7 @@ export default async function CategoryPage({ params }: Props) {
         <div className="flex items-center gap-3 mb-6">
           <BackButton
             fallbackHref={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-white border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
+            className="w-8 h-8 rounded-xl bg-ap-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-ap-bg transition-colors"
           >
             <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />

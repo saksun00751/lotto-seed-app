@@ -296,7 +296,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
               <button
                 key={key}
                 onClick={() => pressDigit(key)}
-                className="py-3.5 rounded-xl bg-white border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all"
+                className="py-3.5 rounded-xl bg-ap-card border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all"
               >
                 {key}
               </button>
