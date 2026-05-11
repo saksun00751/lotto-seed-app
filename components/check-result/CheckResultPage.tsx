@@ -473,23 +473,6 @@ export default function CheckResultPage({ groups, tickets }: Props) {
         <p className="text-[15px] font-semibold text-ap-secondary mt-0.5">{t.subtitle}</p>
       </div>
 
-      {/* Banner */}
-      <a
-        href="https://huayupdate.live/th"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative left-1/2 block w-[calc(100vw-40px)] max-w-[640px] -translate-x-1/2 overflow-hidden rounded-xl border border-ap-border bg-surface-card shadow-card"
-        aria-label="Huay Update"
-      >
-        <img
-          src="/banner01.jpeg"
-          alt="Huay Update"
-          width={640}
-          height={342}
-          className="block h-auto w-full"
-        />
-      </a>
-
       {/* Search by draw_date */}
       <form onSubmit={handleSearchByDate} className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-3">
         <div className="flex flex-col sm:flex-row gap-2">
@@ -720,6 +703,17 @@ export default function CheckResultPage({ groups, tickets }: Props) {
 
         </div>
       )}
+
+      {/* Banner */}
+      <a
+        href="https://huayupdate.live/th"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative left-1/2 block w-[calc(100vw-40px)] max-w-[640px] -translate-x-1/2 overflow-hidden rounded-xl border border-ap-border bg-ap-blue px-5 py-4 text-center text-[18px] font-bold text-white shadow-card transition-colors hover:bg-ap-blue-h"
+        aria-label="ดูผลหวยย้อนหลัง คลิ๊กที่นี่"
+      >
+        ดูผลหวยย้อนหลัง คลิ๊กที่นี่
+      </a>
 
       {/* Modal */}
       {modalDraw && (
