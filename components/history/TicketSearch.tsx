@@ -45,11 +45,11 @@ export default function TicketSearch({ search, drawDate, limit, t }: Props) {
           ref={searchRef}
           defaultValue={search}
           placeholder={t.searchPlaceholder}
-          className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-primary placeholder:text-ap-tertiary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
+          className="flex-1 px-3 py-2 rounded-xl border border-ui-border bg-surface-card text-[13px] text-ui-text placeholder:text-ui-text-muted focus:outline-none focus:ring-2 focus:ring-ui-status-info/30"
         />
         <button
           type="submit"
-          className="px-4 py-2 rounded-xl bg-ap-blue text-white text-[13px] font-semibold hover:bg-ap-blue-h transition-colors"
+          className="px-4 py-2 rounded-xl bg-ui-button-primary text-ui-text-inverse text-[13px] font-semibold hover:bg-ui-button-primary-hover transition-colors"
         >
           {t.searchBtn}
         </button>
@@ -61,12 +61,12 @@ export default function TicketSearch({ search, drawDate, limit, t }: Props) {
           type="date"
           value={drawDate}
           onChange={(e) => push({ draw_date: e.target.value })}
-          className="flex-1 px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-primary focus:outline-none focus:ring-2 focus:ring-ap-blue/30"
+          className="flex-1 px-3 py-2 rounded-xl border border-ui-border bg-surface-card text-[13px] text-ui-text focus:outline-none focus:ring-2 focus:ring-ui-status-info/30"
         />
         {(search || drawDate) && (
           <button
             onClick={() => push({ search: "", draw_date: "" })}
-            className="px-3 py-2 rounded-xl border border-ap-border bg-surface-card text-[13px] text-ap-secondary hover:bg-surface-subtle transition-colors"
+            className="px-3 py-2 rounded-xl border border-ui-border bg-surface-card text-[13px] text-ui-text-soft hover:bg-surface-subtle transition-colors"
           >
             {t.clear}
           </button>
@@ -75,23 +75,23 @@ export default function TicketSearch({ search, drawDate, limit, t }: Props) {
 
       {/* Limit row */}
       <div className="flex items-center gap-2">
-        <span className="text-[12px] text-ap-secondary">{t.show}</span>
-        <div className="flex rounded-xl border border-ap-border bg-surface-card overflow-hidden text-[13px]">
+        <span className="text-[12px] text-ui-text-soft">{t.show}</span>
+        <div className="flex rounded-xl border border-ui-border bg-surface-card overflow-hidden text-[13px]">
           {LIMITS.map((n) => (
             <button
               key={n}
               onClick={() => push({ limit: n })}
               className={`px-3 py-1.5 transition-colors ${
                 limit === n
-                  ? "bg-ap-blue text-white font-semibold"
-                  : "text-ap-secondary hover:bg-surface-subtle"
+                  ? "bg-ui-button-primary text-ui-text-inverse font-semibold"
+                  : "text-ui-text-soft hover:bg-surface-subtle"
               }`}
             >
               {n}
             </button>
           ))}
         </div>
-        <span className="text-[12px] text-ap-secondary">{t.perPage}</span>
+        <span className="text-[12px] text-ui-text-soft">{t.perPage}</span>
       </div>
     </div>
   );

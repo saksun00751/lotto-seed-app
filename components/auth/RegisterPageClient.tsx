@@ -34,35 +34,35 @@ function RegisterContent({ defaultRef, banks, logoUrl }: RegisterContentProps) {
         {/* Step indicator */}
         <div className="flex items-center justify-center gap-2 mt-4 mb-4">
           <div className="flex items-center gap-1.5">
-            <div className="w-6 h-6 rounded-full bg-ap-blue flex items-center justify-center">
-              <span className="text-white text-[11px] font-bold">1</span>
+            <div className="w-6 h-6 rounded-full bg-ui-button-primary flex items-center justify-center">
+              <span className="text-ui-text-inverse text-[11px] font-bold">1</span>
             </div>
-            <span className="text-[12px] text-ap-blue font-medium">{t.stepFill}</span>
+            <span className="text-[12px] text-ui-status-info font-medium">{t.stepFill}</span>
           </div>
-          <div className="w-8 h-px bg-ap-border" />
+          <div className="w-8 h-px bg-ui-border" />
           <div className="flex items-center gap-1.5">
-            <div className="w-6 h-6 rounded-full bg-ap-border flex items-center justify-center">
-              <span className="text-ap-tertiary text-[11px] font-bold">2</span>
+            <div className="w-6 h-6 rounded-full bg-ui-border flex items-center justify-center">
+              <span className="text-ui-text-muted text-[11px] font-bold">2</span>
             </div>
-            <span className="text-[12px] text-ap-tertiary">{t.stepDone}</span>
+            <span className="text-[12px] text-ui-text-muted">{t.stepDone}</span>
           </div>
         </div>
 
-        <h1 className="text-[28px] font-bold text-ap-primary tracking-tight leading-none">
+        <h1 className="text-[28px] font-bold text-ui-text tracking-tight leading-none">
           {t.heading}
         </h1>
-        {/* <p className="text-[15px] text-ap-secondary mt-2">
+        {/* <p className="text-[15px] text-ui-text-soft mt-2">
           {t.subtitle}
         </p> */}
       </div>
 
       {/* Card */}
-      <div className="bg-surface-card rounded-[28px] shadow-card-xl border border-ap-border p-8">
+      <div className="bg-surface-card rounded-[28px] shadow-card-xl border border-ui-border p-8">
         <RegisterForm defaultRef={defaultRef} banks={banks} />
       </div>
 
       {/* Footer */}
-      <p className="text-center text-[11.5px] text-ap-tertiary mt-5 leading-relaxed">
+      <p className="text-center text-[11.5px] text-ui-text-muted mt-5 leading-relaxed">
         {t.footer}
         <br />
         <span className="inline-flex items-center gap-1 mt-1">

@@ -146,17 +146,17 @@ function ClaimConfirmModal({
       />
 
       <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-surface-card animate-pop-in">
-        <div className="bg-[linear-gradient(180deg,#f5c24a_0%,#d29a2a_100%)] px-4 py-3 border-b border-amber-700/20">
-          <p className="text-[18px] font-extrabold text-[#2e2003]">{t.claimModalTitle ?? "ยืนยันการรับโบนัส"}</p>
-          <p className="text-[12px] text-[#4a3408]/85 mt-0.5">{t.claimModalSubtitle ?? "กรุณาตรวจสอบรายการก่อนทำรายการ"}</p>
+        <div className="[background:var(--ui-reward-bg-strong)] px-4 py-3 border-b border-amber-700/20">
+          <p className="text-[18px] font-extrabold text-ui-reward-text">{t.claimModalTitle ?? "ยืนยันการรับโบนัส"}</p>
+          <p className="text-[12px] text-ui-reward-text/85 mt-0.5">{t.claimModalSubtitle ?? "กรุณาตรวจสอบรายการก่อนทำรายการ"}</p>
         </div>
 
         <div className="p-4 space-y-3">
-          <div className="rounded-2xl border border-ap-border bg-surface-subtle px-3 py-3">
-            <p className="text-[12px] text-ap-tertiary">{t.claimModalSourceLabel ?? "ประเภทโบนัส"}</p>
-            <p className="text-[20px] font-extrabold text-ap-primary mt-1">{target.label}</p>
-            <p className="text-[11px] text-ap-tertiary mt-2">{t.claimModalAmountLabel ?? "จำนวนที่รับ"}</p>
-            <p className="text-[20px] font-extrabold text-ap-green tabular-nums mt-1">฿{fmtMoney(target.amount)}</p>
+          <div className="rounded-2xl border border-ui-border bg-surface-subtle px-3 py-3">
+            <p className="text-[12px] text-ui-text-muted">{t.claimModalSourceLabel ?? "ประเภทโบนัส"}</p>
+            <p className="text-[20px] font-extrabold text-ui-text mt-1">{target.label}</p>
+            <p className="text-[11px] text-ui-text-muted mt-2">{t.claimModalAmountLabel ?? "จำนวนที่รับ"}</p>
+            <p className="text-[20px] font-extrabold text-ui-status-success tabular-nums mt-1">฿{fmtMoney(target.amount)}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
@@ -164,7 +164,7 @@ function ClaimConfirmModal({
               type="button"
               onClick={onCancel}
               disabled={pending}
-              className="h-10 rounded-xl border border-ap-border bg-surface-card text-ap-secondary text-[13px] font-semibold hover:bg-surface-subtle transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl border border-ui-border bg-surface-card text-ui-text-soft text-[13px] font-semibold hover:bg-surface-subtle transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t.claimModalCancel ?? "ยกเลิก"}
             </button>
@@ -172,7 +172,7 @@ function ClaimConfirmModal({
               type="button"
               onClick={onConfirm}
               disabled={pending}
-              className="h-10 rounded-xl bg-ap-blue text-white text-[13px] font-bold hover:bg-ap-blue-h transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl bg-ui-button-primary text-ui-text-inverse text-[13px] font-bold hover:bg-ui-button-primary-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {pending ? (t.claiming ?? "กำลังรับ...") : (t.claimModalConfirm ?? "ยืนยันรับโบนัส")}
             </button>
@@ -279,7 +279,7 @@ export default function BonusPage({
       unit: t.unitBaht,
       cardCls: "bg-gradient-to-br from-amber-100 to-orange-200/85 hover:ring-amber-300",
       iconBg: "bg-gradient-to-br from-amber-400 to-orange-500",
-      icon: <WheelIcon className="w-7 h-7 text-white" />,
+      icon: <WheelIcon className="w-7 h-7 text-ui-text-inverse" />,
     },
     {
       key: "cashback",
@@ -290,7 +290,7 @@ export default function BonusPage({
       unit: t.unitBaht,
       cardCls: "bg-gradient-to-br from-emerald-100 to-teal-200/85 hover:ring-emerald-300",
       iconBg: "bg-gradient-to-br from-emerald-400 to-teal-500",
-      icon: <CoinIcon className="w-7 h-7 text-white" />,
+      icon: <CoinIcon className="w-7 h-7 text-ui-text-inverse" />,
     },
     {
       key: "faststart",
@@ -301,7 +301,7 @@ export default function BonusPage({
       unit: t.unitBaht,
       cardCls: "bg-gradient-to-br from-violet-100 to-fuchsia-200/85 hover:ring-violet-300",
       iconBg: "bg-gradient-to-br from-violet-400 to-fuchsia-500",
-      icon: <FriendsIcon className="w-7 h-7 text-white" />,
+      icon: <FriendsIcon className="w-7 h-7 text-ui-text-inverse" />,
     },
     {
       key: "ic",
@@ -312,7 +312,7 @@ export default function BonusPage({
       unit: t.unitBaht,
       cardCls: "bg-gradient-to-br from-sky-100 to-blue-200/85 hover:ring-sky-300",
       iconBg: "bg-gradient-to-br from-sky-400 to-blue-500",
-      icon: <HandshakeIcon className="w-7 h-7 text-white" />,
+      icon: <HandshakeIcon className="w-7 h-7 text-ui-text-inverse" />,
     },
   ];
 
@@ -323,14 +323,14 @@ export default function BonusPage({
         {/* Top bar */}
         <div className="flex items-center gap-3">
           <Link href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors">
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ui-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors">
+            <svg className="w-4 h-4 text-ui-text-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
           <div>
-            <h1 className="text-[20px] font-extrabold text-ap-primary leading-tight">🎁 {t.title}</h1>
-            <p className="text-[14px] font-medium text-ap-tertiary">{t.subtitle}</p>
+            <h1 className="text-[20px] font-extrabold text-ui-text leading-tight">🎁 {t.title}</h1>
+            <p className="text-[14px] font-medium text-ui-text-muted">{t.subtitle}</p>
           </div>
         </div>
 
@@ -349,7 +349,7 @@ export default function BonusPage({
                 });
               }}
               className={[
-                "group relative overflow-hidden rounded-2xl border border-ap-border shadow-card p-4 sm:p-5",
+                "group relative overflow-hidden rounded-2xl border border-ui-border shadow-card p-4 sm:p-5",
                 "hover:shadow-card-hover hover:-translate-y-[2px] transition-all duration-200",
                 "ring-1 ring-transparent",
                 "text-left",
@@ -361,22 +361,22 @@ export default function BonusPage({
                   <div className={`w-11 h-11 rounded-2xl ${item.iconBg} flex items-center justify-center shadow-sm`}>
                     {item.icon}
                   </div>
-                  <svg className="w-4 h-4 text-ap-tertiary group-hover:text-ap-primary transition-all"
+                  <svg className="w-4 h-4 text-ui-text-muted group-hover:text-ui-text transition-all"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                     <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
 
                 <div>
-                  <p className="text-[15px] font-bold text-ap-secondary leading-tight">{item.label}</p>
-                  <p className="text-[13px] font-medium text-ap-tertiary mt-0.5 leading-snug line-clamp-1">{item.desc}</p>
+                  <p className="text-[15px] font-bold text-ui-text-soft leading-tight">{item.label}</p>
+                  <p className="text-[13px] font-medium text-ui-text-muted mt-0.5 leading-snug line-clamp-1">{item.desc}</p>
                 </div>
 
                 <div className="flex items-baseline gap-1.5 mt-1">
-                  <span className="text-[26px] sm:text-[28px] font-extrabold text-ap-primary tabular-nums leading-none tracking-tight">
+                  <span className="text-[26px] sm:text-[28px] font-extrabold text-ui-text tabular-nums leading-none tracking-tight">
                     {item.value}
                   </span>
-                  <span className="text-[13px] font-bold text-ap-tertiary">{item.unit}</span>
+                  <span className="text-[13px] font-bold text-ui-text-muted">{item.unit}</span>
                 </div>
               </div>
             </button>
@@ -384,9 +384,9 @@ export default function BonusPage({
         </div>
 
         {/* How it works */}
-        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
-          <div className="px-5 py-3 border-b border-ap-border">
-            <p className="text-[14px] font-bold text-ap-tertiary uppercase tracking-wide">{t.howTitle}</p>
+        <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
+          <div className="px-5 py-3 border-b border-ui-border">
+            <p className="text-[14px] font-bold text-ui-text-muted uppercase tracking-wide">{t.howTitle}</p>
           </div>
           <ul className="divide-y divide-ap-border">
             {[
@@ -400,8 +400,8 @@ export default function BonusPage({
                   {step.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[15px] font-bold text-ap-primary leading-tight">{step.label}</p>
-                  <p className="text-[13px] font-medium text-ap-secondary mt-0.5 leading-snug">{step.desc}</p>
+                  <p className="text-[15px] font-bold text-ui-text leading-tight">{step.label}</p>
+                  <p className="text-[13px] font-medium text-ui-text-soft mt-0.5 leading-snug">{step.desc}</p>
                 </div>
               </li>
             ))}

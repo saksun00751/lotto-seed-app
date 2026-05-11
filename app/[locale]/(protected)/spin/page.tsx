@@ -47,7 +47,7 @@ export default async function SpinRoute() {
     wheelEnabled = res?.data?.enabled ?? true;
     segments = (res?.data?.wheel ?? []).map((item) => ({
       code:     item.code,
-      color:    item.fillStyle,
+      fillStyle: item.fillStyle,
       imageUrl: item.image,
       label:    item.text,
       prize:    parseFloat(item.amount) || 0,

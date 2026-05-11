@@ -16,10 +16,10 @@ export default function YeekeeRewardPolicy({
   const cur = currency ?? "";
 
   return (
-    <section className="rounded-2xl border border-ap-border bg-surface-card shadow-card overflow-hidden">
-      <div className="px-4 py-3 bg-gradient-to-r from-sky-500 to-cyan-400 border-b border-ap-border">
-        <h2 className="text-[15px] font-extrabold text-white">รายละเอียดรางวัลที่จะได้รับ</h2>
-        <p className="text-[12px] text-white/90 font-medium">
+    <section className="rounded-2xl border border-ui-border bg-surface-card shadow-card overflow-hidden">
+      <div className="px-4 py-3 bg-gradient-to-r from-sky-500 to-cyan-400 border-b border-ui-border">
+        <h2 className="text-[15px] font-extrabold text-ui-text-inverse">รายละเอียดรางวัลที่จะได้รับ</h2>
+        <p className="text-[12px] text-ui-text-inverse/90 font-medium">
           ทั้งหมด {policy.length} รางวัล · รวม {total.toLocaleString("th-TH")} เครดิต{cur ? ` (${cur})` : ""}
         </p>
       </div>
@@ -31,11 +31,11 @@ export default function YeekeeRewardPolicy({
               <div className="shrink-0 w-9 h-9 rounded-lg bg-sky-50 border border-sky-200 text-sky-700 flex items-center justify-center text-[12px] font-extrabold tabular-nums">
                 #{p.position ?? "-"}
               </div>
-              <p className="text-[14px] font-bold text-ap-primary truncate">
+              <p className="text-[14px] font-bold text-ui-text truncate">
                 {p.label ?? `รางวัลยิงเลขลำดับที่ ${p.position ?? "-"}`}
               </p>
             </div>
-            <span className="shrink-0 text-[15px] font-extrabold tabular-nums text-ap-green">
+            <span className="shrink-0 text-[15px] font-extrabold tabular-nums text-ui-status-success">
               +{(Number(p.credit_amount) || 0).toLocaleString("th-TH")}{cur ? ` ${cur}` : ""}
             </span>
           </li>

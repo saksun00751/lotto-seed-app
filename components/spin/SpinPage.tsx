@@ -13,7 +13,7 @@ export interface WheelSegment {
   prize:    number;
   label:    string;
   imageUrl: string;
-  color:    string;
+  fillStyle: string;
   name:     string;
   types:    string;
 }
@@ -84,7 +84,7 @@ export default function SpinPage({
         strokeStyle:    "white",
         lineWidth:      2,
         segments:       segments.map((seg) => ({
-          fillStyle: seg.color,
+          fillStyle: seg.fillStyle,
           image:     seg.imageUrl,
         })),
         animation: {
@@ -217,22 +217,22 @@ export default function SpinPage({
         <div className="w-full max-w-md">
 
           <div className="text-center mb-6">
-            <h1 className="text-[24px] font-bold text-ap-primary tracking-tight">{t.title}</h1>
-            <p className="text-[14px] text-ap-secondary mt-1">{t.subtitle}</p>
+            <h1 className="text-[24px] font-bold text-ui-text tracking-tight">{t.title}</h1>
+            <p className="text-[14px] text-ui-text-soft mt-1">{t.subtitle}</p>
           </div>
 
-          <div className="bg-surface-card rounded-2xl shadow-card-xl border border-ap-border p-6 flex flex-col items-center gap-5">
+          <div className="bg-surface-card rounded-2xl shadow-card-xl border border-ui-border p-6 flex flex-col items-center gap-5">
 
             {/* Top bar */}
             <div className="mb-6 w-full flex items-center justify-between">
               <Link href={`/${lang}/dashboard`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-subtle border border-ap-border text-ap-secondary text-[13px] hover:bg-ap-blue/5 transition-colors">
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-subtle border border-ui-border text-ui-text-soft text-[13px] hover:bg-ui-button-primary/5 transition-colors">
                 {t.back}
               </Link>
               <div className="flex items-center gap-1.5 bg-blue-50 border border-blue-200 rounded-full px-3 py-1.5">
                 <span className="text-[16px]">💎</span>
-                <span className="text-[14px] font-bold text-ap-blue tabular-nums">{diamond}</span>
-                <span className="text-[11px] text-ap-secondary">{t.diamond}</span>
+                <span className="text-[14px] font-bold text-ui-status-info tabular-nums">{diamond}</span>
+                <span className="text-[11px] text-ui-text-soft">{t.diamond}</span>
               </div>
             </div>
 
@@ -241,8 +241,8 @@ export default function SpinPage({
               <img src="/wheel_back.png" alt="" className="rng-canvas-bg" />
               <div className="rng-canvas-pointer">
                 <svg width="22" height="30" viewBox="0 0 22 30">
-                  {/* <polygon points="11,30 0,6 22,6" fill="#EF4444" /> */}
-                  <circle cx="11" cy="6" r="4" fill="white" stroke="#EF4444" strokeWidth="2" />
+                  {/* <polygon points="11,30 0,6 22,6" fill="var(--ap-red)" /> */}
+                  <circle cx="11" cy="6" r="4" fill="var(--ap-card)" stroke="var(--ap-red)" strokeWidth="2" />
                 </svg>
               </div>
               <canvas id="spin-canvas" className="rng-canvas-canvas" width="400" height="400" />
@@ -251,7 +251,7 @@ export default function SpinPage({
             <button
               onClick={handleSpin}
               disabled={isSpinning || diamond < 1 || !wheelEnabled}
-              className="w-full bg-ap-blue text-white font-bold py-3 rounded-xl text-[15px] disabled:opacity-50 hover:bg-ap-blue-h transition-colors active:scale-[0.98]"
+              className="w-full bg-ui-button-primary text-ui-text-inverse font-bold py-3 rounded-xl text-[15px] disabled:opacity-50 hover:bg-ui-button-primary-hover transition-colors active:scale-[0.98]"
             >
               {isSpinning
                 ? t.spinning
@@ -263,7 +263,7 @@ export default function SpinPage({
             </button>
 
             <Link href={`/${lang}/spin/history`}
-              className="w-full text-center py-2 rounded-xl border border-ap-border text-[13px] text-ap-secondary hover:bg-surface-subtle transition-colors">
+              className="w-full text-center py-2 rounded-xl border border-ui-border text-[13px] text-ui-text-soft hover:bg-surface-subtle transition-colors">
               {t.history}
             </Link>
 

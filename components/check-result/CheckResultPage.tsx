@@ -69,12 +69,12 @@ function checkWin(number: string, betType: string, top3: string, bot2: string): 
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  active:    "bg-ap-blue/10 text-ap-blue",
-  confirmed: "bg-ap-blue/10 text-ap-blue",
-  won:       "bg-ap-green/10 text-ap-green",
-  lost:      "bg-ap-red/10 text-ap-red",
-  pending:   "bg-yellow-50 text-ap-orange",
-  cancelled: "bg-surface-subtle text-ap-tertiary",
+  active:    "bg-ui-button-primary/10 text-ui-status-info",
+  confirmed: "bg-ui-button-primary/10 text-ui-status-info",
+  won:       "bg-ui-status-success/10 text-ui-status-success",
+  lost:      "bg-ui-status-error/10 text-ui-status-error",
+  pending:   "bg-yellow-50 text-ui-status-warning",
+  cancelled: "bg-surface-subtle text-ui-text-muted",
 };
 type TCR = ReturnType<typeof useTranslation<"checkResult">>;
 
@@ -289,16 +289,16 @@ function CheckResultModal({
       <div className="bg-surface-card w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
 
         {/* Header */}
-        <div className="px-5 pt-5 pb-4 border-b border-ap-border flex-shrink-0">
-          <div className="w-10 h-1 bg-ap-border rounded-full mx-auto mb-4 sm:hidden" />
+        <div className="px-5 pt-5 pb-4 border-b border-ui-border flex-shrink-0">
+          <div className="w-10 h-1 bg-ui-border rounded-full mx-auto mb-4 sm:hidden" />
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-[18px] font-bold text-ap-primary">{draw.market_name}</h2>
-              <p className="text-[14px] font-semibold text-ap-tertiary mt-0.5">{t.modalSubtitle}</p>
+              <h2 className="text-[18px] font-bold text-ui-text">{draw.market_name}</h2>
+              <p className="text-[14px] font-semibold text-ui-text-muted mt-0.5">{t.modalSubtitle}</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-ap-secondary hover:bg-ap-border/40 transition-colors flex-shrink-0"
+              className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-ui-text-soft hover:bg-ui-border/40 transition-colors flex-shrink-0"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
@@ -309,9 +309,9 @@ function CheckResultModal({
           {/* Result numbers */}
           <div className="mt-4 grid grid-cols-3 gap-2">
             {[
-              { label: t.col3top,  value: draw.result_top_3,    bg: "bg-ap-blue text-white" },
-              { label: t.col2top,  value: top2,                 bg: "bg-teal-500 text-white" },
-              { label: t.col2bot,  value: draw.result_bottom_2, bg: "bg-ap-green text-white" },
+              { label: t.col3top,  value: draw.result_top_3,    bg: "bg-ui-button-primary text-ui-text-inverse" },
+              { label: t.col2top,  value: top2,                 bg: "bg-teal-500 text-ui-text-inverse" },
+              { label: t.col2bot,  value: draw.result_bottom_2, bg: "bg-ui-status-success text-ui-text-inverse" },
             ].map((r) => (
               <div key={r.label} className={`${r.bg} rounded-2xl py-3 text-center`}>
                 <p className="text-[26px] font-bold tabular-nums tracking-wider">{r.value || "—"}</p>
@@ -326,8 +326,8 @@ function CheckResultModal({
           {matching.length === 0 ? (
             <div className="py-12 text-center">
               <p className="text-[32px] mb-3">📋</p>
-              <p className="text-[16px] font-bold text-ap-primary">{t.noSlip}</p>
-              <p className="text-[14px] font-semibold text-ap-tertiary mt-1">{t.noSlipDesc}</p>
+              <p className="text-[16px] font-bold text-ui-text">{t.noSlip}</p>
+              <p className="text-[14px] font-semibold text-ui-text-muted mt-1">{t.noSlipDesc}</p>
             </div>
           ) : (
             <div className="divide-y divide-ap-border">
@@ -347,23 +347,23 @@ function CheckResultModal({
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-surface-subtle text-ap-secondary"}`}>
+                          <span className={`text-[12px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[ticket.status] ?? "bg-surface-subtle text-ui-text-soft"}`}>
                             {statusLabel(ticket.status, t)}
                           </span>
-                          <span className="text-[13px] font-bold text-ap-tertiary font-mono">#{ticket.id}</span>
+                          <span className="text-[13px] font-bold text-ui-text-muted font-mono">#{ticket.id}</span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-[14px] font-semibold text-ap-secondary">{t.betAmount}</span>
-                          <span className="text-[15px] font-bold text-ap-primary tabular-nums">
+                          <span className="text-[14px] font-semibold text-ui-text-soft">{t.betAmount}</span>
+                          <span className="text-[15px] font-bold text-ui-text tabular-nums">
                             ฿{ticket.total_amount.toLocaleString("th-TH")}
                           </span>
                         </div>
                       </div>
                       <div className="flex-shrink-0">
                         {isLoading ? (
-                          <div className="w-4 h-4 rounded-full border-2 border-ap-blue border-t-transparent animate-spin" />
+                          <div className="w-4 h-4 rounded-full border-2 border-ui-selected-border border-t-transparent animate-spin" />
                         ) : (
-                          <svg className={`w-4 h-4 text-ap-tertiary transition-transform ${isOpen ? "rotate-90" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <svg className={`w-4 h-4 text-ui-text-muted transition-transform ${isOpen ? "rotate-90" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                             <path d="M9 18l6-6-6-6" strokeLinecap="round" />
                           </svg>
                         )}
@@ -372,9 +372,9 @@ function CheckResultModal({
 
                     {/* Expanded items */}
                     {isOpen && detail && (
-                      <div className="bg-surface-subtle/60 border-t border-ap-border">
+                      <div className="bg-surface-subtle/60 border-t border-ui-border">
                         {/* Column headers */}
-                        <div className="grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2 text-[12px] font-bold text-ap-tertiary uppercase tracking-wide">
+                        <div className="grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2 text-[12px] font-bold text-ui-text-muted uppercase tracking-wide">
                           <span>{t.colNumber}</span>
                           <span className="text-right">{t.colAmount}</span>
                           <span className="text-right">{t.colResult}</span>
@@ -388,29 +388,29 @@ function CheckResultModal({
                             <div
                               key={item.id}
                               className={[
-                                "grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2.5 border-t border-ap-border items-center",
-                                won === true  ? "bg-ap-green/5"  : "",
-                                won === false ? "bg-ap-red/5"    : "",
+                                "grid grid-cols-[1fr_60px_60px] gap-2 px-5 py-2.5 border-t border-ui-border items-center",
+                                won === true  ? "bg-ui-status-success/5"  : "",
+                                won === false ? "bg-ui-status-error/5"    : "",
                               ].join(" ")}
                             >
                               <div>
-                                <span className="text-[18px] font-bold text-ap-primary tabular-nums tracking-widest">
+                                <span className="text-[18px] font-bold text-ui-text tabular-nums tracking-widest">
                                   {item.number}
                                 </span>
-                                <span className="text-[12px] font-semibold text-ap-tertiary ml-1.5">{item.betTypeLabel}</span>
+                                <span className="text-[12px] font-semibold text-ui-text-muted ml-1.5">{item.betTypeLabel}</span>
                               </div>
-                              <span className="text-[14px] font-semibold text-ap-secondary text-right tabular-nums">
+                              <span className="text-[14px] font-semibold text-ui-text-soft text-right tabular-nums">
                                 ฿{item.amount.toLocaleString("th-TH")}
                               </span>
                               <div className="flex justify-end">
                                 {won === true && (
-                                  <span className="text-[12px] font-bold bg-ap-green text-white px-2 py-0.5 rounded-full">{t.won}</span>
+                                  <span className="text-[12px] font-bold bg-ui-status-success text-ui-text-inverse px-2 py-0.5 rounded-full">{t.won}</span>
                                 )}
                                 {won === false && (
-                                  <span className="text-[12px] font-bold bg-ap-red/10 text-ap-red px-2 py-0.5 rounded-full">{t.lost}</span>
+                                  <span className="text-[12px] font-bold bg-ui-status-error/10 text-ui-status-error px-2 py-0.5 rounded-full">{t.lost}</span>
                                 )}
                                 {won === null && (
-                                  <span className="text-[14px] font-semibold text-ap-tertiary">—</span>
+                                  <span className="text-[14px] font-semibold text-ui-text-muted">—</span>
                                 )}
                               </div>
                             </div>
@@ -469,40 +469,40 @@ export default function CheckResultPage({ groups, tickets }: Props) {
 
       {/* Header */}
       <div>
-        <h1 className="text-[24px] font-bold text-ap-primary tracking-tight">🏆 {t.title}</h1>
-        <p className="text-[15px] font-semibold text-ap-secondary mt-0.5">{t.subtitle}</p>
+        <h1 className="text-[24px] font-bold text-ui-text tracking-tight">🏆 {t.title}</h1>
+        <p className="text-[15px] font-semibold text-ui-text-soft mt-0.5">{t.subtitle}</p>
       </div>
 
       {/* Search by draw_date */}
-      <form onSubmit={handleSearchByDate} className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-3">
+      <form onSubmit={handleSearchByDate} className="bg-surface-card rounded-2xl border border-ui-border shadow-card p-3">
         <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="date"
             value={drawDate}
             onChange={(e) => setDrawDate(e.target.value)}
-            className="flex-1 border border-ap-border rounded-xl px-3 py-2 text-[15px] font-semibold text-ap-primary outline-none focus:border-ap-blue"
+            className="flex-1 border border-ui-border rounded-xl px-3 py-2 text-[15px] font-semibold text-ui-text outline-none focus:border-ui-selected-border"
             placeholder="draw_date"
           />
           <button
             type="submit"
             disabled={!drawDate || searching}
-            className="px-4 py-2 rounded-xl bg-ap-blue text-white text-[15px] font-bold hover:bg-ap-blue-h transition-colors disabled:opacity-50"
+            className="px-4 py-2 rounded-xl bg-ui-button-primary text-ui-text-inverse text-[15px] font-bold hover:bg-ui-button-primary-hover transition-colors disabled:opacity-50"
           >
             {searching ? t.searching : t.searchBtn}
           </button>
         </div>
-        {searchError && <p className="mt-2 text-[14px] font-semibold text-ap-red">{searchError}</p>}
+        {searchError && <p className="mt-2 text-[14px] font-semibold text-ui-status-error">{searchError}</p>}
       </form>
 
       {displayGroups.length === 0 && (
-        <div className="py-16 text-center bg-surface-card rounded-2xl border border-ap-border shadow-card">
+        <div className="py-16 text-center bg-surface-card rounded-2xl border border-ui-border shadow-card">
           <p className="text-[32px] mb-3">🏆</p>
-          <p className="text-[16px] font-bold text-ap-primary">{t.emptyResult}</p>
+          <p className="text-[16px] font-bold text-ui-text">{t.emptyResult}</p>
         </div>
       )}
 
       {displayGroups.length > 0 && (
-        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
 
           {/* Tab bar - segmented switcher (iOS-like) */}
           <div className="p-3 bg-surface-card">
@@ -517,8 +517,8 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                       className={[
                         "flex-shrink-0 px-4 py-2 rounded-xl text-[14px] font-bold transition-all whitespace-nowrap",
                         active
-                          ? "bg-surface-card text-ap-primary shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
-                          : "text-ap-tertiary hover:text-ap-primary",
+                          ? "bg-surface-card text-ui-text shadow-[0_2px_8px_rgba(15,23,42,0.12)]"
+                          : "text-ui-text-muted hover:text-ui-text",
                       ].join(" ")}
                     >
                       {g.group_name}
@@ -531,14 +531,14 @@ export default function CheckResultPage({ groups, tickets }: Props) {
 
           {/* Group header + description */}
           {activeGroup && (
-            <div className="relative overflow-hidden bg-ap-blue px-5 py-3.5">
+            <div className="relative overflow-hidden bg-ui-button-primary px-5 py-3.5">
               <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white/15 to-transparent pointer-events-none" />
               <div className="relative flex items-center gap-2.5">
                 <span className="w-1 h-7 rounded-full bg-white/90" aria-hidden />
                 <div>
-                  <p className="text-white font-bold text-[18px] leading-tight">{activeGroup.group_name}</p>
+                  <p className="text-ui-text-inverse font-bold text-[18px] leading-tight">{activeGroup.group_name}</p>
                   {activeGroup.description && (
-                    <p className="text-white/95 text-[14px] font-semibold mt-0.5">{activeGroup.description}</p>
+                    <p className="text-ui-text-inverse/95 text-[14px] font-semibold mt-0.5">{activeGroup.description}</p>
                   )}
                 </div>
               </div>
@@ -546,7 +546,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
           )}
 
           {/* Column headers (desktop) */}
-          <div className="hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-2 bg-gray-50 border-b border-ap-border text-[13px] font-bold text-ap-tertiary uppercase tracking-wide">
+          <div className="hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-2 bg-gray-50 border-b border-ui-border text-[13px] font-bold text-ui-text-muted uppercase tracking-wide">
             <span>{t.colType}</span>
             <span className="text-center">{t.col3top}</span>
             <span className="text-center">{t.col2top}</span>
@@ -581,7 +581,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     onClick={() => canOpen && setModalDraw(drawInfo)}
                     className={[
                       "md:hidden px-4 py-3 transition-colors",
-                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-surface-subtle/40",
+                      canOpen ? "cursor-pointer hover:bg-ui-button-primary/5" : "hover:bg-surface-subtle/40",
                     ].join(" ")}
                   >
                     <div className="flex items-start justify-between gap-2">
@@ -592,33 +592,33 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                           <span className="text-[22px] flex-shrink-0">{market.market_icon || "🎯"}</span>
                         )}
                         <div className="min-w-0">
-                          <p className="text-[15px] font-bold text-ap-primary truncate">{market.market_name}</p>
-                          <p className="text-[13px] font-semibold text-ap-secondary tabular-nums">{drawDate}</p>
+                          <p className="text-[15px] font-bold text-ui-text truncate">{market.market_name}</p>
+                          <p className="text-[13px] font-semibold text-ui-text-soft tabular-nums">{drawDate}</p>
                         </div>
                       </div>
                       {myTickets.length > 0 && (
-                        <span className="text-[12px] text-ap-blue font-bold flex-shrink-0">{t.slips.replace("{n}", String(myTickets.length))}</span>
+                        <span className="text-[12px] text-ui-status-info font-bold flex-shrink-0">{t.slips.replace("{n}", String(myTickets.length))}</span>
                       )}
                     </div>
 
-                    <div className="mt-2 grid grid-cols-3 gap-2 sm:rounded-xl sm:border sm:border-ap-border sm:bg-surface-subtle/70 sm:p-2">
-                      <div className="text-center rounded-lg bg-surface-card border border-ap-border py-2 px-1">
-                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col3top}</p>
+                    <div className="mt-2 grid grid-cols-3 gap-2 sm:rounded-xl sm:border sm:border-ui-border sm:bg-surface-subtle/70 sm:p-2">
+                      <div className="text-center rounded-lg bg-surface-card border border-ui-border py-2 px-1">
+                        <p className="text-[12px] font-bold text-ui-text-muted mb-1">{t.col3top}</p>
                         {top3
-                          ? <span className="inline-block bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
-                          : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
+                          ? <span className="inline-block bg-ui-button-primary text-ui-text-inverse text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
+                          : <span className="inline-block bg-surface-subtle text-ui-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ui-border">—</span>}
                       </div>
-                      <div className="text-center rounded-lg bg-surface-card border border-ap-border py-2 px-1">
-                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2top}</p>
+                      <div className="text-center rounded-lg bg-surface-card border border-ui-border py-2 px-1">
+                        <p className="text-[12px] font-bold text-ui-text-muted mb-1">{t.col2top}</p>
                         {top3
-                          ? <span className="inline-block bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
-                          : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
+                          ? <span className="inline-block bg-teal-500 text-ui-text-inverse text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
+                          : <span className="inline-block bg-surface-subtle text-ui-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ui-border">—</span>}
                       </div>
-                      <div className="text-center rounded-lg bg-surface-card border border-ap-border py-2 px-1">
-                        <p className="text-[12px] font-bold text-ap-tertiary mb-1">{t.col2bot}</p>
+                      <div className="text-center rounded-lg bg-surface-card border border-ui-border py-2 px-1">
+                        <p className="text-[12px] font-bold text-ui-text-muted mb-1">{t.col2bot}</p>
                         {bot2
-                          ? <span className="inline-block bg-ap-green text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
-                          : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
+                          ? <span className="inline-block bg-ui-status-success text-ui-text-inverse text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
+                          : <span className="inline-block bg-surface-subtle text-ui-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ui-border">—</span>}
                       </div>
                     </div>
 
@@ -630,7 +630,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                         className={[
                           "px-4 py-2 text-[13px] font-bold rounded-full whitespace-nowrap transition-colors",
                           canOpen
-                            ? "bg-ap-blue text-white hover:bg-ap-blue-h cursor-pointer"
+                            ? "bg-ui-button-primary text-ui-text-inverse hover:bg-ui-button-primary-hover cursor-pointer"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed",
                         ].join(" ")}
                       >
@@ -644,40 +644,40 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                     onClick={() => canOpen && setModalDraw(drawInfo)}
                     className={[
                       "hidden md:grid grid-cols-[1fr_64px_64px_64px_80px] gap-2 px-4 py-3 items-center transition-colors",
-                      canOpen ? "cursor-pointer hover:bg-ap-blue/5" : "hover:bg-surface-subtle/40",
+                      canOpen ? "cursor-pointer hover:bg-ui-button-primary/5" : "hover:bg-surface-subtle/40",
                     ].join(" ")}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       {market.market_logo ? (
-                        <img src={market.market_logo} alt={market.market_name} className="w-8 h-8 rounded-full object-cover border border-ap-border flex-shrink-0" />
+                        <img src={market.market_logo} alt={market.market_name} className="w-8 h-8 rounded-full object-cover border border-ui-border flex-shrink-0" />
                       ) : (
                         <span className="text-[22px] flex-shrink-0">{market.market_icon || "🎯"}</span>
                       )}
                       <div className="min-w-0">
-                        <p className="text-[15px] font-bold text-ap-primary truncate">{market.market_name}</p>
-                        <p className="text-[12px] font-semibold text-ap-secondary tabular-nums">{drawDate}</p>
+                        <p className="text-[15px] font-bold text-ui-text truncate">{market.market_name}</p>
+                        <p className="text-[12px] font-semibold text-ui-text-soft tabular-nums">{drawDate}</p>
                         {myTickets.length > 0 && (
-                          <span className="text-[12px] text-ap-blue font-bold">{t.slips.replace("{n}", String(myTickets.length))}</span>
+                          <span className="text-[12px] text-ui-status-info font-bold">{t.slips.replace("{n}", String(myTickets.length))}</span>
                         )}
                       </div>
                     </div>
 
                     <div className="flex justify-center">
                       {top3
-                        ? <span className="bg-ap-blue text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
-                        : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
+                        ? <span className="bg-ui-button-primary text-ui-text-inverse text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{top3}</span>
+                        : <span className="inline-block bg-surface-subtle text-ui-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ui-border">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {top3
-                        ? <span className="bg-teal-500 text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
-                        : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
+                        ? <span className="bg-teal-500 text-ui-text-inverse text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{t2}</span>
+                        : <span className="inline-block bg-surface-subtle text-ui-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ui-border">—</span>}
                     </div>
 
                     <div className="flex justify-center">
                       {bot2
-                        ? <span className="bg-ap-green text-white text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
-                        : <span className="inline-block bg-surface-subtle text-ap-tertiary text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ap-border">—</span>}
+                        ? <span className="bg-ui-status-success text-ui-text-inverse text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5">{bot2}</span>
+                        : <span className="inline-block bg-surface-subtle text-ui-text-muted text-[15px] font-bold tabular-nums rounded-lg px-2.5 py-0.5 border border-ui-border">—</span>}
                     </div>
 
                     <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
@@ -688,7 +688,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
                         className={[
                           "px-4 py-2 text-[13px] font-bold rounded-full whitespace-nowrap transition-colors",
                           canOpen
-                            ? "bg-ap-blue text-white hover:bg-ap-blue-h cursor-pointer"
+                            ? "bg-ui-button-primary text-ui-text-inverse hover:bg-ui-button-primary-hover cursor-pointer"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed",
                         ].join(" ")}
                       >
@@ -709,7 +709,7 @@ export default function CheckResultPage({ groups, tickets }: Props) {
         href="https://huayupdate.live/th"
         target="_blank"
         rel="noopener noreferrer"
-        className="relative left-1/2 block w-[calc(100vw-40px)] max-w-[640px] -translate-x-1/2 overflow-hidden rounded-xl border border-ap-border bg-ap-blue px-5 py-4 text-center text-[18px] font-bold text-white shadow-card transition-colors hover:bg-ap-blue-h"
+        className="relative left-1/2 block w-[calc(100vw-40px)] max-w-[640px] -translate-x-1/2 overflow-hidden rounded-xl border border-ui-border bg-ui-button-primary px-5 py-4 text-center text-[18px] font-bold text-ui-text-inverse shadow-card transition-colors hover:bg-ui-button-primary-hover"
         aria-label="ดูผลหวยย้อนหลัง คลิ๊กที่นี่"
       >
         ดูผลหวยย้อนหลัง คลิ๊กที่นี่

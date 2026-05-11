@@ -128,7 +128,7 @@ export default function PackageModalButton({
 
   if (expired) {
     return (
-      <div className="block w-full text-center bg-ap-red/10 border border-ap-red/20 text-ap-red rounded-full py-2 text-[14px] font-semibold">
+      <div className="block w-full text-center bg-ui-status-error/10 border border-ui-status-error-border/20 text-ui-status-error rounded-full py-2 text-[14px] font-semibold">
         {labelClosed}
       </div>
     );
@@ -139,13 +139,13 @@ export default function PackageModalButton({
       <button
         onClick={handleOpen}
         disabled={loading}
-        className="inline-flex h-[34px] items-center justify-center gap-1.5 whitespace-nowrap w-full bg-ap-blue hover:bg-ap-blue-h text-white rounded-full px-4 text-[14px] font-bold border border-sky-200/50 transition-all active:scale-95 disabled:opacity-70 shadow-md"
+        className="inline-flex h-[34px] items-center justify-center gap-1.5 whitespace-nowrap w-full bg-ui-button-primary hover:bg-ui-button-primary-hover text-ui-text-inverse rounded-full px-4 text-[14px] font-bold border border-sky-200/50 transition-all active:scale-95 disabled:opacity-70 shadow-md"
       >
         {loading && (
           <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" />
         )}
         <span className="leading-none">{playLabel}</span>
-        <svg className="w-3.5 h-3.5 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
+        <svg className="w-3.5 h-3.5 text-ui-text-inverse/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
           <path d="M5 12h14" />
           <path d="M13 6l6 6-6 6" />
         </svg>
@@ -163,10 +163,10 @@ export default function PackageModalButton({
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-4 flex-shrink-0">
-              <h2 className="text-[16px] font-bold text-ap-primary">{labelSelect}</h2>
+              <h2 className="text-[16px] font-bold text-ui-text">{labelSelect}</h2>
               <button
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-ap-secondary text-lg leading-none hover:bg-ap-border transition-colors"
+                className="w-8 h-8 rounded-full bg-surface-subtle flex items-center justify-center text-ui-text-soft text-lg leading-none hover:bg-ui-border transition-colors"
               >
                 ×
               </button>
@@ -175,7 +175,7 @@ export default function PackageModalButton({
             {/* Body */}
             <div className="overflow-y-auto flex-1">
               {packages.length === 0 ? (
-                <div className="text-center py-12 text-ap-tertiary text-[14px]">
+                <div className="text-center py-12 text-ui-text-muted text-[14px]">
                   {labelNoPackage}
                 </div>
               ) : (
@@ -185,7 +185,7 @@ export default function PackageModalButton({
                       key={pkg.id}
                       onClick={() => handlePick(pkg.id)}
                       disabled={selecting}
-                      className="group w-full rounded-2xl overflow-hidden border border-ap-border hover:border-ap-blue transition-all active:scale-[0.98] shadow-sm disabled:opacity-70"
+                      className="group w-full rounded-2xl overflow-hidden border border-ui-border hover:border-ui-selected-border transition-all active:scale-[0.98] shadow-sm disabled:opacity-70"
                     >
                       {resolveImage(pkg.image) ? (
                         <img

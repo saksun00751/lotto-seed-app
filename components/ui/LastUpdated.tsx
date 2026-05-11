@@ -9,7 +9,7 @@ export default function LastUpdated() {
   const time = now.toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
 
   return (
-    <span className="text-[#cfe2ff] text-[14px] font-semibold [text-shadow:0_1px_2px_rgba(0,0,0,0.24)]" suppressHydrationWarning>
+    <span className="text-ui-balance-muted text-[14px] font-semibold [text-shadow:0_1px_2px_rgba(0,0,0,0.24)]" suppressHydrationWarning>
       {t.lastUpdated} {date} {time}
     </span>
   );

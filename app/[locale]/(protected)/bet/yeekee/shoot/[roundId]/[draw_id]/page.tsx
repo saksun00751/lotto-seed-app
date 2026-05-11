@@ -110,20 +110,20 @@ export default async function YeekeeShootPage({ params }: Props) {
         <div className="flex items-center gap-3">
           <BackButton
             fallbackHref={`/${locale}/bet`}
-            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ui-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
           >
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-4 h-4 text-ui-text-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </BackButton>
           <div className="min-w-0">
-            <h1 className="text-[18px] font-extrabold text-ap-primary leading-tight">ยิงเลขยี่กี</h1>
-            <p className="text-[14px] text-ap-secondary font-medium mt-0.5">รายละเอียดรอบก่อนส่งเลข</p>
+            <h1 className="text-[18px] font-extrabold text-ui-text leading-tight">ยิงเลขยี่กี</h1>
+            <p className="text-[14px] text-ui-text-soft font-medium mt-0.5">รายละเอียดรอบก่อนส่งเลข</p>
           </div>
         </div>
 
-        <section className="overflow-hidden rounded-2xl border border-ap-border bg-surface-card shadow-card">
-          <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-white">
+        <section className="overflow-hidden rounded-2xl border border-ui-border bg-surface-card shadow-card">
+          <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-4 text-ui-text-inverse">
             <div className="flex items-center gap-3">
               {marketLogo ? (
                 <img src={marketLogo} alt={marketName} className="w-11 h-11 rounded-2xl object-cover bg-white/15 border border-white/25" />
@@ -132,15 +132,15 @@ export default async function YeekeeShootPage({ params }: Props) {
               )}
               <div className="min-w-0 flex-1">
                 <p className="text-[18px] font-extrabold leading-tight truncate">{marketName}</p>
-                <p className="text-[14px] text-white/75 mt-0.5">{draw?.market?.group_name ?? "Yeekee"}</p>
+                <p className="text-[14px] text-ui-text-inverse/75 mt-0.5">{draw?.market?.group_name ?? "Yeekee"}</p>
               </div>
               {shootCloseAt && (
                 <div className="shrink-0 text-right">
-                  <p className="text-[14px] text-white/70 font-semibold">ปิดยิงเลขใน</p>
+                  <p className="text-[14px] text-ui-text-inverse/70 font-semibold">ปิดยิงเลขใน</p>
                   <CountdownTimer
                     closeAt={shootCloseAt}
-                    className="text-[15px] font-extrabold tabular-nums text-ap-red"
-                    expiredClassName="text-[15px] font-extrabold text-ap-red"
+                    className="text-[15px] font-extrabold tabular-nums text-ui-status-error"
+                    expiredClassName="text-[15px] font-extrabold text-ui-status-error"
                   />
                 </div>
               )}
@@ -150,8 +150,8 @@ export default async function YeekeeShootPage({ params }: Props) {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 bg-slate-50/60">
             {detailRows.map((row) => (
               <div key={row.label} className="rounded-xl border border-slate-200 bg-surface-card px-3 py-2.5">
-                <p className="text-[14px] font-semibold text-ap-tertiary">{row.label}</p>
-                <p className="mt-1 text-[14px] font-bold text-ap-primary truncate">{row.value}</p>
+                <p className="text-[14px] font-semibold text-ui-text-muted">{row.label}</p>
+                <p className="mt-1 text-[14px] font-bold text-ui-text truncate">{row.value}</p>
               </div>
             ))}
           </div>

@@ -283,21 +283,21 @@ function CategoryCard({
       <span className="absolute -bottom-6 -right-2 w-28 h-28 rounded-full bg-white/10 pointer-events-none" />
 
       <div>
-        <div className="font-bold tracking-tight leading-tight text-[15px] text-white flex items-center gap-2">
+        <div className="font-bold tracking-tight leading-tight text-[15px] text-ui-text-inverse flex items-center gap-2">
           {cat.groupLogo ? (
             <img src={cat.groupLogo} alt={cat.label} className="w-6 h-6 object-cover shrink-0" />
           ) : null}
           <span className="truncate">{cat.label}</span>
         </div>
-        <div className="text-white/70 mt-0.5 text-[14px] leading-snug ">{cat.description || emptyDescription}</div>
+        <div className="text-ui-text-inverse/70 mt-0.5 text-[14px] leading-snug ">{cat.description || emptyDescription}</div>
       </div>
 
       <div className="mt-3 h-[24px] flex items-center gap-2">
-        <span className="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 transition-colors rounded-full px-3 py-1 text-[14px] font-semibold text-white">
+        <span className="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 transition-colors rounded-full px-3 py-1 text-[14px] font-semibold text-ui-text-inverse">
           {playLabel}
         </span>
         {openCount > 0 && (
-          <span className="flex items-center gap-1 text-[14px] font-medium bg-white/20 rounded-full px-2 py-0.5 text-white">
+          <span className="flex items-center gap-1 text-[14px] font-medium bg-white/20 rounded-full px-2 py-0.5 text-ui-text-inverse">
             <span className="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse inline-block" />
             {openCount} {liveLabel}
           </span>
@@ -479,9 +479,9 @@ export default async function BetRoute({ params, searchParams }: Props) {
 
         {/* หวย */}
         {lottoCategories.length > 0 && (
-          <section className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
-            <div className="bg-gradient-to-r from-ap-blue to-sky-400 px-4 py-3 flex items-center justify-between">
-              <h2 className="text-[15px] font-bold text-white tracking-tight">{t.lotto}</h2>
+          <section className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
+            <div className="bg-gradient-to-r from-ui-button-primary to-sky-400 px-4 py-3 flex items-center justify-between">
+              <h2 className="text-[15px] font-bold text-ui-text-inverse tracking-tight">{t.lotto}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
              
@@ -514,12 +514,12 @@ export default async function BetRoute({ params, searchParams }: Props) {
           };
           const gradient = headerGradient[group.game_type] ?? "from-gray-500 to-gray-400";
           return (
-            <section key={group.game_type} className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+            <section key={group.game_type} className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
               <div className={`bg-gradient-to-r ${gradient} flex items-center justify-between px-4 py-3`}>
-                <h2 className="text-[15px] font-bold text-white tracking-tight">
+                <h2 className="text-[15px] font-bold text-ui-text-inverse tracking-tight">
                   {group.emoji} {(t as Record<string, string>)[group.game_type] ?? group.label}
                 </h2>
-                <Link href={`/${locale}/games/${group.game_type.toLowerCase()}`} className="text-[14px] font-semibold text-white/80 hover:text-white">
+                <Link href={`/${locale}/games/${group.game_type.toLowerCase()}`} className="text-[14px] font-semibold text-ui-text-inverse/80 hover:text-ui-text-inverse">
                   {t.viewAll} ({group.providers.length}) →
                 </Link>
               </div>

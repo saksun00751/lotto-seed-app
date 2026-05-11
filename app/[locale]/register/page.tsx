@@ -50,8 +50,8 @@ export default async function RegisterPage({ params, searchParams }: Props) {
 
       {/* Background blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-ap-green/[0.04] blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-ap-blue/[0.03] blur-3xl" />
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-ui-status-success/[0.04] blur-3xl" />
+        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-ui-button-primary/[0.03] blur-3xl" />
       </div>
 
       <RegisterClient initialLang={locale} defaultRef={defaultRef} banks={banks} logoUrl={logoUrl} />

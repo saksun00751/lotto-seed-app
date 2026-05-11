@@ -18,12 +18,12 @@ function isYeekeeCategory(cat: Category): boolean {
 function StatusBadge({ status, label }: { status: SubItem["drawStatus"]; label?: string }) {
   const text = label?.trim() || "—";
   if (status === "open")
-    return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm">{text}</span>;
+    return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-ui-text-inverse shadow-sm">{text}</span>;
   if (status === "closed")
     return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-semibold bg-slate-200 text-slate-600 border border-slate-300">{text}</span>;
   if (status === "resulted")
-    return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-rose-100 text-ap-red border border-rose-200">{text}</span>;
-  return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-sm">{text}</span>;
+    return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-rose-100 text-ui-status-error border border-rose-200">{text}</span>;
+  return <span className="inline-flex h-[34px] items-center rounded-full px-4 text-[13px] font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-ui-text-inverse shadow-sm">{text}</span>;
 }
 
 interface LotteryCategoriesProps {
@@ -59,7 +59,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
     return (
       <div className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-surface-card shadow-card">
+          <div key={i} className="rounded-2xl border border-ui-border overflow-hidden animate-pulse bg-surface-card shadow-card">
             <div className="h-11 bg-sky-200/70" />
             <div className="h-10 px-4 bg-sky-50 border-b border-slate-200" />
             <div className="bg-slate-50/50 p-3 space-y-2.5">
@@ -90,7 +90,7 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
 
   return (
     <section className="space-y-4">
-      <h2 className="text-[18px] font-bold text-ap-primary tracking-tight flex items-center gap-2">
+      <h2 className="text-[18px] font-bold text-ui-text tracking-tight flex items-center gap-2">
         <span className="emoji-font text-[20px]">🏆</span>
         <span>{t.todayLottery}</span>
       </h2>
@@ -98,12 +98,12 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
       {categories.map((cat: Category) => (
         <div key={cat.id} className="rounded-2xl border border-sky-100 shadow-card hover:shadow-card-hover transition-all overflow-hidden bg-surface-card">
 
-          <div className="relative bg-ap-blue px-4 py-2.5 flex items-center gap-2 overflow-hidden">
+          <div className="relative bg-ui-button-primary px-4 py-2.5 flex items-center gap-2 overflow-hidden">
             <span className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.12)_0%,transparent_48%,rgba(255,255,255,0.08)_100%)]" />
             <span className="relative text-[18px]">{cat.emoji}</span>
-            <span className="text-white font-bold text-[14px] tracking-tight">{cat.label}</span>
+            <span className="text-ui-text-inverse font-bold text-[14px] tracking-tight">{cat.label}</span>
          
-            <span className="ml-auto relative bg-white/95 text-ap-blue text-[13px] font-bold rounded-full px-3 py-1 border border-white shadow-sm">
+            <span className="ml-auto relative bg-white/95 text-ui-status-info text-[13px] font-bold rounded-full px-3 py-1 border border-white shadow-sm">
               {cat.items.length} {t.itemsCount}
             </span>
           </div>
@@ -141,8 +141,8 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
                     ? <img src={item.logo} alt={item.name} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
                     : <span className="text-[26px] flex-shrink-0 emoji-font leading-none">{item.flag}</span>}
                   <div className="min-w-0 flex-1">
-                    <span className="block text-[15px] font-bold text-ap-primary truncate leading-tight">{item.name}</span>
-                    <span className="block text-[12px] text-ap-tertiary truncate mt-0.5">
+                    <span className="block text-[15px] font-bold text-ui-text truncate leading-tight">{item.name}</span>
+                    <span className="block text-[12px] text-ui-text-muted truncate mt-0.5">
                       {t.colDraw} {item.drawDate ?? "—"}
                     </span>
                   </div>
@@ -164,14 +164,14 @@ export default function LotteryCategories({ initialCategories = [], locale }: Lo
                   <div className="flex items-center justify-between rounded-lg bg-slate-50 border border-slate-200/80 px-3 py-1.5">
                     <span className="text-[12px] font-semibold text-slate-600">{t.colTop3}</span>
                     {item.result?.top3
-                      ? <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[13px] font-bold tabular-nums rounded-md min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.top3}</span>
-                      : <span className="text-ap-tertiary text-[15px]">—</span>}
+                      ? <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-ui-text-inverse text-[13px] font-bold tabular-nums rounded-md min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.top3}</span>
+                      : <span className="text-ui-text-muted text-[15px]">—</span>}
                   </div>
                   <div className="flex items-center justify-between rounded-lg bg-slate-50 border border-slate-200/80 px-3 py-1.5">
                     <span className="text-[12px] font-semibold text-slate-600">{t.colBot2}</span>
                     {item.result?.bot2
-                      ? <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[13px] font-bold tabular-nums rounded-md min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.bot2}</span>
-                      : <span className="text-ap-tertiary text-[15px]">—</span>}
+                      ? <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-ui-text-inverse text-[13px] font-bold tabular-nums rounded-md min-w-[42px] text-center px-2 py-0.5 shadow-sm">{item.result.bot2}</span>
+                      : <span className="text-ui-text-muted text-[15px]">—</span>}
                   </div>
                 </div>
               </div>

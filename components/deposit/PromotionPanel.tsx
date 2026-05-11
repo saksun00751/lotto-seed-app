@@ -199,11 +199,11 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
   return (
     <>
       {(promotionLoading || visiblePromotions.length > 0) && (
-        <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+        <div className="relative bg-surface-card rounded-2xl border border-ui-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-center justify-between mb-2.5">
-            <p className="text-[14px] text-ap-tertiary uppercase tracking-wide font-medium">รายการโปรโมชั่น</p>
-            <Link href={`/${lang}/promotion`} className="text-[12px] font-semibold text-ap-blue hover:text-ap-blue-h transition-colors">
+            <p className="text-[14px] text-ui-text-muted uppercase tracking-wide font-medium">รายการโปรโมชั่น</p>
+            <Link href={`/${lang}/promotion`} className="text-[12px] font-semibold text-ui-status-info hover:text-ui-button-primary-hover transition-colors">
               ดูทั้งหมด
             </Link>
           </div>
@@ -223,7 +223,7 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
                 return (
                   <div
                     key={promo.code}
-                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-ap-border bg-surface-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
+                    className="min-w-[236px] sm:min-w-[248px] snap-start rounded-xl border border-ui-border bg-surface-card overflow-hidden shadow-[0_8px_18px_rgba(15,23,42,0.08)] hover:shadow-[0_12px_24px_rgba(15,23,42,0.12)] transition-shadow"
                   >
                     {promo.filepic ? (
                       <img src={promo.filepic} alt={title} className="w-full h-32 sm:h-36 object-cover" />
@@ -231,15 +231,15 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
                       <div className="w-full h-32 sm:h-36 bg-surface-subtle flex items-center justify-center text-[36px]">🎁</div>
                     )}
                     <div className="p-3 flex flex-col">
-                      <p className="text-[14px] font-semibold text-ap-primary leading-snug">{title}</p>
+                      <p className="text-[14px] font-semibold text-ui-text leading-snug">{title}</p>
                       <div className="flex items-center gap-2 mt-2 flex-wrap">
                         {bonusPercent > 0 && (
-                          <span className="text-[11px] font-bold text-ap-blue bg-ap-blue/10 rounded-full px-2 py-0.5">
+                          <span className="text-[11px] font-bold text-ui-status-info bg-ui-button-primary/10 rounded-full px-2 py-0.5">
                             โบนัส {bonusPercent}%
                           </span>
                         )}
                         {minDeposit > 0 && (
-                          <span className="text-[11px] text-ap-tertiary">
+                          <span className="text-[11px] text-ui-text-muted">
                             ขั้นต่ำ ฿{minDeposit.toLocaleString("en-US")}
                           </span>
                         )}
@@ -249,7 +249,7 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
                           type="button"
                           onClick={() => { void handleSelectPromotion(promoCode); }}
                           disabled={!promoCode || promoSubmittingId === promoCode || promoDeselecting}
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-full bg-ap-blue text-white text-[12px] font-semibold hover:bg-ap-blue-h transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="inline-flex items-center justify-center px-3 py-2 rounded-full bg-ui-button-primary text-ui-text-inverse text-[12px] font-semibold hover:bg-ui-button-primary-hover transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {promoSubmittingId === promoCode ? "กำลังรับ..." : "รับโปร"}
                         </button>
@@ -264,13 +264,13 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
       )}
 
       {activePromotion && (
-        <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+        <div className="relative bg-surface-card rounded-2xl border border-ui-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[12px] text-ap-tertiary uppercase tracking-wide font-medium mb-1">โปรโมชั่นที่รับอยู่</p>
-              <p className="text-[15px] font-semibold text-ap-primary leading-snug">{activePromotion.name}</p>
-              <p className="text-[13px] text-ap-secondary mt-1">
+              <p className="text-[12px] text-ui-text-muted uppercase tracking-wide font-medium mb-1">โปรโมชั่นที่รับอยู่</p>
+              <p className="text-[15px] font-semibold text-ui-text leading-snug">{activePromotion.name}</p>
+              <p className="text-[13px] text-ui-text-soft mt-1">
                 ยอดขั้นต่ำ ฿{(Number(activePromotion.min) || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
@@ -278,7 +278,7 @@ export default function PromotionPanel({ lang, initialActive, onNotify, onActive
               type="button"
               onClick={() => { void handleDeselectPromotion(); }}
               disabled={promoDeselecting || !!promoSubmittingId}
-              className="px-3 py-2 rounded-full border border-ap-red/30 bg-red-50 text-ap-red text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-2 rounded-full border border-ui-status-error-border/30 bg-red-50 text-ui-status-error text-[12px] font-semibold hover:bg-red-100 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {promoDeselecting ? "กำลังยกเลิก..." : "ยกเลิกโปร"}
             </button>

@@ -240,17 +240,17 @@ export default function BetSlipSidebar({
       />
     )}
     <div className="space-y-3">
-      <div className="bg-surface-card rounded-2xl overflow-hidden shadow-card border border-ap-border sticky top-4">
+      <div className="bg-surface-card rounded-2xl overflow-hidden shadow-card border border-ui-border sticky top-4">
 
         {/* Header */}
-        <div className="px-4 py-3 border-b border-ap-border bg-surface-card">
+        <div className="px-4 py-3 border-b border-ui-border bg-surface-card">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="text-[17px] leading-none">📋</span>
-              <span className="text-[15px] leading-none font-bold text-ap-primary">{t.slipTitle}</span>
+              <span className="text-[15px] leading-none font-bold text-ui-text">{t.slipTitle}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[14px] font-bold text-white bg-ap-blue px-2.5 py-0.5 rounded-full leading-none">
+              <span className="text-[14px] font-bold text-ui-text-inverse bg-ui-button-primary px-2.5 py-0.5 rounded-full leading-none">
                 {bills.length} {t.items}
               </span>
               {bills.length > 0 && (
@@ -261,7 +261,7 @@ export default function BetSlipSidebar({
                   }
                   setBulkAmount("");
                   onClearAll();
-                }} className="text-[14px] font-semibold text-ap-red hover:underline">
+                }} className="text-[14px] font-semibold text-ui-status-error hover:underline">
                   {t.clearAll}
                 </button>
               )}
@@ -272,7 +272,7 @@ export default function BetSlipSidebar({
               ? <img src={lotteryLogo} alt={lotteryName} className="w-4 h-4 rounded-full object-cover shrink-0" />
               : lotteryFlag ? <span className="text-[14px] shrink-0">{lotteryFlag}</span> : null
             }
-            <span className="text-[14px] text-ap-primary font-semibold">{lotteryName}</span>
+            <span className="text-[14px] text-ui-text font-semibold">{lotteryName}</span>
           </div>
         </div>
 
@@ -280,8 +280,8 @@ export default function BetSlipSidebar({
         {bills.length === 0 ? (
           <div className="py-14 flex flex-col items-center gap-2">
             <span className="text-[48px]">📋</span>
-            <p className="text-[14px] font-bold text-ap-primary">{t.noItems}</p>
-            <p className="text-[14px] text-ap-secondary font-medium">{t.enterAndAdd}</p>
+            <p className="text-[14px] font-bold text-ui-text">{t.noItems}</p>
+            <p className="text-[14px] text-ui-text-soft font-medium">{t.enterAndAdd}</p>
           </div>
         ) : (
           <div className="divide-y divide-ap-border max-h-[480px] overflow-y-auto">
@@ -290,18 +290,18 @@ export default function BetSlipSidebar({
               if (!items.length) return null;
               return (
                 <div key={group.key}>
-                  <div className="px-4 py-2 bg-surface-subtle/80 border-b border-ap-border flex items-center justify-between">
-                    <span className="text-[14px] font-bold text-ap-primary uppercase tracking-wide">{group.label}</span>
-                    <span className="text-[14px] font-bold text-ap-secondary">{items.length} {t.items}</span>
+                  <div className="px-4 py-2 bg-surface-subtle/80 border-b border-ui-border flex items-center justify-between">
+                    <span className="text-[14px] font-bold text-ui-text uppercase tracking-wide">{group.label}</span>
+                    <span className="text-[14px] font-bold text-ui-text-soft">{items.length} {t.items}</span>
                   </div>
                   {items.map((b) => {
                     const amt = b.top + b.bot;
                     const payout = Number(bettingContext?.[b.betType]?.payout ?? 0);
                     const winAmt = amt * payout;
                     return (
-                      <div key={b.id} className="px-4 py-3 flex items-center gap-3 hover:bg-surface-subtle/60 transition-colors border-b border-ap-border last:border-b-0">
-                        <div className="w-12 h-12 rounded-2xl bg-ap-primary flex items-center justify-center flex-shrink-0">
-                          <span className="text-white font-extrabold text-[15px] tabular-nums tracking-wider">{b.number}</span>
+                      <div key={b.id} className="px-4 py-3 flex items-center gap-3 hover:bg-surface-subtle/60 transition-colors border-b border-ui-border last:border-b-0">
+                        <div className="w-12 h-12 rounded-2xl bg-ui-text flex items-center justify-center flex-shrink-0">
+                          <span className="text-ui-text-inverse font-extrabold text-[15px] tabular-nums tracking-wider">{b.number}</span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <span className="inline-block text-[14px] font-bold text-violet-600 bg-violet-50 border border-violet-200 px-2 py-0.5 rounded-full mb-1.5">
@@ -321,17 +321,17 @@ export default function BetSlipSidebar({
                                 if (["e", "E", "+", "-", ".", ","].includes(e.key)) e.preventDefault();
                               }}
                               placeholder="0"
-                              className="w-20 border-2 border-ap-blue/30 rounded-lg px-2 py-1 text-[14px] text-center font-extrabold text-ap-blue outline-none focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/15 bg-blue-50/40 tabular-nums"
+                              className="w-20 border-2 border-ui-selected-border/30 rounded-lg px-2 py-1 text-[14px] text-center font-extrabold text-ui-status-info outline-none focus:border-ui-selected-border focus:ring-2 focus:ring-ui-status-info/15 bg-blue-50/40 tabular-nums"
                             />
                           </div>
                         </div>
                         <div className="text-right flex-shrink-0 flex flex-col items-end">
                           <button onClick={() => onDelete(b.id)}
-                            className="text-[14px] text-ap-red hover:underline mb-1.5">
+                            className="text-[14px] text-ui-status-error hover:underline mb-1.5">
                             {t.delete}
                           </button>
-                          <p className="text-[14px] text-ap-secondary font-medium">ยอดชนะ</p>
-                          <p className="text-[14px] font-bold text-ap-green tabular-nums">
+                          <p className="text-[14px] text-ui-text-soft font-medium">ยอดชนะ</p>
+                          <p className="text-[14px] font-bold text-ui-status-success tabular-nums">
                             ฿{winAmt.toLocaleString(numberLocale)}
                           </p>
                         </div>
@@ -346,8 +346,8 @@ export default function BetSlipSidebar({
 
         {/* Bulk amount */}
         {bills.length > 0 && (
-          <div className="px-4 py-3 border-t border-ap-border bg-surface-subtle/40">
-            <label className="text-[14px] text-ap-primary font-bold mb-1.5 block uppercase tracking-wide">
+          <div className="px-4 py-3 border-t border-ui-border bg-surface-subtle/40">
+            <label className="text-[14px] text-ui-text font-bold mb-1.5 block uppercase tracking-wide">
               ใส่ยอดทุกบิล
             </label>
             <input
@@ -368,7 +368,7 @@ export default function BetSlipSidebar({
                 if (["e", "E", "+", "-", ".", ","].includes(e.key)) e.preventDefault();
               }}
               placeholder="ยอด"
-              className="w-full border-2 border-ap-blue/30 rounded-xl px-3 py-2.5 text-[15px] text-center font-extrabold text-ap-blue outline-none focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/15 bg-surface-card tabular-nums"
+              className="w-full border-2 border-ui-selected-border/30 rounded-xl px-3 py-2.5 text-[15px] text-center font-extrabold text-ui-status-info outline-none focus:border-ui-selected-border focus:ring-2 focus:ring-ui-status-info/15 bg-surface-card tabular-nums"
             />
             <div className="grid grid-cols-4 gap-1.5 mt-2">
               {[10, 20, 50, 100].map((v) => (
@@ -382,7 +382,7 @@ export default function BetSlipSidebar({
                     setBulkAmount(String(v));
                     onSetAllAmount?.(v);
                   }}
-                  className="py-2 rounded-lg bg-surface-card border-2 border-ap-border text-[14px] font-bold text-ap-primary hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all tabular-nums"
+                  className="py-2 rounded-lg bg-surface-card border-2 border-ui-border text-[14px] font-bold text-ui-text hover:border-ui-selected-border hover:bg-blue-50 active:scale-95 active:bg-ui-button-primary active:text-ui-text-inverse transition-all tabular-nums"
                 >
                   ฿{v}
                 </button>
@@ -393,45 +393,45 @@ export default function BetSlipSidebar({
 
         {/* Footer */}
         {bills.length > 0 && (
-          <div className="border-t border-ap-border">
+          <div className="border-t border-ui-border">
             <div className="px-4 py-3 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[14px] font-semibold text-ap-primary">{t.totalItems}</span>
-                <span className="text-[14px] font-bold text-ap-primary">{bills.length} {t.items}</span>
+                <span className="text-[14px] font-semibold text-ui-text">{t.totalItems}</span>
+                <span className="text-[14px] font-bold text-ui-text">{bills.length} {t.items}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[16px] font-semibold text-ap-primary">ยอดก่อนหักส่วนลด</span>
-                <span className="text-[22px] font-bold text-ap-primary tabular-nums">
+                <span className="text-[16px] font-semibold text-ui-text">ยอดก่อนหักส่วนลด</span>
+                <span className="text-[22px] font-bold text-ui-text tabular-nums">
                   ฿{subtotalAmount.toLocaleString(numberLocale)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[14px] font-semibold text-ap-primary">
+                <span className="text-[14px] font-semibold text-ui-text">
                   ส่วนลด ({discountPct.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}%)
                 </span>
-                <span className="text-[14px] font-bold text-ap-green tabular-nums">
+                <span className="text-[14px] font-bold text-ui-status-success tabular-nums">
                   -฿{discountAmount.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}
                 </span>
               </div>
-              <div className="flex items-center justify-between pt-1 border-t border-ap-border">
-                <span className="text-[16px] font-bold text-ap-primary">ยอดหลังหักส่วนลด</span>
-                <span className="text-[22px] font-bold text-ap-primary tabular-nums">
+              <div className="flex items-center justify-between pt-1 border-t border-ui-border">
+                <span className="text-[16px] font-bold text-ui-text">ยอดหลังหักส่วนลด</span>
+                <span className="text-[22px] font-bold text-ui-text tabular-nums">
                   ฿{netAmount.toLocaleString(numberLocale, { maximumFractionDigits: 2 })}
                 </span>
               </div>
-              <div className="flex items-center justify-between pt-1 border-t border-ap-border">
-                <span className="text-[16px] text-ap-red font-bold">⏱ {t.closeIn}</span>
+              <div className="flex items-center justify-between pt-1 border-t border-ui-border">
+                <span className="text-[16px] text-ui-status-error font-bold">⏱ {t.closeIn}</span>
                 {closeAt
-                  ? <CountdownTimer closeAt={closeAt} className="text-[16px] font-bold text-ap-red tabular-nums" />
-                  : <span className="text-[16px] font-bold text-ap-red tabular-nums">—</span>
+                  ? <CountdownTimer closeAt={closeAt} className="text-[16px] font-bold text-ui-status-error tabular-nums" />
+                  : <span className="text-[16px] font-bold text-ui-status-error tabular-nums">—</span>
                 }
               </div>
             </div>
             <div className="px-4 pb-4 space-y-2">
               <button onClick={handleOpenModal}
                 className={[
-                  "w-full text-white font-bold text-[14px] py-3 rounded-2xl transition-colors active:scale-[0.98]",
-                  expired ? "bg-ap-red/80 hover:bg-ap-red" : "bg-ap-blue hover:bg-ap-blue-h",
+                  "w-full text-ui-text-inverse font-bold text-[14px] py-3 rounded-2xl transition-colors active:scale-[0.98]",
+                  expired ? "bg-ui-status-error/80 hover:bg-ui-status-error" : "bg-ui-button-primary hover:bg-ui-button-primary-hover",
                 ].join(" ")}>
                 {expired ? t.closedBetToast : t.confirmBet}
               </button>
@@ -447,17 +447,17 @@ export default function BetSlipSidebar({
     {saving && (
       <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center gap-4">
         <div className="relative w-16 h-16">
-          <div className="absolute inset-0 rounded-full border-4 border-ap-blue/20" />
+          <div className="absolute inset-0 rounded-full border-4 border-ui-selected-border/20" />
           <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-ap-blue animate-spin" />
         </div>
         <div className="text-center">
-          <p className="text-[15px] font-bold text-ap-primary">{t.saving ?? "กำลังบันทึก..."}</p>
-          <p className="text-[14px] text-ap-secondary font-medium mt-1">{(t as Record<string,string>).pleaseWait ?? "กรุณารอสักครู่"}</p>
+          <p className="text-[15px] font-bold text-ui-text">{t.saving ?? "กำลังบันทึก..."}</p>
+          <p className="text-[14px] text-ui-text-soft font-medium mt-1">{(t as Record<string,string>).pleaseWait ?? "กรุณารอสักครู่"}</p>
         </div>
         <div className="flex gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-ap-blue animate-bounce" style={{ animationDelay: "0ms" }} />
-          <span className="w-2 h-2 rounded-full bg-ap-blue animate-bounce" style={{ animationDelay: "150ms" }} />
-          <span className="w-2 h-2 rounded-full bg-ap-blue animate-bounce" style={{ animationDelay: "300ms" }} />
+          <span className="w-2 h-2 rounded-full bg-ui-button-primary animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="w-2 h-2 rounded-full bg-ui-button-primary animate-bounce" style={{ animationDelay: "150ms" }} />
+          <span className="w-2 h-2 rounded-full bg-ui-button-primary animate-bounce" style={{ animationDelay: "300ms" }} />
         </div>
       </div>
     )}

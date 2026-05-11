@@ -72,11 +72,11 @@ export default function BetTypeSelector({ onChange, selected3, selected2, select
   };
 
   return (
-    <div className="bg-surface-card rounded-2xl overflow-hidden shadow-card border border-ap-border">
-      <div className="px-4 py-2.5 bg-gradient-to-r from-ap-blue to-sky-400 border-b border-ap-border flex items-center justify-between gap-3">
-        <p className="text-[14px] font-bold text-white uppercase tracking-wider">{t.betTypeTitle}</p>
+    <div className="bg-surface-card rounded-2xl overflow-hidden shadow-card border border-ui-border">
+      <div className="px-4 py-2.5 bg-gradient-to-r from-ui-button-primary to-sky-400 border-b border-ui-border flex items-center justify-between gap-3">
+        <p className="text-[14px] font-bold text-ui-text-inverse uppercase tracking-wider">{t.betTypeTitle}</p>
         {!activeGroup && !disabled && (
-          <p className="text-[12px] font-semibold text-white/85 truncate">เลือกอย่างน้อย 1 ประเภท</p>
+          <p className="text-[12px] font-semibold text-ui-text-inverse/85 truncate">เลือกอย่างน้อย 1 ประเภท</p>
         )}
       </div>
       <div className={["p-3 grid grid-cols-2 sm:grid-cols-3 gap-2", disabled ? "opacity-40 pointer-events-none" : ""].join(" ")}>
@@ -94,21 +94,21 @@ export default function BetTypeSelector({ onChange, selected3, selected2, select
                 "relative px-3 py-3 rounded-xl border-2 text-left transition-all flex flex-col gap-0.5",
                 checked
                   ? "border-violet-500 bg-violet-50 shadow-sm"
-                  : "border-ap-border bg-surface-card hover:border-violet-300",
+                  : "border-ui-border bg-surface-card hover:border-violet-300",
                 disabled ? "cursor-not-allowed" : "cursor-pointer active:scale-[0.98]",
               ].join(" ")}
             >
-              <span className={["text-[14px] font-bold", checked ? "text-violet-700" : "text-ap-primary"].join(" ")}>
+              <span className={["text-[14px] font-bold", checked ? "text-violet-700" : "text-ui-text"].join(" ")}>
                 {label}
               </span>
               {payout && (
-                <span className={["text-[13px] font-semibold", checked ? "text-violet-500" : "text-ap-green"].join(" ")}>
+                <span className={["text-[13px] font-semibold", checked ? "text-violet-500" : "text-ui-status-success"].join(" ")}>
                   {payout}
                 </span>
               )}
               {checked && (
                 <span className="absolute top-1.5 right-1.5 w-4 h-4 rounded-md bg-violet-500 flex items-center justify-center">
-                  <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 12 12" fill="none">
+                  <svg className="w-2.5 h-2.5 text-ui-text-inverse" viewBox="0 0 12 12" fill="none">
                     <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>

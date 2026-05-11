@@ -58,7 +58,7 @@ export default function GameGroupSlider({ games, gameType }: Props) {
                 className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-300"
               />
             </div>
-            <p className="text-[14px] font-semibold text-ap-primary leading-tight line-clamp-2 w-full">
+            <p className="text-[14px] font-semibold text-ui-text leading-tight line-clamp-2 w-full">
               {g.name}
             </p>
           </Link>
@@ -70,7 +70,7 @@ export default function GameGroupSlider({ games, gameType }: Props) {
         <>
           <button
             onClick={() => { scrollTo(idxRef.current - 1); resetTimer(); }}
-            className="absolute left-0 top-1/2 -translate-y-6 w-7 h-7 rounded-full bg-black/20 text-white flex items-center justify-center hover:bg-black/40 transition-colors"
+            className="absolute left-0 top-1/2 -translate-y-6 w-7 h-7 rounded-full bg-black/20 text-ui-text-inverse flex items-center justify-center hover:bg-black/40 transition-colors"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" />
@@ -78,7 +78,7 @@ export default function GameGroupSlider({ games, gameType }: Props) {
           </button>
           <button
             onClick={() => { scrollTo(idxRef.current + 1); resetTimer(); }}
-            className="absolute right-0 top-1/2 -translate-y-6 w-7 h-7 rounded-full bg-black/20 text-white flex items-center justify-center hover:bg-black/40 transition-colors"
+            className="absolute right-0 top-1/2 -translate-y-6 w-7 h-7 rounded-full bg-black/20 text-ui-text-inverse flex items-center justify-center hover:bg-black/40 transition-colors"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M9 18l6-6-6-6" />

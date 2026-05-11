@@ -1,5 +1,38 @@
 import type { Config } from "tailwindcss";
 
+const shadeNames = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"] as const;
+const themedPaletteNames = [
+  "slate",
+  "gray",
+  "zinc",
+  "neutral",
+  "stone",
+  "red",
+  "rose",
+  "orange",
+  "amber",
+  "yellow",
+  "green",
+  "emerald",
+  "lime",
+  "teal",
+  "blue",
+  "sky",
+  "cyan",
+  "indigo",
+  "violet",
+  "purple",
+  "fuchsia",
+  "pink",
+] as const;
+
+const themedPalette = Object.fromEntries(
+  themedPaletteNames.map((name) => [
+    name,
+    Object.fromEntries(shadeNames.map((shade) => [shade, `var(--ui-${name}-${shade})`])),
+  ])
+);
+
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
   theme: {
@@ -19,6 +52,9 @@ const config: Config = {
         ],
       },
       colors: {
+        white: "var(--ui-surface)",
+        black: "var(--ui-text)",
+        ...themedPalette,
         ap: {
           bg: "var(--ap-bg)",
           card: "var(--ap-card)",
@@ -40,6 +76,84 @@ const config: Config = {
         "surface-page": "var(--page-bg)",
         "surface-navbar": "var(--navbar-bg)",
         "surface-highlight": "var(--balance-card-bg)",
+        ui: {
+          page: "var(--ui-page-bg)",
+          surface: "var(--ui-surface)",
+          "surface-muted": "var(--ui-surface-muted)",
+          "surface-raised": "var(--ui-surface-raised)",
+          overlay: "var(--ui-surface-overlay)",
+          border: "var(--ui-border)",
+          text: "var(--ui-text)",
+          "text-muted": "var(--ui-text-muted)",
+          "text-soft": "var(--ui-text-soft)",
+          "text-inverse": "var(--ui-text-inverse)",
+          header: {
+            bg: "var(--ui-header-bg)",
+            text: "var(--ui-header-text)",
+          },
+          button: {
+            primary: "var(--ui-button-primary-bg)",
+            "primary-hover": "var(--ui-button-primary-bg-hover)",
+            "primary-text": "var(--ui-button-primary-text)",
+            danger: "var(--ui-button-danger-bg)",
+            "danger-text": "var(--ui-button-danger-text)",
+            secondary: "var(--ui-button-secondary-bg)",
+            "secondary-text": "var(--ui-button-secondary-text)",
+          },
+          selected: {
+            bg: "var(--ui-selected-bg)",
+            border: "var(--ui-selected-border)",
+          },
+          status: {
+            "success-bg": "var(--ui-status-success-bg)",
+            "success-border": "var(--ui-status-success-border)",
+            success: "var(--ui-status-success-text)",
+            "warning-bg": "var(--ui-status-warning-bg)",
+            "warning-border": "var(--ui-status-warning-border)",
+            warning: "var(--ui-status-warning-text)",
+            "error-bg": "var(--ui-status-error-bg)",
+            "error-border": "var(--ui-status-error-border)",
+            error: "var(--ui-status-error-text)",
+            "info-bg": "var(--ui-status-info-bg)",
+            "info-border": "var(--ui-status-info-border)",
+            info: "var(--ui-status-info-text)",
+          },
+          alert: {
+            "warning-bg": "var(--ui-alert-warning-bg)",
+            "warning-border": "var(--ui-alert-warning-border)",
+            warning: "var(--ui-alert-warning-text)",
+            "error-bg": "var(--ui-alert-error-bg)",
+            "error-border": "var(--ui-alert-error-border)",
+            error: "var(--ui-alert-error-text)",
+            "info-bg": "var(--ui-alert-info-bg)",
+            "info-border": "var(--ui-alert-info-border)",
+            info: "var(--ui-alert-info-text)",
+          },
+          reward: {
+            bg: "var(--ui-reward-bg)",
+            strong: "var(--ui-reward-bg-strong)",
+            text: "var(--ui-reward-text)",
+            border: "var(--ui-reward-border)",
+          },
+          contact: {
+            line: "var(--ui-contact-line)",
+            telegram: "var(--ui-contact-telegram)",
+            default: "var(--ui-contact-default)",
+          },
+          category: {
+            slot: "var(--ui-category-slot)",
+            casino: "var(--ui-category-casino)",
+            sport: "var(--ui-category-sport)",
+            card: "var(--ui-category-card)",
+            cock: "var(--ui-category-cock)",
+            fish: "var(--ui-category-fish)",
+            default: "var(--ui-category-default)",
+          },
+          balance: {
+            text: "var(--ui-balance-text)",
+            muted: "var(--ui-balance-muted)",
+          },
+        },
       },
       borderRadius: { "2xl": "18px", "3xl": "24px", "4xl": "32px" },
       boxShadow: {

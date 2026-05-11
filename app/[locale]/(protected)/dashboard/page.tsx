@@ -71,12 +71,12 @@ async function DashboardGamesSection({ locale }: { locale: string }) {
       {gameGroups.map((group) => {
         const gradient = headerGradient[group.game_type] ?? "from-gray-500 to-gray-400";
         return (
-          <section key={group.game_type} className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+          <section key={group.game_type} className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
             <div className={`bg-gradient-to-r ${gradient} flex items-center justify-between px-4 py-3`}>
-              <h2 className="text-[15px] font-bold text-white tracking-tight">
+              <h2 className="text-[15px] font-bold text-ui-text-inverse tracking-tight">
                 {group.emoji} {(t as Record<string, string>)[group.game_type] ?? group.label}
               </h2>
-              <Link href={`/${locale}/games/${group.game_type.toLowerCase()}`} className="text-[14px] font-semibold text-white/80 hover:text-white">
+              <Link href={`/${locale}/games/${group.game_type.toLowerCase()}`} className="text-[14px] font-semibold text-ui-text-inverse/80 hover:text-ui-text-inverse">
                 {t.viewAll} ({group.providers.length}) →
               </Link>
             </div>
@@ -94,7 +94,7 @@ function DashboardLotteryFallback() {
   return (
     <div className="space-y-3">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-surface-card shadow-card">
+        <div key={i} className="rounded-2xl border border-ui-border overflow-hidden animate-pulse bg-surface-card shadow-card">
           <div className="h-11 bg-sky-200/70" />
           <div className="h-10 px-4 bg-sky-50 border-b border-slate-200" />
           <div className="bg-surface-card divide-y divide-slate-200/80">
@@ -115,7 +115,7 @@ function DashboardGamesFallback() {
   return (
     <div className="space-y-5">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="rounded-2xl border border-ap-border overflow-hidden animate-pulse bg-surface-card shadow-card">
+        <div key={i} className="rounded-2xl border border-ui-border overflow-hidden animate-pulse bg-surface-card shadow-card">
           <div className="h-11 bg-rose-200/70" />
           <div className="h-32 bg-slate-50" />
         </div>

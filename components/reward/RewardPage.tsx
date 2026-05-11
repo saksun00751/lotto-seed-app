@@ -225,9 +225,9 @@ function groupHistoryByDate(items: RewardHistoryItem[]): HistoryGroup[] {
 function rewardTypeMarker(type: string | null | undefined): { emoji: string; className: string } {
   const value = (type ?? "").trim().toLowerCase();
   if (value === "wallet_gem") return { emoji: "💎", className: "bg-cyan-50 border-cyan-300 text-cyan-600" };
-  if (value === "wallet_credit") return { emoji: "💰", className: "bg-emerald-50 border-emerald-300 text-ap-green" };
-  if (value === "external") return { emoji: "🎁", className: "bg-amber-50 border-amber-300 text-ap-orange" };
-  return { emoji: "🎁", className: "bg-surface-subtle border-ap-border text-ap-secondary" };
+  if (value === "wallet_credit") return { emoji: "💰", className: "bg-emerald-50 border-emerald-300 text-ui-status-success" };
+  if (value === "external") return { emoji: "🎁", className: "bg-amber-50 border-amber-300 text-ui-status-warning" };
+  return { emoji: "🎁", className: "bg-surface-subtle border-ui-border text-ui-text-soft" };
 }
 
 function formatDecimal(value: number): string {
@@ -285,14 +285,14 @@ function historyReceivedValue(item: RewardHistoryItem): { value: string; classNa
   if (rewardType === "wallet_credit") {
     return {
       value: formatHistoryAmount(item.credit_amount_snapshot, "credit"),
-      className: "text-ap-green",
+      className: "text-ui-status-success",
     };
   }
 
   if (item.credit_amount_snapshot !== null && item.credit_amount_snapshot !== undefined && item.credit_amount_snapshot !== "") {
     return {
       value: formatHistoryAmount(item.credit_amount_snapshot, "credit"),
-      className: "text-ap-green",
+      className: "text-ui-status-success",
     };
   }
   if (item.gem_amount_snapshot !== null && item.gem_amount_snapshot !== undefined && item.gem_amount_snapshot !== "") {
@@ -301,7 +301,7 @@ function historyReceivedValue(item: RewardHistoryItem): { value: string; classNa
       className: "text-cyan-600",
     };
   }
-  return { value: "-", className: "text-ap-tertiary" };
+  return { value: "-", className: "text-ui-text-muted" };
 }
 
 function getRewardStatus(item: RewardItem, userPoint: number): RewardStatus {
@@ -331,19 +331,19 @@ function statusLabel(status: RewardStatus, t: RewardT): string {
 }
 
 function statusClass(status: RewardStatus): string {
-  if (status === "ready") return "bg-ap-green/12 text-ap-green border-emerald-500/35";
-  if (status === "point_not_enough") return "bg-ap-orange/14 text-ap-orange border-amber-500/35";
-  return "bg-surface-subtle text-ap-tertiary border-ap-border";
+  if (status === "ready") return "bg-ui-status-success/12 text-ui-status-success border-emerald-500/35";
+  if (status === "point_not_enough") return "bg-ui-status-warning/14 text-ui-status-warning border-amber-500/35";
+  return "bg-surface-subtle text-ui-text-muted border-ui-border";
 }
 
 function historyStatusClass(status: string): string {
   const normalized = status.trim().toLowerCase();
-  if (normalized === "fulfilled") return "bg-ap-green/12 text-ap-green border-emerald-500/35";
-  if (normalized === "pending") return "bg-ap-orange/12 text-ap-orange border-amber-500/35";
+  if (normalized === "fulfilled") return "bg-ui-status-success/12 text-ui-status-success border-emerald-500/35";
+  if (normalized === "pending") return "bg-ui-status-warning/12 text-ui-status-warning border-amber-500/35";
   if (normalized === "failed" || normalized === "cancelled" || normalized === "rejected") {
-    return "bg-ap-red/10 text-ap-red border-red-500/30";
+    return "bg-ui-status-error/10 text-ui-status-error border-red-500/30";
   }
-  return "bg-surface-subtle text-ap-tertiary border-ap-border";
+  return "bg-surface-subtle text-ui-text-muted border-ui-border";
 }
 
 function historyStatusLabel(status: string, t: RewardT): string {
@@ -359,7 +359,7 @@ function historyStatusLabel(status: string, t: RewardT): string {
 
 function RewardCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-ap-border bg-surface-card shadow-card overflow-hidden animate-pulse">
+    <div className="rounded-2xl border border-ui-border bg-surface-card shadow-card overflow-hidden animate-pulse">
       <div className="h-28 bg-surface-subtle" />
       <div className="p-4 space-y-3">
         <div className="h-4 rounded bg-surface-subtle w-3/4" />
@@ -374,15 +374,15 @@ function RewardCardSkeleton() {
 function EmptyState({ t }: { t: RewardT }) {
   return (
     <div className="relative overflow-hidden rounded-3xl border border-amber-300/70 shadow-[0_18px_48px_rgba(194,130,16,0.22)]">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_0%_0%,rgba(255,255,255,0.35),transparent_50%),radial-gradient(85%_65%_at_100%_0%,rgba(255,232,165,0.55),transparent_55%),linear-gradient(135deg,#f5b324_0%,#f79a2b_55%,#d97706_100%)]" />
+      <div className="absolute inset-0 [background:var(--ui-reward-bg-strong)]" />
       <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-white/20 blur-sm" />
       <div className="absolute -left-10 -bottom-10 w-40 h-40 rounded-full bg-amber-200/25 blur-md" />
       <div className="relative px-4 py-12 text-center">
         <div className="w-14 h-14 mx-auto rounded-2xl bg-white/25 border border-white/40 backdrop-blur-sm flex items-center justify-center mb-4">
           <span className="emoji-font text-[28px]">🎁</span>
         </div>
-        <p className="text-[20px] font-extrabold text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.18)]">{t.emptyTitle}</p>
-        <p className="text-[13px] text-white/90 mt-2">{t.emptyDesc}</p>
+        <p className="text-[20px] font-extrabold text-ui-text-inverse [text-shadow:0_1px_2px_rgba(0,0,0,0.18)]">{t.emptyTitle}</p>
+        <p className="text-[13px] text-ui-text-inverse/90 mt-2">{t.emptyDesc}</p>
       </div>
     </div>
   );
@@ -390,12 +390,12 @@ function EmptyState({ t }: { t: RewardT }) {
 
 function SystemDisabledCard({ t }: { t: RewardT }) {
   return (
-    <div className="rounded-2xl border border-ap-border bg-surface-card shadow-card px-5 py-8 text-center">
-      <div className="w-12 h-12 mx-auto rounded-xl bg-red-50 text-ap-red border border-red-100 flex items-center justify-center text-[22px]">
+    <div className="rounded-2xl border border-ui-border bg-surface-card shadow-card px-5 py-8 text-center">
+      <div className="w-12 h-12 mx-auto rounded-xl bg-red-50 text-ui-status-error border border-red-100 flex items-center justify-center text-[22px]">
         ⛔
       </div>
-      <p className="mt-3 text-[16px] font-bold text-ap-primary">{t.systemDisabledTitle}</p>
-      <p className="mt-1 text-[12px] text-ap-tertiary">{t.systemDisabledDesc}</p>
+      <p className="mt-3 text-[16px] font-bold text-ui-text">{t.systemDisabledTitle}</p>
+      <p className="mt-1 text-[12px] text-ui-text-muted">{t.systemDisabledDesc}</p>
     </div>
   );
 }
@@ -424,18 +424,18 @@ function RedeemConfirmModal({
         className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
       />
       <div className="relative w-full max-w-sm rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_26px_65px_rgba(75,49,6,0.45)] bg-surface-card animate-pop-in">
-        <div className="bg-[linear-gradient(180deg,#f5c24a_0%,#d29a2a_100%)] px-4 py-3 border-b border-amber-700/20">
-          <p className="text-[18px] font-extrabold text-[#2e2003]">{t.confirmModalTitle}</p>
-          <p className="text-[12px] text-[#4a3408]/85 mt-0.5">{t.confirmModalSubtitle}</p>
+        <div className="[background:var(--ui-reward-bg-strong)] px-4 py-3 border-b border-amber-700/20">
+          <p className="text-[18px] font-extrabold text-ui-reward-text">{t.confirmModalTitle}</p>
+          <p className="text-[12px] text-ui-reward-text/85 mt-0.5">{t.confirmModalSubtitle}</p>
         </div>
 
         <div className="p-4 space-y-3">
-          <div className="rounded-2xl border border-ap-border bg-surface-subtle px-3 py-3">
-            <p className="text-[12px] text-ap-tertiary">{target.name}</p>
-            <p className="text-[22px] font-extrabold text-ap-blue tabular-nums mt-1">
+          <div className="rounded-2xl border border-ui-border bg-surface-subtle px-3 py-3">
+            <p className="text-[12px] text-ui-text-muted">{target.name}</p>
+            <p className="text-[22px] font-extrabold text-ui-status-info tabular-nums mt-1">
               {target.pointCost.toLocaleString("en-US")} {t.pointSuffix}
             </p>
-            <p className="text-[11px] text-ap-tertiary mt-1">{t.confirmModalPointLabel}</p>
+            <p className="text-[11px] text-ui-text-muted mt-1">{t.confirmModalPointLabel}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
@@ -443,7 +443,7 @@ function RedeemConfirmModal({
               type="button"
               onClick={onCancel}
               disabled={pending}
-              className="h-10 rounded-xl border border-ap-border bg-surface-card text-ap-secondary text-[13px] font-semibold hover:bg-surface-subtle transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl border border-ui-border bg-surface-card text-ui-text-soft text-[13px] font-semibold hover:bg-surface-subtle transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t.confirmModalCancel}
             </button>
@@ -451,7 +451,7 @@ function RedeemConfirmModal({
               type="button"
               onClick={onConfirm}
               disabled={pending}
-              className="h-10 rounded-xl bg-ap-blue text-white text-[13px] font-bold hover:bg-ap-blue-h transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="h-10 rounded-xl bg-ui-button-primary text-ui-text-inverse text-[13px] font-bold hover:bg-ui-button-primary-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {pending ? t.buttonRedeeming : t.confirmModalConfirm}
             </button>
@@ -688,24 +688,24 @@ export default function RewardPage({ locale }: Props) {
         <div className="flex items-center gap-3">
           <Link
             href={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ui-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
           >
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-4 h-4 text-ui-text-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
           <div>
-            <h1 className="text-[20px] font-bold text-ap-primary leading-tight">{t.title}</h1>
-            <p className="text-[12px] text-ap-tertiary">{t.subtitle}</p>
+            <h1 className="text-[20px] font-bold text-ui-text leading-tight">{t.title}</h1>
+            <p className="text-[12px] text-ui-text-muted">{t.subtitle}</p>
           </div>
         </div>
 
         <div className="rounded-3xl overflow-hidden border border-amber-300/80 shadow-[0_20px_52px_rgba(236,153,28,0.30)]">
-          <div className="bg-[linear-gradient(180deg,#ffe08a_0%,#f9bf3a_55%,#e19a1f_100%)] px-4 py-3 flex items-center">
-            <p className="text-[20px] font-bold text-[#2e2003]">{t.title}</p>
+          <div className="[background:var(--ui-reward-bg-strong)] px-4 py-3 flex items-center">
+            <p className="text-[20px] font-bold text-ui-reward-text">{t.title}</p>
           </div>
 
-          <div className="bg-[radial-gradient(120%_90%_at_0%_0%,rgba(73,112,210,0.48),transparent_55%),linear-gradient(135deg,#142447_0%,#1b2f5f_52%,#213f78_100%)] px-4 py-4 border-t border-white/15 space-y-3">
+          <div className="[background:var(--ui-category-default)] px-4 py-4 border-t border-white/15 space-y-3">
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -713,8 +713,8 @@ export default function RewardPage({ locale }: Props) {
                 className={[
                   "h-8 rounded-full px-3 text-[12px] font-semibold transition-colors border",
                   activeTab === "rewards"
-                    ? "bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] border-amber-200 text-[#2e2003] shadow-[0_6px_16px_rgba(245,182,42,0.40)]"
-                    : "bg-white/14 border-white/25 text-white/80 hover:bg-white/18",
+                    ? "[background:var(--ui-reward-bg)] border-amber-200 text-ui-reward-text shadow-[0_6px_16px_rgba(245,182,42,0.40)]"
+                    : "bg-white/14 border-white/25 text-ui-text-inverse/80 hover:bg-white/18",
                 ].join(" ")}
               >
                 {t.tabRewards}
@@ -725,8 +725,8 @@ export default function RewardPage({ locale }: Props) {
                 className={[
                   "h-8 rounded-full px-3 text-[12px] font-semibold transition-colors border",
                   activeTab === "history"
-                    ? "bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] border-amber-200 text-[#2e2003] shadow-[0_6px_16px_rgba(245,182,42,0.40)]"
-                    : "bg-white/14 border-white/25 text-white/80 hover:bg-white/18",
+                    ? "[background:var(--ui-reward-bg)] border-amber-200 text-ui-reward-text shadow-[0_6px_16px_rgba(245,182,42,0.40)]"
+                    : "bg-white/14 border-white/25 text-ui-text-inverse/80 hover:bg-white/18",
                 ].join(" ")}
               >
                 {t.tabHistory}
@@ -735,13 +735,13 @@ export default function RewardPage({ locale }: Props) {
 
             <div className="grid grid-cols-2 gap-2">
               <div className="rounded-xl border border-white/20 bg-white/[0.12] px-3 py-2">
-                <p className="text-[11px] text-white/75">{t.pointLabel}</p>
+                <p className="text-[11px] text-ui-text-inverse/75">{t.pointLabel}</p>
                 <p className="text-[20px] font-extrabold text-amber-200 tabular-nums">
                   {point.toLocaleString("en-US")}
                 </p>
               </div>
               <div className="rounded-xl border border-white/20 bg-white/[0.12] px-3 py-2">
-                <p className="text-[11px] text-white/75">{t.diamondLabel}</p>
+                <p className="text-[11px] text-ui-text-inverse/75">{t.diamondLabel}</p>
                 <p className="text-[20px] font-extrabold text-cyan-200 tabular-nums">
                   {diamond.toLocaleString("en-US")}
                 </p>
@@ -762,7 +762,7 @@ export default function RewardPage({ locale }: Props) {
                       }
                     }}
                     placeholder={t.searchPlaceholder}
-                    className="flex-1 h-9 rounded-lg border border-white/20 bg-[#081632]/55 px-3 text-[13px] text-white placeholder:text-white/50 outline-none focus:border-amber-200/70"
+                    className="flex-1 h-9 rounded-lg border border-white/20 bg-ui-button-primary/55 px-3 text-[13px] text-ui-text-inverse placeholder:text-ui-text-inverse/50 outline-none focus:border-amber-200/70"
                   />
                   <button
                     type="button"
@@ -771,7 +771,7 @@ export default function RewardPage({ locale }: Props) {
                       setSearchInput("");
                       setSearchTerm("");
                     }}
-                    className="h-9 rounded-lg border border-white/25 bg-white/16 px-3 text-[12px] font-semibold text-white hover:bg-white/22 transition-colors"
+                    className="h-9 rounded-lg border border-white/25 bg-white/16 px-3 text-[12px] font-semibold text-ui-text-inverse hover:bg-white/22 transition-colors"
                   >
                     {t.clear}
                   </button>
@@ -781,7 +781,7 @@ export default function RewardPage({ locale }: Props) {
                       setPage(1);
                       setSearchTerm(searchInput);
                     }}
-                    className="h-9 rounded-lg bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] border border-amber-200 px-3 text-[12px] font-bold text-[#2e2003] hover:brightness-105 transition-all shadow-[0_6px_16px_rgba(245,182,42,0.35)]"
+                    className="h-9 rounded-lg [background:var(--ui-reward-bg)] border border-amber-200 px-3 text-[12px] font-bold text-ui-reward-text hover:brightness-105 transition-all shadow-[0_6px_16px_rgba(245,182,42,0.35)]"
                   >
                     {t.search}
                   </button>
@@ -797,7 +797,7 @@ export default function RewardPage({ locale }: Props) {
                       }}
                       className={[
                         "h-8 rounded-full px-3 text-[12px] font-semibold transition-colors border",
-                        featuredOnly ? "bg-white/14 border-white/25 text-white/80 hover:bg-white/18" : "bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] border-amber-200 text-[#2e2003] shadow-[0_6px_16px_rgba(245,182,42,0.35)]",
+                        featuredOnly ? "bg-white/14 border-white/25 text-ui-text-inverse/80 hover:bg-white/18" : "[background:var(--ui-reward-bg)] border-amber-200 text-ui-reward-text shadow-[0_6px_16px_rgba(245,182,42,0.35)]",
                       ].join(" ")}
                     >
                       {t.filterAll}
@@ -810,13 +810,13 @@ export default function RewardPage({ locale }: Props) {
                       }}
                       className={[
                         "h-8 rounded-full px-3 text-[12px] font-semibold transition-colors border",
-                        featuredOnly ? "bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] border-amber-200 text-[#2e2003] shadow-[0_6px_16px_rgba(245,182,42,0.35)]" : "bg-white/14 border-white/25 text-white/80 hover:bg-white/18",
+                        featuredOnly ? "[background:var(--ui-reward-bg)] border-amber-200 text-ui-reward-text shadow-[0_6px_16px_rgba(245,182,42,0.35)]" : "bg-white/14 border-white/25 text-ui-text-inverse/80 hover:bg-white/18",
                       ].join(" ")}
                     >
                       {t.filterFeatured}
                     </button>
                   </div>
-                  <p className="text-[11px] text-white/65">
+                  <p className="text-[11px] text-ui-text-inverse/65">
                     {t.showing} {meta.total.toLocaleString("en-US")} {t.items}
                   </p>
                 </div>
@@ -824,8 +824,8 @@ export default function RewardPage({ locale }: Props) {
             ) : (
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-[12px] text-white/85">{t.historyTitle}</p>
-                  <p className="text-[11px] text-white/65">
+                  <p className="text-[12px] text-ui-text-inverse/85">{t.historyTitle}</p>
+                  <p className="text-[11px] text-ui-text-inverse/65">
                     {t.showing} {historyMeta.total.toLocaleString("en-US")} {t.items}
                   </p>
                 </div>
@@ -841,7 +841,7 @@ export default function RewardPage({ locale }: Props) {
             {!systemEnabled && !loading && !error && <SystemDisabledCard t={t} />}
 
             {error && !loading && (
-              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-ap-red">
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-ui-status-error">
                 {error}
               </div>
             )}
@@ -850,7 +850,7 @@ export default function RewardPage({ locale }: Props) {
               <div className="space-y-3">
                 {loading ? (
                   <>
-                    <p className="text-[12px] text-ap-tertiary">{t.loadingList}</p>
+                    <p className="text-[12px] text-ui-text-muted">{t.loadingList}</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       <RewardCardSkeleton />
                       <RewardCardSkeleton />
@@ -881,7 +881,7 @@ export default function RewardPage({ locale }: Props) {
                               "hover:shadow-card-hover hover:-translate-y-[2px]",
                               isFeatured
                                 ? "border border-amber-300/80 shadow-[0_14px_36px_rgba(236,153,28,0.22)]"
-                                : "border border-ap-border",
+                                : "border border-ui-border",
                             ].join(" ")}
                           >
                             {image ? (
@@ -889,19 +889,19 @@ export default function RewardPage({ locale }: Props) {
                                 <img src={image} alt={reward.name} className="w-full h-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
                                 {isFeatured && (
-                                  <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] text-[#2e2003] text-[10px] font-bold px-2 py-1 border border-amber-200 shadow-[0_6px_14px_rgba(245,182,42,0.4)]">
+                                  <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full [background:var(--ui-reward-bg)] text-ui-reward-text text-[10px] font-bold px-2 py-1 border border-amber-200 shadow-[0_6px_14px_rgba(245,182,42,0.4)]">
                                     <span className="emoji-font leading-none">⭐</span>
                                     {t.filterFeatured}
                                   </span>
                                 )}
                               </div>
                             ) : (
-                              <div className="relative h-28 w-full overflow-hidden text-white flex items-center justify-center">
-                                <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_0%_0%,rgba(73,112,210,0.55),transparent_55%),linear-gradient(135deg,#142447_0%,#1b2f5f_52%,#213f78_100%)]" />
+                              <div className="relative h-28 w-full overflow-hidden text-ui-text-inverse flex items-center justify-center">
+                                <div className="absolute inset-0 [background:var(--ui-category-default)]" />
                                 <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 blur-sm" />
                                 <span className="relative emoji-font text-[36px] [text-shadow:0_2px_6px_rgba(0,0,0,0.35)]">🎁</span>
                                 {isFeatured && (
-                                  <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] text-[#2e2003] text-[10px] font-bold px-2 py-1 border border-amber-200 shadow-[0_6px_14px_rgba(245,182,42,0.4)]">
+                                  <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full [background:var(--ui-reward-bg)] text-ui-reward-text text-[10px] font-bold px-2 py-1 border border-amber-200 shadow-[0_6px_14px_rgba(245,182,42,0.4)]">
                                     <span className="emoji-font leading-none">⭐</span>
                                     {t.filterFeatured}
                                   </span>
@@ -911,7 +911,7 @@ export default function RewardPage({ locale }: Props) {
 
                             <div className="p-4 space-y-3">
                               <div className="flex items-start justify-between gap-2">
-                                <h2 className="text-[17px] sm:text-[18px] font-extrabold text-ap-primary leading-tight line-clamp-2">
+                                <h2 className="text-[17px] sm:text-[18px] font-extrabold text-ui-text leading-tight line-clamp-2">
                                   {reward.name || reward.code}
                                 </h2>
                                 <span className={`shrink-0 text-[10px] font-bold px-2 py-1 rounded-full border ${statusClass(status)}`}>
@@ -919,12 +919,12 @@ export default function RewardPage({ locale }: Props) {
                                 </span>
                               </div>
 
-                              <div className="relative rounded-xl border border-ap-border bg-surface-subtle/60 px-3 py-2">
+                              <div className="relative rounded-xl border border-ui-border bg-surface-subtle/60 px-3 py-2">
                                 <span
                                   aria-hidden
-                                  className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-[linear-gradient(180deg,#f6b737_0%,#e19a1f_100%)]"
+                                  className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full [background:var(--ui-reward-bg-strong)]"
                                 />
-                                <p className="text-[12px] text-ap-secondary leading-relaxed min-h-9 line-clamp-2 pl-2">
+                                <p className="text-[12px] text-ui-text-soft leading-relaxed min-h-9 line-clamp-2 pl-2">
                                   {reward.description?.trim() || "-"}
                                 </p>
                               </div>
@@ -933,19 +933,19 @@ export default function RewardPage({ locale }: Props) {
                                 const rewardType = (reward.reward_type ?? "").trim().toLowerCase();
                                 const gemAmount = toNumber(reward.gem_amount, 0);
                                 let receivedText = "-";
-                                let receivedClass = "text-[#2e2003]";
+                                let receivedClass = "text-ui-reward-text";
                                 if (rewardType === "gem" || gemAmount > 0) {
                                   receivedText = `💎 ${gemAmount.toLocaleString("en-US")}`;
                                   receivedClass = "text-cyan-700";
                                 } else if (credit > 0) {
                                   receivedText = `+฿${formatDecimal(credit)}`;
-                                  receivedClass = "text-ap-green";
+                                  receivedClass = "text-ui-status-success";
                                 } else {
                                   receivedText = t.typeOther ?? "-";
                                 }
                                 return (
                                   <div className="relative rounded-2xl overflow-hidden border border-amber-300/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
-                                    <div className="absolute inset-0 bg-[linear-gradient(180deg,#fff7df_0%,#ffe29a_100%)]" />
+                                    <div className="absolute inset-0 bg-[var(--ui-alert-warning-bg)]" />
                                     <div className="relative px-3 pt-2.5">
                                       <span className="inline-flex items-center gap-1.5 rounded-full bg-white/85 border border-amber-300/70 px-2.5 py-1 text-[13px] font-bold text-amber-900">
                                         <span aria-hidden className="emoji-font leading-none text-[14px]">🎯</span>
@@ -957,12 +957,12 @@ export default function RewardPage({ locale }: Props) {
                                         <p className="text-[10px] font-semibold text-amber-800/80 uppercase tracking-wide">
                                           {t.historyPointUsed ?? "ใช้"}
                                         </p>
-                                        <p className="text-[18px] sm:text-[20px] font-extrabold text-[#2e2003] tabular-nums leading-tight whitespace-nowrap [text-shadow:0_1px_0_rgba(255,255,255,0.6)]">
+                                        <p className="text-[18px] sm:text-[20px] font-extrabold text-ui-reward-text tabular-nums leading-tight whitespace-nowrap [text-shadow:0_1px_0_rgba(255,255,255,0.6)]">
                                           {pointCost.toLocaleString("en-US")}
                                           <span className="text-[11px] font-bold text-amber-800/80 ml-1">{t.pointSuffix}</span>
                                         </p>
                                       </div>
-                                      <span aria-hidden className="text-ap-orange/70 text-[16px] font-extrabold">→</span>
+                                      <span aria-hidden className="text-ui-status-warning/70 text-[16px] font-extrabold">→</span>
                                       <div className="text-right min-w-0">
                                         <p className="text-[10px] font-semibold text-amber-800/80 uppercase tracking-wide">
                                           {t.historyReceivedLabel ?? "ได้รับ"}
@@ -981,9 +981,9 @@ export default function RewardPage({ locale }: Props) {
                                   className={[
                                     "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12px] font-semibold",
                                     isUnlimited
-                                      ? "border-emerald-200 bg-emerald-50 text-ap-green"
+                                      ? "border-emerald-200 bg-emerald-50 text-ui-status-success"
                                       : remaining <= 0
-                                      ? "border-red-200 bg-red-50 text-ap-red"
+                                      ? "border-red-200 bg-red-50 text-ui-status-error"
                                       : "border-sky-200 bg-sky-50 text-sky-700",
                                   ].join(" ")}
                                 >
@@ -1012,8 +1012,8 @@ export default function RewardPage({ locale }: Props) {
                                 className={[
                                   "w-full h-10 rounded-xl text-[12px] font-extrabold transition-all active:scale-[0.98]",
                                   isReady && redeemingId === null
-                                    ? "bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] text-[#2e2003] border border-amber-200 shadow-[0_8px_18px_rgba(245,182,42,0.35)] hover:brightness-105"
-                                    : "bg-surface-subtle text-ap-tertiary border border-ap-border cursor-not-allowed",
+                                    ? "[background:var(--ui-reward-bg)] text-ui-reward-text border border-amber-200 shadow-[0_8px_18px_rgba(245,182,42,0.35)] hover:brightness-105"
+                                    : "bg-surface-subtle text-ui-text-muted border border-ui-border cursor-not-allowed",
                                 ].join(" ")}
                               >
                                 {isRedeeming ? t.buttonRedeeming : isReady ? t.buttonRedeem : t.buttonUnavailable}
@@ -1025,23 +1025,23 @@ export default function RewardPage({ locale }: Props) {
                     </div>
 
                     {meta.total > meta.per_page && (
-                      <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
+                      <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
                         <button
                           type="button"
                           onClick={() => setPage((prev) => Math.max(1, prev - 1))}
                           disabled={page <= 1}
-                          className="h-9 px-3 rounded-xl border border-ap-border bg-surface-card text-[12px] font-semibold text-ap-secondary hover:bg-surface-subtle transition-colors disabled:opacity-40 disabled:hover:bg-surface-card"
+                          className="h-9 px-3 rounded-xl border border-ui-border bg-surface-card text-[12px] font-semibold text-ui-text-soft hover:bg-surface-subtle transition-colors disabled:opacity-40 disabled:hover:bg-surface-card"
                         >
                           {t.pagePrev}
                         </button>
-                        <span className="text-[12px] text-ap-secondary tabular-nums px-2">
+                        <span className="text-[12px] text-ui-text-soft tabular-nums px-2">
                           {t.pageOf.replace("{cur}", String(page)).replace("{total}", String(totalPages))}
                         </span>
                         <button
                           type="button"
                           onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
                           disabled={page >= totalPages}
-                          className="h-9 px-3 rounded-xl border border-amber-200 bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] text-[12px] font-bold text-[#2e2003] shadow-[0_6px_14px_rgba(245,182,42,0.30)] hover:brightness-105 transition-all disabled:opacity-40 disabled:shadow-none"
+                          className="h-9 px-3 rounded-xl border border-amber-200 [background:var(--ui-reward-bg)] text-[12px] font-bold text-ui-reward-text shadow-[0_6px_14px_rgba(245,182,42,0.30)] hover:brightness-105 transition-all disabled:opacity-40 disabled:shadow-none"
                         >
                           {t.pageNext}
                         </button>
@@ -1055,24 +1055,24 @@ export default function RewardPage({ locale }: Props) {
         ) : (
           <div className="space-y-3">
             {historyLoading ? (
-              <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card p-4 space-y-3 animate-pulse">
+              <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card p-4 space-y-3 animate-pulse">
                 <div className="h-4 rounded bg-surface-subtle w-48" />
                 <div className="h-14 rounded-xl bg-surface-subtle" />
                 <div className="h-14 rounded-xl bg-surface-subtle" />
               </div>
             ) : historyError ? (
-              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-ap-red">
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-ui-status-error">
                 {historyError}
               </div>
             ) : historyItems.length === 0 ? (
               <div className="relative overflow-hidden rounded-3xl border border-amber-300/70 shadow-[0_18px_48px_rgba(194,130,16,0.18)]">
-                <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_0%_0%,rgba(255,255,255,0.35),transparent_50%),linear-gradient(135deg,#f5b324_0%,#f79a2b_55%,#d97706_100%)]" />
+                <div className="absolute inset-0 [background:var(--ui-reward-bg-strong)]" />
                 <div className="relative py-14 text-center">
                   <div className="w-14 h-14 mx-auto rounded-2xl bg-white/25 border border-white/40 backdrop-blur-sm flex items-center justify-center mb-3">
                     <span className="emoji-font text-[26px]">🧾</span>
                   </div>
-                  <p className="text-[18px] font-extrabold text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.18)]">{t.historyEmptyTitle}</p>
-                  <p className="text-[16px] text-white/90 mt-1">{t.historyEmptyDesc}</p>
+                  <p className="text-[18px] font-extrabold text-ui-text-inverse [text-shadow:0_1px_2px_rgba(0,0,0,0.18)]">{t.historyEmptyTitle}</p>
+                  <p className="text-[16px] text-ui-text-inverse/90 mt-1">{t.historyEmptyDesc}</p>
                 </div>
               </div>
             ) : (
@@ -1081,11 +1081,11 @@ export default function RewardPage({ locale }: Props) {
                   const groups = groupHistoryByDate(historyItems);
                   const timelineCounts = new Map(historyTimeline.map((entry) => [entry.date, entry.count]));
                   return (
-                    <div className="rounded-2xl border border-ap-border bg-surface-card shadow-card px-4 sm:px-5 py-4">
+                    <div className="rounded-2xl border border-ui-border bg-surface-card shadow-card px-4 sm:px-5 py-4">
                       <div className="relative">
                         <div
                           aria-hidden
-                          className="absolute left-[11px] top-1 bottom-1 w-px bg-gradient-to-b from-amber-400/60 via-ap-border to-transparent"
+                          className="absolute left-[11px] top-1 bottom-1 w-px bg-gradient-to-b from-amber-400/60 via-ui-border to-transparent"
                         />
 
                         <ol className="space-y-5">
@@ -1095,13 +1095,13 @@ export default function RewardPage({ locale }: Props) {
                               <li key={group.key} className="relative">
                                 <div className="flex items-center gap-3 mb-3">
                                   <div className="relative z-10 w-6 h-6 flex items-center justify-center">
-                                    <span className="w-3 h-3 rounded-full bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] ring-4 ring-white shadow-[0_0_0_1px_rgba(194,130,16,0.30)]" />
+                                    <span className="w-3 h-3 rounded-full [background:var(--ui-reward-bg)] ring-4 ring-white shadow-[0_0_0_1px_rgba(194,130,16,0.30)]" />
                                   </div>
                                   <div className="flex items-baseline gap-2 flex-wrap">
-                                    <span className="text-[14px] font-bold text-ap-primary">
+                                    <span className="text-[14px] font-bold text-ui-text">
                                       {formatDateOnly(group.key, locale)}
                                     </span>
-                                    <span className="text-[14px] font-bold text-[#5a3b05] tabular-nums bg-[linear-gradient(180deg,#fff6de_0%,#ffe7a8_100%)] border border-amber-200 rounded-full px-2.5 py-0.5">
+                                    <span className="text-[14px] font-bold text-ui-reward-text tabular-nums bg-[var(--ui-alert-warning-bg)] border border-amber-200 rounded-full px-2.5 py-0.5">
                                       {groupCount.toLocaleString("en-US")} {t.items}
                                     </span>
                                   </div>
@@ -1116,7 +1116,7 @@ export default function RewardPage({ locale }: Props) {
                                       <li key={item.id} className="relative">
                                         <span
                                           aria-hidden
-                                          className="absolute -left-[22px] top-4 h-px w-5 bg-ap-border"
+                                          className="absolute -left-[22px] top-4 h-px w-5 bg-ui-border"
                                         />
                                         <span
                                           aria-hidden
@@ -1125,10 +1125,10 @@ export default function RewardPage({ locale }: Props) {
                                           <span className="emoji-font leading-none">{marker.emoji}</span>
                                         </span>
 
-                                        <div className="rounded-2xl border border-ap-border bg-surface-card hover:border-amber-300/70 hover:shadow-card transition-all px-3.5 py-3">
+                                        <div className="rounded-2xl border border-ui-border bg-surface-card hover:border-amber-300/70 hover:shadow-card transition-all px-3.5 py-3">
                                           <div className="flex items-start justify-between gap-3">
                                             <div className="min-w-0">
-                                              <p className="text-[16px] font-bold text-ap-primary leading-snug truncate">
+                                              <p className="text-[16px] font-bold text-ui-text leading-snug truncate">
                                                 {item.reward_name_snapshot}
                                               </p>
                                             </div>
@@ -1142,21 +1142,21 @@ export default function RewardPage({ locale }: Props) {
                                               <span aria-hidden className="emoji-font leading-none text-[14px]">🎯</span>
                                               {historyActionLabel(item.reward_type_snapshot, t)}
                                             </span>
-                                            <span className="inline-flex items-center gap-1 text-[14px] text-ap-tertiary">
+                                            <span className="inline-flex items-center gap-1 text-[14px] text-ui-text-muted">
                                               <span aria-hidden className="emoji-font leading-none">🕒</span>
                                               {formatTimeOnly(item.redeemed_at, locale)}
                                             </span>
                                           </div>
 
                                           <div className="mt-2.5 grid grid-cols-2 gap-2">
-                                            <div className="rounded-xl bg-surface-subtle border border-ap-border px-3 py-2">
-                                              <p className="text-[14px] text-ap-tertiary">{t.historyPointUsed ?? "แต้มที่ใช้"}</p>
-                                              <p className="text-[16px] font-bold text-ap-primary mt-0.5 tabular-nums">
+                                            <div className="rounded-xl bg-surface-subtle border border-ui-border px-3 py-2">
+                                              <p className="text-[14px] text-ui-text-muted">{t.historyPointUsed ?? "แต้มที่ใช้"}</p>
+                                              <p className="text-[16px] font-bold text-ui-text mt-0.5 tabular-nums">
                                                 {pointUsedText}
                                               </p>
                                             </div>
-                                            <div className="rounded-xl bg-surface-subtle border border-ap-border px-3 py-2">
-                                              <p className="text-[14px] text-ap-tertiary">{t.historyReceivedLabel ?? "จำนวนที่ได้รับ"}</p>
+                                            <div className="rounded-xl bg-surface-subtle border border-ui-border px-3 py-2">
+                                              <p className="text-[14px] text-ui-text-muted">{t.historyReceivedLabel ?? "จำนวนที่ได้รับ"}</p>
                                               <p className={`text-[16px] font-bold mt-0.5 tabular-nums ${received.className}`}>
                                                 {received.value}
                                               </p>
@@ -1177,23 +1177,23 @@ export default function RewardPage({ locale }: Props) {
                 })()}
 
                 {historyMeta.total > historyMeta.per_page && (
-                  <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
+                  <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card px-4 py-3 flex items-center justify-center gap-2">
                     <button
                       type="button"
                       onClick={() => setHistoryPage((prev) => Math.max(1, prev - 1))}
                       disabled={historyPage <= 1}
-                      className="h-9 px-3 rounded-xl border border-ap-border bg-surface-card text-[12px] font-semibold text-ap-secondary hover:bg-surface-subtle transition-colors disabled:opacity-40 disabled:hover:bg-surface-card"
+                      className="h-9 px-3 rounded-xl border border-ui-border bg-surface-card text-[12px] font-semibold text-ui-text-soft hover:bg-surface-subtle transition-colors disabled:opacity-40 disabled:hover:bg-surface-card"
                     >
                       {t.pagePrev}
                     </button>
-                    <span className="text-[12px] text-ap-secondary tabular-nums px-2">
+                    <span className="text-[12px] text-ui-text-soft tabular-nums px-2">
                       {t.pageOf.replace("{cur}", String(historyPage)).replace("{total}", String(historyTotalPages))}
                     </span>
                     <button
                       type="button"
                       onClick={() => setHistoryPage((prev) => Math.min(historyTotalPages, prev + 1))}
                       disabled={historyPage >= historyTotalPages}
-                      className="h-9 px-3 rounded-xl border border-amber-200 bg-[linear-gradient(180deg,#ffd86b_0%,#f6b737_100%)] text-[12px] font-bold text-[#2e2003] shadow-[0_6px_14px_rgba(245,182,42,0.30)] hover:brightness-105 transition-all disabled:opacity-40 disabled:shadow-none"
+                      className="h-9 px-3 rounded-xl border border-amber-200 [background:var(--ui-reward-bg)] text-[12px] font-bold text-ui-reward-text shadow-[0_6px_14px_rgba(245,182,42,0.30)] hover:brightness-105 transition-all disabled:opacity-40 disabled:shadow-none"
                     >
                       {t.pageNext}
                     </button>

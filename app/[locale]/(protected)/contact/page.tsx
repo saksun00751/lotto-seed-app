@@ -14,34 +14,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function getChannelMeta(type: string, t: ReturnType<typeof getTranslation<"contact">>) {
   if (type === "line") return {
-    color:    "#06C755",
+    colorClass: "bg-ui-contact-line",
     title:    "LINE Official",
     subtitle: t.lineSubtitle,
     btnLabel: t.lineBtn,
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="var(--ui-button-primary-text)">
         <path d="M12 2C6.48 2 2 6.02 2 11c0 3.07 1.6 5.78 4.08 7.5L5 21l3.13-1.56C9.32 19.78 10.63 20 12 20c5.52 0 10-4.02 10-9S17.52 2 12 2zm1 13H7v-1.5h6V15zm2-3H7v-1.5h8V12zm0-3H7V7.5h8V9z" />
       </svg>
     ),
   };
   if (type === "telegram") return {
-    color:    "#229ED9",
+    colorClass: "bg-ui-contact-telegram",
     title:    "Telegram",
     subtitle: t.telegramSubtitle,
     btnLabel: t.telegramBtn,
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--ui-button-primary-text)">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.69 7.96c-.12.55-.46.68-.93.43l-2.57-1.89-1.24 1.19c-.14.14-.25.25-.51.25l.18-2.61 4.7-4.24c.2-.18-.04-.28-.32-.1L7.54 14.5l-2.52-.79c-.55-.17-.56-.55.12-.81l9.86-3.8c.46-.17.86.11.64.7z" />
       </svg>
     ),
   };
   return {
-    color:    "#6366f1",
+    colorClass: "bg-ui-contact-default",
     title:    type,
     subtitle: "",
     btnLabel: t.defaultBtn,
     icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--ui-button-primary-text)" strokeWidth="2">
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
       </svg>
     ),
@@ -63,40 +63,39 @@ export default async function ContactPage({ params }: Props) {
 
         {/* Header */}
         <div>
-          <h1 className="text-[22px] font-bold text-ap-primary tracking-tight">{t.title}</h1>
-          <p className="text-[14px] text-ap-secondary mt-1">{t.subtitle}</p>
+          <h1 className="text-[22px] font-bold text-ui-text tracking-tight">{t.title}</h1>
+          <p className="text-[14px] text-ui-text-soft mt-1">{t.subtitle}</p>
         </div>
 
         {/* Channel Cards */}
         {channels.map((ch) => {
           const meta = getChannelMeta(ch.type, t);
           return (
-            <div key={ch.code} className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
-              <div className="h-2" style={{ backgroundColor: meta.color }} />
+            <div key={ch.code} className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
+              <div className={`h-2 ${meta.colorClass}`} />
               <div className="p-5">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm" style={{ backgroundColor: meta.color }}>
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm ${meta.colorClass}`}>
                     {meta.icon}
                   </div>
                   <div>
-                    <h2 className="text-[18px] font-bold text-ap-primary">{meta.title}</h2>
+                    <h2 className="text-[18px] font-bold text-ui-text">{meta.title}</h2>
                     {meta.subtitle && (
-                      <p className="text-[13px] text-ap-secondary mt-0.5">{meta.subtitle}</p>
+                      <p className="text-[13px] text-ui-text-soft mt-0.5">{meta.subtitle}</p>
                     )}
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between bg-surface-subtle rounded-xl px-4 py-3 mb-4">
-                  <span className="text-[13px] text-ap-secondary">ID</span>
-                  <span className="text-[14px] font-bold text-ap-primary font-mono">{ch.label}</span>
+                  <span className="text-[13px] text-ui-text-soft">ID</span>
+                  <span className="text-[14px] font-bold text-ui-text font-mono">{ch.label}</span>
                 </div>
 
                 <a
                   href={ch.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full text-white rounded-full py-3 text-[14px] font-bold hover:opacity-90 transition-opacity active:scale-[0.98]"
-                  style={{ backgroundColor: meta.color }}
+                  className={`flex items-center justify-center gap-2 w-full text-ui-text-inverse rounded-full py-3 text-[14px] font-bold hover:opacity-90 transition-opacity active:scale-[0.98] ${meta.colorClass}`}
                 >
                   {meta.btnLabel}
                 </a>
@@ -106,7 +105,7 @@ export default async function ContactPage({ params }: Props) {
         })}
 
         {channels.length === 0 && (
-          <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card py-14 flex flex-col items-center gap-2 text-ap-tertiary">
+          <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card py-14 flex flex-col items-center gap-2 text-ui-text-muted">
             <span className="text-[48px]">💬</span>
             <p className="text-[13px]">{t.empty}</p>
           </div>

@@ -39,7 +39,7 @@ function ProviderTile({ game, locale }: { game: GameProviderItem; locale: string
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <p className="text-[11px] font-semibold text-ap-primary leading-tight line-clamp-2 w-full">{game.name}</p>
+      <p className="text-[11px] font-semibold text-ui-text leading-tight line-clamp-2 w-full">{game.name}</p>
     </Link>
   );
 }
@@ -77,36 +77,36 @@ export default async function GamesTypePage({ params }: Props) {
       <div className="max-w-5xl mx-auto px-4 pt-5">
 
         {/* Grid */}
-        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
           {/* Card header */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-ap-border">
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-ui-border">
             <Link href={`/${locale}/bet`}
-              className="w-8 h-8 rounded-full bg-surface-subtle border border-ap-border flex items-center justify-center text-ap-secondary hover:bg-gray-200 transition-colors">
+              className="w-8 h-8 rounded-full bg-surface-subtle border border-ui-border flex items-center justify-center text-ui-text-soft hover:bg-gray-200 transition-colors">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </Link>
             <div>
-              <h1 className="text-[16px] font-bold text-ap-primary leading-tight">{meta.emoji} {meta.label}</h1>
-              <p className="text-[12px] text-ap-secondary">{games.length} {t.providers}</p>
+              <h1 className="text-[16px] font-bold text-ui-text leading-tight">{meta.emoji} {meta.label}</h1>
+              <p className="text-[12px] text-ui-text-soft">{games.length} {t.providers}</p>
             </div>
           </div>
           {games.length === 0 ? (
             <div className="py-16 flex flex-col items-center gap-2">
               <span className="text-[48px]">{meta.emoji}</span>
-              <p className="text-[13px] text-ap-tertiary">{t.noProviders}</p>
+              <p className="text-[13px] text-ui-text-muted">{t.noProviders}</p>
             </div>
           ) : (
             isCardGroupPage ? (
               <div className="p-3 space-y-5">
                 {groupedGames.map((group) => (
-                  <section key={group.type} className="overflow-hidden rounded-2xl border border-ap-border bg-surface-card">
-                    <div className="flex items-center gap-2 border-b border-ap-border bg-surface-subtle px-3 py-2.5">
+                  <section key={group.type} className="overflow-hidden rounded-2xl border border-ui-border bg-surface-card">
+                    <div className="flex items-center gap-2 border-b border-ui-border bg-surface-subtle px-3 py-2.5">
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="text-[18px] shrink-0">{CARD_GROUP_EMOJI[group.type] ?? meta.emoji}</span>
                         <div className="min-w-0">
-                          <h2 className="text-[14px] font-bold text-ap-primary leading-tight truncate">{group.label}</h2>
-                          <p className="text-[12px] text-ap-secondary leading-tight mt-0.5">{group.games.length} {t.providers}</p>
+                          <h2 className="text-[14px] font-bold text-ui-text leading-tight truncate">{group.label}</h2>
+                          <p className="text-[12px] text-ui-text-soft leading-tight mt-0.5">{group.games.length} {t.providers}</p>
                         </div>
                       </div>
                     </div>

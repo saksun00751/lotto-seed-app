@@ -348,10 +348,10 @@ export default function BetQuickForm({
   return (
     <>
     {toastMsg && <Toast message={toastMsg.text} type={toastMsg.type} onClose={() => setToastMsg(null)} />}
-    <div className="bg-surface-card rounded-2xl overflow-hidden shadow-card border border-ap-border">
+    <div className="bg-surface-card rounded-2xl overflow-hidden shadow-card border border-ui-border">
 
       {/* Tabs */}
-      <div className="flex border-b border-ap-border">
+      <div className="flex border-b border-ui-border">
         {TABS.map((tab, i) => (
           <button key={tab.id}
             onClick={() => {
@@ -364,12 +364,12 @@ export default function BetQuickForm({
             }}
             disabled={tab.disabled}
             className={["flex-1 py-2.5 text-[14px] sm:text-[14px] font-bold transition-all",
-              i < TABS.length - 1 ? "border-r border-ap-border" : "",
+              i < TABS.length - 1 ? "border-r border-ui-border" : "",
               tab.disabled
-                ? "bg-surface-subtle text-ap-tertiary cursor-not-allowed"
+                ? "bg-surface-subtle text-ui-text-muted cursor-not-allowed"
                 : activeTab === tab.id
-                  ? "bg-ap-blue text-white"
-                  : "bg-surface-subtle text-ap-secondary hover:bg-surface-card hover:text-ap-primary",
+                  ? "bg-ui-button-primary text-ui-text-inverse"
+                  : "bg-surface-subtle text-ui-text-soft hover:bg-surface-card hover:text-ui-text",
             ].join(" ")}>
             {tabLabels[tab.id]}
           </button>
@@ -409,8 +409,8 @@ export default function BetQuickForm({
       {activeTab !== "classic" && activeTab !== "standard" && <div className="p-4">
         {/* Title */}
         <div className="mb-3">
-          <p className="text-[16px] font-bold text-ap-primary">{tabLabels[activeTab]}</p>
-          <p className="text-[14px] text-ap-primary font-medium mt-0.5">{lotteryName} • {today}</p>
+          <p className="text-[16px] font-bold text-ui-text">{tabLabels[activeTab]}</p>
+          <p className="text-[14px] text-ui-text font-medium mt-0.5">{lotteryName} • {today}</p>
         </div>
 
         {!hasSelection && (
@@ -421,8 +421,8 @@ export default function BetQuickForm({
 
         {/* Input area */}
         {activeTab === "slip" ? (
-          <div className={["bg-surface-subtle/70 rounded-2xl border-2 border-ap-blue p-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
-            <label className="text-[14px] text-ap-primary font-bold mb-1.5 block uppercase tracking-wide">
+          <div className={["bg-surface-subtle/70 rounded-2xl border-2 border-ui-selected-border p-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
+            <label className="text-[14px] text-ui-text font-bold mb-1.5 block uppercase tracking-wide">
               {t.pasteSlipLabel.replace("{digits}", String(maxDigits))}
             </label>
             <textarea
@@ -430,13 +430,13 @@ export default function BetQuickForm({
               onChange={(e) => handleSlipChange(e.target.value)}
               placeholder={`${t.pasteSlipPlaceholder.replace("{digits}", String(maxDigits))}\n${t.exampleLabel} ${maxDigits === 3 ? t.pasteSlipExample3 : t.pasteSlipExample2}`}
               rows={4}
-              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[15px] font-bold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-surface-card shadow-sm transition-all resize-none leading-relaxed"
+              className="w-full border-2 border-ui-selected-border rounded-xl px-3 py-3 text-[15px] font-bold text-ui-text outline-none focus:border-ui-selected-border focus:ring-4 focus:ring-ui-status-info/15 bg-surface-card shadow-sm transition-all resize-none leading-relaxed"
             />
-            <p className="mt-1.5 text-[14px] text-ap-secondary font-medium">{t.pasteSlipHint}</p>
+            <p className="mt-1.5 text-[14px] text-ui-text-soft font-medium">{t.pasteSlipHint}</p>
           </div>
         ) : (
-          <div className={["bg-surface-subtle/70 rounded-2xl border-2 border-ap-blue p-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
-            <label className="text-[14px] text-ap-primary font-bold mb-1 block uppercase tracking-wide">
+          <div className={["bg-surface-subtle/70 rounded-2xl border-2 border-ui-selected-border p-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
+            <label className="text-[14px] text-ui-text font-bold mb-1 block uppercase tracking-wide">
               {t.inputNumberLabel.replace("{digits}", String(maxDigits))}
             </label>
             <input
@@ -446,7 +446,7 @@ export default function BetQuickForm({
               onChange={(e) => handleNumberInput(e.target.value)}
               maxLength={maxDigits}
               placeholder={"·".repeat(maxDigits)}
-              className="w-full border-2 border-ap-blue rounded-xl px-3 py-3 text-[22px] text-center font-extrabold text-ap-primary outline-none focus:border-ap-blue focus:ring-4 focus:ring-ap-blue/15 bg-surface-card shadow-sm transition-all placeholder:text-ap-tertiary/40"
+              className="w-full border-2 border-ui-selected-border rounded-xl px-3 py-3 text-[22px] text-center font-extrabold text-ui-text outline-none focus:border-ui-selected-border focus:ring-4 focus:ring-ui-status-info/15 bg-surface-card shadow-sm transition-all placeholder:text-ui-text-muted/40"
             />
           </div>
         )}

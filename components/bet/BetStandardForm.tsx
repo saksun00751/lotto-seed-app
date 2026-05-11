@@ -245,7 +245,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
             <p className="text-[14px] font-bold text-violet-700">เลือกประเภทการแทงด้านบนก่อนเริ่มใส่เลข</p>
           </div>
         )}
-        <div className={["bg-surface-subtle/70 rounded-2xl border-2 border-ap-blue p-4 mb-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
+        <div className={["bg-surface-subtle/70 rounded-2xl border-2 border-ui-selected-border p-4 mb-4 transition-opacity", hasSelection ? "" : "opacity-50 pointer-events-none"].join(" ")}>
           <div className="flex items-center justify-center gap-2 mb-2">
             {Array.from({ length: maxDigits }).map((_, i) => (
               <div
@@ -253,17 +253,17 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
                 className={[
                   "w-14 h-16 rounded-xl border-2 flex items-center justify-center text-[28px] font-extrabold tabular-nums transition-all",
                   inputBuf[i]
-                    ? "border-ap-blue bg-surface-card text-ap-blue shadow-md"
+                    ? "border-ui-selected-border bg-surface-card text-ui-status-info shadow-md"
                     : i === inputBuf.length
-                      ? "border-ap-blue bg-blue-50 text-ap-tertiary animate-pulse"
-                      : "border-ap-blue bg-surface-card text-ap-tertiary/30",
+                      ? "border-ui-selected-border bg-blue-50 text-ui-text-muted animate-pulse"
+                      : "border-ui-selected-border bg-surface-card text-ui-text-muted/30",
                 ].join(" ")}
               >
                 {inputBuf[i] ?? "·"}
               </div>
             ))}
           </div>
-          <p className="text-center text-[14px] text-ap-secondary font-medium">
+          <p className="text-center text-[14px] text-ui-text-soft font-medium">
             {t.inputNumberLabel?.replace("{digits}", String(maxDigits)) ?? `ใส่เลข (${maxDigits} หลัก)`}
           </p>
         </div>
@@ -275,7 +275,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
                 <button
                   key={key}
                   onClick={pressClear}
-                  className="py-3.5 rounded-xl bg-ap-red/10 border-2 border-ap-red text-ap-red text-[14px] font-bold shadow-sm hover:bg-ap-red hover:text-white active:scale-95 transition-all"
+                  className="py-3.5 rounded-xl bg-ui-status-error/10 border-2 border-ui-status-error-border text-ui-status-error text-[14px] font-bold shadow-sm hover:bg-ui-status-error hover:text-ui-text-inverse active:scale-95 transition-all"
                 >
                   C
                 </button>
@@ -286,7 +286,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
                 <button
                   key={key}
                   onClick={pressBackspace}
-                  className="py-3.5 rounded-xl bg-yellow-50 border-2 border-yellow-500 text-ap-orange text-[14px] font-bold shadow-sm hover:bg-yellow-100 active:scale-95 transition-all"
+                  className="py-3.5 rounded-xl bg-yellow-50 border-2 border-yellow-500 text-ui-status-warning text-[14px] font-bold shadow-sm hover:bg-yellow-100 active:scale-95 transition-all"
                 >
                   ⌫
                 </button>
@@ -296,7 +296,7 @@ export default function BetStandardForm({ betType, baseBetType, selected3, selec
               <button
                 key={key}
                 onClick={() => pressDigit(key)}
-                className="py-3.5 rounded-xl bg-surface-card border-2 border-ap-blue text-[20px] font-extrabold text-ap-primary shadow-sm hover:border-ap-blue hover:bg-blue-50 active:scale-95 active:bg-ap-blue active:text-white transition-all"
+                className="py-3.5 rounded-xl bg-surface-card border-2 border-ui-selected-border text-[20px] font-extrabold text-ui-text shadow-sm hover:border-ui-selected-border hover:bg-blue-50 active:scale-95 active:bg-ui-button-primary active:text-ui-text-inverse transition-all"
               >
                 {key}
               </button>

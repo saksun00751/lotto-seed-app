@@ -24,7 +24,7 @@ export default function RefreshButton() {
         width="14"
         height="14"
         viewBox="0 0 24 24"
-        fill="#555"
+        fill="currentColor"
         style={{
           transition: "transform 0.8s ease",
           transform: spinning ? "rotate(360deg)" : "rotate(0deg)",

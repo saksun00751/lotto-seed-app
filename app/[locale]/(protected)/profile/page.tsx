@@ -90,41 +90,41 @@ export default async function ProfilePage({ params }: Props) {
 
         {/* Bank account */}
         <div className="bg-gradient-to-br from-emerald-500 to-teal-400 rounded-2xl shadow-card p-5">
-          <p className="text-[12px] text-white/70 uppercase tracking-wide font-medium mb-2 flex items-center gap-1.5">
+          <p className="text-[12px] text-ui-text-inverse/70 uppercase tracking-wide font-medium mb-2 flex items-center gap-1.5">
             <span aria-hidden>🏦</span>
             <span>{t.bankAccount}</span>
           </p>
           {accNo ? (
             <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 sm:gap-4 items-end">
               <div className="space-y-1.5">
-                <p className="text-[18px] leading-tight font-semibold text-white/80">{bankName || "-"}</p>
-                <p className="text-[22px] leading-tight font-bold text-white">{accName || "-"}</p>
+                <p className="text-[18px] leading-tight font-semibold text-ui-text-inverse/80">{bankName || "-"}</p>
+                <p className="text-[22px] leading-tight font-bold text-ui-text-inverse">{accName || "-"}</p>
               </div>
-              <p className="text-[22px] leading-tight font-bold text-white tabular-nums tracking-wide break-all sm:text-right">{accNo}</p>
+              <p className="text-[22px] leading-tight font-bold text-ui-text-inverse tabular-nums tracking-wide break-all sm:text-right">{accNo}</p>
             </div>
           ) : (
-            <p className="text-[13px] text-white/70">{t.noBank}</p>
+            <p className="text-[13px] text-ui-text-inverse/70">{t.noBank}</p>
           )}
         </div>
 
         {/* Menu sections */}
         {menuSections.map((section) => (
-          <div key={section.title} className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
-            <div className="px-5 py-3 border-b border-ap-border">
-              <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide">{section.title}</p>
+          <div key={section.title} className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
+            <div className="px-5 py-3 border-b border-ui-border">
+              <p className="text-[12px] font-semibold text-ui-text-muted uppercase tracking-wide">{section.title}</p>
             </div>
             <div className="divide-y divide-ap-border">
               {section.items.map((item) => (
                 <a key={item.href} href={`/${locale}${item.href}`}
                   className="flex items-center gap-4 px-5 py-3.5 hover:bg-surface-subtle/60 transition-colors group">
-                  <div className="w-9 h-9 rounded-xl bg-surface-subtle flex items-center justify-center text-[18px] flex-shrink-0 group-hover:bg-ap-blue/5 transition-colors">
+                  <div className="w-9 h-9 rounded-xl bg-surface-subtle flex items-center justify-center text-[18px] flex-shrink-0 group-hover:bg-ui-button-primary/5 transition-colors">
                     {item.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[14px] font-medium text-ap-primary">{item.label}</p>
-                    <p className="text-[12px] text-ap-tertiary mt-0.5">{item.desc}</p>
+                    <p className="text-[14px] font-medium text-ui-text">{item.label}</p>
+                    <p className="text-[12px] text-ui-text-muted mt-0.5">{item.desc}</p>
                   </div>
-                  <svg className="w-4 h-4 text-ap-tertiary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="w-4 h-4 text-ui-text-muted flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M9 18l6-6-6-6" />
                   </svg>
                 </a>
@@ -134,19 +134,19 @@ export default async function ProfilePage({ params }: Props) {
         ))}
 
         {/* Logout */}
-        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
           <form action={logoutAction}>
             <button type="submit"
-              className="w-full flex items-center gap-4 px-5 py-4 hover:bg-ap-red/5 transition-colors text-left">
-              <div className="w-9 h-9 rounded-xl bg-ap-red/8 flex items-center justify-center text-[18px] flex-shrink-0">
+              className="w-full flex items-center gap-4 px-5 py-4 hover:bg-ui-status-error/5 transition-colors text-left">
+              <div className="w-9 h-9 rounded-xl bg-ui-status-error/8 flex items-center justify-center text-[18px] flex-shrink-0">
                 🚪
               </div>
-              <span className="text-[14px] font-semibold text-ap-red">{t.logout}</span>
+              <span className="text-[14px] font-semibold text-ui-status-error">{t.logout}</span>
             </button>
           </form>
         </div>
 
-        <p className="text-center text-[11px] text-ap-tertiary pb-2">
+        <p className="text-center text-[11px] text-ui-text-muted pb-2">
           {t.version}
         </p>
       </div>

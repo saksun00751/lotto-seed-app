@@ -43,7 +43,7 @@ interface CategoryTranslation {
 
 function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryTranslation; groupId: number; locale: string }) {
   return (
-    <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card hover:shadow-card-hover transition-all hover:-translate-y-0.5 overflow-hidden h-full">
+    <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card hover:shadow-card-hover transition-all hover:-translate-y-0.5 overflow-hidden h-full">
       <div className={`h-[3px] bg-gradient-to-r ${item.barClass}`} />
       <div className="p-4 h-full flex flex-col">
         {/* Header */}
@@ -59,17 +59,17 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
               <span className="text-[24px]">{item.flag}</span>
             )}
             <div>
-              <div className="text-[14px] font-semibold text-ap-primary leading-tight">{item.name}</div>
-              <div className="text-[14px] font-bold text-ap-red mt-0.5 tabular-nums">{item.sub}</div>
+              <div className="text-[14px] font-semibold text-ui-text leading-tight">{item.name}</div>
+              <div className="text-[14px] font-bold text-ui-status-error mt-0.5 tabular-nums">{item.sub}</div>
             </div>
           </div>
           {item.isOpen ? (
-            <span className="flex items-center gap-1 text-[12px] font-medium text-ap-red bg-ap-red/8 px-2 py-0.5 rounded-full border border-ap-red/15 flex-shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-ap-red animate-pulse inline-block" />
+            <span className="flex items-center gap-1 text-[12px] font-medium text-ui-status-error bg-ui-status-error/8 px-2 py-0.5 rounded-full border border-ui-status-error-border/15 flex-shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-ui-status-error animate-pulse inline-block" />
               {t.live}
             </span>
           ) : (
-            <span className="text-[12px] font-medium text-ap-green bg-ap-green/8 px-2 py-0.5 rounded-full border border-ap-green/15 flex-shrink-0">
+            <span className="text-[12px] font-medium text-ui-status-success bg-ui-status-success/8 px-2 py-0.5 rounded-full border border-ui-status-success-border/15 flex-shrink-0">
               ✓ {t.drawn}
             </span>
           )}
@@ -79,19 +79,19 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
         {item.result ? (
           <div className="grid grid-cols-2 gap-1.5 h-[68px] mb-3">
             <div className="bg-surface-subtle rounded-xl p-2 text-center flex flex-col justify-center">
-              <div className="text-[20px] font-bold text-ap-primary tabular-nums">{item.result.top3}</div>
-              <div className="text-[12px] text-ap-tertiary">{t.top3}</div>
+              <div className="text-[20px] font-bold text-ui-text tabular-nums">{item.result.top3}</div>
+              <div className="text-[12px] text-ui-text-muted">{t.top3}</div>
             </div>
             <div className="bg-surface-subtle rounded-xl p-2 text-center flex flex-col justify-center">
-              <div className="text-[20px] font-bold text-ap-primary tabular-nums">{item.result.bot2}</div>
-              <div className="text-[12px] text-ap-tertiary">{t.bot2}</div>
+              <div className="text-[20px] font-bold text-ui-text tabular-nums">{item.result.bot2}</div>
+              <div className="text-[12px] text-ui-text-muted">{t.bot2}</div>
             </div>
           </div>
         ) : (
           <div className="text-center h-[68px] flex flex-col items-center justify-center mb-3">
             {item.closeAt
-              ? <CountdownTimer closeAt={item.closeAt} className="text-[22px] font-bold text-ap-primary tabular-nums tracking-wide" expiredText="—" />
-              : <span className="text-[22px] font-bold text-ap-primary tabular-nums tracking-wide">{item.countdown ?? "—"}</span>
+              ? <CountdownTimer closeAt={item.closeAt} className="text-[22px] font-bold text-ui-text tabular-nums tracking-wide" expiredText="—" />
+              : <span className="text-[22px] font-bold text-ui-text tabular-nums tracking-wide">{item.countdown ?? "—"}</span>
             }
           </div>
         )}
@@ -111,7 +111,7 @@ function SubItemCard({ item, t, groupId, locale }: { item: SubItem; t: CategoryT
               toastClosedRefresh={t.closedRefreshing}
             />
           ) : (
-            <button className="block w-full text-center bg-surface-subtle border border-ap-border text-ap-secondary rounded-full py-2 text-[13px] font-medium cursor-default">
+            <button className="block w-full text-center bg-surface-subtle border border-ui-border text-ui-text-soft rounded-full py-2 text-[13px] font-medium cursor-default">
               {t.viewPast}
             </button>
           )}
@@ -126,8 +126,8 @@ function ComingSoon({ emoji, label, t }: { emoji: string; label: string; t: Cate
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <div className="text-[64px] mb-4">{emoji}</div>
-      <h2 className="text-[20px] font-bold text-ap-primary mb-2">{label}</h2>
-      <p className="text-[14px] text-ap-tertiary">{t.comingSoon}</p>
+      <h2 className="text-[20px] font-bold text-ui-text mb-2">{label}</h2>
+      <p className="text-[14px] text-ui-text-muted">{t.comingSoon}</p>
     </div>
   );
 }
@@ -175,9 +175,9 @@ export default async function CategoryPage({ params }: Props) {
         <div className="flex items-center gap-3 mb-6">
           <BackButton
             fallbackHref={`/${locale}/dashboard`}
-            className="w-8 h-8 rounded-xl bg-surface-card border border-ap-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
+            className="w-8 h-8 rounded-xl bg-surface-card border border-ui-border flex items-center justify-center shadow-sm hover:bg-surface-subtle transition-colors"
           >
-            <svg className="w-4 h-4 text-ap-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-4 h-4 text-ui-text-soft" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </BackButton>
@@ -187,11 +187,11 @@ export default async function CategoryPage({ params }: Props) {
             {cat.emoji}
           </div>
           <div>
-            <h1 className="text-[18px] font-bold text-ap-primary leading-tight">{cat.label}</h1>
+            <h1 className="text-[18px] font-bold text-ui-text leading-tight">{cat.label}</h1>
             {openCount > 0 ? (
-              <p className="text-[12px] text-ap-red font-medium">🔴 {openCount} {t.liveItems}</p>
+              <p className="text-[12px] text-ui-status-error font-medium">🔴 {openCount} {t.liveItems}</p>
             ) : (
-              <p className="text-[12px] text-ap-tertiary">{cat.items.length} {t.items}</p>
+              <p className="text-[12px] text-ui-text-muted">{cat.items.length} {t.items}</p>
             )}
           </div>
         </div>

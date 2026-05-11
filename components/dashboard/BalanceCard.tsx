@@ -130,10 +130,10 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2.5 flex-1 min-w-0">
             <div className="bg-white/18 border border-white/30 rounded-full px-3 py-1 self-start backdrop-blur-sm">
-              <span className="text-[#e4efff] font-extrabold text-[18px] tracking-wider tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.26)]">{livePhone}</span>
+              <span className="text-ui-balance-muted font-extrabold text-[18px] tracking-wider tabular-nums [text-shadow:0_1px_2px_rgba(0,0,0,0.26)]">{livePhone}</span>
             </div>
             {liveDisplayName && (
-              <h3 className="sm:ml-auto text-[#e4efff] font-bold text-[18px] truncate [text-shadow:0_1px_2px_rgba(0,0,0,0.26)]">{liveDisplayName}</h3>
+              <h3 className="sm:ml-auto text-ui-balance-muted font-bold text-[18px] truncate [text-shadow:0_1px_2px_rgba(0,0,0,0.26)]">{liveDisplayName}</h3>
             )}
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
               <button
                 onClick={handleRefresh}
-                className="w-8 h-8 rounded-full bg-surface-card border border-white ring-1 ring-[#0a5cae]/35 text-slate-700 flex items-center justify-center shadow-[0_4px_12px_rgba(0,34,80,0.22)] pointer-events-auto hover:bg-surface-card active:scale-95 transition-all"
+                className="w-8 h-8 rounded-full bg-surface-card border border-white ring-1 ring-ui-status-info/35 text-slate-700 flex items-center justify-center shadow-[0_4px_12px_rgba(0,34,80,0.22)] pointer-events-auto hover:bg-surface-card active:scale-95 transition-all"
                 title="รีเฟรช"
                 aria-label="รีเฟรชยอดเงิน"
               >
@@ -166,10 +166,10 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
                 key={stat.key}
                 className="px-4 py-4 rounded-2xl bg-black/14 border border-white/22 backdrop-blur-[2px] flex flex-col items-center justify-center gap-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
               >
-                <span className="text-[#dbe9ff] text-[20px] leading-tight font-extrabold tabular-nums tracking-tight [text-shadow:0_1px_2px_rgba(0,0,0,0.30)]">
+                <span className="text-ui-balance-text text-[20px] leading-tight font-extrabold tabular-nums tracking-tight [text-shadow:0_1px_2px_rgba(0,0,0,0.30)]">
                   {stat.key === "referral" ? `${stat.label} ${stat.value}` : stat.value}
                 </span>
-                <span className="text-[#b8d2f3] text-[14px] leading-tight font-semibold">
+                <span className="text-ui-balance-muted text-[14px] leading-tight font-semibold">
                   {stat.key === "referral" ? stat.subLabel : stat.label}
                 </span>
               </div>
@@ -178,16 +178,16 @@ export default function BalanceCard({ phone, displayName, initialData }: Props) 
         </div>
 
         {/* ปุ่มเติมเงิน / ถอนเงิน */}
-        <div className="relative grid grid-cols-2 gap-3 px-4 py-4" style={{ borderTop: "1px solid rgba(255,255,255,0.14)" }}>
+        <div className="relative grid grid-cols-2 gap-3 px-4 py-4 border-t border-white/15">
           <Link href={`/${lang}/deposit`}
-            className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#f5cf54] via-[#f2c449] to-[#ecb54a] text-[#1b2d4a] font-extrabold text-[13px] py-3 rounded-2xl border border-white/35 shadow-lg hover:brightness-105 active:scale-[0.98] transition-all"
+            className="flex items-center justify-center gap-2 [background:var(--ui-reward-bg)] text-ui-reward-text font-extrabold text-[13px] py-3 rounded-2xl border border-white/35 shadow-lg hover:brightness-105 active:scale-[0.98] transition-all"
             aria-label={t.deposit}
           >
             <span aria-hidden className="emoji-font text-[14px] leading-none">💰</span>
             {t.deposit}
           </Link>
           <Link href={`/${lang}/withdraw`}
-            className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#f06a8f] via-[#e35fa8] to-[#c85edd] text-[#fff2ff] font-extrabold text-[13px] py-3 rounded-2xl border border-white/24 shadow-lg hover:brightness-105 active:scale-[0.98] transition-all"
+            className="flex items-center justify-center gap-2 bg-ui-button-danger text-ui-button-danger-text font-extrabold text-[13px] py-3 rounded-2xl border border-white/24 shadow-lg hover:brightness-105 active:scale-[0.98] transition-all"
             aria-label={t.withdraw}
           >
             <span aria-hidden className="emoji-font text-[14px] leading-none">💸</span>

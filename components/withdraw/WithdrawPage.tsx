@@ -68,20 +68,20 @@ function Notes({ withdrawMin, withdrawMaxDay, withdrawSumToday, tw }: {
   tw:               WithdrawT;
 }) {
   return (
-    <div className="relative overflow-hidden mt-6 rounded-2xl border border-[#e9d9a5] bg-[linear-gradient(160deg,#ffffff_0%,#fff8e6_100%)] shadow-[0_16px_36px_rgba(166,120,20,0.16)] p-4">
+    <div className="relative overflow-hidden mt-6 rounded-2xl border border-ui-alert-warning-border bg-[var(--ui-alert-warning-bg)] shadow-[0_16px_36px_rgba(166,120,20,0.16)] p-4">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(212,175,55,0.20),transparent_45%)] pointer-events-none" />
-      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4af37]/80 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-ui-reward-border/80 to-transparent" />
 
       <div className="relative flex items-center gap-2 mb-3">
-        <span className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-[#fff1c8] border border-[#e6cd7a] text-[14px]">⚠️</span>
-        <p className="text-[13px] font-bold text-[#7a5a00] tracking-wide">{tw.noteTitle}</p>
+        <span className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-ui-alert-warning-bg border border-ui-alert-warning-border text-[14px]">⚠️</span>
+        <p className="text-[13px] font-bold text-ui-alert-warning tracking-wide">{tw.noteTitle}</p>
       </div>
 
       <div className="relative space-y-2">
-        <div className="rounded-xl border border-[#eedeb0] bg-surface-card px-3 py-2.5 text-[14px] font-semibold text-ap-primary">
+        <div className="rounded-xl border border-ui-alert-warning-border bg-surface-card px-3 py-2.5 text-[14px] font-semibold text-ui-text">
           {t1(tw.noteMinWithBaht, fmt(withdrawMin))}
         </div>
-        <div className="rounded-xl border border-[#eedeb0] bg-surface-card px-3 py-2.5 text-[14px] font-semibold text-ap-primary">
+        <div className="rounded-xl border border-ui-alert-warning-border bg-surface-card px-3 py-2.5 text-[14px] font-semibold text-ui-text">
           {tVars(tw.noteMaxDayWithSum, { max: fmt(withdrawMaxDay), sum: fmt(withdrawSumToday) })}
         </div>
       </div>
@@ -102,42 +102,42 @@ function PromoCard({
   tw:              WithdrawT;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-ap-border bg-surface-card shadow-[0_10px_22px_rgba(15,23,42,0.08)] px-4 py-3.5 mb-5">
+    <div className="relative overflow-hidden rounded-2xl border border-ui-border bg-surface-card shadow-[0_10px_22px_rgba(15,23,42,0.08)] px-4 py-3.5 mb-5">
       <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
 
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2 min-w-0">
           <span className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-blue-50 border border-blue-200 text-[15px] flex-shrink-0">👑</span>
           <div className="min-w-0">
-            <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoTitle}</p>
-            <p className="text-[16px] font-bold text-ap-primary mt-0.5 truncate">{name || "-"}</p>
+            <p className="text-[12px] font-semibold text-ui-text-muted uppercase tracking-wide leading-none">{tw.promoTitle}</p>
+            <p className="text-[16px] font-bold text-ui-text mt-0.5 truncate">{name || "-"}</p>
           </div>
         </div>
         <span className={`text-[13px] px-2 py-0.5 rounded-full border font-bold whitespace-nowrap ${
           turnoverPassed
-            ? "bg-emerald-50 text-ap-green border-emerald-200"
-            : "bg-amber-50 text-ap-orange border-amber-200"
+            ? "bg-emerald-50 text-ui-status-success border-emerald-200"
+            : "bg-amber-50 text-ui-status-warning border-amber-200"
         }`}>
           {turnoverPassed ? tw.promoPassed : tw.promoNotPassed}
         </span>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatTurn}</p>
-          <p className="text-[16px] font-bold text-ap-primary mt-1 tabular-nums">฿{fmt(turnover)}</p>
+        <div className="rounded-lg border border-ui-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ui-text-muted uppercase tracking-wide leading-none">{tw.promoStatTurn}</p>
+          <p className="text-[16px] font-bold text-ui-text mt-1 tabular-nums">฿{fmt(turnover)}</p>
         </div>
-        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatLimit}</p>
-          <p className="text-[16px] font-bold text-ap-red mt-1 tabular-nums">฿{fmt(withdrawLimit)}</p>
+        <div className="rounded-lg border border-ui-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ui-text-muted uppercase tracking-wide leading-none">{tw.promoStatLimit}</p>
+          <p className="text-[16px] font-bold text-ui-status-error mt-1 tabular-nums">฿{fmt(withdrawLimit)}</p>
         </div>
-        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatPayout}</p>
+        <div className="rounded-lg border border-ui-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ui-text-muted uppercase tracking-wide leading-none">{tw.promoStatPayout}</p>
           <p className="text-[16px] font-bold text-blue-700 mt-1 tabular-nums">฿{fmt(payoutAmount)}</p>
         </div>
-        <div className="rounded-lg border border-ap-border bg-surface-subtle px-2.5 py-2">
-          <p className="text-[12px] font-semibold text-ap-tertiary uppercase tracking-wide leading-none">{tw.promoStatShortfall}</p>
-          <p className="text-[16px] font-bold text-ap-orange mt-1 tabular-nums">฿{fmt(shortfall)}</p>
+        <div className="rounded-lg border border-ui-border bg-surface-subtle px-2.5 py-2">
+          <p className="text-[12px] font-semibold text-ui-text-muted uppercase tracking-wide leading-none">{tw.promoStatShortfall}</p>
+          <p className="text-[16px] font-bold text-ui-status-warning mt-1 tabular-nums">฿{fmt(shortfall)}</p>
         </div>
       </div>
 
@@ -150,7 +150,7 @@ function PromoCard({
         <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-[14px] font-semibold text-blue-800">
           {tVars(tw.promoCalcNote, { req: fmt(requestedAmount), limit: fmt(withdrawLimit) })}
         </div>
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[14px] font-semibold text-ap-red">
+        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[14px] font-semibold text-ui-status-error">
           {tw.promoForceFull}
         </div>
       </div>
@@ -218,19 +218,19 @@ export default function WithdrawPage({
   if (state.success) {
     return (
       <div className="max-w-5xl mx-auto px-4 sm:px-5 pt-5 sm:pt-6">
-        <div className="relative overflow-hidden bg-surface-card rounded-3xl border border-ap-border shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-6 text-center">
+        <div className="relative overflow-hidden bg-surface-card rounded-3xl border border-ui-border shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-6 text-center">
           <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/70 to-transparent" />
-          <div className="w-20 h-20 rounded-full bg-ap-green/10 flex items-center justify-center mx-auto mb-5">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="2.2">
+          <div className="w-20 h-20 rounded-full bg-ui-status-success/10 flex items-center justify-center mx-auto mb-5">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--ap-green)" strokeWidth="2.2">
               <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <h2 className="text-[22px] font-bold text-ap-primary">{tw.successTitle}</h2>
-          <p className="text-[13px] text-ap-secondary mt-1.5">
+          <h2 className="text-[22px] font-bold text-ui-text">{tw.successTitle}</h2>
+          <p className="text-[13px] text-ui-text-soft mt-1.5">
             {t1(tw.successDesc, COOLDOWN_MIN)}
           </p>
 
-          <div className="mt-5 bg-surface-subtle rounded-2xl border border-ap-border p-4 text-left space-y-2.5">
+          <div className="mt-5 bg-surface-subtle rounded-2xl border border-ui-border p-4 text-left space-y-2.5">
             {[
               { label: tw.rowAmount, value: `฿${fmt(effectiveAmount)}`, blue: true },
               { label: tw.rowBank,   value: bankName ?? "-" },
@@ -238,8 +238,8 @@ export default function WithdrawPage({
               { label: tw.rowName,   value: displayName },
             ].map((row) => (
               <div key={row.label} className="flex items-center justify-between">
-                <span className="text-[13px] text-ap-secondary">{row.label}</span>
-                <span className={`text-[13px] font-semibold ${row.blue ? "text-ap-blue" : "text-ap-primary"}`}>
+                <span className="text-[13px] text-ui-text-soft">{row.label}</span>
+                <span className={`text-[13px] font-semibold ${row.blue ? "text-ui-status-info" : "text-ui-text"}`}>
                   {row.value}
                 </span>
               </div>
@@ -248,7 +248,7 @@ export default function WithdrawPage({
 
           <a
             href={`/${lang}/profile`}
-            className="mt-5 flex items-center justify-center w-full rounded-2xl bg-gradient-to-r from-[#0a68d8] to-[#1a87ea] text-white py-3.5 text-[15px] font-semibold hover:brightness-105 transition-all shadow-[0_10px_22px_rgba(37,99,235,0.24)]"
+            className="mt-5 flex items-center justify-center w-full rounded-2xl bg-ui-button-primary text-ui-text-inverse py-3.5 text-[15px] font-semibold hover:bg-ui-button-primary-hover transition-all shadow-[0_10px_22px_rgba(37,99,235,0.24)]"
           >
             {tw.backProfile}
           </a>
@@ -273,29 +273,29 @@ export default function WithdrawPage({
 
       {/* Withdraw disabled */}
       {!canWithdraw && (
-        <div className="mb-4 bg-red-50 border border-red-200 rounded-2xl px-4 py-3 text-[13px] text-ap-red font-medium shadow-[0_8px_18px_rgba(127,29,29,0.14)]">
+        <div className="mb-4 bg-red-50 border border-red-200 rounded-2xl px-4 py-3 text-[13px] text-ui-status-error font-medium shadow-[0_8px_18px_rgba(127,29,29,0.14)]">
           {tw.systemClosed}
         </div>
       )}
 
       {/* Balance card */}
-      <div className="relative overflow-hidden bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
+      <div className="relative overflow-hidden bg-surface-card rounded-2xl border border-ui-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-3">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(59,130,246,0.12),transparent_42%)] pointer-events-none" />
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/60 to-transparent" />
-        <p className="relative text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-1">{tw.balance}</p>
-        <p className="relative text-[32px] font-extrabold text-ap-primary tabular-nums leading-tight tracking-tight">
+        <p className="relative text-[12px] text-ui-text-muted uppercase tracking-[0.08em] font-semibold mb-1">{tw.balance}</p>
+        <p className="relative text-[32px] font-extrabold text-ui-text tabular-nums leading-tight tracking-tight">
           ฿{fmt(balance)}
         </p>
       </div>
 
       {/* Bank info card */}
-      <div className="relative bg-surface-card rounded-2xl border border-ap-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
+      <div className="relative bg-surface-card rounded-2xl border border-ui-border shadow-[0_14px_30px_rgba(15,23,42,0.10)] px-5 py-4 mb-5">
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
-        <p className="text-[12px] text-ap-tertiary uppercase tracking-[0.08em] font-semibold mb-2">{tw.myAccount}</p>
+        <p className="text-[12px] text-ui-text-muted uppercase tracking-[0.08em] font-semibold mb-2">{tw.myAccount}</p>
         {bankAccount ? (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-surface-card border border-ap-border overflow-hidden flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-surface-card border border-ui-border overflow-hidden flex items-center justify-center flex-shrink-0">
                 {bankLogo ? (
                   <img src={bankLogo} alt={bankName ?? tw.bankAlt} className="w-full h-full object-contain" />
                 ) : (
@@ -303,18 +303,18 @@ export default function WithdrawPage({
                 )}
               </div>
               <div>
-                <p className="text-[14px] font-semibold text-ap-primary">{displayName}</p>
-                <p className="text-[13px] text-ap-secondary mt-0.5">{bankName}</p>
+                <p className="text-[14px] font-semibold text-ui-text">{displayName}</p>
+                <p className="text-[13px] text-ui-text-soft mt-0.5">{bankName}</p>
               </div>
             </div>
-            <p className="text-[14px] font-mono font-semibold text-ap-primary tracking-wider bg-surface-subtle border border-ap-border rounded-lg px-2.5 py-1">
+            <p className="text-[14px] font-mono font-semibold text-ui-text tracking-wider bg-surface-subtle border border-ui-border rounded-lg px-2.5 py-1">
               {formatBankAccount(bankAccount)}
             </p>
           </div>
         ) : (
           <div className="flex items-center justify-between">
-            <p className="text-[13px] text-ap-tertiary">{tw.noBank}</p>
-            <a href={`/${lang}/profile`} className="text-[14px] text-ap-blue font-semibold hover:text-ap-blue-h transition-colors">{tw.setup}</a>
+            <p className="text-[13px] text-ui-text-muted">{tw.noBank}</p>
+            <a href={`/${lang}/profile`} className="text-[14px] text-ui-status-info font-semibold hover:text-ui-button-primary-hover transition-colors">{tw.setup}</a>
           </div>
         )}
       </div>
@@ -336,16 +336,16 @@ export default function WithdrawPage({
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4" onClick={() => setShowConfirm(false)}>
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-          <div className="relative bg-surface-card rounded-3xl border border-ap-border shadow-[0_20px_44px_rgba(15,23,42,0.24)] w-full max-w-sm p-6 animate-fade-up" onClick={(e) => e.stopPropagation()}>
-            <div className="w-14 h-14 rounded-full bg-ap-red/10 flex items-center justify-center mx-auto mb-4">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+          <div className="relative bg-surface-card rounded-3xl border border-ui-border shadow-[0_20px_44px_rgba(15,23,42,0.24)] w-full max-w-sm p-6 animate-fade-up" onClick={(e) => e.stopPropagation()}>
+            <div className="w-14 h-14 rounded-full bg-ui-status-error/10 flex items-center justify-center mx-auto mb-4">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--ap-red)" strokeWidth="2">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
             </div>
-            <h3 className="text-[18px] font-bold text-ap-primary text-center mb-1">{tw.confirmTitle}</h3>
-            <p className="text-[14px] text-ap-tertiary text-center mb-5">{tw.confirmDesc}</p>
+            <h3 className="text-[18px] font-bold text-ui-text text-center mb-1">{tw.confirmTitle}</h3>
+            <p className="text-[14px] text-ui-text-muted text-center mb-5">{tw.confirmDesc}</p>
 
-            <div className="bg-surface-subtle border border-ap-border rounded-2xl p-4 space-y-3 mb-5">
+            <div className="bg-surface-subtle border border-ui-border rounded-2xl p-4 space-y-3 mb-5">
               {[
                 { label: tw.rowAmount, value: `฿${fmt(effectiveAmount)}`, highlight: true },
                 { label: tw.rowBank,   value: bankName ?? "-" },
@@ -353,8 +353,8 @@ export default function WithdrawPage({
                 { label: tw.rowName,   value: displayName },
               ].map((row) => (
                 <div key={row.label} className="flex items-center justify-between">
-                  <span className="text-[14px] text-ap-secondary">{row.label}</span>
-                  <span className={`text-[13px] font-bold ${row.highlight ? "text-ap-red" : "text-ap-primary"}`}>
+                  <span className="text-[14px] text-ui-text-soft">{row.label}</span>
+                  <span className={`text-[13px] font-bold ${row.highlight ? "text-ui-status-error" : "text-ui-text"}`}>
                     {row.value}
                   </span>
                 </div>
@@ -365,7 +365,7 @@ export default function WithdrawPage({
               <button
                 type="button"
                 onClick={() => setShowConfirm(false)}
-                className="flex-1 py-3 rounded-full border border-ap-border text-[14px] font-semibold text-ap-secondary hover:bg-surface-subtle transition-colors"
+                className="flex-1 py-3 rounded-full border border-ui-border text-[14px] font-semibold text-ui-text-soft hover:bg-surface-subtle transition-colors"
               >
                 {tw.confirmCancel}
               </button>
@@ -373,7 +373,7 @@ export default function WithdrawPage({
                 type="button"
                 disabled={pending}
                 onClick={() => { setShowConfirm(false); formRef.current?.requestSubmit(); }}
-                className="flex-1 py-3 rounded-full bg-ap-red text-white text-[14px] font-bold hover:opacity-90 transition-all disabled:opacity-50 active:scale-[0.99]"
+                className="flex-1 py-3 rounded-full bg-ui-status-error text-ui-text-inverse text-[14px] font-bold hover:opacity-90 transition-all disabled:opacity-50 active:scale-[0.99]"
               >
                 {pending ? tw.btnProcessing : tw.confirmOk}
               </button>
@@ -385,9 +385,9 @@ export default function WithdrawPage({
       {/* Form card */}
       <form ref={formRef} action={action}>
       <input type="hidden" name="amount" value={promoActive ? String(forcedAmount) : amount} />
-      <div className="relative bg-surface-card rounded-3xl border border-ap-border shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-5 space-y-5">
+      <div className="relative bg-surface-card rounded-3xl border border-ui-border shadow-[0_16px_34px_rgba(15,23,42,0.12)] p-5 space-y-5">
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-300/70 to-transparent" />
-        <h2 className="text-[17px] font-bold text-ap-primary">{tw.enterAmount}</h2>
+        <h2 className="text-[17px] font-bold text-ui-text">{tw.enterAmount}</h2>
 
         {/* Quick-amount buttons */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -405,9 +405,9 @@ export default function WithdrawPage({
                 className={[
                   "py-3 rounded-xl text-[13px] font-bold border transition-all active:scale-[0.98]",
                   selected
-                    ? "border-[#1f63d8] bg-gradient-to-b from-[#3588f4] via-[#2872e6] to-[#1f63d8] text-white shadow-[0_10px_20px_rgba(37,99,235,0.25)]"
-                    : "bg-surface-card border-ap-border text-ap-primary hover:border-blue-300 hover:bg-[#f8fbff]",
-                  promoActive ? "opacity-50 cursor-not-allowed hover:border-ap-border hover:bg-surface-card" : "",
+                    ? "border-ui-selected-border bg-ui-button-primary text-ui-text-inverse shadow-[0_10px_20px_rgba(37,99,235,0.25)]"
+                    : "bg-surface-card border-ui-border text-ui-text hover:border-ui-selected-border/40 hover:bg-surface-subtle",
+                  promoActive ? "opacity-50 cursor-not-allowed hover:border-ui-border hover:bg-surface-card" : "",
                 ].join(" ")}
               >
                 {q.label}
@@ -419,7 +419,7 @@ export default function WithdrawPage({
         {/* Custom input */}
         <div>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] font-bold text-ap-secondary select-none">฿</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[16px] font-bold text-ui-text-soft select-none">฿</span>
             <input
               type="number"
               inputMode="numeric"
@@ -431,29 +431,29 @@ export default function WithdrawPage({
               disabled={promoActive}
               readOnly={promoActive}
               className={[
-                "w-full border-2 rounded-2xl pl-9 pr-4 py-3 text-[16px] font-semibold text-ap-primary outline-none transition-all bg-surface-card",
+                "w-full border-2 rounded-2xl pl-9 pr-4 py-3 text-[16px] font-semibold text-ui-text outline-none transition-all bg-surface-card",
                 amountError
-                  ? "border-ap-red bg-ap-red/[0.03] focus:ring-2 focus:ring-ap-red/10"
-                  : "border-ap-border focus:border-ap-blue focus:ring-2 focus:ring-ap-blue/10",
-                promoActive ? "cursor-not-allowed bg-slate-100 text-ap-tertiary focus:border-ap-border focus:ring-0" : "",
+                  ? "border-ui-status-error-border bg-ui-status-error/[0.03] focus:ring-2 focus:ring-ui-status-error/10"
+                  : "border-ui-border focus:border-ui-selected-border focus:ring-2 focus:ring-ui-status-info/10",
+                promoActive ? "cursor-not-allowed bg-slate-100 text-ui-text-muted focus:border-ui-border focus:ring-0" : "",
               ].join(" ")}
             />
           </div>
           {promoActive && (
-            <p className="text-[13px] text-ap-red mt-1.5 pl-1 font-medium">
+            <p className="text-[13px] text-ui-status-error mt-1.5 pl-1 font-medium">
               {tw.promoForceInput}
             </p>
           )}
           {amountError && (
-            <p className="text-[14px] text-ap-red mt-1.5 pl-1">{amountError}</p>
+            <p className="text-[14px] text-ui-status-error mt-1.5 pl-1">{amountError}</p>
           )}
         </div>
 
         {/* Summary row */}
         {isValid && (
-          <div className="bg-surface-subtle border border-ap-border rounded-xl px-4 py-3 flex items-center justify-between animate-fade-in">
-            <span className="text-[14px] text-ap-secondary">{tw.transferTo}</span>
-            <span className="text-[13px] font-semibold text-ap-primary">
+          <div className="bg-surface-subtle border border-ui-border rounded-xl px-4 py-3 flex items-center justify-between animate-fade-in">
+            <span className="text-[14px] text-ui-text-soft">{tw.transferTo}</span>
+            <span className="text-[13px] font-semibold text-ui-text">
               {displayName} · {bankAccount ? maskAccount(bankAccount) : "-"}
             </span>
           </div>
@@ -464,7 +464,7 @@ export default function WithdrawPage({
           type="button"
           disabled={!isValid || pending}
           onClick={() => setShowConfirm(true)}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#d72638] to-[#ef4444] text-white text-[15px] font-semibold hover:brightness-105 transition-all disabled:opacity-40 active:scale-[0.99] shadow-[0_10px_22px_rgba(220,38,38,0.25)]"
+          className="w-full py-3.5 rounded-2xl bg-ui-status-error text-ui-text-inverse text-[15px] font-semibold hover:opacity-90 transition-all disabled:opacity-40 active:scale-[0.99] shadow-[0_10px_22px_rgba(220,38,38,0.25)]"
         >
           {pending         ? tw.btnProcessing
            : !bankAccount  ? tw.btnNoBank

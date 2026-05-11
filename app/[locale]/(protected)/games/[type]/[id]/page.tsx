@@ -62,23 +62,23 @@ export default async function GameProviderGamesPage({ params }: Props) {
     <div className="min-h-screen bg-surface-subtle pb-20 sm:pb-8">
       <div className="max-w-5xl mx-auto px-4 pt-5">
 
-        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
           {/* Header */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-ap-border">
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-ui-border">
             <Link
               href={`/${locale}/games/${type}`}
-              className="w-8 h-8 rounded-full bg-surface-subtle border border-ap-border flex items-center justify-center text-ap-secondary hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 rounded-full bg-surface-subtle border border-ui-border flex items-center justify-center text-ui-text-soft hover:bg-gray-200 transition-colors"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </Link>
             <div>
-              <p className="text-[11px] text-ap-secondary font-medium">{meta.emoji} {typeLabel}</p>
-              <h1 className="text-[16px] font-bold text-ap-primary leading-tight">
+              <p className="text-[11px] text-ui-text-soft font-medium">{meta.emoji} {typeLabel}</p>
+              <h1 className="text-[16px] font-bold text-ui-text leading-tight">
                 {id.toUpperCase()}
               </h1>
-              <p className="text-[12px] text-ap-secondary">
+              <p className="text-[12px] text-ui-text-soft">
                 {activeGames.length} {t.gameCount}
               </p>
             </div>

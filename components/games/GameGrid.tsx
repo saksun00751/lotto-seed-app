@@ -68,7 +68,7 @@ export default function GameGrid({ games, emoji, notFound }: Props) {
     return (
       <div className="py-16 flex flex-col items-center gap-2">
         <span className="text-[48px]">{emoji}</span>
-        <p className="text-[13px] text-ap-tertiary">{notFound}</p>
+        <p className="text-[13px] text-ui-text-muted">{notFound}</p>
       </div>
     );
   }
@@ -94,14 +94,14 @@ export default function GameGrid({ games, emoji, notFound }: Props) {
             )}
             {loading === g.id && (
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-2xl">
-                <svg className="w-6 h-6 text-white animate-spin" viewBox="0 0 24 24" fill="none">
+                <svg className="w-6 h-6 text-ui-text-inverse animate-spin" viewBox="0 0 24 24" fill="none">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
               </div>
             )}
           </div>
-          <p className="text-[11px] font-semibold text-ap-primary leading-tight line-clamp-2 w-full">
+          <p className="text-[11px] font-semibold text-ui-text leading-tight line-clamp-2 w-full">
             {g.gameName}
           </p>
         </button>

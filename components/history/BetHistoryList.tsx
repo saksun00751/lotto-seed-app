@@ -6,12 +6,12 @@ import { fetchSlipDetail } from "@/app/actions/history";
 import BetSlipDetailModal from "./BetSlipDetailModal";
 
 const STATUS_STYLE: Record<string, string> = {
-  confirmed: "bg-ap-blue/10 text-ap-blue",
-  won:       "bg-ap-green/10 text-ap-green",
-  lost:      "bg-ap-red/10 text-ap-red",
-  pending:   "bg-yellow-50 text-ap-orange",
-  cancelled: "bg-surface-subtle text-ap-tertiary",
-  refunded:  "bg-surface-subtle text-ap-secondary",
+  confirmed: "bg-ui-button-primary/10 text-ui-status-info",
+  won:       "bg-ui-status-success/10 text-ui-status-success",
+  lost:      "bg-ui-status-error/10 text-ui-status-error",
+  pending:   "bg-yellow-50 text-ui-status-warning",
+  cancelled: "bg-surface-subtle text-ui-text-muted",
+  refunded:  "bg-surface-subtle text-ui-text-soft",
 };
 const STATUS_LABEL: Record<string, string> = {
   confirmed: "ยืนยัน", won: "ถูกรางวัล", lost: "ไม่ถูก",
@@ -55,31 +55,31 @@ export default function BetHistoryList({ slips }: Props) {
               {/* Left */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[14px] font-bold text-ap-primary truncate">{slip.lotteryName}</span>
-                  <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[slip.status] ?? "bg-surface-subtle text-ap-secondary"}`}>
+                  <span className="text-[14px] font-bold text-ui-text truncate">{slip.lotteryName}</span>
+                  <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[slip.status] ?? "bg-surface-subtle text-ui-text-soft"}`}>
                     {STATUS_LABEL[slip.status] ?? slip.status}
                   </span>
                 </div>
-                <p className="text-[11px] text-ap-tertiary">
+                <p className="text-[11px] text-ui-text-muted">
                   {date} {time}
-                  <span className="mx-1.5 text-ap-border">·</span>
+                  <span className="mx-1.5 text-ui-border">·</span>
                   {slip.itemCount} รายการ
-                  <span className="mx-1.5 text-ap-border">·</span>
+                  <span className="mx-1.5 text-ui-border">·</span>
                   <span className="font-mono">#{slip.slipNo}</span>
                 </p>
               </div>
 
               {/* Right */}
               <div className="text-right shrink-0">
-                <p className="text-[15px] font-bold text-ap-primary tabular-nums">
+                <p className="text-[15px] font-bold text-ui-text tabular-nums">
                   ฿{slip.totalAmount.toLocaleString("th-TH")}
                 </p>
                 {slip.status === "won" ? (
-                  <p className="text-[14px] font-extrabold text-ap-green tabular-nums">
+                  <p className="text-[14px] font-extrabold text-ui-status-success tabular-nums">
                     + ฿{slip.totalPayout.toLocaleString("th-TH")}
                   </p>
                 ) : (
-                  <p className="text-[11px] text-ap-tertiary tabular-nums">
+                  <p className="text-[11px] text-ui-text-muted tabular-nums">
                     ชนะสูงสุด ฿{slip.totalPayout.toLocaleString("th-TH")}
                   </p>
                 )}
@@ -88,12 +88,12 @@ export default function BetHistoryList({ slips }: Props) {
               {/* Arrow / spinner */}
               <div className="flex-shrink-0 ml-1">
                 {isLoading ? (
-                  <svg className="w-4 h-4 text-ap-blue animate-spin" viewBox="0 0 24 24" fill="none">
+                  <svg className="w-4 h-4 text-ui-status-info animate-spin" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
                     <path d="M22 12a10 10 0 01-10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
                   </svg>
                 ) : (
-                  <svg className="w-4 h-4 text-ap-tertiary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="w-4 h-4 text-ui-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}

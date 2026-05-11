@@ -31,7 +31,7 @@ interface ApiGroup {
 }
 
 const TAB_GRADIENTS = [
-  "from-ap-blue to-sky-400",
+  "from-ui-button-primary to-sky-400",
   "from-emerald-500 to-teal-400",
   "from-yellow-500 to-orange-400",
   "from-violet-600 to-indigo-400",
@@ -72,26 +72,26 @@ export default function ResultsPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-[20px] font-bold text-ap-primary tracking-tight">🏆 ลิ้งค์ดูผลหวย</h1>
-        <p className="text-[13px] text-ap-secondary mt-0.5">รวมลิ้งค์ตรวจผลหวยทุกประเภท</p>
+        <h1 className="text-[20px] font-bold text-ui-text tracking-tight">🏆 ลิ้งค์ดูผลหวย</h1>
+        <p className="text-[13px] text-ui-text-soft mt-0.5">รวมลิ้งค์ตรวจผลหวยทุกประเภท</p>
       </div>
 
       {/* Loading */}
       {loading && (
         <div className="flex items-center gap-2 py-8 justify-center">
-          <div className="w-5 h-5 rounded-full border-2 border-ap-blue border-t-transparent animate-spin" />
-          <p className="text-[13px] text-ap-secondary">กำลังโหลด...</p>
+          <div className="w-5 h-5 rounded-full border-2 border-ui-selected-border border-t-transparent animate-spin" />
+          <p className="text-[13px] text-ui-text-soft">กำลังโหลด...</p>
         </div>
       )}
 
       {/* Error */}
       {error && !loading && (
-        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-ap-red">{error}</div>
+        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-[13px] text-ui-status-error">{error}</div>
       )}
 
       {/* Card */}
       {!loading && !error && groups.length > 0 && (
-        <div className="bg-surface-card rounded-2xl border border-ap-border shadow-card overflow-hidden">
+        <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
 
           {/* Tab bar */}
           <div className={`bg-gradient-to-r ${gradient} p-1 flex gap-1 overflow-x-auto`}>
@@ -102,8 +102,8 @@ export default function ResultsPage() {
                 className={[
                   "flex-shrink-0 flex-1 min-w-[72px] py-2 rounded-xl text-[13px] font-semibold transition-all whitespace-nowrap px-2",
                   activeId === g.group_code
-                    ? "bg-surface-card text-ap-primary shadow-sm"
-                    : "text-white/80 hover:text-white hover:bg-white/10",
+                    ? "bg-surface-card text-ui-text shadow-sm"
+                    : "text-ui-text-inverse/80 hover:text-ui-text-inverse hover:bg-white/10",
                 ].join(" ")}
               >
                 {g.group_name}
@@ -114,9 +114,9 @@ export default function ResultsPage() {
           {/* Tab header */}
           {activeGroup && (
             <div className={`bg-gradient-to-r ${gradient} px-4 pb-3 pt-2`}>
-              <p className="text-white font-bold text-[15px]">{activeGroup.group_name}</p>
+              <p className="text-ui-text-inverse font-bold text-[15px]">{activeGroup.group_name}</p>
               {activeGroup.description && (
-                <p className="text-white/80 text-[12px] mt-0.5 leading-relaxed">{activeGroup.description}</p>
+                <p className="text-ui-text-inverse/80 text-[12px] mt-0.5 leading-relaxed">{activeGroup.description}</p>
               )}
             </div>
           )}
@@ -135,7 +135,7 @@ export default function ResultsPage() {
                   {/* Logo / icon */}
                   <div className="w-9 flex-shrink-0">
                     {market.market_logo ? (
-                      <img src={market.market_logo} alt={market.market_name} className="w-9 h-9 rounded-full object-cover border border-ap-border" />
+                      <img src={market.market_logo} alt={market.market_name} className="w-9 h-9 rounded-full object-cover border border-ui-border" />
                     ) : (
                       <span className="text-[26px]">{market.market_icon || "🎯"}</span>
                     )}
@@ -143,10 +143,10 @@ export default function ResultsPage() {
 
                   {/* Name + times */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-ap-primary truncate">{market.market_name}</p>
+                    <p className="text-[13px] font-semibold text-ui-text truncate">{market.market_name}</p>
                     <div className="flex flex-wrap gap-x-3 mt-0.5">
-                      <span className="text-[11px] text-ap-secondary"><span className="text-ap-red">⊗</span> ปิดรับ {closeTime}</span>
-                      <span className="text-[11px] text-ap-secondary"><span className="text-ap-green">⊙</span> ผลออก {resultTime}</span>
+                      <span className="text-[11px] text-ui-text-soft"><span className="text-ui-status-error">⊗</span> ปิดรับ {closeTime}</span>
+                      <span className="text-[11px] text-ui-text-soft"><span className="text-ui-status-success">⊙</span> ผลออก {resultTime}</span>
                     </div>
                   </div>
 
@@ -155,7 +155,7 @@ export default function ResultsPage() {
                     {hasResult ? (
                       <a
                         href={`/${lang}/category/${activeGroup.group_code}`}
-                        className="flex items-center gap-1.5 bg-teal-500 text-white text-[12px] font-bold px-3 py-1.5 rounded-full hover:bg-teal-600 transition-colors tabular-nums"
+                        className="flex items-center gap-1.5 bg-teal-500 text-ui-text-inverse text-[12px] font-bold px-3 py-1.5 rounded-full hover:bg-teal-600 transition-colors tabular-nums"
                       >
                         {draw.result_top_3}
                         <span className="opacity-60">·</span>
@@ -164,7 +164,7 @@ export default function ResultsPage() {
                     ) : (
                       <a
                         href={`/${lang}/category/${activeGroup.group_code}`}
-                        className="flex items-center gap-1 text-[12px] font-semibold text-ap-blue bg-ap-blue/10 px-3 py-1.5 rounded-full hover:bg-ap-blue hover:text-white transition-all"
+                        className="flex items-center gap-1 text-[12px] font-semibold text-ui-status-info bg-ui-button-primary/10 px-3 py-1.5 rounded-full hover:bg-ui-button-primary hover:text-ui-text-inverse transition-all"
                       >
                         ดูผล
                         <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
