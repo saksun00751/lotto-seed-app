@@ -260,7 +260,7 @@ const stats = useMemo(() => {
         <div className="flex-1 min-w-0">
           <h2 className="text-[15px] font-bold text-ui-text-inverse tracking-tight truncate">{marketName}</h2>
           <p className="text-[12px] text-ui-text-inverse/80 leading-tight">
-            {drawDate || "—"} · {t.yeekeeRoundsCount.replace("{n}", String(stats.total))} · {t.yeekeeRoundInterval}
+            {drawDate || "—"} · {t.yeekeeRoundsCount.replace("{n}", String(stats.total))} 
           </p>
           <div className="mt-1.5 flex flex-wrap items-center gap-1 sm:hidden text-[11px] font-semibold text-ui-text-inverse/90">
             <span className="rounded-full bg-white/20 px-2 py-0.5">{t.yeekeeStatsOpen.replace("{n}", String(stats.open))}</span>
