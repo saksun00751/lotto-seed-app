@@ -31,12 +31,14 @@ interface Props {
   totalEarned?: number;
   promotionBonusIncome?: number;
   promotionBonusCount?: number;
+  moreMessage?: string;
   rule?: {
     promotion_id?: string;
     length_type?: string;
     bonus_percent?: number;
     bonus_price?: number;
     display_value?: string;
+    more_message?: string | null;
   } | null;
   referrals?: ReferralItem[];
 }
@@ -121,6 +123,7 @@ export default function ReferralPage({
   totalEarned = 0,
   promotionBonusIncome = 0,
   promotionBonusCount = 0,
+  moreMessage = "",
   rule = null,
   referrals = [],
 }: Props) {
@@ -141,7 +144,7 @@ export default function ReferralPage({
         <div className="relative">
           <div className="text-[44px] mb-3">🎁</div>
           <h1 className="text-[22px] font-bold tracking-tight leading-tight mb-1">{t.heroTitle}</h1>
-          <p className="text-[13px] text-ui-text-inverse/80">{t.heroDesc}</p>
+          <p className="text-[13px] text-ui-text-inverse/80">{moreMessage || t.heroDesc}</p>
         </div>
       </div>
 
@@ -244,13 +247,6 @@ export default function ReferralPage({
   );
 }
 
-// ─── Commission rate for a given rank ──────────────────────────────────────────
-function commissionRate(rank: number): { rate: string; label: string; className: string } {
-  if (rank <= 5)  return { rate: "0.5%", label: "Tier 1", className: "bg-blue-50 text-blue-600 border-blue-200" };
-  if (rank <= 20) return { rate: "1.0%", label: "Tier 2", className: "bg-purple-50 text-purple-600 border-purple-200" };
-  return           { rate: "1.5%", label: "Tier 3", className: "bg-amber-50 text-ui-status-warning border-amber-200" };
-}
-
 function ReferralList({
   referrals,
   referredCount,
@@ -262,13 +258,6 @@ function ReferralList({
   totalEarned: number;
   t: ReturnType<typeof useTranslation<"referral">>;
 }) {
-  // Active tier badge for current user
-  const currentTier =
-    referredCount === 0 ? null :
-    referredCount <= 5  ? { label: "Tier 1 · 0.5%", className: "bg-blue-500"   } :
-    referredCount <= 20 ? { label: "Tier 2 · 1.0%", className: "bg-purple-500" } :
-                          { label: "Tier 3 · 1.5%", className: "bg-ui-status-warning"  };
-
   return (
     <div className="bg-surface-card rounded-2xl border border-ui-border shadow-card overflow-hidden">
 
@@ -279,11 +268,6 @@ function ReferralList({
             <p className="text-[14px] font-bold text-ui-text">{t.listTitle}</p>
             <p className="text-[12px] text-ui-text-muted mt-0.5">{t.listTotal.replace("{n}", String(referredCount))}</p>
           </div>
-          {currentTier && (
-            <span className={`text-[11px] font-bold text-ui-text-inverse ${currentTier.className} rounded-full px-3 py-1`}>
-              {currentTier.label}
-            </span>
-          )}
         </div>
 
         {/* Summary bar */}
@@ -347,7 +331,6 @@ function ReferralList({
               const joined  = joinedDate && !Number.isNaN(joinedDate.getTime())
                 ? joinedDate.toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "2-digit" })
                 : "-";
-              const tier    = commissionRate(rank);
               const initial = String(name).slice(0, 1).toUpperCase();
 
               // Avatar color cycle
@@ -383,9 +366,6 @@ function ReferralList({
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
                       <p className="text-[13px] font-semibold text-ui-text truncate">{name}</p>
-                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full border flex-shrink-0 ${tier.className}`}>
-                        {tier.label}
-                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-[11px] text-ui-text-muted">
                       <span>{phone}</span>
@@ -399,7 +379,6 @@ function ReferralList({
                     <p className={`text-[14px] font-bold tabular-nums ${earned > 0 ? "text-ui-status-success" : "text-ui-text-muted"}`}>
                       ฿{earned.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
-                    <p className="text-[10px] text-ui-text-muted">{tier.rate}{t.perBet}</p>
                   </div>
                 </div>
               );

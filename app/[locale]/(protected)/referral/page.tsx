@@ -29,6 +29,7 @@ interface ReferralItem {
 
 interface ReferralApiResponse {
   success: boolean;
+  more_message?: string | null;
   summary?: {
     referred_members?: number;
     referral_code?: string;
@@ -42,9 +43,11 @@ interface ReferralApiResponse {
     bonus_percent?: number;
     bonus_price?: number;
     display_value?: string;
+    more_message?: string | null;
   };
   referrals?: ReferralItem[];
   data?: {
+    more_message?: string | null;
     summary?: ReferralApiResponse["summary"];
     rule?: ReferralApiResponse["rule"];
     referrals?: ReferralItem[];
@@ -64,6 +67,7 @@ export default async function ReferralRoute({ params }: Props) {
   let totalEarned = 0;
   let promotionBonusIncome = 0;
   let promotionBonusCount = 0;
+  let moreMessage = "";
   let rule: NonNullable<ReferralApiResponse["rule"]> | null = null;
   let referrals: ReferralItem[] = [];
 
@@ -76,6 +80,7 @@ export default async function ReferralRoute({ params }: Props) {
     totalEarned = Number(summary?.referral_income ?? 0);
     promotionBonusIncome = Number(summary?.promotion_bonus_income ?? 0);
     promotionBonusCount = Number(summary?.promotion_bonus_count ?? 0);
+    moreMessage = ruleData?.more_message?.trim() || res.more_message?.trim() || res.data?.more_message?.trim() || moreMessage;
     rule = ruleData ?? null;
     referrals = referralRows;
   };
@@ -103,6 +108,7 @@ export default async function ReferralRoute({ params }: Props) {
         totalEarned={totalEarned}
         promotionBonusIncome={promotionBonusIncome}
         promotionBonusCount={promotionBonusCount}
+        moreMessage={moreMessage}
         rule={rule}
         referrals={referrals}
       />
