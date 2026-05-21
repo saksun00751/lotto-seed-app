@@ -58,8 +58,8 @@ export default async function CouponRoute({ params }: Props) {
     if (!tk) return { success: false, message: "กรุณาเข้าสู่ระบบ" };
     try {
       const res = await apiPost<{ success?: boolean; message?: string }>(
-        "/member/coupon/redeem",
-        { code },
+        "/coupon/redeem",
+        { coupon: code },
         tk,
         lg,
       );
