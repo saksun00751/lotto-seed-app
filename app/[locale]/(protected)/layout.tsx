@@ -4,6 +4,7 @@ import UserProvider from "@/components/providers/UserProvider";
 import Navbar from "@/components/layout/Navbar";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 import { getNavbarConfig } from "@/lib/api/navbar";
+import ContactFAB from "@/components/ui/ContactFAB";
 
 export default async function ProtectedLayout({
   children,
@@ -28,6 +29,7 @@ export default async function ProtectedLayout({
         mobileNavItems={mobileNavItems}
       />
       {children}
+      <ContactFAB />
     </UserProvider>
   );
 }
