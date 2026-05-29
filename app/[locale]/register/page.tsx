@@ -8,6 +8,7 @@ import { getBanks } from "@/lib/api/banks";
 import { getRegisterClientVariant } from "@/lib/config/register";
 import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 import { getCurrentUser } from "@/lib/session/auth";
+import ContactPublicFAB from "@/components/ui/ContactPublicFAB";
 
 interface Props {
   params?: Promise<{ locale: string }>;
@@ -55,6 +56,7 @@ export default async function RegisterPage({ params, searchParams }: Props) {
       </div>
 
       <RegisterClient initialLang={locale} defaultRef={defaultRef} banks={banks} logoUrl={logoUrl} />
+      <ContactPublicFAB />
     </main>
   );
 }

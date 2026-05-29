@@ -6,6 +6,7 @@ import { Toaster } from "sonner";
 import ApiErrorToastListener from "@/components/providers/ApiErrorToastListener";
 import ToastSoundBridge from "@/components/providers/ToastSoundBridge";
 
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const data = await getSiteMeta();

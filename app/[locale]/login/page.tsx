@@ -4,6 +4,7 @@ import LoginPageClient from "@/components/auth/LoginPageClient";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 import { getCurrentUser } from "@/lib/session/auth";
+import ContactPublicFAB from "@/components/ui/ContactPublicFAB";
 
 export async function generateMetadata({
   params,
@@ -39,6 +40,7 @@ export default async function LoginPage({
       </div>
 
       <LoginPageClient initialLang={locale} expired={expired} logoUrl={logoUrl} />
+      <ContactPublicFAB />
     </main>
   );
 }
