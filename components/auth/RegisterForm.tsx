@@ -174,7 +174,7 @@ function PasswordStrength({ password, labels }: {
   labels: { checkLen: string };
 }) {
   if (!password) return null;
-  const valid = password.length >= 6 && password.length <= 10;
+  const valid = password.length >= 6 && password.length <= 16;
   return (
     <div className="flex flex-col gap-1.5 animate-fade-in">
       <div className="h-1 rounded-full transition-all duration-300 w-full" style={{ background: valid ? "var(--ap-green)" : "var(--ap-border)" }} />
@@ -411,7 +411,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
           <Input
             label={<>{t.password}{reqText}</>} name="password" type={showPw ? "text" : "password"}
             placeholder={t.passwordPlaceholder} autoComplete="new-password"
-            value={password} onChange={(e) => setPassword(stripSpecial(e.target.value.slice(0, 10), SPECIAL_CHAR_PASS_RE).cleaned)}
+            value={password} onChange={(e) => setPassword(stripSpecial(e.target.value.slice(0, 16), SPECIAL_CHAR_PASS_RE).cleaned)}
             error={state.fieldErrors?.password}
             leftEl={<LockIcon />}
             rightEl={
@@ -429,7 +429,7 @@ export default function RegisterForm({ defaultRef = "", banks = [] }: { defaultR
         <Input
           label={<>{t.confirmPassword}{reqText}</>} name="confirmPassword" type={showConfirm ? "text" : "password"}
           placeholder={t.confirmPlaceholder} autoComplete="new-password"
-          value={confirmPassword} onChange={(e) => setConfirmPassword(stripSpecial(e.target.value.slice(0, 10), SPECIAL_CHAR_PASS_RE).cleaned)}
+          value={confirmPassword} onChange={(e) => setConfirmPassword(stripSpecial(e.target.value.slice(0, 16), SPECIAL_CHAR_PASS_RE).cleaned)}
           error={state.fieldErrors?.confirmPassword || (confirmMismatch ? t.confirmMismatch : undefined)}
           leftEl={<ShieldIcon />}
           rightEl={

@@ -187,7 +187,7 @@ export async function registerAction(
   if (!phone)                        fieldErrors.user_name = t.errPhone;
   else if (!isValidThaiPhone(phone)) fieldErrors.user_name = t.errPhoneInvalid;
   if (!password)                                              fieldErrors.password = t.errPassword;
-  else if (password.length < 6 || password.length > 10)      fieldErrors.password = t.errPasswordLen;
+  else if (password.length < 6 || password.length > 16)      fieldErrors.password = t.errPasswordLen;
   if (!confirmPassword)                  fieldErrors.confirmPassword = t.errConfirmPassword;
   else if (confirmPassword !== password) fieldErrors.confirmPassword = t.confirmMismatch;
   if (!firstname)                      fieldErrors.firstname = t.errFirstname;
@@ -289,7 +289,7 @@ export async function registerWithUsernameAction(
   if (!tel)                          fieldErrors.tel       = t.errPhone;
   else if (!isValidThaiPhone(tel))   fieldErrors.tel       = t.errPhoneInvalid;
   if (!password)                                              fieldErrors.password = t.errPassword;
-  else if (password.length < 6 || password.length > 10)      fieldErrors.password = t.errPasswordLen;
+  else if (password.length < 6 || password.length > 16)      fieldErrors.password = t.errPasswordLen;
   if (!confirmPassword)                  fieldErrors.confirmPassword = t.errConfirmPassword;
   else if (confirmPassword !== password) fieldErrors.confirmPassword = t.confirmMismatch;
   if (!firstname)                      fieldErrors.firstname = t.errFirstname;
