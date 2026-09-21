@@ -47,7 +47,7 @@ interface Props {
 export default function BetStandardForm({ betType, baseBetType, selected3, selected2, selectedRun, bills, numberLimits, bettingContext, tripleTrigger, doubleTrigger, onAddBills }: Props) {
   const { lang } = useLang();
   const t = useTranslation("bet");
-  const localeByLang: Record<string, string> = { th: "th-TH", en: "en-US", kh: "km-KH", la: "lo-LA" };
+  const localeByLang: Record<string, string> = { th: "th-TH", en: "en-US", kh: "km-KH", la: "lo-LA", my: "my-MM" };
   const dateLocale = localeByLang[lang] ?? "th-TH";
 
   const maxDigits = MAX_DIGITS[betType];

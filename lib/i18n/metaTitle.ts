@@ -2,9 +2,10 @@ import th from "./locales/th.json";
 import en from "./locales/en.json";
 import kh from "./locales/kh.json";
 import la from "./locales/la.json";
+import my from "./locales/my.json";
 import { getSiteMeta } from "@/lib/api/site";
 
-const locales = { th, en, kh, la } as const;
+const locales = { th, en, kh, la, my } as const;
 type Lang = keyof typeof locales;
 type Locale = typeof th;
 

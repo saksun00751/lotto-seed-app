@@ -7,13 +7,14 @@ const LANGS: { code: LangCode; label: string; flag: string; flagIcon: string }[]
   { code: "en", label: "EN",    flag: "🇬🇧", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg" },
   { code: "kh", label: "ខ្មែរ", flag: "🇰🇭", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1ed.svg" },
   { code: "la", label: "ລາວ",   flag: "🇱🇦", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f1-1f1e6.svg" },
+  { code: "my", label: "မြန်မာ", flag: "🇲🇲", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f2-1f1f2.svg" },
 ];
 
 export default function LanguageSwitcher() {
   const { lang, setLang } = useLang();
 
   return (
-    <div className="flex items-center justify-center gap-1.5">
+    <div className="flex flex-wrap items-center justify-center gap-1.5">
       {LANGS.map((l) => (
         <button
           key={l.code}

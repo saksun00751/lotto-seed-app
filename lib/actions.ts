@@ -19,8 +19,9 @@ import th from "@/lib/i18n/locales/th.json";
 import en from "@/lib/i18n/locales/en.json";
 import kh from "@/lib/i18n/locales/kh.json";
 import la from "@/lib/i18n/locales/la.json";
+import my from "@/lib/i18n/locales/my.json";
 
-const locales = { th, en, kh, la } as const;
+const locales = { th, en, kh, la, my } as const;
 type LangCode = keyof typeof locales;
 type RegisterFieldErrors = NonNullable<RegisterState["fieldErrors"]>;
 

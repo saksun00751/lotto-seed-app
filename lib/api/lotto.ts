@@ -1,6 +1,6 @@
 import type { Category, SubItem } from "@/lib/categories";
 
-type MarketLang = "th" | "en" | "kh" | "la";
+type MarketLang = "th" | "en" | "kh" | "la" | "my";
 
 // ─── API Types ────────────────────────────────────────────────────────────────
 interface ApiDraw {
@@ -58,7 +58,7 @@ function bkkToIso(dt: string | null): string | undefined {
 }
 
 function normalizeLang(lang?: string): MarketLang {
-  return lang === "en" || lang === "kh" || lang === "la" ? lang : "th";
+  return lang === "en" || lang === "kh" || lang === "la" || lang === "my" ? lang : "th";
 }
 
 function formatCloseTime(dt: string | null, lang?: string): string {
@@ -71,6 +71,8 @@ function formatCloseTime(dt: string | null, lang?: string): string {
       return `បិទ ${time}`;
     case "la":
       return `ປິດ ${time}`;
+    case "my":
+      return `${time} တွင် ပိတ်မည်`;
     case "th":
     default:
       return `ปิด ${time} น.`;
@@ -84,6 +86,7 @@ function formatDrawDate(date: string | null, lang?: string): string | undefined 
     en: "en-US",
     kh: "km-KH",
     la: "lo-LA",
+    my: "my-MM",
   };
   return new Date(date).toLocaleDateString(localeByLang[normalizeLang(lang)], {
     day: "2-digit", month: "2-digit", year: "numeric",

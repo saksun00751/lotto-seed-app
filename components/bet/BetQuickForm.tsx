@@ -77,7 +77,7 @@ export default function BetQuickForm({
 }: Props) {
   const { lang } = useLang();
   const t = useTranslation("bet");
-  const localeByLang: Record<string, string> = { th: "th-TH", en: "en-US", kh: "km-KH", la: "lo-LA" };
+  const localeByLang: Record<string, string> = { th: "th-TH", en: "en-US", kh: "km-KH", la: "lo-LA", my: "my-MM" };
   const dateLocale = localeByLang[lang] ?? "th-TH";
   const today = new Date().toLocaleDateString(dateLocale, { day: "2-digit", month: "2-digit", year: "numeric" });
 

@@ -15,6 +15,7 @@ const LANGS: { code: LangCode; flag: string; flagIcon: string; label: string }[]
   { code: "en", flag: "🇬🇧", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1ec-1f1e7.svg", label: "EN" },
   { code: "kh", flag: "🇰🇭", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f0-1f1ed.svg", label: "ខ្មែរ" },
   { code: "la", flag: "🇱🇦", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f1-1f1e6.svg", label: "ລາວ" },
+  { code: "my", flag: "🇲🇲", flagIcon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f1f2-1f1f2.svg", label: "မြန်မာ" },
 ];
 
 interface NavbarProps {

@@ -762,24 +762,33 @@ export default function DepositPageRandom({ displayName, bankName, bankLogo, ban
                       <button
                         key={p.id}
                         type="button"
+                        aria-pressed={active}
                         onClick={() => setSelectedPayment(p)}
                         className={[
-                          "w-full text-left rounded-2xl border p-4 transition-all duration-200",
+                          "w-full text-left rounded-2xl border-2 p-4 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-selected-border",
                           active
-                            ? "border-blue-300 bg-blue-50/60 shadow-[0_8px_16px_rgba(37,99,235,0.10)]"
-                            : "border-ui-border bg-surface-card hover:border-blue-200 hover:bg-gradient-to-r hover:from-white hover:to-blue-50/40",
+                            ? "border-ui-selected-border bg-ui-selected-bg shadow-[0_8px_16px_rgba(37,99,235,0.14)]"
+                            : "border-ui-border bg-surface-card hover:border-ui-selected-border hover:bg-surface-subtle",
                         ].join(" ")}
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex min-w-0 items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-surface-subtle border border-ui-border flex items-center justify-center text-[20px] flex-shrink-0">💳</div>
-                            <p className="text-[15px] font-bold text-ui-text">{p.name}</p>
+                            <p className="min-w-0 break-words text-[15px] font-bold text-ui-text">{p.name}</p>
                           </div>
-                          {p.min_deposit > 0 && (
-                            <span className="text-[12px] text-ui-text-muted">
-                              {t.min} ฿{p.min_deposit.toLocaleString("en-US")}
+                          <div className="flex shrink-0 items-center gap-2">
+                            {p.min_deposit > 0 && (
+                              <span className="text-[12px] text-ui-text-muted">
+                                {t.min} ฿{p.min_deposit.toLocaleString("en-US")}
+                              </span>
+                            )}
+                            <span className={[
+                              "flex h-6 w-6 items-center justify-center rounded-full border-2 text-[13px] font-bold transition-colors",
+                              active ? "border-ui-button-primary bg-ui-button-primary text-ui-text-inverse" : "border-ui-border bg-surface-card text-transparent",
+                            ].join(" ")} aria-hidden="true">
+                              ✓
                             </span>
-                          )}
+                          </div>
                         </div>
                         {p.remark && (
                           <p className="text-[13px] text-ui-status-warning mt-2 bg-amber-50 rounded-lg px-2 py-1">{p.remark}</p>

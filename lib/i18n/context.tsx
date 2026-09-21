@@ -3,9 +3,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-export type LangCode = "th" | "en" | "kh" | "la";
+export type LangCode = "th" | "en" | "kh" | "la" | "my";
 
-const VALID_LANGS: LangCode[] = ["th", "en", "kh", "la"];
+const VALID_LANGS: LangCode[] = ["th", "en", "kh", "la", "my"];
 
 interface LangContextValue {
   lang: LangCode;
@@ -23,6 +23,17 @@ export function LangProvider({ children, initialLang }: { children: React.ReactN
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  useEffect(() => {
+    // The URL is canonical; an older saved preference must not override /my (or any direct locale link).
+    if (VALID_LANGS.includes(initialLang as LangCode)) {
+      setLangState(initialLang as LangCode);
+      localStorage.setItem("lang", initialLang as LangCode);
+      document.cookie = `lotto_lang=${initialLang}; path=/; max-age=604800; samesite=lax`;
+      return;
+    }
     const saved = localStorage.getItem("lang") as LangCode;
     if (VALID_LANGS.includes(saved)) {
       setLangState(saved);
@@ -31,7 +42,7 @@ export function LangProvider({ children, initialLang }: { children: React.ReactN
       // sync initialLang → localStorage
       localStorage.setItem("lang", lang);
     }
-  }, []);
+  }, [initialLang]);
 
   function setLang(l: LangCode) {
     setLangState(l);

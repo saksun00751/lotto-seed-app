@@ -2,8 +2,9 @@ import th from "./locales/th.json";
 import en from "./locales/en.json";
 import kh from "./locales/kh.json";
 import la from "./locales/la.json";
+import my from "./locales/my.json";
 
-const locales = { th, en, kh, la } as const;
+const locales = { th, en, kh, la, my } as const;
 type Locale = typeof th;
 type Lang = keyof typeof locales;
 
