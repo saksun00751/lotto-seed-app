@@ -5,7 +5,7 @@ import RegisterWithUsernamePageClient from "@/components/auth/RegisterWithUserna
 import type { BankOption } from "@/components/auth/RegisterForm";
 import { getSiteMeta, getLogoUrl } from "@/lib/api/site";
 import { getBanks } from "@/lib/api/banks";
-import { getRegisterClientVariant } from "@/lib/config/register";
+import { getRegisterClientVariant, isRegisterEnabled } from "@/lib/config/register";
 import { getPageMetaTitle } from "@/lib/i18n/metaTitle";
 import { getCurrentUser } from "@/lib/session/auth";
 import ContactPublicFAB from "@/components/ui/ContactPublicFAB";
@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RegisterPage({ params, searchParams }: Props) {
   const { locale } = (await params) ?? { locale: "th" };
+  if (!isRegisterEnabled()) redirect(`/${locale}/login`);
   const user        = await getCurrentUser();
   if (user) redirect(`/${locale}/dashboard`);
 

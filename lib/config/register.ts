@@ -24,3 +24,9 @@ export function getRegisterPageSegment(): RegisterClientVariant {
 export function getRegisterPagePath(locale: string): string {
   return `/${locale}/register`;
 }
+
+// NEXT_PUBLIC_REGISTER_ENABLED=false (or 0/off/no) disables registration. Unset = enabled.
+export function isRegisterEnabled(): boolean {
+  const v = (process.env.NEXT_PUBLIC_REGISTER_ENABLED ?? "").trim().toLowerCase();
+  return !["false", "0", "off", "no"].includes(v);
+}

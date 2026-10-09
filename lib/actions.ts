@@ -1,5 +1,7 @@
 "use server";
 
+import { isRegisterEnabled } from "@/lib/config/register";
+
 import { redirect } from "next/navigation";
 
 import {
@@ -171,6 +173,7 @@ export async function registerAction(
   _prevState: RegisterState,
   formData: FormData
 ): Promise<RegisterState> {
+  if (!isRegisterEnabled()) return { error: "Registration is disabled" };
   const lang            = getLang(formData);
   const t               = locales[lang].register;
   const phone           = normalizePhone((formData.get("user_name")   as string) ?? "");
@@ -267,6 +270,7 @@ export async function registerWithUsernameAction(
   _prevState: RegisterState,
   formData: FormData
 ): Promise<RegisterState> {
+  if (!isRegisterEnabled()) return { error: "Registration is disabled" };
   const lang            = getLang(formData);
   const t               = locales[lang].register;
   const username        = ((formData.get("user_name")      as string) ?? "").trim().toLowerCase();

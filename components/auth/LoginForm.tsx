@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { loginWithPasswordAction } from "@/lib/actions";
-import { getRegisterClientVariant, getRegisterPagePath } from "@/lib/config/register";
+import { getRegisterClientVariant, getRegisterPagePath, isRegisterEnabled } from "@/lib/config/register";
 import Input from "@/components/ui/Input";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLang } from "@/lib/i18n/context";
@@ -199,10 +199,12 @@ export default function LoginForm() {
         <SubmitButton>{t.submitLogin}</SubmitButton>
       </form>
 
-      <p className="text-center text-[13px] text-ui-text-soft mt-6">
-        {t.noAccount}{" "}
-        <a href={registerPath} className="text-ui-status-info font-semibold hover:opacity-70">{t.register}</a>
-      </p>
+      {isRegisterEnabled() && (
+        <p className="text-center text-[13px] text-ui-text-soft mt-6">
+          {t.noAccount}{" "}
+          <a href={registerPath} className="text-ui-status-info font-semibold hover:opacity-70">{t.register}</a>
+        </p>
+      )}
     </div>
   );
 }
